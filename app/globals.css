@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import 'keen-slider/keen-slider.css';
+
 @layer base {
   html {
     scroll-behavior: smooth;

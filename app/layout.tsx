@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from 'next';
 import { Roboto_Condensed } from 'next/font/google';
 import './globals.css';
-import { getStaticSiteConfig } from '@/lib/static-data';
+import { getStaticSiteConfig, getStaticNavigationData, getStaticFooterData } from '@/lib/static-data';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 const robotoCondensed = Roboto_Condensed({
   weight: ['300', '400', '700'],
@@ -42,10 +44,17 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const navigationData = getStaticNavigationData();
+  const footerData = getStaticFooterData();
+
   return (
     <html lang="en">
       <body className={`${robotoCondensed.variable} font-sans`}>
-        {children}
+        <Header navigationData={navigationData} />
+        <main>
+          {children}
+        </main>
+        <Footer data={footerData} />
       </body>
     </html>
   );

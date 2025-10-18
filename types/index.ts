@@ -70,7 +70,6 @@ export type {
 export type {
   FooterLink,
   FooterSection,
-  SocialLink,
   FooterData,
 } from './footer.types';
 

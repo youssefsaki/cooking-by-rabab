@@ -9,12 +9,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: 'oklch(70.5% 0.213 47.604)',      // Main brand color
+        primary: '#f97316',      // Orange-500 as main brand color
         secondary: 'oklch(82.8% 0.189 84.429)',     // Accent color
         white: '#FFF',
         // Color variations for hover states and different contexts
-        'primary-dark': 'oklch(60% 0.213 47.604)',
-        'primary-light': 'oklch(80% 0.213 47.604)',
+        'primary-dark': '#ea580c',  // Orange-600
+        'primary-light': '#fb923c', // Orange-400
         'secondary-dark': 'oklch(70% 0.189 84.429)',
         'secondary-light': 'oklch(90% 0.189 84.429)',
         // Text colors for contrast

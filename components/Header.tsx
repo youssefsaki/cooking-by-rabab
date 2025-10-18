@@ -7,6 +7,7 @@ import React from 'react';
 import { Instagram, Home, Menu, X } from 'lucide-react';
 import { HeaderProps } from '@/types';
 import { getSocialIconName } from '@/lib/static-data';
+import { usePathname } from 'next/navigation';
 
 // Custom TikTok icon component
 const TikTokIcon = ({ className }: { className?: string }) => (
@@ -23,6 +24,7 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 const Header: React.FC<HeaderProps> = ({ navigationData }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,15 +84,22 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
 
           {/* Block 2: Navigation Links (Center) */}
           <div className="hidden lg:flex items-center gap-3 mt-1">
-            {navigationData.menuItems.map((item: any) => (
-              <Link
-                key={item.id}
-                href={item.href}
-                className="text-sm font-black tracking-wide text-charcoal-700 hover:text-primary transition-colors duration-200"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navigationData.menuItems.map((item: any) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  className={`text-sm font-black tracking-wide transition-colors duration-200 ${
+                    isActive 
+                      ? 'text-orange-500' 
+                      : 'text-charcoal-700 hover:text-primary'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Block 3: CTA Button + Social Icons (Right) */}
@@ -140,16 +149,24 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
             <nav className="py-4 space-y-4">
               {/* Mobile Navigation Links */}
               <div className="space-y-2">
-                {navigationData.menuItems.map((item: any) => (
-                  <Link
-                    key={item.id}
-                    href={item.href}
-                    className="block text-sm font-black tracking-wide text-charcoal-700 hover:text-primary transition-colors duration-200 py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+                {navigationData.menuItems.map((item: any) => {
+                  const isActive = pathname === item.href;
+
+                  return (
+                    <Link
+                      key={item.id}
+                      href={item.href}
+                      className={`block text-sm font-black tracking-wide transition-colors duration-200 py-2 ${
+                        isActive 
+                          ? 'text-orange-500' 
+                          : 'text-charcoal-700 hover:text-primary'
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })}
               </div>
               
               {/* Mobile Social Links */}

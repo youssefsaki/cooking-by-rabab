@@ -98,7 +98,7 @@ const GoogleReviewsSection: React.FC<GoogleReviewsSectionProps> = ({ data }) => 
                       {review.author.name}
                     </h4>
                     {review.verified && (
-                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">
+                      <span className="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full font-medium">
                         Verified
                       </span>
                     )}

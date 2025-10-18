@@ -91,7 +91,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
                         className="object-cover"
                         sizes="(max-width: 1024px) 100vw, 50vw"
                         priority={index === 0}
-                        loading={index === 0 ? 'eager' : 'lazy'}
                       />
                     </div>
                   </div>
@@ -147,7 +146,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
                         className="object-cover"
                         sizes="100vw"
                         priority={index === 0}
-                        loading={index === 0 ? 'eager' : 'lazy'}
                       />
                     </div>
                   </div>

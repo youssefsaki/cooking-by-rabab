@@ -1,0 +1,60 @@
+[
+  {
+    "id": 1,
+    "section": "Our House",
+    "title": "OUR HOUSE",
+    "titleColor": "#f97316",
+    "subtitle": "YOUR HOME",
+    "description": "Spacious house modern style with traditional Moroccan decoration.",
+    "features": [
+      "ROOFTOP TERRACE OVERLOOKING THE BAY",
+      "TRADITIONAL BERBER TENT ON THE ROOF WITH MOVIE SCREEN",
+      "FAST WIFI ON EVERY FLOOR",
+      "VARIOUS SEATING AREAS TO RELAX, WORK, ENJOY THE SUN!",
+      "FULLY EQUIPPED SHARED KITCHEN WITH OVEN, 4 FIRE PITS, BLENDER, POTS, PANS, TAJINE,...",
+      "SHARED FRIDGE",
+      "CUPBOARD FOR EACH GUEST TO STORE DRY FOOD"
+    ],
+    "images": [
+      "/houseandrooms/ourhouse1.jpg",
+      "/houseandrooms/ourhouse2.jpg",
+      "/houseandrooms/ourhouse3.jpg"
+    ],
+    "layout": "text-left-image-right"
+  },
+  {
+    "id": 2,
+    "section": "Private Room",
+    "title": "PRIVATE ROOM",
+    "titleColor": "#f97316",
+    "description": "Private room with **double bed** and cupboards. Modern design with traditional Moroccan decoration.",
+    "included": [
+      "DAILY BREAKFAST (FRESH OMELETTE, BREAD, COFFEE AND TEA)",
+      "24H CHECK-IN",
+      "FAST WIFI ON EVERY FLOOR"
+    ],
+    "images": [
+      "/houseandrooms/privateroom1.jpg",
+      "/houseandrooms/privateroom2.jpg",
+      "/houseandrooms/privateroom3.jpg"
+    ],
+    "layout": "image-left-text-right"
+  },
+  {
+    "id": 3,
+    "section": "Shared Dorm",
+    "title": "6P OR 8P SHARED DORM",
+    "titleColor": "#f97316",
+    "description": "Shared rooms with bunk beds shared with 5 or 7 other guests.\nSpacious rooms with private locker for each guest.",
+    "included": [
+      "DAILY BREAKFAST (FRESH OMELETTE, BREAD, COFFEE AND TEA)",
+      "24H CHECK-IN",
+      "FAST WIFI ON EVERY FLOOR"
+    ],
+    "images": [
+      "/houseandrooms/shared1.jpg",
+      "/houseandrooms/shared2.jpg"
+    ],
+    "layout": "text-left-image-right"
+  }
+]

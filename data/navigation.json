@@ -19,12 +19,12 @@
     {
       "id": "rooms",
       "label": "HOUSE & ROOMS",
-      "href": "#rooms"
+      "href": "/houseandrooms"
     },
     {
       "id": "packages",
       "label": "PACKAGES",
-      "href": "#packages"
+      "href": "/packages"
     },
     {
       "id": "activities",
