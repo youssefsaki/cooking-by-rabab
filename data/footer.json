@@ -1,0 +1,118 @@
+{
+  "logo": {
+    "src": "/logo_black.webp",
+    "alt": "Cactus Surf & Skate House Logo",
+    "width": 200,
+    "height": 80
+  },
+  "sections": [
+    {
+      "title": "ACCOMMODATION",
+      "links": [
+        {
+          "id": "private-rooms",
+          "label": "Private Rooms",
+          "href": "/rooms#private"
+        },
+        {
+          "id": "shared-dorms",
+          "label": "Shared Dorms",
+          "href": "/rooms#dorms"
+        },
+        {
+          "id": "pricing",
+          "label": "Pricing",
+          "href": "/rooms#pricing"
+        }
+      ]
+    },
+    {
+      "title": "SERVICES",
+      "links": [
+        {
+          "id": "surf-packages",
+          "label": "Surf Packages",
+          "href": "/packages#surf"
+        },
+        {
+          "id": "activities",
+          "label": "Activities",
+          "href": "/activities"
+        },
+        {
+          "id": "transport",
+          "label": "Airport Transfer",
+          "href": "/services#transport"
+        }
+      ]
+    },
+    {
+      "title": "ABOUT",
+      "links": [
+        {
+          "id": "our-story",
+          "label": "Our Story",
+          "href": "/about#story"
+        },
+        {
+          "id": "team",
+          "label": "Our Team",
+          "href": "/team"
+        },
+        {
+          "id": "location",
+          "label": "Location",
+          "href": "/about#location"
+        }
+      ]
+    },
+    {
+      "title": "SUPPORT",
+      "links": [
+        {
+          "id": "faq",
+          "label": "FAQ",
+          "href": "/faq"
+        },
+        {
+          "id": "contact",
+          "label": "Contact Us",
+          "href": "/contact"
+        },
+        {
+          "id": "booking",
+          "label": "Booking Policy",
+          "href": "/policies#booking"
+        }
+      ]
+    }
+  ],
+  "socialLinks": [
+    {
+      "platform": "instagram",
+      "url": "https://instagram.com/cactussurf",
+      "icon": "Instagram",
+      "ariaLabel": "Follow us on Instagram"
+    },
+    {
+      "platform": "tiktok",
+      "url": "https://tiktok.com/@cactussurf",
+      "icon": "TikTok",
+      "ariaLabel": "Follow us on TikTok"
+    },
+    {
+      "platform": "facebook",
+      "url": "https://facebook.com/cactussurf",
+      "icon": "Facebook",
+      "ariaLabel": "Follow us on Facebook"
+    }
+  ],
+  "contactInfo": {
+    "address": "Tamraght, Agadir, Morocco",
+    "phone": "+212 6XX XXX XXX",
+    "email": "info@cactussurf.com"
+  },
+  "copyright": "© 2024 Cactus Surf & Skate House. All rights reserved."
+}
+
+

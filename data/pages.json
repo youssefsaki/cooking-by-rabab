@@ -1,0 +1,55 @@
+{
+  "pages": {
+    "home": {
+      "title": "Home",
+      "slug": "/",
+      "meta": {
+        "title": "Cactus Surf & Skate House - Surf & Skate in Morocco",
+        "description": "Centrally located in Tamraght we welcome you in our beautiful house with a rooftop terrace overlooking Taghazout Bay."
+      }
+    },
+    "rooms": {
+      "title": "House & Rooms",
+      "slug": "/rooms",
+      "meta": {
+        "title": "House & Rooms - Cactus Surf & Skate House",
+        "description": "Discover our beautiful house with a rooftop terrace overlooking Taghazout Bay."
+      }
+    },
+    "packages": {
+      "title": "Packages",
+      "slug": "/packages",
+      "meta": {
+        "title": "Surf & Skate Packages - Cactus Surf & Skate House",
+        "description": "Choose from our variety of surf and skate packages in Tamraght, Morocco."
+      }
+    },
+    "activities": {
+      "title": "Activities",
+      "slug": "/activities",
+      "meta": {
+        "title": "Activities - Cactus Surf & Skate House",
+        "description": "Experience surf sessions, skate sessions, rooftop parties, and more in Morocco."
+      }
+    },
+    "team": {
+      "title": "Our Team",
+      "slug": "/team",
+      "meta": {
+        "title": "Our Team - Cactus Surf & Skate House",
+        "description": "Meet our experienced team of surf and skate instructors in Tamraght."
+      }
+    },
+    "contact": {
+      "title": "FAQ & Contact",
+      "slug": "/contact",
+      "meta": {
+        "title": "Contact Us - Cactus Surf & Skate House",
+        "description": "Get in touch with us for bookings and questions about your stay in Tamraght."
+      }
+    }
+  }
+}
+
+
+
