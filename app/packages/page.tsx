@@ -26,19 +26,19 @@ const PackagesPage: React.FC = () => {
       </section>
 
       {/* Packages Grid Section */}
-      <section className="py-20 px-6 lg:px-24" style={{ backgroundColor: '#6B9174' }}>
+      <section className="py-20 px-6 lg:px-24" style={{ backgroundColor: '#f97316' }}>
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {packagesData.map((pkg) => (
               <article
                 key={pkg.id}
-                className={`rounded-2xl p-8 lg:p-10 transition-all duration-300 hover:scale-105 hover:shadow-xl ${
+                className={`rounded-2xl p-8 lg:p-10 transition-all duration-300 hover:scale-102 hover:shadow-xl ${
                   pkg.featured
                     ? 'bg-white shadow-lg' // Featured card - white background
                     : 'bg-opacity-90 shadow-md' // Regular cards - semi-transparent
                 }`}
                 style={{
-                  backgroundColor: pkg.featured ? '#FFFFFF' : 'rgba(82, 124, 91, 0.9)'
+                  backgroundColor: pkg.featured ? '#FFFFFF' : 'rgba(249, 115, 22, 0.9)'
                 }}
               >
                 {/* Package Title */}
@@ -54,9 +54,9 @@ const PackagesPage: React.FC = () => {
                 <div className="mb-8">
                   <span
                     className={`text-5xl lg:text-6xl font-extrabold ${
-                      pkg.featured ? 'text-green-600' : 'text-white'
+                      pkg.featured ? 'text-orange-500' : 'text-white'
                     }`}
-                    style={{ color: pkg.featured ? '#6B9174' : '#FFFFFF' }}
+                    style={{ color: pkg.featured ? '#f97316' : '#FFFFFF' }}
                   >
                     € {pkg.price}
                   </span>
@@ -66,14 +66,14 @@ const PackagesPage: React.FC = () => {
                 <div className="mb-8">
                   <button
                     onClick={() => handleBookPackage(pkg.id, pkg.title)}
-                    className={`w-full py-4 px-6 rounded-xl font-bold uppercase tracking-wide transition-all duration-300 hover:scale-105 ${
+                    className={`w-full py-4 px-6 rounded-xl font-bold uppercase tracking-wide transition-all duration-300 hover:scale-102 ${
                       pkg.featured
-                        ? 'bg-green-600 text-white hover:bg-green-700' // Featured - green button
-                        : 'bg-white text-green-600 hover:bg-gray-100' // Regular - white button
+                        ? 'bg-orange-500 text-white hover:bg-orange-600' // Featured - orange button
+                        : 'bg-white text-orange-500 hover:bg-gray-100' // Regular - white button
                     }`}
                     style={{
-                      backgroundColor: pkg.featured ? '#6B9174' : '#FFFFFF',
-                      color: pkg.featured ? '#FFFFFF' : '#6B9174'
+                      backgroundColor: pkg.featured ? '#f97316' : '#FFFFFF',
+                      color: pkg.featured ? '#FFFFFF' : '#f97316'
                     }}
                   >
                     BOOK THIS PACKAGE
@@ -146,6 +146,102 @@ const PackagesPage: React.FC = () => {
                 </div>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Professional Features Section */}
+      <section className="py-20 px-6 lg:px-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight uppercase text-gray-900 mb-6">
+              WHY CHOOSE OUR PACKAGES?
+            </h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Experience the perfect blend of adventure, relaxation, and cultural immersion in Morocco's most beautiful coastal region.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Professional Feature 1 */}
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-600 transition-colors duration-300">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Expert Instructors</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Learn from certified surf, skate, and yoga instructors with years of experience in Morocco's best spots.
+              </p>
+            </div>
+
+            {/* Professional Feature 2 */}
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-600 transition-colors duration-300">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">All-Inclusive Experience</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Everything you need is included: accommodation, meals, equipment, transport, and unforgettable activities.
+              </p>
+            </div>
+
+            {/* Professional Feature 3 */}
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-600 transition-colors duration-300">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Prime Location</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Located in the heart of Tamraght, just minutes from world-class surf breaks and cultural attractions.
+              </p>
+            </div>
+
+            {/* Professional Feature 4 */}
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-600 transition-colors duration-300">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Memorable Experiences</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Create lifelong memories with rooftop BBQs, movie nights, cooking classes, and day trips to Paradise Valley.
+              </p>
+            </div>
+          </div>
+
+          {/* Call to Action */}
+          <div className="text-center mt-16">
+            <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg max-w-4xl mx-auto">
+              <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+                Ready to Start Your Moroccan Adventure?
+              </h3>
+              <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+                Join hundreds of travelers who have experienced the magic of Cactus Surf & Skate House. 
+                Book your package today and get ready for an unforgettable journey.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                  onClick={() => window.location.href = '/houseandrooms'}
+                  className="px-8 py-4 bg-orange-500 text-white font-bold uppercase tracking-wide rounded-xl hover:bg-orange-600 transition-colors duration-300"
+                >
+                  View Our Rooms
+                </button>
+                <button
+                  onClick={() => window.location.href = '/contact'}
+                  className="px-8 py-4 bg-transparent border-2 border-orange-500 text-orange-500 font-bold uppercase tracking-wide rounded-xl hover:bg-orange-500 hover:text-white transition-all duration-300"
+                >
+                  Contact Us
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
