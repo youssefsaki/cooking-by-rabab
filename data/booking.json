@@ -1,0 +1,93 @@
+{
+  "premium": {
+    "badge": "⭐ PREMIUM EXPERIENCE ⭐",
+    "title": {
+      "primary": "Book Your",
+      "secondary": "Stay"
+    },
+    "subtitle": "Choose between hostel or package below for an extraordinary adventure",
+    "trustBadges": [
+      { "icon": "star", "text": "Verified Partners" },
+      { "icon": "star", "text": "Premium Quality" },
+      { "icon": "flame", "text": "Instant Booking" }
+    ]
+  },
+  "hostel": {
+    "title": "Book Hostel",
+    "subtitle": "Bed & Breakfast Experience",
+    "price": 25,
+    "currency": "€",
+    "priceLabel": "per night",
+    "badge": "MOST POPULAR",
+    "image": "/booking/hostel-main.jpg",
+    "description": "Book your stay through our verified premium partners",
+    "amenities": [
+      { "icon": "wifi", "label": "Free WiFi" },
+      { "icon": "breakfast", "label": "Breakfast" },
+      { "icon": "parking", "label": "Free Parking" },
+      { "icon": "service", "label": "24/7 Service" }
+    ],
+    "partners": [
+      {
+        "name": "Booking.com",
+        "subtitle": "Instant confirmation • Best rates",
+        "badge": "VERIFIED",
+        "gradient": "from-[#003B95] to-[#0057C2]",
+        "url": "https://booking.com",
+        "icon": "booking"
+      },
+      {
+        "name": "Hostelworld",
+        "subtitle": "Best hostel network • Traveler reviews",
+        "badge": "TRUSTED",
+        "gradient": "from-[#FF6B35] to-[#FF1493]",
+        "url": "https://hostelworld.com",
+        "icon": "hostelworld"
+      }
+    ]
+  },
+  "packages": {
+    "title": "Book Package",
+    "subtitle": "Surf • Skate • Yoga Experiences",
+    "price": 89,
+    "currency": "€",
+    "priceLabel": "per package",
+    "badge": "ADVENTURE",
+    "image": "/booking/package-main.jpg",
+    "description": "Curated adventure packages including Surf, Skate and Yoga experiences",
+    "options": [
+      {
+        "id": "yoga",
+        "title": "Yoga Only Package",
+        "subtitle": "Mindfulness & Wellness",
+        "icon": "meditation",
+        "gradient": "from-[#A855F7] to-[#EC4899]",
+        "link": "/packages?type=yoga"
+      },
+      {
+        "id": "surf-skate",
+        "title": "Surf or Skate Package",
+        "subtitle": "Adrenaline & Adventure",
+        "icon": "waves",
+        "gradient": "from-[#0EA5E9] to-[#06B6D4]",
+        "link": "/packages?type=surf-skate"
+      },
+      {
+        "id": "complete",
+        "title": "Complete Adventure",
+        "subtitle": "Surf/Skate + Yoga Combo",
+        "icon": "crown",
+        "gradient": "from-[#10B981] to-[#059669]",
+        "badge": "BEST VALUE",
+        "discount": "Save 25%",
+        "link": "/packages?type=complete"
+      }
+    ],
+    "limitedOffer": {
+      "title": "Limited Time Offer",
+      "description": "Book any package today and get exclusive perks!",
+      "discount": "25%",
+      "discountLabel": "OFF"
+    }
+  }
+}

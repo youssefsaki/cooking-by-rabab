@@ -1,10 +1,34 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import packagesData from '@/data/packages.json';
 
 const PackagesPage: React.FC = () => {
+  const [highlightedPackage, setHighlightedPackage] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Check URL parameters for package highlighting
+    const urlParams = new URLSearchParams(window.location.search);
+    const type = urlParams.get('type');
+    if (type) {
+      setHighlightedPackage(type);
+    }
+  }, []);
+
+  const getPackageHighlightClass = (packageId: number) => {
+    const packageMap: Record<number, string> = {
+      1: 'yoga',
+      2: 'surf-skate', 
+      3: 'complete'
+    };
+    
+    const packageType = packageMap[packageId];
+    if (highlightedPackage && packageType === highlightedPackage) {
+      return 'ring-4 ring-orange-400 ring-opacity-50 scale-105';
+    }
+    return '';
+  };
   const handleBookPackage = (packageId: number, packageTitle: string) => {
     // Navigate to booking page with package details
     const packageSlug = packageTitle.toLowerCase().replace(/\s+/g, '-');
@@ -32,7 +56,8 @@ const PackagesPage: React.FC = () => {
             {packagesData.map((pkg) => (
               <article
                 key={pkg.id}
-                className={`rounded-2xl p-8 lg:p-10 transition-all duration-300 hover:scale-102 hover:shadow-xl ${
+                id={`packages-section`}
+                className={`rounded-2xl p-8 lg:p-10 transition-all duration-300 hover:scale-102 hover:shadow-xl ${getPackageHighlightClass(pkg.id)} ${
                   pkg.featured
                     ? 'bg-white shadow-lg' // Featured card - white background
                     : 'bg-opacity-90 shadow-md' // Regular cards - semi-transparent
@@ -158,7 +183,7 @@ const PackagesPage: React.FC = () => {
               WHY CHOOSE OUR PACKAGES?
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Experience the perfect blend of adventure, relaxation, and cultural immersion in Morocco's most beautiful coastal region.
+              Experience the perfect blend of adventure, relaxation, and cultural immersion in Morocco&apos;s most beautiful coastal region.
             </p>
           </div>
 
@@ -172,7 +197,7 @@ const PackagesPage: React.FC = () => {
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Expert Instructors</h3>
               <p className="text-gray-600 leading-relaxed">
-                Learn from certified surf, skate, and yoga instructors with years of experience in Morocco's best spots.
+                Learn from certified surf, skate, and yoga instructors with years of experience in Morocco&apos;s best spots.
               </p>
             </div>
 

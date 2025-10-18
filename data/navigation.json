@@ -64,7 +64,7 @@
   ],
   "ctaButton": {
     "text": "BOOK YOUR STAY",
-    "href": "#book",
+    "href": "/book",
     "variant": "primary"
   }
 }
