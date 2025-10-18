@@ -61,9 +61,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
   }, []);
 
   return (
-    <section className="bg-[#F7F7F6] py-20">
-      <div className="max-w-[1400px] mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-center">
+    <section className="bg-cream py-24 lg:py-32">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16 items-center">
 
           {/* Images Section - Left 2 columns on desktop */}
           <div className="lg:col-span-2">
@@ -83,12 +83,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
                     key={index}
                     className="flex-shrink-0 w-1/2 snap-center"
                   >
-                    <div className="relative aspect-[4/5] overflow-hidden shadow-sm ring-1 ring-white/80">
+                    <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-lg ring-1 ring-warm-gray-200/50 hover:shadow-xl transition-shadow duration-300">
                       <Image
                         src={image.src}
                         alt={image.alt}
                         fill
-                        className="object-cover"
+                        className="object-cover hover:scale-105 transition-transform duration-500"
                         sizes="(max-width: 1024px) 100vw, 50vw"
                         priority={index === 0}
                       />
@@ -138,12 +138,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
                     key={index}
                     className="flex-shrink-0 w-full snap-center"
                   >
-                    <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-sm ring-1 ring-white/80">
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg ring-1 ring-warm-gray-200/50 hover:shadow-xl transition-shadow duration-300">
                       <Image
                         src={image.src}
                         alt={image.alt}
                         fill
-                        className="object-cover"
+                        className="object-cover hover:scale-105 transition-transform duration-500"
                         sizes="100vw"
                         priority={index === 0}
                       />
@@ -180,9 +180,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
           </div>
 
           {/* Text Section - Right column on desktop */}
-          <div className="lg:col-span-1 flex flex-col justify-center">
+          <div className="lg:col-span-1 flex flex-col justify-center space-y-8">
             {/* Title */}
-            <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight uppercase leading-tight mb-6 text-gray-900">
+            <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight uppercase leading-tight text-text-primary">
               {data.title.split('\n').map((line, index) => (
                 <React.Fragment key={index}>
                   {line}
@@ -192,27 +192,27 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-gray-600 leading-7 max-w-md mb-8 lg:text-left text-center">
+            <p className="text-text-secondary leading-relaxed text-lg max-w-md lg:text-left text-center">
               {data.subtitle}
             </p>
 
             {/* Features List */}
-            <div className="space-y-6 mb-8">
+            <div className="space-y-8">
               {data.features.map((feature, index) => {
                 const IconComponent = getIconComponent(feature.icon);
                 return (
-                  <div key={index} className="flex gap-4 items-start">
+                  <div key={index} className="flex gap-6 items-start group">
                     {/* Icon Circle */}
-                    <div className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-gray-300 flex-shrink-0">
-                      <IconComponent className="w-5 h-5 text-gray-600" aria-hidden={true} />
+                    <div className="w-14 h-14 flex items-center justify-center rounded-full bg-primary/10 border-2 border-primary/20 flex-shrink-0 group-hover:bg-primary/20 group-hover:border-primary/30 transition-all duration-300">
+                      <IconComponent className="w-6 h-6 text-primary" aria-hidden={true} />
                     </div>
 
                     {/* Feature Content */}
                     <div className="flex-1">
-                      <h3 className="font-bold uppercase text-sm text-gray-900 mb-1">
+                      <h3 className="font-bold uppercase text-sm text-text-primary mb-2 tracking-wide">
                         {feature.title}
                       </h3>
-                      <p className="text-gray-600 text-sm leading-relaxed">
+                      <p className="text-text-secondary text-sm leading-relaxed">
                         {feature.description}
                       </p>
                     </div>
@@ -224,7 +224,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
             {/* CTA Button */}
             <Link
               href={data.cta.link}
-              className="inline-block rounded-lg bg-orange-500 text-white font-bold uppercase py-3 px-6 text-center transition-all duration-300 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 lg:w-auto w-full"
+              className="inline-block rounded-xl bg-primary text-white font-bold uppercase py-4 px-8 text-center transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 lg:w-auto w-full"
               aria-label={data.cta.text}
             >
               {data.cta.text}

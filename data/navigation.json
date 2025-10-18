@@ -14,7 +14,7 @@
     {
       "id": "home",
       "label": "HOME",
-      "href": "#home"
+      "href": "/"
     },
     {
       "id": "rooms",

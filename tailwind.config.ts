@@ -9,24 +9,50 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: '#f97316',      // Orange-500 as main brand color
-        secondary: 'oklch(82.8% 0.189 84.429)',     // Accent color
+        // Cozy Orange Palette
+        primary: '#f97316',      // Warm Orange
+        secondary: '#fb923c',    // Light Orange
+        accent: '#f59e0b',       // Golden Orange
         white: '#FFF',
-        // Color variations for hover states and different contexts
-        'primary-dark': '#ea580c',  // Orange-600
-        'primary-light': '#fb923c', // Orange-400
-        'secondary-dark': 'oklch(70% 0.189 84.429)',
-        'secondary-light': 'oklch(90% 0.189 84.429)',
-        // Text colors for contrast
-        'text-primary': 'oklch(20% 0.05 47.604)',
-        'text-secondary': 'oklch(30% 0.05 84.429)',
+        
+        // Cozy Color Variations
+        'primary-dark': '#ea580c',  // Darker Orange
+        'primary-light': '#fdba74', // Soft Orange
+        'primary-pale': '#fed7aa',  // Very Light Orange
+        
+        // Warm Neutral Palette
+        'warm-gray': {
+          50: '#fafaf9',
+          100: '#f5f5f4',
+          200: '#e7e5e4',
+          300: '#d6d3d1',
+          400: '#a8a29e',
+          500: '#78716c',
+          600: '#57534e',
+          700: '#44403c',
+          800: '#292524',
+          900: '#1c1917',
+        },
+        
+        // Cozy Background Colors
+        'cream': '#fefdf8',
+        'warm-white': '#fefefe',
+        'soft-beige': '#f7f3f0',
+        'cozy-gray': '#f8f9fa',
+        
+        // Text Colors
+        'text-primary': '#2d3748',
+        'text-secondary': '#4a5568',
+        'text-muted': '#718096',
+        
         // Orange colors for hover effects
         orange: {
           400: '#fb923c',
           500: '#f97316',
           600: '#ea580c',
         },
-        // Legacy charcoal colors for text (keeping for compatibility)
+        
+        // Legacy charcoal colors for compatibility
         charcoal: {
           50: '#f6f6f6',
           100: '#e7e7e7',

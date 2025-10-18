@@ -52,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-md' : 'bg-white shadow-sm'
+        isScrolled ? 'bg-white/95 backdrop-blur-md shadow-xl border-b border-gray-200/30' : 'bg-white/90 backdrop-blur-sm shadow-lg'
       }`}
     >
       <div className="header-container">
@@ -90,10 +90,10 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                 <Link
                   key={item.id}
                   href={item.href}
-                  className={`text-sm font-black tracking-wide transition-colors duration-200 ${
+                  className={`text-sm font-bold tracking-wide transition-all duration-300 px-4 py-2 rounded-lg ${
                     isActive 
-                      ? 'text-orange-500' 
-                      : 'text-charcoal-700 hover:text-primary'
+                      ? 'text-primary bg-primary/10' 
+                      : 'text-text-primary hover:text-primary hover:bg-primary/5'
                   }`}
                 >
                   {item.label}
