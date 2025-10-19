@@ -11,7 +11,7 @@ const HouseAndRoomsPage: React.FC = () => {
       {/* Page Title */}
       <section className="pt-32 pb-16 px-6 lg:px-24">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight uppercase text-gray-900 mb-8">
+          <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight uppercase text-dark-blue mb-8">
             OUR HOUSE & ROOMS
           </h1>
         </div>
@@ -39,7 +39,7 @@ const HouseAndRoomsPage: React.FC = () => {
 
                 {/* Subtitle for Our House section */}
                 {section.subtitle && (
-                  <h3 className="text-xl lg:text-2xl font-bold uppercase text-black mb-4">
+                  <h3 className="text-xl lg:text-2xl font-bold uppercase text-dark-blue mb-4">
                     {section.subtitle}
                   </h3>
                 )}
@@ -67,7 +67,7 @@ const HouseAndRoomsPage: React.FC = () => {
                 {/* Features List */}
                 {section.features && (
                   <div className="space-y-4">
-                    <h4 className="text-lg font-bold uppercase text-black mb-4">
+                    <h4 className="text-lg font-bold uppercase text-dark-blue mb-4">
                       INCLUDED:
                     </h4>
                     <ul className="space-y-3">
@@ -75,7 +75,7 @@ const HouseAndRoomsPage: React.FC = () => {
                         <li key={featureIndex} className="flex items-start gap-3">
                           <div className="w-5 h-5 flex-shrink-0 mt-0.5">
                             <svg
-                              className="w-full h-full text-black"
+                              className="w-full h-full text-dark-blue"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                             >
@@ -86,7 +86,7 @@ const HouseAndRoomsPage: React.FC = () => {
                               />
                             </svg>
                           </div>
-                          <span className="text-black font-bold text-sm lg:text-base">
+                          <span className="text-dark-blue font-bold text-sm lg:text-base">
                             {feature}
                           </span>
                         </li>
@@ -98,7 +98,7 @@ const HouseAndRoomsPage: React.FC = () => {
                 {/* Included List */}
                 {section.included && (
                   <div className="space-y-4">
-                    <h4 className="text-lg font-bold uppercase text-black mb-4">
+                    <h4 className="text-lg font-bold uppercase text-dark-blue mb-4">
                       INCLUDED:
                     </h4>
                     <ul className="space-y-3">
@@ -106,7 +106,7 @@ const HouseAndRoomsPage: React.FC = () => {
                         <li key={itemIndex} className="flex items-start gap-3">
                           <div className="w-5 h-5 flex-shrink-0 mt-0.5">
                             <svg
-                              className="w-full h-full text-black"
+                              className="w-full h-full text-dark-blue"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                             >
@@ -117,7 +117,7 @@ const HouseAndRoomsPage: React.FC = () => {
                               />
                             </svg>
                           </div>
-                          <span className="text-black font-bold text-sm lg:text-base">
+                          <span className="text-dark-blue font-bold text-sm lg:text-base">
                             {item}
                           </span>
                         </li>

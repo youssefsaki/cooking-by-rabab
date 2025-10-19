@@ -4,6 +4,24 @@
 
 @import 'keen-slider/keen-slider.css';
 
+/* CSS Variables for Easy Color Management - Change Primary Color Here */
+:root {
+  /* Primary Color Palette - Change these values to update the entire site */
+  --color-primary: #ffc414;        /* Golden Yellow Primary */
+  --color-primary-dark: #e6b000;   /* Darker Golden Yellow */
+  --color-primary-light: #ffd633;   /* Light Golden Yellow */
+  --color-primary-pale: #fff4cc;    /* Very Light Golden Yellow */
+  
+  /* Derived Colors */
+  --color-primary-hover: #e6b000;  /* Hover state */
+  --color-primary-focus: #d4a000;  /* Focus state */
+  --color-primary-text: #1a1a1a;   /* Text on primary background */
+  
+  /* Background Colors */
+  --color-primary-bg: #fff4cc;     /* Primary background */
+  --color-primary-border: #ffd633; /* Primary border */
+}
+
 /* Optimized Animations */
 @keyframes spin-slow {
   from {
@@ -539,7 +557,17 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-orange-500 text-white font-black uppercase tracking-wide px-8 py-3 rounded-lg transition-all duration-300 hover:bg-orange-600 hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 cursor-pointer;
+    @apply font-black uppercase tracking-wide px-8 py-3 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer;
+    background-color: var(--color-primary);
+    color: #084869;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--color-primary-hover);
+  }
+  
+  .btn-primary:focus {
+    ring-color: var(--color-primary);
   }
   
   .btn-secondary {

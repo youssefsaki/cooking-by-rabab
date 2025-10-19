@@ -21,7 +21,7 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
         />
         {/* Cozy Warm Overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/30 to-black/50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-orange-900/20 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-yellow-900/20 via-transparent to-transparent" />
       </div>
 
       {/* Content */}

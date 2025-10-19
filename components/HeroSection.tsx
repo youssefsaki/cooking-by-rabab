@@ -224,7 +224,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
             {/* CTA Button */}
             <Link
               href={data.cta.link}
-              className="inline-block rounded-xl bg-primary text-white font-bold uppercase py-4 px-8 text-center transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 lg:w-auto w-full"
+              className="inline-block rounded-xl bg-primary font-bold uppercase py-4 px-8 text-center transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 lg:w-auto w-full" style={{ color: '#084869' }}
               aria-label={data.cta.text}
             >
               {data.cta.text}

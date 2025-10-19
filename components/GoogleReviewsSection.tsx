@@ -38,7 +38,7 @@ const GoogleReviewsSection: React.FC<GoogleReviewsSectionProps> = ({ data }) => 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight uppercase text-gray-900 mb-4">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight uppercase text-dark-blue mb-4">
             {data.title}
           </h2>
           {data.subtitle && (
@@ -53,7 +53,7 @@ const GoogleReviewsSection: React.FC<GoogleReviewsSectionProps> = ({ data }) => 
               <div className="flex">
                 {renderStars(Math.floor(data.overallRating))}
               </div>
-              <span className="text-2xl font-bold text-gray-900">
+              <span className="text-2xl font-bold text-dark-blue">
                 {data.overallRating}
               </span>
             </div>
@@ -94,11 +94,11 @@ const GoogleReviewsSection: React.FC<GoogleReviewsSectionProps> = ({ data }) => 
                 {/* Author Info */}
                 <div className="flex-grow">
                   <div className="flex items-center gap-2 mb-1">
-                    <h4 className="font-bold text-gray-900">
+                    <h4 className="font-bold text-dark-blue">
                       {review.author.name}
                     </h4>
                     {review.verified && (
-                      <span className="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full font-medium">
+                      <span className="text-xs bg-primary-pale text-primary-dark px-2 py-1 rounded-full font-medium">
                         Verified
                       </span>
                     )}
@@ -128,7 +128,7 @@ const GoogleReviewsSection: React.FC<GoogleReviewsSectionProps> = ({ data }) => 
             href="https://www.google.com/search?q=Cactus+Surf+Skate+House+reviews"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-white text-gray-900 font-bold px-6 py-3 rounded-lg border border-gray-200 hover:border-orange-500 hover:text-orange-500 transition-all duration-300 shadow-sm hover:shadow-md"
+            className="inline-flex items-center gap-2 bg-white text-dark-blue font-bold px-6 py-3 rounded-lg border border-gray-200 hover:border-primary hover:text-primary transition-all duration-300 shadow-sm hover:shadow-md"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>

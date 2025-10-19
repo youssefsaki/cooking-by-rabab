@@ -9,16 +9,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Cozy Orange Palette
-        primary: '#f97316',      // Warm Orange
-        secondary: '#fb923c',    // Light Orange
-        accent: '#f59e0b',       // Golden Orange
+        // Custom Colors
+        'dark-blue': '#084869',
+        
+        // Golden Yellow Palette
+        primary: '#ffc414',      // Golden Yellow Primary
+        secondary: '#ffd633',    // Light Golden Yellow
+        accent: '#e6b000',       // Darker Golden Yellow
         white: '#FFF',
         
-        // Cozy Color Variations
-        'primary-dark': '#ea580c',  // Darker Orange
-        'primary-light': '#fdba74', // Soft Orange
-        'primary-pale': '#fed7aa',  // Very Light Orange
+        // Golden Color Variations
+        'primary-dark': '#e6b000',  // Darker Golden Yellow
+        'primary-light': '#ffd633', // Light Golden Yellow
+        'primary-pale': '#fff4cc',  // Very Light Golden Yellow
         
         // Warm Neutral Palette
         'warm-gray': {
@@ -41,15 +44,15 @@ const config: Config = {
         'cozy-gray': '#f8f9fa',
         
         // Text Colors
-        'text-primary': '#2d3748',
-        'text-secondary': '#4a5568',
+        'text-primary': '#084869',
+        'text-secondary': '#084869',
         'text-muted': '#718096',
         
-        // Orange colors for hover effects
+        // Golden colors for hover effects
         orange: {
-          400: '#fb923c',
-          500: '#f97316',
-          600: '#ea580c',
+          400: '#ffd633',
+          500: '#ffc414',
+          600: '#e6b000',
         },
         
         // Legacy charcoal colors for compatibility

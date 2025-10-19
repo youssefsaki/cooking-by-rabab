@@ -90,7 +90,7 @@ The project uses optimized assets from the `/public` directory:
 
 - **Logo**: `logo_color.webp` - Color version of the Cactus Surf & Skate House logo
 - **Logo Alternative**: `logo_black.webp` - Black version for different contexts
-- **Hero Background**: `background.jpg` - High-quality coastal sunset image
+- **Hero Background**: `background.webp` - High-quality coastal sunset image
 
 All images are optimized using Next.js Image component with:
 - WebP format for better compression

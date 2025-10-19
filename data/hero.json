@@ -3,20 +3,20 @@
   "heading": "SURF & SKATE IN MOROCCO",
   "description": "Centrally located in Tamraght we welcome you in our beautiful house with a rooftop terrace overlooking Taghazout Bay. What to expect? Many skate and surf sessions, freshly cooked tajines, rooftop parties, sunset BBQ's, movie nights and many many unforgettable memories. Yallah!",
   "backgroundImage": {
-    "url": "/background.jpg",
+    "url": "/background.webp",
     "alt": "Coastal sunset view of Tamraght, Morocco",
     "credit": "Cactus Surf & Skate House"
   },
   "ctaButtons": [
     {
       "text": "BOOK NOW",
-      "href": "#book",
+      "href": "/book",
       "variant": "primary",
       "priority": true
     },
     {
       "text": "HOUSE & ROOMS",
-      "href": "#rooms",
+      "href": "/houseandrooms",
       "variant": "secondary",
       "priority": false
     }

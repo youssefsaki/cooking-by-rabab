@@ -22,7 +22,7 @@ const RoomsSection: React.FC<RoomsSectionProps> = ({ data }) => {
           </h3>
           
           {/* Main Heading */}
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight uppercase text-gray-900">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight uppercase text-dark-blue">
             {data.mainHeading}
           </h2>
         </div>
@@ -51,7 +51,7 @@ const RoomsSection: React.FC<RoomsSectionProps> = ({ data }) => {
               {/* Room Content */}
               <div className="flex flex-col flex-grow">
                 {/* Title */}
-                <h3 className="text-lg font-bold uppercase text-gray-900 tracking-wide mb-4">
+                <h3 className="text-lg font-bold uppercase text-dark-blue tracking-wide mb-4">
                   {room.title}
                 </h3>
 
@@ -64,7 +64,7 @@ const RoomsSection: React.FC<RoomsSectionProps> = ({ data }) => {
                 <div className="mt-auto">
                   <Link
                     href={room.link.href}
-                    className="inline-flex items-center gap-1 text-gray-900 font-bold hover:text-orange-500 transition-colors duration-300 group-hover:translate-x-1"
+                    className="inline-flex items-center gap-1 text-dark-blue font-bold hover:text-primary transition-colors duration-300 group-hover:translate-x-1"
                   >
                     <span>{room.link.text}</span>
                     <FiArrowRight className="w-4 h-4" />

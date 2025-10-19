@@ -3,7 +3,7 @@
     "id": 1,
     "section": "Our House",
     "title": "OUR HOUSE",
-    "titleColor": "#f97316",
+    "titleColor": "#ffc414",
     "subtitle": "YOUR HOME",
     "description": "Spacious house modern style with traditional Moroccan decoration.",
     "features": [
@@ -26,7 +26,7 @@
     "id": 2,
     "section": "Private Room",
     "title": "PRIVATE ROOM",
-    "titleColor": "#f97316",
+    "titleColor": "#ffc414",
     "description": "Private room with **double bed** and cupboards. Modern design with traditional Moroccan decoration.",
     "included": [
       "DAILY BREAKFAST (FRESH OMELETTE, BREAD, COFFEE AND TEA)",
@@ -44,7 +44,7 @@
     "id": 3,
     "section": "Shared Dorm",
     "title": "6P OR 8P SHARED DORM",
-    "titleColor": "#f97316",
+    "titleColor": "#ffc414",
     "description": "Shared rooms with bunk beds shared with 5 or 7 other guests.\nSpacious rooms with private locker for each guest.",
     "included": [
       "DAILY BREAKFAST (FRESH OMELETTE, BREAD, COFFEE AND TEA)",

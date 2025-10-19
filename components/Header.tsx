@@ -71,10 +71,10 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                 />
               ) : (
                 <div className="flex flex-col">
-                  <div className="bg-primary text-white px-3 py-1 rounded text-lg font-bold">
+                  <div className="bg-primary px-3 py-1 rounded text-lg font-bold" style={{ color: '#084869' }}>
                     {navigationData.logo.text}
                   </div>
-                  <div className="bg-primary text-white px-3 py-1 rounded text-xs font-bold">
+                  <div className="bg-primary px-3 py-1 rounded text-xs font-bold" style={{ color: '#084869' }}>
                     {navigationData.logo.subtext}
                   </div>
                 </div>
@@ -93,7 +93,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                   className={`text-sm font-bold tracking-wide transition-all duration-300 px-4 py-2 rounded-lg ${
                     isActive 
                       ? 'text-primary bg-primary/10' 
-                      : 'text-text-primary hover:text-primary hover:bg-primary/5'
+                      : 'text-dark-blue hover:text-primary hover:bg-primary/5'
                   }`}
                 >
                   {item.label}
@@ -114,7 +114,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-charcoal-600 hover:text-primary transition-colors duration-300"
+                    className="text-dark-blue hover:text-primary transition-colors duration-300"
                     aria-label={social.ariaLabel}
                   >
                     <IconComponent className="w-5 h-5" />
@@ -132,7 +132,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 text-charcoal-600 hover:text-primary transition-colors duration-300"
+            className="lg:hidden p-2 text-dark-blue hover:text-primary transition-colors duration-300"
             aria-label="Toggle mobile menu"
           >
             {isMobileMenuOpen ? (
@@ -158,8 +158,8 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                       href={item.href}
                       className={`block text-sm font-black tracking-wide transition-colors duration-200 py-2 ${
                         isActive 
-                          ? 'text-orange-500' 
-                          : 'text-charcoal-700 hover:text-primary'
+                          ? 'text-primary' 
+                          : 'text-dark-blue hover:text-primary'
                       }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
@@ -179,7 +179,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                       href={social.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-charcoal-600 hover:text-primary transition-colors duration-300"
+                      className="text-dark-blue hover:text-primary transition-colors duration-300"
                       aria-label={social.ariaLabel}
                     >
                       <IconComponent className="w-6 h-6" />

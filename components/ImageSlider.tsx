@@ -27,10 +27,10 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, alt }) => {
       setLoaded(true);
     },
     loop: true,
-    mode: 'free-snap',
+    mode: 'snap',
     slides: {
       perView: 1,
-      spacing: 16,
+      spacing: 0,
     },
     animationEnded() {
       // Smooth transition effect
@@ -123,14 +123,14 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, alt }) => {
         <>
           <button
             onClick={prevSlide}
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black bg-opacity-60 hover:bg-opacity-90 text-white rounded-full flex items-center justify-center transition-all duration-300 z-10 shadow-lg hover:shadow-xl hover:scale-110"
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-dark-blue bg-opacity-60 hover:bg-opacity-90 text-white rounded-full flex items-center justify-center transition-all duration-300 z-10 shadow-lg hover:shadow-xl hover:scale-110"
             aria-label="Previous image"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black bg-opacity-60 hover:bg-opacity-90 text-white rounded-full flex items-center justify-center transition-all duration-300 z-10 shadow-lg hover:shadow-xl hover:scale-110"
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-dark-blue bg-opacity-60 hover:bg-opacity-90 text-white rounded-full flex items-center justify-center transition-all duration-300 z-10 shadow-lg hover:shadow-xl hover:scale-110"
             aria-label="Next image"
           >
             <ChevronRight className="w-5 h-5" />
@@ -144,7 +144,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, alt }) => {
           {/* Auto-slide indicator */}
           {isInView && !isHovered && (
             <div className="flex items-center gap-2 text-xs text-gray-500">
-              <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
               <span>Auto-sliding</span>
             </div>
           )}
@@ -157,7 +157,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, alt }) => {
                 onClick={() => goToSlide(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-500 ease-in-out ${
                   index === currentSlide 
-                    ? 'bg-orange-500 scale-125 shadow-lg' 
+                    ? 'bg-primary scale-125 shadow-lg' 
                     : 'bg-gray-300 hover:bg-gray-400 hover:scale-110'
                 }`}
                 aria-label={`Go to image ${index + 1}`}
