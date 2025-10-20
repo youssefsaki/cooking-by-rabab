@@ -1,0 +1,54 @@
+{
+  "categories": ["All", "Booking", "Packages", "Payment", "Cancellation"],
+  "faqs": [
+    {
+      "id": "faq-1",
+      "question": "How do I book a package?",
+      "answer": "Booking a package is simple! Navigate to our 'Packages' page, select your desired experience, and follow the prompts to customize your trip. Our secure booking system will guide you through the payment process.",
+      "category": "Booking"
+    },
+    {
+      "id": "faq-2",
+      "question": "What's included in the packages?",
+      "answer": "Our packages typically include accommodation, daily meals, specific activity lessons (surf, skate, yoga), and often additional excursions or cultural experiences. Please refer to the individual package details for a comprehensive list of inclusions.",
+      "category": "Packages"
+    },
+    {
+      "id": "faq-3",
+      "question": "Can I cancel my booking?",
+      "answer": "Yes, you can cancel your booking. Our cancellation policy varies depending on the package and the timing of your request. Please review the terms and conditions provided at the time of booking or contact our support team for assistance.",
+      "category": "Cancellation"
+    },
+    {
+      "id": "faq-4",
+      "question": "What payment methods do you accept?",
+      "answer": "We accept a variety of payment methods including major credit cards (Visa, MasterCard, American Express), PayPal, and bank transfers. All transactions are processed securely to ensure your financial safety.",
+      "category": "Payment"
+    },
+    {
+      "id": "faq-5",
+      "question": "Do I need experience for the activities?",
+      "answer": "Many of our activities are suitable for all skill levels, from complete beginners to advanced participants. Specific experience requirements will be clearly stated in each package description. Our instructors are trained to cater to diverse abilities.",
+      "category": "Packages"
+    },
+    {
+      "id": "faq-6",
+      "question": "What should I bring?",
+      "answer": "We recommend bringing comfortable clothing, swimwear, sunscreen, a hat, and any personal toiletries. For specific activities like surfing or yoga, additional gear might be suggested, which will be detailed in your booking confirmation.",
+      "category": "Packages"
+    },
+    {
+      "id": "faq-7",
+      "question": "Are meals included?",
+      "answer": "Most of our packages include daily breakfast and dinner, with some also featuring special meals like a BBQ night. Lunch options may vary. Please check your specific package details for full meal inclusions.",
+      "category": "Packages"
+    },
+    {
+      "id": "faq-8",
+      "question": "How do I get to the location?",
+      "answer": "We offer airport transfers from Agadir Airport directly to our location. Detailed directions and transportation options will be provided in your booking confirmation email. Public transport and taxi services are also available.",
+      "category": "Booking"
+    }
+  ]
+}
+

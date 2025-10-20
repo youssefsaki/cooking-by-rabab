@@ -32,14 +32,9 @@
       "href": "#activities"
     },
     {
-      "id": "team",
-      "label": "OUR TEAM",
-      "href": "#team"
-    },
-    {
       "id": "contact",
       "label": "FAQ & CONTACT",
-      "href": "#contact"
+      "href": "/faq-contact"
     }
   ],
   "socialLinks": [

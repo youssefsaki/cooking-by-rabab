@@ -17,37 +17,37 @@ export default function HomePage() {
       <Hero heroData={heroData} />
       <HeroSection data={heroSectionData} />
       
-      {/* 2025/2026 Futuristic Orange Water Separator */}
-      <div className="relative py-12 lg:py-16 overflow-hidden bg-gradient-to-br from-yellow-50 via-amber-50/30 to-yellow-50/20">
-        {/* Animated Orange Water Circles Background */}
+      {/* Yellow Water Separator */}
+      <div className="relative py-12 lg:py-16 overflow-hidden bg-gradient-to-br from-yellow-50 via-white to-yellow-100">
+        {/* Animated Yellow Water Circles Background */}
         <div className="absolute inset-0">
-          {/* Large Orange Water Bubbles */}
-          <div className="absolute top-1/4 left-1/5 w-32 h-32 bg-gradient-to-br from-yellow-200/20 to-red-300/15 rounded-full animate-water-float-1 blur-sm"></div>
-          <div className="absolute top-1/3 right-1/4 w-24 h-24 bg-gradient-to-br from-amber-200/25 to-orange-300/20 rounded-full animate-water-float-2 blur-sm"></div>
-          <div className="absolute bottom-1/3 left-1/3 w-28 h-28 bg-gradient-to-br from-yellow-200/20 to-red-300/15 rounded-full animate-water-float-3 blur-sm"></div>
-          <div className="absolute bottom-1/4 right-1/5 w-20 h-20 bg-gradient-to-br from-yellow-300/25 to-amber-200/20 rounded-full animate-water-float-4 blur-sm"></div>
+          {/* Large Yellow Water Bubbles */}
+          <div className="absolute top-1/4 left-1/5 w-32 h-32 bg-gradient-to-br from-yellow-200/20 to-yellow-300/15 rounded-full animate-water-float-1 blur-sm"></div>
+          <div className="absolute top-1/3 right-1/4 w-24 h-24 bg-gradient-to-br from-yellow-200/25 to-yellow-300/20 rounded-full animate-water-float-2 blur-sm"></div>
+          <div className="absolute bottom-1/3 left-1/3 w-28 h-28 bg-gradient-to-br from-yellow-200/20 to-yellow-300/15 rounded-full animate-water-float-3 blur-sm"></div>
+          <div className="absolute bottom-1/4 right-1/5 w-20 h-20 bg-gradient-to-br from-yellow-300/25 to-yellow-200/20 rounded-full animate-water-float-4 blur-sm"></div>
           
-          {/* Medium Orange Water Bubbles */}
-          <div className="absolute top-1/2 left-1/6 w-16 h-16 bg-gradient-to-br from-yellow-200/30 to-orange-200/25 rounded-full animate-water-drift-1 blur-sm"></div>
-          <div className="absolute top-2/3 right-1/6 w-14 h-14 bg-gradient-to-br from-yellow-200/25 to-red-200/20 rounded-full animate-water-drift-2 blur-sm"></div>
-          <div className="absolute bottom-1/2 left-2/3 w-18 h-18 bg-gradient-to-br from-amber-200/20 to-yellow-300/25 rounded-full animate-water-drift-3 blur-sm"></div>
-          <div className="absolute bottom-2/3 right-1/3 w-12 h-12 bg-gradient-to-br from-yellow-200/30 to-amber-200/25 rounded-full animate-water-drift-4 blur-sm"></div>
+          {/* Medium Yellow Water Bubbles */}
+          <div className="absolute top-1/2 left-1/6 w-16 h-16 bg-gradient-to-br from-yellow-200/30 to-yellow-200/25 rounded-full animate-water-drift-1 blur-sm"></div>
+          <div className="absolute top-2/3 right-1/6 w-14 h-14 bg-gradient-to-br from-yellow-200/25 to-yellow-200/20 rounded-full animate-water-drift-2 blur-sm"></div>
+          <div className="absolute bottom-1/2 left-2/3 w-18 h-18 bg-gradient-to-br from-yellow-200/20 to-yellow-300/25 rounded-full animate-water-drift-3 blur-sm"></div>
+          <div className="absolute bottom-2/3 right-1/3 w-12 h-12 bg-gradient-to-br from-yellow-200/30 to-yellow-200/25 rounded-full animate-water-drift-4 blur-sm"></div>
           
-          {/* Small Orange Water Bubbles */}
-          <div className="absolute top-1/6 left-1/4 w-8 h-8 bg-gradient-to-br from-yellow-300/35 to-orange-200/30 rounded-full animate-water-bubble-1 blur-sm"></div>
-          <div className="absolute top-3/4 right-1/5 w-6 h-6 bg-gradient-to-br from-yellow-300/30 to-red-200/25 rounded-full animate-water-bubble-2 blur-sm"></div>
-          <div className="absolute bottom-1/6 left-1/2 w-10 h-10 bg-gradient-to-br from-amber-300/25 to-yellow-200/30 rounded-full animate-water-bubble-3 blur-sm"></div>
-          <div className="absolute bottom-3/4 right-1/2 w-7 h-7 bg-gradient-to-br from-yellow-300/35 to-amber-200/30 rounded-full animate-water-bubble-4 blur-sm"></div>
+          {/* Small Yellow Water Bubbles */}
+          <div className="absolute top-1/6 left-1/4 w-8 h-8 bg-gradient-to-br from-yellow-300/35 to-yellow-200/30 rounded-full animate-water-bubble-1 blur-sm"></div>
+          <div className="absolute top-3/4 right-1/5 w-6 h-6 bg-gradient-to-br from-yellow-300/30 to-yellow-200/25 rounded-full animate-water-bubble-2 blur-sm"></div>
+          <div className="absolute bottom-1/6 left-1/2 w-10 h-10 bg-gradient-to-br from-yellow-300/25 to-yellow-200/30 rounded-full animate-water-bubble-3 blur-sm"></div>
+          <div className="absolute bottom-3/4 right-1/2 w-7 h-7 bg-gradient-to-br from-yellow-300/35 to-yellow-200/30 rounded-full animate-water-bubble-4 blur-sm"></div>
         </div>
 
         {/* Main Content */}
         <div className="relative max-w-6xl mx-auto px-6 lg:px-12 text-center z-10">
-          {/* Futuristic Icon */}
+          {/* Yellow Icon */}
           <div className="mb-10">
             <div className="inline-flex items-center justify-center relative">
               {/* Glowing Ring */}
-              <div className="absolute w-32 h-32 bg-gradient-to-r from-yellow-400/20 via-red-400/30 to-amber-400/20 rounded-full animate-pulse-glow blur-sm"></div>
-              <div className="absolute w-24 h-24 bg-gradient-to-r from-yellow-400/15 to-orange-400/25 rounded-full animate-pulse-glow blur-sm" style={{ animationDelay: '0.5s' }}></div>
+              <div className="absolute w-32 h-32 bg-gradient-to-r from-yellow-400/20 via-yellow-400/30 to-yellow-400/20 rounded-full animate-pulse-glow blur-sm"></div>
+              <div className="absolute w-24 h-24 bg-gradient-to-r from-yellow-400/15 to-yellow-400/25 rounded-full animate-pulse-glow blur-sm" style={{ animationDelay: '0.5s' }}></div>
               
               {/* Main Icon */}
               <div className="relative w-20 h-20 bg-gradient-to-br from-white/90 to-white/70 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-2xl border border-white/50">
@@ -58,7 +58,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Futuristic Text Content */}
+          {/* Text Content */}
           <div className="space-y-4">
             <h3 className="text-2xl lg:text-3xl font-bold text-dark-blue tracking-wide">
               Your Adventure Awaits
@@ -68,58 +68,58 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Futuristic Decorative Elements */}
+          {/* Yellow Decorative Elements */}
           <div className="mt-12 flex items-center justify-center space-x-6">
-            <div className="w-20 h-px bg-gradient-to-r from-transparent via-orange-400/60 to-transparent"></div>
-            <div className="w-3 h-3 bg-gradient-to-br from-yellow-500 to-red-600 rounded-full animate-pulse"></div>
-            <div className="w-2 h-2 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
-            <div className="w-3 h-3 bg-gradient-to-br from-red-500 to-orange-600 rounded-full animate-pulse" style={{ animationDelay: '0.6s' }}></div>
-            <div className="w-20 h-px bg-gradient-to-l from-transparent via-red-400/60 to-transparent"></div>
+            <div className="w-20 h-px bg-gradient-to-r from-transparent via-yellow-400/60 to-transparent"></div>
+            <div className="w-3 h-3 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-full animate-pulse"></div>
+            <div className="w-2 h-2 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
+            <div className="w-3 h-3 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-full animate-pulse" style={{ animationDelay: '0.6s' }}></div>
+            <div className="w-20 h-px bg-gradient-to-l from-transparent via-yellow-400/60 to-transparent"></div>
           </div>
         </div>
       </div>
       
       <RoomsSection data={roomsSectionData} />
       
-      {/* Ultimate Cozy Moving Gradient Separator */}
+      {/* Yellow Moving Gradient Separator */}
       <div className="relative py-12 lg:py-16 overflow-hidden">
-        {/* Animated Moving Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-yellow-100 via-amber-50 to-yellow-100 animate-gradient-flow"></div>
-        <div className="absolute inset-0 bg-gradient-to-tl from-red-50/30 via-orange-50/20 to-amber-50/40 animate-gradient-flow-reverse"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-yellow-50/20 via-orange-100/30 to-red-50/20 animate-gradient-flow-slow"></div>
+        {/* Animated Moving Yellow Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-100 via-yellow-50 to-yellow-100 animate-gradient-flow"></div>
+        <div className="absolute inset-0 bg-gradient-to-tl from-yellow-50/30 via-yellow-50/20 to-yellow-50/40 animate-gradient-flow-reverse"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-yellow-50/20 via-yellow-100/30 to-yellow-50/20 animate-gradient-flow-slow"></div>
         
-        {/* Cozy Floating Elements */}
+        {/* Yellow Floating Elements */}
         <div className="absolute inset-0">
-          {/* Large Cozy Circles */}
-          <div className="absolute top-1/4 left-1/6 w-40 h-40 bg-gradient-to-br from-yellow-200/30 to-amber-200/20 rounded-full animate-cozy-float-1 blur-md"></div>
-          <div className="absolute top-1/3 right-1/5 w-32 h-32 bg-gradient-to-br from-red-200/25 to-orange-200/30 rounded-full animate-cozy-float-2 blur-md"></div>
-          <div className="absolute bottom-1/3 left-1/4 w-36 h-36 bg-gradient-to-br from-amber-200/20 to-yellow-200/25 rounded-full animate-cozy-float-3 blur-md"></div>
-          <div className="absolute bottom-1/4 right-1/6 w-28 h-28 bg-gradient-to-br from-yellow-200/35 to-red-200/20 rounded-full animate-cozy-float-4 blur-md"></div>
+          {/* Large Yellow Circles */}
+          <div className="absolute top-1/4 left-1/6 w-40 h-40 bg-gradient-to-br from-yellow-200/30 to-yellow-200/20 rounded-full animate-cozy-float-1 blur-md"></div>
+          <div className="absolute top-1/3 right-1/5 w-32 h-32 bg-gradient-to-br from-yellow-200/25 to-yellow-200/30 rounded-full animate-cozy-float-2 blur-md"></div>
+          <div className="absolute bottom-1/3 left-1/4 w-36 h-36 bg-gradient-to-br from-yellow-200/20 to-yellow-200/25 rounded-full animate-cozy-float-3 blur-md"></div>
+          <div className="absolute bottom-1/4 right-1/6 w-28 h-28 bg-gradient-to-br from-yellow-200/35 to-yellow-200/20 rounded-full animate-cozy-float-4 blur-md"></div>
           
-          {/* Medium Cozy Elements */}
-          <div className="absolute top-1/2 left-1/8 w-24 h-24 bg-gradient-to-br from-yellow-200/40 to-orange-200/25 rounded-full animate-cozy-drift-1 blur-sm"></div>
-          <div className="absolute top-2/3 right-1/8 w-20 h-20 bg-gradient-to-br from-yellow-200/30 to-amber-200/35 rounded-full animate-cozy-drift-2 blur-sm"></div>
-          <div className="absolute bottom-1/2 left-3/4 w-26 h-26 bg-gradient-to-br from-amber-200/25 to-yellow-200/30 rounded-full animate-cozy-drift-3 blur-sm"></div>
-          <div className="absolute bottom-2/3 right-1/4 w-22 h-22 bg-gradient-to-br from-red-200/20 to-orange-200/40 rounded-full animate-cozy-drift-4 blur-sm"></div>
+          {/* Medium Yellow Elements */}
+          <div className="absolute top-1/2 left-1/8 w-24 h-24 bg-gradient-to-br from-yellow-200/40 to-yellow-200/25 rounded-full animate-cozy-drift-1 blur-sm"></div>
+          <div className="absolute top-2/3 right-1/8 w-20 h-20 bg-gradient-to-br from-yellow-200/30 to-yellow-200/35 rounded-full animate-cozy-drift-2 blur-sm"></div>
+          <div className="absolute bottom-1/2 left-3/4 w-26 h-26 bg-gradient-to-br from-yellow-200/25 to-yellow-200/30 rounded-full animate-cozy-drift-3 blur-sm"></div>
+          <div className="absolute bottom-2/3 right-1/4 w-22 h-22 bg-gradient-to-br from-yellow-200/20 to-yellow-200/40 rounded-full animate-cozy-drift-4 blur-sm"></div>
           
-          {/* Small Cozy Particles */}
-          <div className="absolute top-1/6 left-1/3 w-12 h-12 bg-gradient-to-br from-yellow-300/50 to-amber-300/40 rounded-full animate-cozy-bubble-1 blur-sm"></div>
-          <div className="absolute top-3/4 right-1/3 w-10 h-10 bg-gradient-to-br from-amber-300/45 to-yellow-300/50 rounded-full animate-cozy-bubble-2 blur-sm"></div>
-          <div className="absolute bottom-1/6 left-1/2 w-14 h-14 bg-gradient-to-br from-red-300/40 to-orange-300/45 rounded-full animate-cozy-bubble-3 blur-sm"></div>
-          <div className="absolute bottom-3/4 right-1/2 w-8 h-8 bg-gradient-to-br from-yellow-300/55 to-red-300/35 rounded-full animate-cozy-bubble-4 blur-sm"></div>
+          {/* Small Yellow Particles */}
+          <div className="absolute top-1/6 left-1/3 w-12 h-12 bg-gradient-to-br from-yellow-300/50 to-yellow-300/40 rounded-full animate-cozy-bubble-1 blur-sm"></div>
+          <div className="absolute top-3/4 right-1/3 w-10 h-10 bg-gradient-to-br from-yellow-300/45 to-yellow-300/50 rounded-full animate-cozy-bubble-2 blur-sm"></div>
+          <div className="absolute bottom-1/6 left-1/2 w-14 h-14 bg-gradient-to-br from-yellow-300/40 to-yellow-300/45 rounded-full animate-cozy-bubble-3 blur-sm"></div>
+          <div className="absolute bottom-3/4 right-1/2 w-8 h-8 bg-gradient-to-br from-yellow-300/55 to-yellow-300/35 rounded-full animate-cozy-bubble-4 blur-sm"></div>
         </div>
 
         {/* Main Content */}
         <div className="relative max-w-6xl mx-auto px-6 lg:px-12 text-center z-10">
-          {/* Cozy Icon with Warm Glow */}
+          {/* Yellow Icon with Glow */}
           <div className="mb-12">
             <div className="inline-flex items-center justify-center relative">
-              {/* Multiple Glowing Rings */}
-              <div className="absolute w-48 h-48 bg-gradient-to-r from-yellow-300/20 via-red-300/25 to-amber-300/20 rounded-full animate-cozy-glow-1 blur-lg"></div>
-              <div className="absolute w-36 h-36 bg-gradient-to-r from-amber-300/25 to-orange-300/30 rounded-full animate-cozy-glow-2 blur-lg"></div>
-              <div className="absolute w-24 h-24 bg-gradient-to-r from-yellow-300/30 to-red-300/20 rounded-full animate-cozy-glow-3 blur-lg"></div>
+              {/* Multiple Yellow Glowing Rings */}
+              <div className="absolute w-48 h-48 bg-gradient-to-r from-yellow-300/20 via-yellow-300/25 to-yellow-300/20 rounded-full animate-cozy-glow-1 blur-lg"></div>
+              <div className="absolute w-36 h-36 bg-gradient-to-r from-yellow-300/25 to-yellow-300/30 rounded-full animate-cozy-glow-2 blur-lg"></div>
+              <div className="absolute w-24 h-24 bg-gradient-to-r from-yellow-300/30 to-yellow-300/20 rounded-full animate-cozy-glow-3 blur-lg"></div>
               
-              {/* Main Cozy Icon */}
+              {/* Main Yellow Icon */}
               <div className="relative w-20 h-20 bg-gradient-to-br from-white/95 to-primary-pale/90 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-2xl border border-primary-border/50">
                 <svg className="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -128,7 +128,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Cozy Text Content */}
+          {/* Text Content */}
           <div className="space-y-4">
             <h3 className="text-2xl lg:text-3xl font-bold text-dark-blue tracking-wide leading-tight">
               Where Memories Are Made
@@ -138,15 +138,15 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Cozy Decorative Elements */}
+          {/* Yellow Decorative Elements */}
           <div className="mt-16 flex items-center justify-center space-x-8">
-            <div className="w-24 h-px bg-gradient-to-r from-transparent via-orange-300/70 to-transparent"></div>
-            <div className="w-4 h-4 bg-gradient-to-br from-yellow-400 to-red-500 rounded-full animate-pulse"></div>
-            <div className="w-3 h-3 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-            <div className="w-2 h-2 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
-            <div className="w-3 h-3 bg-gradient-to-br from-red-400 to-orange-500 rounded-full animate-pulse" style={{ animationDelay: '0.6s' }}></div>
-            <div className="w-4 h-4 bg-gradient-to-br from-yellow-500 to-red-600 rounded-full animate-pulse" style={{ animationDelay: '0.8s' }}></div>
-            <div className="w-24 h-px bg-gradient-to-l from-transparent via-red-300/70 to-transparent"></div>
+            <div className="w-24 h-px bg-gradient-to-r from-transparent via-yellow-300/70 to-transparent"></div>
+            <div className="w-4 h-4 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full animate-pulse"></div>
+            <div className="w-3 h-3 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+            <div className="w-2 h-2 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+            <div className="w-3 h-3 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full animate-pulse" style={{ animationDelay: '0.6s' }}></div>
+            <div className="w-4 h-4 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-full animate-pulse" style={{ animationDelay: '0.8s' }}></div>
+            <div className="w-24 h-px bg-gradient-to-l from-transparent via-yellow-300/70 to-transparent"></div>
           </div>
         </div>
       </div>

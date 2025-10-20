@@ -36,40 +36,58 @@ const PackagesPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Modern Background Layer */}
+      <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-amber-50/80 to-orange-50/60"></div>
+      <div className="absolute inset-0 bg-gradient-to-tl from-white/40 via-transparent to-yellow-100/30"></div>
+      
+      {/* Subtle Pattern Overlay */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-1/4 left-1/6 w-96 h-96 bg-gradient-to-br from-yellow-200 to-amber-200 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 right-1/4 w-80 h-80 bg-gradient-to-br from-amber-200 to-yellow-200 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/3 left-1/3 w-72 h-72 bg-gradient-to-br from-yellow-300 to-amber-300 rounded-full blur-3xl"></div>
+      </div>
+      
+      {/* Content */}
+      <div className="relative z-10">
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-6 lg:px-24">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight uppercase text-dark-blue mb-8">
-            OUR PACKAGES
-          </h1>
-          <p className="text-lg lg:text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
-            Looking for a full experience of surf, skate and yoga? Book one of our packages so you can get everything out of your time in Morocco.
-          </p>
+          {/* Modern Title Card */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-12 shadow-xl border border-white/50 mb-8">
+            <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight uppercase text-dark-blue mb-4">
+              OUR PACKAGES
+            </h1>
+            <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-amber-500 mx-auto rounded-full mb-6"></div>
+            <p className="text-lg lg:text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
+              Looking for a full experience of surf, skate and yoga? Book one of our packages so you can get everything out of your time in Morocco.
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Packages Grid Section */}
-      <section className="py-20 px-6 lg:px-24" style={{ backgroundColor: '#ffc414' }}>
-        <div className="max-w-7xl mx-auto">
+      <section className="py-20 px-6 lg:px-24 relative">
+        {/* Section Background */}
+        <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {packagesData.map((pkg) => (
               <article
                 key={pkg.id}
                 id={`packages-section`}
-                className={`rounded-2xl p-8 lg:p-10 transition-all duration-300 hover:scale-102 hover:shadow-xl ${getPackageHighlightClass(pkg.id)} ${
+                className={`rounded-2xl p-8 lg:p-10 transition-all duration-300 hover:scale-102 hover:shadow-xl flex flex-col ${getPackageHighlightClass(pkg.id)} ${
                   pkg.featured
-                    ? 'bg-white shadow-lg' // Featured card - white background
-                    : 'bg-opacity-90 shadow-md' // Regular cards - semi-transparent
+                    ? 'bg-white/90 backdrop-blur-sm shadow-lg border border-white/50' // Featured card - glass effect
+                    : 'bg-primary/90 backdrop-blur-sm shadow-md border border-primary/30' // Regular cards - yellow background
                 }`}
-                style={{
-                  backgroundColor: pkg.featured ? '#FFFFFF' : 'rgba(24, 173, 181, 0.9)'
-                }}
               >
                 {/* Package Title */}
                 <h2
-                  className={`text-xl lg:text-2xl font-bold uppercase tracking-wide mb-4 ${
-                    pkg.featured ? 'text-dark-blue' : 'text-white'
+                  className={`text-xl lg:text-2xl font-bold uppercase tracking-wide mb-4 min-h-[3rem] flex items-center ${
+                    pkg.featured ? 'text-dark-blue' : 'text-dark-blue'
                   }`}
                 >
                   {pkg.title}
@@ -79,37 +97,38 @@ const PackagesPage: React.FC = () => {
                 <div className="mb-8">
                   <span
                     className={`text-5xl lg:text-6xl font-extrabold ${
-                      pkg.featured ? 'text-primary' : 'text-white'
+                      pkg.featured ? 'text-primary' : 'text-primary'
                     }`}
-                    style={{ color: pkg.featured ? '#ffc414' : '#FFFFFF' }}
+                    style={{ color: '#06456b' }}
                   >
                     € {pkg.price}
                   </span>
                 </div>
 
-                {/* Book Button */}
-                <div className="mb-8">
-                  <button
-                    onClick={() => handleBookPackage(pkg.id, pkg.title)}
-                    className={`w-full py-4 px-6 rounded-xl font-bold uppercase tracking-wide transition-all duration-300 hover:scale-102 ${
-                      pkg.featured
-                        ? 'bg-primary hover:bg-primary-dark' // Featured - golden button
-                        : 'bg-white text-primary hover:bg-gray-100' // Regular - white button
-                    }`}
-                    style={{
-                      backgroundColor: pkg.featured ? '#ffc414' : '#FFFFFF',
-                      color: pkg.featured ? '#084869' : '#ffc414'
-                    }}
-                  >
-                    BOOK THIS PACKAGE
-                  </button>
-                </div>
+                {/* Card Content - Flex Grow */}
+                <div className="flex-grow flex flex-col">
+                  {/* Book Button */}
+                  <div className="mb-8">
+                    <button
+                      onClick={() => handleBookPackage(pkg.id, pkg.title)}
+                      className={`w-full py-4 px-6 rounded-xl font-bold uppercase tracking-wide transition-all duration-300 hover:scale-102 ${
+                        pkg.featured
+                          ? 'bg-primary hover:bg-primary-dark' // Featured - golden button
+                          : 'bg-primary hover:bg-primary-dark' // Regular - golden button
+                      }`}
+                      style={{
+                        color: '#084869'
+                      }}
+                    >
+                      BOOK THIS PACKAGE
+                    </button>
+                  </div>
 
                 {/* Includes Section */}
                 <div className="mb-8">
                   <h3
                     className={`text-lg font-bold uppercase tracking-wide mb-4 ${
-                      pkg.featured ? 'text-dark-blue' : 'text-white'
+                      pkg.featured ? 'text-dark-blue' : 'text-dark-blue'
                     }`}
                   >
                     Includes:
@@ -119,12 +138,12 @@ const PackagesPage: React.FC = () => {
                       <li
                         key={index}
                         className={`flex items-start gap-3 ${
-                          pkg.featured ? 'text-gray-700' : 'text-white'
+                          pkg.featured ? 'text-gray-700' : 'text-gray-700'
                         }`}
                       >
                         <div className="w-5 h-5 flex-shrink-0 mt-0.5">
                           <svg
-                            className="w-full h-full"
+                            className="w-full h-full text-primary"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -147,7 +166,7 @@ const PackagesPage: React.FC = () => {
                 <div>
                   <h3
                     className={`text-lg font-bold uppercase tracking-wide mb-4 ${
-                      pkg.featured ? 'text-dark-blue' : 'text-white'
+                      pkg.featured ? 'text-dark-blue' : 'text-dark-blue'
                     }`}
                   >
                     Prices
@@ -157,7 +176,7 @@ const PackagesPage: React.FC = () => {
                       <div
                         key={index}
                         className={`text-sm lg:text-base ${
-                          pkg.featured ? 'text-gray-700' : 'text-white'
+                          pkg.featured ? 'text-gray-700' : 'text-gray-700'
                         }`}
                       >
                         <div className="font-semibold mb-1">{price.duration}</div>
@@ -169,6 +188,7 @@ const PackagesPage: React.FC = () => {
                     ))}
                   </div>
                 </div>
+                </div>
               </article>
             ))}
           </div>
@@ -176,20 +196,28 @@ const PackagesPage: React.FC = () => {
       </section>
 
       {/* Professional Features Section */}
-      <section className="py-20 px-6 lg:px-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-20 px-6 lg:px-24 relative">
+        {/* Section Background */}
+        <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight uppercase text-dark-blue mb-6">
-              WHY CHOOSE OUR PACKAGES?
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Experience the perfect blend of adventure, relaxation, and cultural immersion in Morocco&apos;s most beautiful coastal region.
-            </p>
+            {/* Modern Title Card */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-12 shadow-xl border border-white/50 mb-8">
+              <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight uppercase text-dark-blue mb-4">
+                WHY CHOOSE OUR PACKAGES?
+              </h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-amber-500 mx-auto rounded-full mb-6"></div>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                Experience the perfect blend of adventure, relaxation, and cultural immersion in Morocco&apos;s most beautiful coastal region.
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Professional Feature 1 */}
-            <div className="text-center group">
+            <div className="text-center group bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300">
               <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary-dark transition-colors duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -202,7 +230,7 @@ const PackagesPage: React.FC = () => {
             </div>
 
             {/* Professional Feature 2 */}
-            <div className="text-center group">
+            <div className="text-center group bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300">
               <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary-dark transition-colors duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -215,7 +243,7 @@ const PackagesPage: React.FC = () => {
             </div>
 
             {/* Professional Feature 3 */}
-            <div className="text-center group">
+            <div className="text-center group bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300">
               <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary-dark transition-colors duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -229,7 +257,7 @@ const PackagesPage: React.FC = () => {
             </div>
 
             {/* Professional Feature 4 */}
-            <div className="text-center group">
+            <div className="text-center group bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300">
               <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary-dark transition-colors duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -244,7 +272,7 @@ const PackagesPage: React.FC = () => {
 
           {/* Call to Action */}
           <div className="text-center mt-16">
-            <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg max-w-4xl mx-auto">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 lg:p-12 shadow-xl border border-white/50 max-w-4xl mx-auto">
               <h3 className="text-2xl lg:text-3xl font-bold text-dark-blue mb-4">
                 Ready to Start Your Moroccan Adventure?
               </h3>
@@ -270,6 +298,7 @@ const PackagesPage: React.FC = () => {
           </div>
         </div>
       </section>
+      </div>
     </div>
   );
 };

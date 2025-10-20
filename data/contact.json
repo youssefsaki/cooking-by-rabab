@@ -1,0 +1,21 @@
+{
+  "phone": {
+    "number": "+212 6 12 34 56 78",
+    "availability": "Available 24/7"
+  },
+  "email": {
+    "address": "hello@cactussurf.com",
+    "responseTime": "Response within 2 hours"
+  },
+  "whatsapp": {
+    "number": "+212 6 98 76 54 32",
+    "note": "Instant messaging"
+  },
+  "officeHours": {
+    "weekdays": "9:00 AM - 6:00 PM",
+    "saturday": "10:00 AM - 4:00 PM",
+    "sunday": "Emergency Only"
+  },
+  "emergencyNote": "Emergency support available 24/7 via phone"
+}
+
