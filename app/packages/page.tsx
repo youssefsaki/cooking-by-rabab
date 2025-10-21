@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import packagesData from '@/data/packages.json';
+import womenPackagesData from '@/data/women-packages.json';
 
 const PackagesPage: React.FC = () => {
   const [highlightedPackage, setHighlightedPackage] = useState<string | null>(null);
@@ -32,7 +32,7 @@ const PackagesPage: React.FC = () => {
   const handleBookPackage = (packageId: number, packageTitle: string) => {
     // Navigate to booking page with package details
     const packageSlug = packageTitle.toLowerCase().replace(/\s+/g, '-');
-    window.location.href = `/book?package=${packageSlug}&id=${packageId}`;
+    window.location.href = `/book?package=${packageSlug}&id=${packageId}&type=women`;
   };
 
   return (
@@ -50,100 +50,83 @@ const PackagesPage: React.FC = () => {
       
       {/* Content */}
       <div className="relative z-10">
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 px-6 lg:px-24">
-        <div className="max-w-7xl mx-auto text-center">
-          {/* Modern Title Card */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-12 shadow-xl border border-white/50 mb-8">
-            <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight uppercase text-dark-blue mb-4">
-              OUR PACKAGES
-            </h1>
-            <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-amber-500 mx-auto rounded-full mb-6"></div>
-            <p className="text-lg lg:text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
-              Looking for a full experience of surf, skate and yoga? Book one of our packages so you can get everything out of your time in Morocco.
-            </p>
-          </div>
-        </div>
-      </section>
 
-      {/* Packages Grid Section */}
-      <section className="py-20 px-6 lg:px-24 relative">
-        {/* Section Background */}
-        <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+      {/* Women Only Packages Section - Single View */}
+      <section className="pt-36 pb-8 px-6 lg:px-24 relative">
+        {/* Section Background - Smooth Yellow Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-amber-50/80 to-orange-50/60"></div>
+        <div className="absolute inset-0 bg-gradient-to-tl from-white/40 via-transparent to-yellow-100/30"></div>
+        
+        {/* Subtle Pattern Overlay */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-1/4 left-1/6 w-96 h-96 bg-gradient-to-br from-yellow-200 to-amber-200 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 right-1/4 w-80 h-80 bg-gradient-to-br from-amber-200 to-yellow-200 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/3 left-1/3 w-72 h-72 bg-gradient-to-br from-yellow-300 to-amber-300 rounded-full blur-3xl"></div>
+        </div>
         
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {packagesData.map((pkg) => (
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-12 shadow-xl border border-white/50 mb-8">
+              <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight uppercase text-dark-blue mb-4">
+                WOMEN ONLY PACKAGES
+              </h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-amber-500 mx-auto rounded-full mb-6"></div>
+              <p className="text-lg lg:text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
+                Exclusive retreats designed for women seeking healing, empowerment, and sisterhood. 
+                Connect with your inner self through surf, yoga, healing sessions, and creative workshops.
+              </p>
+            </div>
+          </div>
+
+          {/* Women Packages Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-16">
+            {womenPackagesData.map((pkg: any) => (
               <article
-                key={pkg.id}
-                id={`packages-section`}
-                className={`rounded-2xl p-8 lg:p-10 transition-all duration-300 hover:scale-102 hover:shadow-xl flex flex-col ${getPackageHighlightClass(pkg.id)} ${
+                key={`women-${pkg.id}`}
+                className={`rounded-2xl p-8 lg:p-10 transition-all duration-300 hover:scale-102 hover:shadow-xl flex flex-col ${
                   pkg.featured
                     ? 'bg-white/90 backdrop-blur-sm shadow-lg border border-white/50' // Featured card - glass effect
-                    : 'bg-primary/90 backdrop-blur-sm shadow-md border border-primary/30' // Regular cards - yellow background
+                    : 'bg-gradient-to-br from-pink-50/90 to-purple-50/90 backdrop-blur-sm shadow-md border border-pink-200/30' // Regular cards - pink gradient
                 }`}
               >
                 {/* Package Title */}
-                <h2
-                  className={`text-xl lg:text-2xl font-bold uppercase tracking-wide mb-4 min-h-[3rem] flex items-center ${
-                    pkg.featured ? 'text-dark-blue' : 'text-dark-blue'
-                  }`}
-                >
+                <h3 className="text-xl lg:text-2xl font-bold uppercase tracking-wide mb-2 text-dark-blue">
                   {pkg.title}
-                </h2>
+                </h3>
+                
+                {/* Duration */}
+                <p className="text-sm text-gray-600 mb-4 font-medium">{pkg.duration}</p>
 
                 {/* Price */}
                 <div className="mb-8">
-                  <span
-                    className={`text-5xl lg:text-6xl font-extrabold ${
-                      pkg.featured ? 'text-primary' : 'text-primary'
-                    }`}
-                    style={{ color: '#06456b' }}
-                  >
+                  <span className="text-4xl lg:text-5xl font-extrabold text-dark-blue">
                     € {pkg.price}
                   </span>
                 </div>
 
-                {/* Card Content - Flex Grow */}
-                <div className="flex-grow flex flex-col">
-                  {/* Book Button */}
-                  <div className="mb-8">
-                    <button
-                      onClick={() => handleBookPackage(pkg.id, pkg.title)}
-                      className={`w-full py-4 px-6 rounded-xl font-bold uppercase tracking-wide transition-all duration-300 hover:scale-102 ${
-                        pkg.featured
-                          ? 'bg-primary hover:bg-primary-dark' // Featured - golden button
-                          : 'bg-primary hover:bg-primary-dark' // Regular - golden button
-                      }`}
-                      style={{
-                        color: '#084869'
-                      }}
-                    >
-                      BOOK THIS PACKAGE
-                    </button>
-                  </div>
+                {/* Book Button */}
+                <div className="mb-8">
+                  <button
+                    onClick={() => handleBookPackage(pkg.id, pkg.title)}
+                    className="w-full py-4 px-6 rounded-xl font-bold uppercase tracking-wide transition-all duration-300 hover:scale-102 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 shadow-lg hover:shadow-xl"
+                    style={{ color: '#094166' }}
+                  >
+                    BOOK THIS PACKAGE
+                  </button>
+                </div>
 
                 {/* Includes Section */}
-                <div className="mb-8">
-                  <h3
-                    className={`text-lg font-bold uppercase tracking-wide mb-4 ${
-                      pkg.featured ? 'text-dark-blue' : 'text-dark-blue'
-                    }`}
-                  >
+                <div className="flex-grow">
+                  <h4 className="text-lg font-bold uppercase tracking-wide mb-4 text-dark-blue">
                     Includes:
-                  </h3>
+                  </h4>
                   <ul className="space-y-3">
-                    {pkg.includes.map((item, index) => (
-                      <li
-                        key={index}
-                        className={`flex items-start gap-3 ${
-                          pkg.featured ? 'text-gray-700' : 'text-gray-700'
-                        }`}
-                      >
+                    {pkg.includes.map((item: string, index: number) => (
+                      <li key={index} className="flex items-start gap-3 text-gray-700">
                         <div className="w-5 h-5 flex-shrink-0 mt-0.5">
                           <svg
-                            className="w-full h-full text-primary"
+                            className="w-full h-full text-yellow-500"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -163,22 +146,13 @@ const PackagesPage: React.FC = () => {
                 </div>
 
                 {/* Prices Section */}
-                <div>
-                  <h3
-                    className={`text-lg font-bold uppercase tracking-wide mb-4 ${
-                      pkg.featured ? 'text-dark-blue' : 'text-dark-blue'
-                    }`}
-                  >
+                <div className="mt-8">
+                  <h4 className="text-lg font-bold uppercase tracking-wide mb-4 text-dark-blue">
                     Prices
-                  </h3>
+                  </h4>
                   <div className="space-y-3">
-                    {pkg.prices.map((price, index) => (
-                      <div
-                        key={index}
-                        className={`text-sm lg:text-base ${
-                          pkg.featured ? 'text-gray-700' : 'text-gray-700'
-                        }`}
-                      >
+                    {pkg.prices.map((price: any, index: number) => (
+                      <div key={index} className="text-sm lg:text-base text-gray-700">
                         <div className="font-semibold mb-1">{price.duration}</div>
                         <div className="space-y-1">
                           <div>Dormitory: €{price.dormitory}</div>
@@ -188,9 +162,52 @@ const PackagesPage: React.FC = () => {
                     ))}
                   </div>
                 </div>
-                </div>
               </article>
             ))}
+          </div>
+
+          {/* Compact Features Section */}
+          <div className="mt-8 bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/50">
+            <h3 className="text-xl font-bold text-dark-blue mb-6 text-center">
+              Why Choose Our Women-Only Retreats?
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                </div>
+                <h4 className="text-lg font-bold text-dark-blue mb-2">Sacred Sisterhood</h4>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Connect with like-minded women in a safe, supportive environment.
+                </p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                </div>
+                <h4 className="text-lg font-bold text-dark-blue mb-2">Healing & Wellness</h4>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Transformative healing through Reiki, sound baths, and meditation.
+                </p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m0 0V1a1 1 0 011-1h2a1 1 0 011 1v18a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1h2zm0 0h8m-8 0H4a1 1 0 00-1 1v14a1 1 0 001 1h16a1 1 0 001-1V4a1 1 0 00-1-1h-2M9 9h6m-6 4h6m-2 4h2" />
+                  </svg>
+                </div>
+                <h4 className="text-lg font-bold text-dark-blue mb-2">Creative Expression</h4>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Explore creativity through painting, journaling, and workshops.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

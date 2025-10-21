@@ -156,10 +156,10 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                     <Link
                       key={item.id}
                       href={item.href}
-                      className={`block text-sm font-black tracking-wide transition-colors duration-200 py-2 ${
+                      className={`block text-sm font-black tracking-wide transition-colors duration-200 py-2 px-4 rounded-lg ${
                         isActive 
-                          ? 'text-primary' 
-                          : 'text-dark-blue hover:text-primary'
+                          ? 'text-primary bg-primary/10' 
+                          : 'text-dark-blue hover:text-primary hover:bg-primary/5'
                       }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >

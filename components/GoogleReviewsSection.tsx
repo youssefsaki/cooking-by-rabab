@@ -125,7 +125,7 @@ const GoogleReviewsSection: React.FC<GoogleReviewsSectionProps> = ({ data }) => 
         {/* Google Reviews Link */}
         <div className="text-center mt-12">
           <a
-            href="https://www.google.com/search?q=Cactus+Surf+Skate+House+reviews"
+            href="https://www.google.com/search?q=playa+surf+house+tamraght&sca_esv=ec8af2cb65023e7c&sxsrf=AE3TifMXtZ-z1Ke1x6UbiIPVejx7UB0Xxw%3A1760965692132&ei=PDT2aO7nB4_U7M8PpsO5CA&hotel_occupancy=&ved=0ahUKEwju9am07LKQAxUPKvsDHaZhDgEQ4dUDCBE&uact=5&oq=playa+surf+house+tamraght&gs_lp=Egxnd3Mtd2l6LXNlcnAiGXBsYXlhIHN1cmYgaG91c2UgdGFtcmFnaHQyDhAuGIAEGMcBGJgFGK8BMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMh0QLhiABBjHARiYBRivARiXBRjcBBjeBBjgBNgBAUjYHlAAWLYdcAB4AJABAJgBvAGgAcsbqgEEMC4yNbgBA8gBAPgBAZgCGaAC8xzCAhYQLhiABBhDGMcBGJgFGIoFGJwFGK8BwgIKEC4YgAQYQxiKBcICChAAGIAEGEMYigXCAgUQABiABMICBRAuGIAEwgIlEC4YgAQYQxjHARiYBRiKBRicBRivARiXBRjcBBjeBBjgBNgBAcICCxAuGIAEGNEDGMcBwgILEC4YgAQYxwEYrwHCAgsQABiABBiRAhiKBcICGhAuGIAEGMcBGK8BGJcFGNwEGN4EGOAE2AEBmAMAugYGCAEQARgUkgcEMC4yNaAHuroCsgcEMC4yNbgH8xzCBwQyLTI1yAePAQ&sclient=gws-wiz-serp#lrd=0xdb3b3dd1858d343:0x26ddc670aa799c34,1,,,,"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-white text-dark-blue font-bold px-6 py-3 rounded-lg border border-gray-200 hover:border-primary hover:text-primary transition-all duration-300 shadow-sm hover:shadow-md"
