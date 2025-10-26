@@ -203,15 +203,38 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
                 return (
                   <div key={index} className="flex gap-6 items-start group">
                     {/* Icon Circle */}
-                    <div className="w-14 h-14 flex items-center justify-center rounded-full bg-primary/10 border-2 border-primary/20 flex-shrink-0 group-hover:bg-primary/20 group-hover:border-primary/30 transition-all duration-300">
-                      <IconComponent className="w-6 h-6 text-primary" aria-hidden={true} />
-                    </div>
+                    {feature.link ? (
+                      <a
+                        href={feature.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-14 h-14 flex items-center justify-center rounded-full bg-primary/10 border-2 border-primary/20 flex-shrink-0 group-hover:bg-primary/20 group-hover:border-primary/30 transition-all duration-300 hover:scale-110 cursor-pointer"
+                        aria-label={`Open ${feature.title} location on Google Maps`}
+                      >
+                        <IconComponent className="w-6 h-6 text-primary" aria-hidden={true} />
+                      </a>
+                    ) : (
+                      <div className="w-14 h-14 flex items-center justify-center rounded-full bg-primary/10 border-2 border-primary/20 flex-shrink-0 group-hover:bg-primary/20 group-hover:border-primary/30 transition-all duration-300">
+                        <IconComponent className="w-6 h-6 text-primary" aria-hidden={true} />
+                      </div>
+                    )}
 
                     {/* Feature Content */}
                     <div className="flex-1">
-                      <h3 className="font-bold uppercase text-sm text-text-primary mb-2 tracking-wide">
-                        {feature.title}
-                      </h3>
+                      {feature.link ? (
+                        <a
+                          href={feature.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-bold uppercase text-sm text-text-primary mb-2 tracking-wide hover:text-primary transition-colors duration-300 cursor-pointer inline-block"
+                        >
+                          {feature.title}
+                        </a>
+                      ) : (
+                        <h3 className="font-bold uppercase text-sm text-text-primary mb-2 tracking-wide">
+                          {feature.title}
+                        </h3>
+                      )}
                       <p className="text-text-secondary text-sm leading-relaxed">
                         {feature.description}
                       </p>

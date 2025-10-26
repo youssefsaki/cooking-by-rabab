@@ -1,11 +1,11 @@
 {
   "logo": {
-    "text": "CACTUS",
-    "subtext": "SURF & SKATE HOUSE",
+    "text": "PLAYA",
+    "subtext": "SURF HOUSE",
     "href": "/",
     "image": {
       "src": "/logo_color.webp",
-      "alt": "Cactus Surf & Skate House Logo",
+      "alt": "Playa Surf House Logo",
       "width": 240,
       "height": 100
     }
@@ -40,19 +40,19 @@
   "socialLinks": [
     {
       "platform": "instagram",
-      "url": "https://instagram.com/cactussurfskate",
+      "url": "https://instagram.com/playasurfhouse",
       "icon": "Instagram",
       "ariaLabel": "Visit our Instagram page"
     },
     {
       "platform": "tiktok",
-      "url": "https://tiktok.com/@cactussurfskate",
+      "url": "https://tiktok.com/@playasurfhouse",
       "icon": "TikTok",
       "ariaLabel": "Visit our TikTok page"
     },
     {
       "platform": "facebook",
-      "url": "https://facebook.com/cactussurfskate",
+      "url": "https://facebook.com/playasurfhouse",
       "icon": "Facebook",
       "ariaLabel": "Visit our Facebook page"
     }

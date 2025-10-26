@@ -218,7 +218,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
             <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight uppercase text-text-primary mb-8">
-              WHY CHOOSE CACTUS SURF & SKATE HOUSE?
+              WHY CHOOSE PLAYA SURF HOUSE?
             </h2>
             <p className="text-xl text-text-secondary max-w-4xl mx-auto leading-relaxed">
               Experience the perfect blend of adventure, relaxation, and cultural immersion in Morocco's most beautiful coastal region.
@@ -313,7 +313,7 @@ export default function HomePage() {
                 Ready to Experience Morocco Like Never Before?
               </h3>
               <p className="text-xl text-text-secondary mb-10 max-w-3xl mx-auto leading-relaxed">
-                Join hundreds of travelers who have discovered the magic of Cactus Surf & Skate House.
+                Join hundreds of travelers who have discovered the magic of Playa Surf House.
                 Book your stay today and get ready for an unforgettable adventure.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">

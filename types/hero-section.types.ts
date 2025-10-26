@@ -9,6 +9,8 @@ export interface Feature {
   title: string;
   /** Feature description */
   description: string;
+  /** Optional link for the feature (e.g., for locations) */
+  link?: string;
 }
 
 export interface CTA {
@@ -37,6 +39,9 @@ export interface HeroSectionData {
   /** Array of hero images */
   images: HeroImage[];
 }
+
+
+
 
 
 

@@ -1,16 +1,16 @@
 {
   "site": {
-    "name": "Cactus Surf & Skate House",
+    "name": "Playa Surf House",
     "tagline": "Surf & Skate in Morocco",
     "description": "Centrally located in Tamraght we welcome you in our beautiful house with a rooftop terrace overlooking Taghazout Bay. Experience surf and skate sessions, freshly cooked tajines, rooftop parties, sunset BBQ's, movie nights and unforgettable memories.",
     "location": "Tamraght, Morocco",
-    "url": "https://cactussurfskate.com"
+    "url": "https://playasurfhouse.com"
   },
   "metadata": {
-    "title": "Cactus Surf & Skate House - Surf & Skate in Morocco",
+    "title": "Playa Surf House - Surf & Skate in Morocco",
     "description": "Centrally located in Tamraght we welcome you in our beautiful house with a rooftop terrace overlooking Taghazout Bay. Experience surf and skate sessions, freshly cooked tajines, rooftop parties, sunset BBQ's, movie nights and unforgettable memories.",
     "keywords": ["surf", "skate", "morocco", "tamraght", "taghazout", "surf house", "skate house", "accommodation", "surf camp"],
-    "author": "Cactus Surf & Skate House",
+    "author": "Playa Surf House",
     "language": "en",
     "locale": "en_US"
   },
@@ -39,7 +39,7 @@
     }
   },
   "contact": {
-    "email": "info@cactussurfskate.com",
+    "email": "info@playasurfhouse.com",
     "phone": "+212 6XX XXX XXX",
     "address": "Tamraght, Morocco",
     "bookingUrl": "#book"

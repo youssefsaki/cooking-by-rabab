@@ -1,6 +1,6 @@
-# Cactus Surf & Skate House Landing Page
+# Playa Surf House Landing Page
 
-A modern, production-ready Next.js landing page for Cactus Surf & Skate House, featuring a beautiful coastal design and smooth animations.
+A modern, production-ready Next.js landing page for Playa Surf House, featuring a beautiful coastal design and smooth animations.
 
 ## 🚀 Features
 
@@ -88,7 +88,7 @@ A modern, production-ready Next.js landing page for Cactus Surf & Skate House, f
 
 The project uses optimized assets from the `/public` directory:
 
-- **Logo**: `logo_color.webp` - Color version of the Cactus Surf & Skate House logo
+- **Logo**: `logo_color.webp` - Color version of the Playa Surf House logo
 - **Logo Alternative**: `logo_black.webp` - Black version for different contexts
 - **Hero Background**: `background.webp` - High-quality coastal sunset image
 
@@ -158,8 +158,8 @@ The project uses JSON files for all content data, making it easy to manage and u
 ```json
 {
   "logo": {
-    "text": "CACTUS",
-    "subtext": "SURF & SKATE HOUSE",
+          "text": "PLAYA",
+          "subtext": "SURF HOUSE",
     "href": "/"
   },
   "menuItems": [
@@ -172,7 +172,7 @@ The project uses JSON files for all content data, making it easy to manage and u
   "socialLinks": [
     {
       "platform": "instagram",
-      "url": "https://instagram.com/cactussurfskate",
+      "url": "https://instagram.com/playasurfhouse",
       "icon": "Instagram",
       "ariaLabel": "Visit our Instagram page"
     }
@@ -188,7 +188,7 @@ The project uses JSON files for all content data, making it easy to manage and u
 **Hero Data (`data/hero.json`)**:
 ```json
 {
-  "subheading": "CACTUS SURF & SKATE HOUSE",
+  "subheading": "PLAYA SURF HOUSE",
   "heading": "SURF & SKATE IN MOROCCO",
   "description": "Centrally located in Tamraght...",
   "backgroundImage": {
@@ -241,4 +241,4 @@ Modify `app/globals.css` for:
 
 ## 📄 License
 
-This project is created for Cactus Surf & Skate House.
+This project is created for Playa Surf House.

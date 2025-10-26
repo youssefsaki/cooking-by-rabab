@@ -22,9 +22,11 @@ const RoomsSection: React.FC<RoomsSectionProps> = ({ data }) => {
           </h3>
           
           {/* Main Heading */}
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight uppercase text-dark-blue">
-            {data.mainHeading}
-          </h2>
+          <Link href="/houseandrooms" className="block group">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight uppercase text-dark-blue group-hover:text-primary transition-colors duration-300 cursor-pointer">
+              {data.mainHeading}
+            </h2>
+          </Link>
         </div>
 
         {/* Rooms Grid */}

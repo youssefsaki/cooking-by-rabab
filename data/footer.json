@@ -1,7 +1,7 @@
 {
   "logo": {
     "src": "/logo_black.webp",
-    "alt": "Cactus Surf & Skate House Logo",
+          "alt": "Playa Surf House Logo",
     "width": 200,
     "height": 80
   },
@@ -90,19 +90,19 @@
   "socialLinks": [
     {
       "platform": "instagram",
-      "url": "https://instagram.com/cactussurf",
+      "url": "https://instagram.com/playasurfhouse",
       "icon": "Instagram",
       "ariaLabel": "Follow us on Instagram"
     },
     {
       "platform": "tiktok",
-      "url": "https://tiktok.com/@cactussurf",
+      "url": "https://tiktok.com/@playasurfhouse",
       "icon": "TikTok",
       "ariaLabel": "Follow us on TikTok"
     },
     {
       "platform": "facebook",
-      "url": "https://facebook.com/cactussurf",
+      "url": "https://facebook.com/playasurfhouse",
       "icon": "Facebook",
       "ariaLabel": "Follow us on Facebook"
     }
@@ -110,10 +110,13 @@
   "contactInfo": {
     "address": "Tamraght, Agadir, Morocco",
     "phone": "+212 6XX XXX XXX",
-    "email": "info@cactussurf.com"
+    "email": "info@playasurfhouse.com"
   },
-  "copyright": "© 2024 Cactus Surf & Skate House. All rights reserved."
+  "copyright": "© 2024 Playa Surf House. All rights reserved."
 }
+
+
+
 
 
 

@@ -294,7 +294,7 @@ const PackagesPage: React.FC = () => {
                 Ready to Start Your Moroccan Adventure?
               </h3>
               <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-                Join hundreds of travelers who have experienced the magic of Cactus Surf & Skate House. 
+                Join hundreds of travelers who have experienced the magic of Playa Surf House. 
                 Book your package today and get ready for an unforgettable journey.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
