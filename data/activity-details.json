@@ -1,0 +1,185 @@
+{
+  "sandboarding": {
+    "id": "sandboarding",
+    "title": "SANDBOARDING",
+    "subtitle": "Timlalin Desert Adventure",
+    "price": "From €45 per person",
+    "location": "Timlalin Sand Dunes, Morocco",
+    "description": "Swap ocean waves for desert dunes! Experience the thrill of sandboarding down majestic golden dunes with the Atlas Mountains as your backdrop. This unforgettable desert adventure takes you to the stunning Timlalin dunes, where you'll glide down towering sand hills and create memories that will last a lifetime.",
+    "needToKnow": [
+      "Meet at Playa Surf House at 3:00 PM for departure",
+      "Includes round-trip transportation, sandboard rental, and experienced guide",
+      "Sunset experience included - watch the sun set over the desert",
+      "Bring sunscreen, sunglasses, and comfortable clothing",
+      "No experience necessary - suitable for all fitness levels"
+    ],
+    "itinerary": [
+      "3:00 PM - Meet at Playa Surf House for pickup",
+      "3:30 PM - Depart for Timlalin Desert (approximately 1.5 hour drive)",
+      "5:00 PM - Arrive at Timlalin Sand Dunes, receive equipment and safety briefing",
+      "5:15 PM - Begin sandboarding adventure with multiple dune descents",
+      "6:30 PM - Watch the spectacular sunset over the desert dunes",
+      "7:00 PM - Enjoy traditional Moroccan mint tea and snacks",
+      "7:30 PM - Depart for return journey to Taghazout",
+      "9:00 PM - Arrive back at Playa Surf House"
+    ],
+    "galleryImages": [
+      "/activities/sandboarding.jpg",
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80",
+      "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?w=800&q=80",
+      "https://images.unsplash.com/photo-1527004013197-933c4bb611b3?w=800&q=80",
+      "https://images.unsplash.com/photo-1535930891776-0c2dfb7fda1a?w=800&q=80"
+    ]
+  },
+  "paradise-valley": {
+    "id": "paradise-valley",
+    "title": "PARADISE VALLEY",
+    "subtitle": "Natural Oasis Escape",
+    "price": "From €55 per person",
+    "location": "Paradise Valley, Atlas Mountains",
+    "description": "Discover a hidden gem in the Atlas Mountains. Crystal-clear pools, dramatic rock formations, and cascading waterfalls await your exploration. Paradise Valley is a natural oasis that offers the perfect escape from the coast, with opportunities for swimming, cliff jumping, and hiking through stunning mountain scenery.",
+    "needToKnow": [
+      "Meet at Playa Surf House at 8:00 AM for full-day trip",
+      "Includes transportation, traditional lunch, and guide",
+      "Bring swimwear, towels, and comfortable walking shoes",
+      "Moderate hiking involved - suitable for most fitness levels",
+      "Water and snacks provided, but bring additional water"
+    ],
+    "itinerary": [
+      "8:00 AM - Depart from Playa Surf House",
+      "9:30 AM - Arrive at Paradise Valley entrance, begin hike",
+      "10:00 AM - Reach first natural pool for swimming and relaxation",
+      "11:00 AM - Continue hiking to second pool with waterfall",
+      "12:00 PM - Optional cliff jumping (guided and safe)",
+      "1:00 PM - Traditional Moroccan lunch at a local restaurant",
+      "2:30 PM - Explore more pools and take photos",
+      "4:00 PM - Begin return hike to entrance",
+      "5:00 PM - Depart Paradise Valley for return journey",
+      "6:30 PM - Arrive back at Playa Surf House"
+    ],
+    "galleryImages": [
+      "/activities/paradise-valley.jpg",
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80",
+      "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80",
+      "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=800&q=80",
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80"
+    ]
+  },
+  "yoga": {
+    "id": "yoga",
+    "title": "YOGA",
+    "subtitle": "Sunrise & Sunset Sessions",
+    "price": "€15 per class | €60 weekly pass",
+    "location": "Rooftop Terrace, Playa Surf House",
+    "description": "Find your zen in paradise. Start your day with energizing sunrise yoga or wind down with peaceful sunset flows on our rooftop overlooking the bay. Our certified instructors offer classes for all levels, from complete beginners to advanced practitioners, in a serene setting with ocean views.",
+    "needToKnow": [
+      "Sunrise sessions at 7:00 AM, Sunset sessions at 6:00 PM",
+      "Meet at the rooftop terrace 5 minutes before class",
+      "Mats and props provided - just bring yourself",
+      "Wear comfortable clothing suitable for movement",
+      "Weekly passes available for unlimited classes"
+    ],
+    "itinerary": [
+      "Sunrise Session (7:00 AM):",
+      "6:55 AM - Arrive at rooftop terrace, receive mat",
+      "7:00 AM - Class begins with gentle warm-up",
+      "7:15 AM - Sun salutations and standing poses",
+      "7:30 AM - Flowing sequences and balance work",
+      "7:45 AM - Seated poses and gentle stretches",
+      "8:00 AM - Final relaxation and meditation",
+      "8:15 AM - Class ends, optional tea and light breakfast",
+      "",
+      "Sunset Session (6:00 PM):",
+      "5:55 PM - Arrive at rooftop terrace, receive mat",
+      "6:00 PM - Class begins with centering and breathing",
+      "6:15 PM - Gentle warm-up flow",
+      "6:30 PM - Standing sequences and hip openers",
+      "6:45 PM - Seated and supine poses",
+      "7:00 PM - Restorative poses and guided relaxation",
+      "7:15 PM - Class ends, enjoy sunset views"
+    ],
+    "galleryImages": [
+      "/activities/yoga.jpg",
+      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&q=80",
+      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80",
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",
+      "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80"
+    ]
+  },
+  "belly-dancing": {
+    "id": "belly-dancing",
+    "title": "BELLY DANCING",
+    "subtitle": "Traditional Moroccan Dance Experience",
+    "price": "€20 per class | €85 for 5 classes",
+    "location": "Playa Surf House, Taghazout",
+    "description": "Discover the art of Raqs Sharqi in fun, welcoming classes. Learn traditional movements, hip techniques, and graceful isolations while experiencing Moroccan culture through rhythm and dance. Our experienced instructors make every class enjoyable for beginners and intermediate dancers, with hip scarves provided for an authentic experience.",
+    "needToKnow": [
+      "Classes held twice weekly - check schedule for times",
+      "Meet in the main activity room 5 minutes before class",
+      "Hip scarves provided for all participants",
+      "Wear comfortable, fitted clothing that allows movement",
+      "No prior dance experience required - beginners welcome"
+    ],
+    "itinerary": [
+      "Weekly Schedule:",
+      "",
+      "Tuesday & Thursday Evening Classes:",
+      "6:00 PM - Arrive, receive hip scarf, warm welcome",
+      "6:05 PM - Warm-up exercises and stretching",
+      "6:15 PM - Learn basic hip movements and isolations",
+      "6:30 PM - Practice traveling steps and arm movements",
+      "6:45 PM - Learn a short choreography combination",
+      "7:00 PM - Practice full combination with music",
+      "7:15 PM - Cool down and final dance practice",
+      "7:30 PM - Class ends, optional Q&A session",
+      "",
+      "Monthly Performance Night:",
+      "Join us on the last Friday of each month for a special performance where students can showcase their skills"
+    ],
+    "galleryImages": [
+      "/activities/belly-dancing.jpg",
+      "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1200&q=80",
+      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80",
+      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80",
+      "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80"
+    ]
+  },
+  "medina-tour": {
+    "id": "medina-tour",
+    "title": "MEDINA TOUR",
+    "subtitle": "Traditional Moroccan Experience",
+    "price": "From €40 per person",
+    "location": "Agadir Medina, Morocco",
+    "description": "Step back in time through maze-like alleys where ancient traditions thrive. Visit bustling souks, meet local artisans, and taste authentic street food. Our expert local guides will take you through the vibrant markets, historical sites, and hidden gems of Agadir's medina, providing cultural insights and unforgettable experiences.",
+    "needToKnow": [
+      "Meet at Playa Surf House at 9:00 AM for morning tour or 2:00 PM for afternoon tour",
+      "Includes expert local guide, tea ceremony, and street food tasting",
+      "Wear comfortable walking shoes - tour involves 2-3 hours of walking",
+      "Bring cash for shopping at souks (optional)",
+      "Camera-friendly - many photo opportunities throughout the tour"
+    ],
+    "itinerary": [
+      "Morning Tour (9:00 AM - 12:00 PM):",
+      "9:00 AM - Meet at Playa Surf House",
+      "9:15 AM - Arrive at Agadir Medina entrance",
+      "9:30 AM - Begin walking tour through main souk area",
+      "10:00 AM - Visit traditional pottery and ceramics workshops",
+      "10:30 AM - Explore spice and herb market with guide explanations",
+      "11:00 AM - Traditional tea ceremony at local tea house",
+      "11:30 AM - Street food tasting tour (various Moroccan specialties)",
+      "12:00 PM - Free time for shopping and exploration",
+      "12:30 PM - Meet for return to Playa Surf House",
+      "1:00 PM - Arrive back at Playa Surf House",
+      "",
+      "Afternoon Tour (2:00 PM - 5:00 PM):",
+      "Follows similar itinerary with adjusted times"
+    ],
+    "galleryImages": [
+      "/activities/medina.jpg",
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80",
+      "https://images.unsplash.com/photo-1527004013197-933c4bb611b3?w=800&q=80",
+      "https://images.unsplash.com/photo-1535930891776-0c2dfb7fda1a?w=800&q=80",
+      "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?w=800&q=80"
+    ]
+  }
+}

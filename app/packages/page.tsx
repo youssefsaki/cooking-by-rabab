@@ -51,7 +51,7 @@ const PackagesPage: React.FC = () => {
       {/* Content */}
       <div className="relative z-10">
 
-      {/* Women Only Packages Section - Single View */}
+      {/* Packages Section - Single View */}
       <section className="pt-36 pb-8 px-6 lg:px-24 relative">
         {/* Section Background - Smooth Yellow Gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 via-amber-50/80 to-orange-50/60"></div>
@@ -69,18 +69,18 @@ const PackagesPage: React.FC = () => {
           <div className="text-center mb-16">
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-12 shadow-xl border border-white/50 mb-8">
               <h2 className="text-4xl lg:text-5xl font-extrabold tracking-tight uppercase text-dark-blue mb-4">
-                WOMEN ONLY PACKAGES
+                ADVENTURE PACKAGES
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-amber-500 mx-auto rounded-full mb-6"></div>
               <p className="text-lg lg:text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
-                Exclusive retreats designed for women seeking healing, empowerment, and sisterhood. 
-                Connect with your inner self through surf, yoga, healing sessions, and creative workshops.
+                Experience the perfect blend of adventure, relaxation, and cultural immersion in Morocco&apos;s most beautiful coastal region. 
+                Choose from our carefully curated packages designed for every type of traveler.
               </p>
             </div>
           </div>
 
-          {/* Women Packages Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-16">
+          {/* Packages Grid - Two Columns */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16 max-w-6xl mx-auto">
             {womenPackagesData.map((pkg: any) => (
               <article
                 key={`women-${pkg.id}`}
@@ -109,7 +109,7 @@ const PackagesPage: React.FC = () => {
                 <div className="mb-8">
                   <button
                     onClick={() => handleBookPackage(pkg.id, pkg.title)}
-                    className="w-full py-4 px-6 rounded-xl font-bold uppercase tracking-wide transition-all duration-300 hover:scale-102 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 shadow-lg hover:shadow-xl"
+                    className="w-full py-4 px-6 rounded-xl font-bold uppercase tracking-wide transition-all duration-150 hover:scale-102 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 shadow-lg hover:shadow-xl"
                     style={{ color: '#094166' }}
                   >
                     BOOK THIS PACKAGE
@@ -169,7 +169,7 @@ const PackagesPage: React.FC = () => {
           {/* Compact Features Section */}
           <div className="mt-8 bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/50">
             <h3 className="text-xl font-bold text-dark-blue mb-6 text-center">
-              Why Choose Our Women-Only Retreats?
+              Why Choose Our Adventure Packages?
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
@@ -178,9 +178,9 @@ const PackagesPage: React.FC = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>
                 </div>
-                <h4 className="text-lg font-bold text-dark-blue mb-2">Sacred Sisterhood</h4>
+                <h4 className="text-lg font-bold text-dark-blue mb-2">Community & Connection</h4>
                 <p className="text-sm text-gray-600 leading-relaxed">
-                  Connect with like-minded women in a safe, supportive environment.
+                  Connect with like-minded travelers in a safe, supportive environment.
                 </p>
               </div>
               
@@ -211,6 +211,71 @@ const PackagesPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Adventure Separator Section */}
+      <div className="relative py-12 lg:py-16 overflow-hidden group hover:py-14 lg:hover:py-18 transition-all duration-150">
+        {/* Gradient Background - Same as Package Buttons */}
+        <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-amber-500 group-hover:from-yellow-500 group-hover:to-amber-600 transition-all duration-150"></div>
+        
+        {/* Shadow Effect */}
+        <div className="absolute inset-0 shadow-lg group-hover:shadow-xl transition-all duration-150"></div>
+        
+        {/* Floating Elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/3 left-1/4 w-1 h-1 bg-white/50 rounded-full animate-pulse"></div>
+          <div className="absolute top-2/3 right-1/3 w-1 h-1 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute bottom-1/3 left-2/3 w-1 h-1 bg-white/60 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-white/45 rounded-full animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+          <div className="absolute bottom-1/2 left-1/3 w-1 h-1 bg-white/55 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
+        </div>
+
+        {/* Main Content */}
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-24 text-center">
+          {/* Adventure Icon */}
+          <div className="mb-6 group-hover:scale-105 transition-transform duration-150">
+            <div className="inline-flex items-center justify-center relative">
+              {/* Glow Ring */}
+              <div className="absolute w-16 h-16 bg-white/10 rounded-full animate-pulse"></div>
+              
+              {/* Adventure Compass Icon */}
+              <div className="relative z-10">
+                <svg className="w-8 h-8 text-dark-blue drop-shadow-lg animate-spin-slow" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Decorative Lines */}
+          <div className="mb-6">
+            <div className="flex items-center justify-center gap-6">
+              <div className="w-16 h-px bg-dark-blue/60"></div>
+              <div className="w-2 h-2 bg-dark-blue/80 rotate-45"></div>
+              <div className="w-16 h-px bg-dark-blue/60"></div>
+            </div>
+          </div>
+
+          {/* Typography */}
+          <div className="space-y-2 group-hover:space-y-3 transition-all duration-150">
+            <h3 className="text-2xl lg:text-3xl font-black text-dark-blue tracking-wide uppercase drop-shadow-lg group-hover:text-3xl lg:group-hover:text-4xl transition-all duration-150">
+              ADVENTURE
+            </h3>
+            <h4 className="text-lg lg:text-xl font-bold text-dark-blue/90 tracking-wide drop-shadow group-hover:text-xl lg:group-hover:text-2xl transition-all duration-150">
+              Awaits Your Journey
+            </h4>
+            <div className="flex items-center justify-center gap-2 mt-4">
+              <div className="w-1 h-1 bg-dark-blue/60 rounded-full animate-pulse"></div>
+              <div className="w-1 h-1 bg-dark-blue/80 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+              <div className="w-1 h-1 bg-dark-blue/60 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+            </div>
+          </div>
+
+          {/* Bottom Accent */}
+          <div className="mt-6">
+            <div className="w-20 h-px bg-gradient-to-r from-transparent via-dark-blue/40 to-transparent mx-auto"></div>
+          </div>
+        </div>
+      </div>
 
       {/* Professional Features Section */}
       <section className="py-20 px-6 lg:px-24 relative">
