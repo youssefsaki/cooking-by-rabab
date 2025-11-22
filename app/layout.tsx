@@ -4,12 +4,15 @@ import './globals.css';
 import { getStaticSiteConfig, getStaticNavigationData, getStaticFooterData } from '@/lib/static-data';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ErrorSuppressor from '@/components/ErrorSuppressor';
 
 const robotoCondensed = Roboto_Condensed({
   weight: ['300', '400', '700'],
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-roboto-condensed',
+  preload: true,
+  fallback: ['system-ui', 'arial'],
 });
 
 // Get site config for metadata
@@ -50,6 +53,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${robotoCondensed.variable} font-sans`}>
+        <ErrorSuppressor />
         <Header navigationData={navigationData} />
         <main>
           {children}

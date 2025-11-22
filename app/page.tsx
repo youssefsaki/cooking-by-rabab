@@ -1,10 +1,24 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Hero from '@/components/Hero';
-import HeroSection from '@/components/HeroSection';
-import RoomsSection from '@/components/RoomsSection';
-import GoogleReviewsSection from '@/components/GoogleReviewsSection';
-import { getStaticHeroData, getStaticHeroSectionData, getStaticRoomsSectionData, getStaticGoogleReviewsData } from '@/lib/static-data';
+import { getStaticHeroData } from '@/lib/static-data';
+
+// Lazy load heavy components for better initial load performance
+const HeroSection = dynamic(() => import('@/components/HeroSection'), {
+  loading: () => <div className="h-96 bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse" />,
+  ssr: true,
+});
+const RoomsSection = dynamic(() => import('@/components/RoomsSection'), {
+  loading: () => <div className="h-96 bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse" />,
+  ssr: true,
+});
+const GoogleReviewsSection = dynamic(() => import('@/components/GoogleReviewsSection'), {
+  loading: () => <div className="h-64 bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse" />,
+  ssr: true,
+});
+
+import { getStaticHeroSectionData, getStaticRoomsSectionData, getStaticGoogleReviewsData } from '@/lib/static-data';
 
 export default function HomePage() {
   const heroData = getStaticHeroData();
@@ -17,27 +31,15 @@ export default function HomePage() {
       <Hero heroData={heroData} />
       <HeroSection data={heroSectionData} />
       
-      {/* Yellow Water Separator */}
+      {/* Yellow Water Separator - Optimized */}
       <div className="relative py-12 lg:py-16 overflow-hidden bg-gradient-to-br from-yellow-50 via-white to-yellow-100">
-        {/* Animated Yellow Water Circles Background */}
+        {/* Minimal Animated Background */}
         <div className="absolute inset-0">
-          {/* Large Yellow Water Bubbles */}
+          {/* Reduced animated elements for better performance */}
           <div className="absolute top-1/4 left-1/5 w-32 h-32 bg-gradient-to-br from-yellow-200/20 to-yellow-300/15 rounded-full animate-water-float-1 blur-sm"></div>
-          <div className="absolute top-1/3 right-1/4 w-24 h-24 bg-gradient-to-br from-yellow-200/25 to-yellow-300/20 rounded-full animate-water-float-2 blur-sm"></div>
-          <div className="absolute bottom-1/3 left-1/3 w-28 h-28 bg-gradient-to-br from-yellow-200/20 to-yellow-300/15 rounded-full animate-water-float-3 blur-sm"></div>
-          <div className="absolute bottom-1/4 right-1/5 w-20 h-20 bg-gradient-to-br from-yellow-300/25 to-yellow-200/20 rounded-full animate-water-float-4 blur-sm"></div>
-          
-          {/* Medium Yellow Water Bubbles */}
-          <div className="absolute top-1/2 left-1/6 w-16 h-16 bg-gradient-to-br from-yellow-200/30 to-yellow-200/25 rounded-full animate-water-drift-1 blur-sm"></div>
-          <div className="absolute top-2/3 right-1/6 w-14 h-14 bg-gradient-to-br from-yellow-200/25 to-yellow-200/20 rounded-full animate-water-drift-2 blur-sm"></div>
-          <div className="absolute bottom-1/2 left-2/3 w-18 h-18 bg-gradient-to-br from-yellow-200/20 to-yellow-300/25 rounded-full animate-water-drift-3 blur-sm"></div>
-          <div className="absolute bottom-2/3 right-1/3 w-12 h-12 bg-gradient-to-br from-yellow-200/30 to-yellow-200/25 rounded-full animate-water-drift-4 blur-sm"></div>
-          
-          {/* Small Yellow Water Bubbles */}
-          <div className="absolute top-1/6 left-1/4 w-8 h-8 bg-gradient-to-br from-yellow-300/35 to-yellow-200/30 rounded-full animate-water-bubble-1 blur-sm"></div>
-          <div className="absolute top-3/4 right-1/5 w-6 h-6 bg-gradient-to-br from-yellow-300/30 to-yellow-200/25 rounded-full animate-water-bubble-2 blur-sm"></div>
-          <div className="absolute bottom-1/6 left-1/2 w-10 h-10 bg-gradient-to-br from-yellow-300/25 to-yellow-200/30 rounded-full animate-water-bubble-3 blur-sm"></div>
-          <div className="absolute bottom-3/4 right-1/2 w-7 h-7 bg-gradient-to-br from-yellow-300/35 to-yellow-200/30 rounded-full animate-water-bubble-4 blur-sm"></div>
+          <div className="absolute bottom-1/3 right-1/4 w-24 h-24 bg-gradient-to-br from-yellow-200/25 to-yellow-300/20 rounded-full animate-water-float-2 blur-sm"></div>
+          <div className="absolute top-1/2 right-1/6 w-14 h-14 bg-gradient-to-br from-yellow-200/25 to-yellow-200/20 rounded-full animate-water-drift-2 blur-sm"></div>
+          <div className="absolute bottom-1/2 left-1/3 w-10 h-10 bg-gradient-to-br from-yellow-300/25 to-yellow-200/30 rounded-full animate-water-bubble-3 blur-sm"></div>
         </div>
 
         {/* Main Content */}
@@ -64,7 +66,7 @@ export default function HomePage() {
               Your Adventure Awaits
             </h3>
             <p className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed font-medium">
-              Discover our carefully designed spaces where comfort meets adventure in Morocco's most beautiful coastal region
+              Discover our carefully designed spaces where comfort meets adventure in Morocco&apos;s most beautiful coastal region
             </p>
           </div>
 
@@ -81,32 +83,17 @@ export default function HomePage() {
       
       <RoomsSection data={roomsSectionData} />
       
-      {/* Yellow Moving Gradient Separator */}
+      {/* Yellow Moving Gradient Separator - Optimized */}
       <div className="relative py-12 lg:py-16 overflow-hidden">
-        {/* Animated Moving Yellow Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-yellow-100 via-yellow-50 to-yellow-100 animate-gradient-flow"></div>
-        <div className="absolute inset-0 bg-gradient-to-tl from-yellow-50/30 via-yellow-50/20 to-yellow-50/40 animate-gradient-flow-reverse"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-yellow-50/20 via-yellow-100/30 to-yellow-50/20 animate-gradient-flow-slow"></div>
+        {/* Simplified Static Background - No overlapping gradients */}
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-100 via-yellow-50 to-yellow-100"></div>
         
-        {/* Yellow Floating Elements */}
+        {/* Reduced Floating Elements */}
         <div className="absolute inset-0">
-          {/* Large Yellow Circles */}
+          {/* Only essential animated elements */}
           <div className="absolute top-1/4 left-1/6 w-40 h-40 bg-gradient-to-br from-yellow-200/30 to-yellow-200/20 rounded-full animate-cozy-float-1 blur-md"></div>
-          <div className="absolute top-1/3 right-1/5 w-32 h-32 bg-gradient-to-br from-yellow-200/25 to-yellow-200/30 rounded-full animate-cozy-float-2 blur-md"></div>
-          <div className="absolute bottom-1/3 left-1/4 w-36 h-36 bg-gradient-to-br from-yellow-200/20 to-yellow-200/25 rounded-full animate-cozy-float-3 blur-md"></div>
-          <div className="absolute bottom-1/4 right-1/6 w-28 h-28 bg-gradient-to-br from-yellow-200/35 to-yellow-200/20 rounded-full animate-cozy-float-4 blur-md"></div>
-          
-          {/* Medium Yellow Elements */}
-          <div className="absolute top-1/2 left-1/8 w-24 h-24 bg-gradient-to-br from-yellow-200/40 to-yellow-200/25 rounded-full animate-cozy-drift-1 blur-sm"></div>
-          <div className="absolute top-2/3 right-1/8 w-20 h-20 bg-gradient-to-br from-yellow-200/30 to-yellow-200/35 rounded-full animate-cozy-drift-2 blur-sm"></div>
-          <div className="absolute bottom-1/2 left-3/4 w-26 h-26 bg-gradient-to-br from-yellow-200/25 to-yellow-200/30 rounded-full animate-cozy-drift-3 blur-sm"></div>
-          <div className="absolute bottom-2/3 right-1/4 w-22 h-22 bg-gradient-to-br from-yellow-200/20 to-yellow-200/40 rounded-full animate-cozy-drift-4 blur-sm"></div>
-          
-          {/* Small Yellow Particles */}
-          <div className="absolute top-1/6 left-1/3 w-12 h-12 bg-gradient-to-br from-yellow-300/50 to-yellow-300/40 rounded-full animate-cozy-bubble-1 blur-sm"></div>
-          <div className="absolute top-3/4 right-1/3 w-10 h-10 bg-gradient-to-br from-yellow-300/45 to-yellow-300/50 rounded-full animate-cozy-bubble-2 blur-sm"></div>
-          <div className="absolute bottom-1/6 left-1/2 w-14 h-14 bg-gradient-to-br from-yellow-300/40 to-yellow-300/45 rounded-full animate-cozy-bubble-3 blur-sm"></div>
-          <div className="absolute bottom-3/4 right-1/2 w-8 h-8 bg-gradient-to-br from-yellow-300/55 to-yellow-300/35 rounded-full animate-cozy-bubble-4 blur-sm"></div>
+          <div className="absolute bottom-1/3 right-1/5 w-32 h-32 bg-gradient-to-br from-yellow-200/25 to-yellow-200/30 rounded-full animate-cozy-float-2 blur-md"></div>
+          <div className="absolute top-1/2 left-1/2 w-12 h-12 bg-gradient-to-br from-yellow-300/50 to-yellow-300/40 rounded-full animate-cozy-bubble-1 blur-sm"></div>
         </div>
 
         {/* Main Content */}
@@ -134,7 +121,7 @@ export default function HomePage() {
               Where Memories Are Made
             </h3>
             <p className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed font-medium">
-              Experience the warmth of our community and create unforgettable moments in Morocco's most welcoming surf house
+              Experience the warmth of our community and create unforgettable moments in Morocco&apos;s most welcoming surf house
             </p>
           </div>
 
@@ -221,7 +208,7 @@ export default function HomePage() {
               WHY CHOOSE PLAYA SURF HOUSE?
             </h2>
             <p className="text-xl text-text-secondary max-w-4xl mx-auto leading-relaxed">
-              Experience the perfect blend of adventure, relaxation, and cultural immersion in Morocco's most beautiful coastal region.
+              Experience the perfect blend of adventure, relaxation, and cultural immersion in Morocco&apos;s most beautiful coastal region.
             </p>
           </div>
 
@@ -249,7 +236,7 @@ export default function HomePage() {
               </div>
               <h3 className="text-xl font-bold text-dark-blue mb-3">Expert Instructors</h3>
               <p className="text-gray-600 leading-relaxed">
-                Learn from certified surf, skate, and yoga instructors with years of experience in Morocco's best spots.
+                Learn from certified surf, skate, and yoga instructors with years of experience in Morocco&apos;s best spots.
               </p>
             </div>
 

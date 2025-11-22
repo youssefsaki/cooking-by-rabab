@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback, memo } from 'react';
 import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -11,19 +11,19 @@ interface GalleryModalProps {
   onNavigate: (index: number) => void;
 }
 
-const GalleryModal: React.FC<GalleryModalProps> = ({
+const GalleryModal: React.FC<GalleryModalProps> = memo(({
   images,
   currentIndex,
   onClose,
   onNavigate,
 }) => {
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') onClose();
+    if (e.key === 'ArrowLeft' && currentIndex > 0) onNavigate(currentIndex - 1);
+    if (e.key === 'ArrowRight' && currentIndex < images.length - 1) onNavigate(currentIndex + 1);
+  }, [currentIndex, images.length, onClose, onNavigate]);
+  
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-      if (e.key === 'ArrowLeft' && currentIndex > 0) onNavigate(currentIndex - 1);
-      if (e.key === 'ArrowRight' && currentIndex < images.length - 1) onNavigate(currentIndex + 1);
-    };
-
     document.addEventListener('keydown', handleKeyDown);
     document.body.style.overflow = 'hidden';
 
@@ -31,7 +31,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'unset';
     };
-  }, [currentIndex, images.length, onClose, onNavigate]);
+  }, [handleKeyDown]);
 
   return (
     <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center">
@@ -73,8 +73,10 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
             alt={`Gallery image ${currentIndex + 1}`}
             fill
             className="object-contain"
-            unoptimized={images[currentIndex]?.startsWith('/')}
             priority
+            quality={90}
+            sizes="100vw"
+            unoptimized={images[currentIndex]?.includes('belly-dancing')}
           />
         </div>
       </div>
@@ -102,7 +104,10 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
                 alt={`Thumbnail ${index + 1}`}
                 fill
                 className="object-cover"
-                unoptimized={img?.startsWith('/')}
+                loading="lazy"
+                quality={60}
+                sizes="80px"
+                unoptimized={img.includes('belly-dancing')}
               />
             </button>
           ))}
@@ -110,6 +115,8 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
       </div>
     </div>
   );
-};
+});
+
+GalleryModal.displayName = 'GalleryModal';
 
 export default GalleryModal;

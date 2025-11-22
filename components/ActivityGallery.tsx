@@ -1,9 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Image from 'next/image';
 import { Camera } from 'lucide-react';
-import GalleryModal from './GalleryModal';
+import dynamic from 'next/dynamic';
+
+// Lazy load gallery modal - only load when user clicks "Show Gallery"
+const GalleryModal = dynamic(() => import('./GalleryModal'), {
+  loading: () => (
+    <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center">
+      <div className="text-white text-lg">Loading gallery...</div>
+    </div>
+  ),
+  ssr: false,
+});
 
 interface ActivityGalleryProps {
   images: string[];
@@ -13,6 +23,7 @@ interface ActivityGalleryProps {
 const ActivityGallery: React.FC<ActivityGalleryProps> = ({ images, alt }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
 
   const handleShowGallery = () => {
     setIsModalOpen(true);
@@ -27,6 +38,10 @@ const ActivityGallery: React.FC<ActivityGalleryProps> = ({ images, alt }) => {
     setCurrentImageIndex(index);
   };
 
+  const handleImageError = (index: number) => {
+    setImageErrors(prev => new Set(prev).add(index));
+  };
+
   if (!images || images.length === 0) return null;
 
   const mainImage = images[0] || '';
@@ -39,14 +54,26 @@ const ActivityGallery: React.FC<ActivityGalleryProps> = ({ images, alt }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Main Large Image */}
           <div className="md:col-span-2 relative aspect-[4/3] rounded-xl overflow-hidden group cursor-pointer">
-            <Image
-              src={mainImage}
-              alt={alt}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-              unoptimized={mainImage?.startsWith('/')}
-              priority
-            />
+            {imageErrors.has(0) ? (
+              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                <div className="text-center text-gray-500">
+                  <div className="text-4xl mb-2">📷</div>
+                  <div className="text-sm">Image not available</div>
+                </div>
+              </div>
+            ) : (
+              <Image
+                src={mainImage}
+                alt={alt}
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                priority
+                quality={85}
+                sizes="(max-width: 768px) 100vw, 66vw"
+                unoptimized={mainImage.includes('belly-dancing')}
+                onError={() => handleImageError(0)}
+              />
+            )}
           </div>
 
           {/* 4 Smaller Images Grid */}
@@ -60,14 +87,25 @@ const ActivityGallery: React.FC<ActivityGalleryProps> = ({ images, alt }) => {
                   setIsModalOpen(true);
                 }}
               >
-                <Image
-                  src={img}
-                  alt={`${alt} ${index + 2}`}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  unoptimized={img?.startsWith('/')}
-                  loading="lazy"
-                />
+                {imageErrors.has(index + 1) ? (
+                  <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                    <div className="text-center text-gray-500">
+                      <div className="text-2xl mb-1">📷</div>
+                    </div>
+                  </div>
+                ) : (
+                  <Image
+                    src={img}
+                    alt={`${alt} ${index + 2}`}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    quality={75}
+                    sizes="(max-width: 768px) 50vw, 33vw"
+                    unoptimized={img.includes('belly-dancing')}
+                    onError={() => handleImageError(index + 1)}
+                  />
+                )}
               </div>
             ))}
             {/* Fill empty slots if less than 4 images */}
@@ -90,14 +128,16 @@ const ActivityGallery: React.FC<ActivityGalleryProps> = ({ images, alt }) => {
         </button>
       </div>
 
-      {/* Gallery Modal */}
+      {/* Gallery Modal - Only loaded when isModalOpen is true */}
       {isModalOpen && (
-        <GalleryModal
-          images={images}
-          currentIndex={currentImageIndex}
-          onClose={handleCloseModal}
-          onNavigate={handleNavigate}
-        />
+        <Suspense fallback={<div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"><div className="text-white">Loading...</div></div>}>
+          <GalleryModal
+            images={images}
+            currentIndex={currentImageIndex}
+            onClose={handleCloseModal}
+            onNavigate={handleNavigate}
+          />
+        </Suspense>
       )}
     </>
   );

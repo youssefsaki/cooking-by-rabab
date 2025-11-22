@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FiArrowRight } from 'react-icons/fi';
@@ -10,7 +10,7 @@ interface RoomsSectionProps {
   data: RoomsSectionData;
 }
 
-const RoomsSection: React.FC<RoomsSectionProps> = ({ data }) => {
+const RoomsSection: React.FC<RoomsSectionProps> = memo(({ data }) => {
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,6 +79,8 @@ const RoomsSection: React.FC<RoomsSectionProps> = ({ data }) => {
       </div>
     </section>
   );
-};
+});
+
+RoomsSection.displayName = 'RoomsSection';
 
 export default RoomsSection;

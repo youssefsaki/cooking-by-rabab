@@ -2,10 +2,24 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import womenPackagesData from '@/data/women-packages.json';
+
+// Lazy load booking form for better initial page load
+const PackageBookingForm = dynamic(() => import('@/components/booking/PackageBookingForm'), {
+  loading: () => null,
+  ssr: false,
+});
+
+interface SelectedPackage {
+  id: number;
+  title: string;
+  duration: string;
+}
 
 const PackagesPage: React.FC = () => {
   const [highlightedPackage, setHighlightedPackage] = useState<string | null>(null);
+  const [selectedPackage, setSelectedPackage] = useState<SelectedPackage | null>(null);
 
   useEffect(() => {
     // Check URL parameters for package highlighting
@@ -29,10 +43,17 @@ const PackagesPage: React.FC = () => {
     }
     return '';
   };
-  const handleBookPackage = (packageId: number, packageTitle: string) => {
-    // Navigate to booking page with package details
-    const packageSlug = packageTitle.toLowerCase().replace(/\s+/g, '-');
-    window.location.href = `/book?package=${packageSlug}&id=${packageId}&type=women`;
+  const handleBookPackage = (pkg: any) => {
+    // Open booking form modal with package details
+    setSelectedPackage({
+      id: pkg.id,
+      title: pkg.title,
+      duration: pkg.duration,
+    });
+  };
+
+  const handleCloseBooking = () => {
+    setSelectedPackage(null);
   };
 
   return (
@@ -108,7 +129,7 @@ const PackagesPage: React.FC = () => {
                 {/* Book Button */}
                 <div className="mb-8">
                   <button
-                    onClick={() => handleBookPackage(pkg.id, pkg.title)}
+                    onClick={() => handleBookPackage(pkg)}
                     className="w-full py-4 px-6 rounded-xl font-bold uppercase tracking-wide transition-all duration-150 hover:scale-102 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 shadow-lg hover:shadow-xl"
                     style={{ color: '#094166' }}
                   >
@@ -381,6 +402,16 @@ const PackagesPage: React.FC = () => {
         </div>
       </section>
       </div>
+
+      {/* Booking Form Modal */}
+      {selectedPackage && (
+        <PackageBookingForm
+          packageType={selectedPackage.title}
+          packageName={selectedPackage.title}
+          packageDuration={selectedPackage.duration}
+          onClose={handleCloseBooking}
+        />
+      )}
     </div>
   );
 };

@@ -6,14 +6,8 @@ import Link from 'next/link';
 import { 
   FiWifi, 
   FiArrowRight,
-  MdRestaurant,
-  MdSupportAgent,
-  GiLotusFlower,
-  GiWaveSurfer,
-  FaCrown,
-  FaGift,
-  FaStar,
-  FaFire
+  FiGift,
+  FiStar
 } from 'react-icons/fi';
 import { 
   MdRestaurant as MdBreakfast,
@@ -36,8 +30,14 @@ const BookPage: React.FC = () => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
-  const handlePackageClick = (link: string) => {
-    window.location.href = link;
+  const handlePackageClick = (optionId: string) => {
+    // For yoga package, redirect to the yoga activity page
+    if (optionId === 'yoga') {
+      window.location.href = '/activities/yoga';
+    } else {
+      // For other packages, redirect to the activities page
+      window.location.href = '/activities';
+    }
   };
 
   const getIconComponent = (iconName: string, className: string = "w-6 h-6") => {
@@ -260,7 +260,7 @@ const BookPage: React.FC = () => {
                   {bookingData.packages.options.map((option, index) => (
                     <button
                       key={index}
-                      onClick={() => handlePackageClick(option.link)}
+                      onClick={() => handlePackageClick(option.id)}
                       className={`w-full rounded-xl p-6 text-white hover:brightness-110 hover:scale-[1.02] transition-all duration-300 flex items-center justify-between cursor-pointer focus:ring-2 focus:ring-yellow-500 ${
                         option.id === 'yoga' 
                           ? 'bg-gradient-to-r from-purple-500 to-pink-500'
@@ -289,7 +289,9 @@ const BookPage: React.FC = () => {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-semibold">MORE DETAILS</span>
+                        <span className="text-sm font-semibold">
+                          {option.id === 'yoga' ? 'VIEW ACTIVITY' : 'BOOK NOW'}
+                        </span>
                         <FiArrowRight className="w-4 h-4" />
                       </div>
                     </button>

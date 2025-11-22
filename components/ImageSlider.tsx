@@ -2,7 +2,7 @@
 
 import { useKeenSlider } from 'keen-slider/react';
 import Image from 'next/image';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, memo, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface ImageSliderProps {
@@ -10,7 +10,7 @@ interface ImageSliderProps {
   alt: string;
 }
 
-const ImageSlider: React.FC<ImageSliderProps> = ({ images, alt }) => {
+const ImageSlider: React.FC<ImageSliderProps> = memo(({ images, alt }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
@@ -67,17 +67,17 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, alt }) => {
     return () => clearInterval(interval);
   }, [loaded, instanceRef, isInView, isHovered]);
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     instanceRef.current?.next();
-  };
+  }, []);
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     instanceRef.current?.prev();
-  };
+  }, []);
 
-  const goToSlide = (index: number) => {
+  const goToSlide = useCallback((index: number) => {
     instanceRef.current?.moveToIdx(index);
-  };
+  }, []);
 
   return (
     <div 
@@ -107,6 +107,8 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, alt }) => {
                     className="object-cover transition-transform duration-700 ease-in-out hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     priority={index === 0}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    quality={85}
                     onError={() => {
                       setImageErrors(prev => new Set(prev).add(index));
                     }}
@@ -168,6 +170,8 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, alt }) => {
       )}
     </div>
   );
-};
+});
+
+ImageSlider.displayName = 'ImageSlider';
 
 export default ImageSlider;

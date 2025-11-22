@@ -1,7 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo, memo } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+
+// Lazy load booking form for better initial page load
+const ActivityBookingForm = dynamic(() => import('@/components/booking/ActivityBookingForm'), {
+  loading: () => null,
+  ssr: false,
+});
 
 // Types
 interface ActivityInfo {
@@ -260,31 +267,32 @@ const packagesData: Package[] = [
   }
 ];
 
-// Featured Activity Card Component
-const FeaturedActivityCard: React.FC<{ activity: Activity }> = ({ activity }) => {
+// Featured Activity Card Component - Memoized for performance
+const FeaturedActivityCard: React.FC<{ activity: Activity; onOpenBooking?: (activity: Activity) => void }> = memo(({ 
+  activity,
+  onOpenBooking 
+}) => {
   const [imageError, setImageError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [imgSrc, setImgSrc] = useState(activity.image);
 
-  const handleBooking = () => {
-    setIsLoading(true);
-    // Always go to booking page
-    setTimeout(() => {
-      setIsLoading(false);
+  const handleBooking = useCallback(() => {
+    // SURF redirects to external booking, others open form
+    if (activity.id === 'surf') {
       window.location.href = activity.primaryButton.action;
-    }, 1000);
-  };
+    } else {
+      onOpenBooking?.(activity);
+    }
+  }, [activity, onOpenBooking]);
 
-  const handleViewDetails = () => {
+  const handleViewDetails = useCallback(() => {
     // Navigate to detail page
     window.location.href = `/activities/${activity.id}`;
-  };
+  }, [activity.id]);
 
-  const handleImageError = () => {
-    console.error('Image failed to load:', imgSrc);
+  const handleImageError = useCallback(() => {
     setImageError(true);
     setImgSrc(activity.fallbackImage);
-  };
+  }, [activity.fallbackImage]);
 
   return (
     <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden mb-12">
@@ -301,9 +309,11 @@ const FeaturedActivityCard: React.FC<{ activity: Activity }> = ({ activity }) =>
               fill
               className="object-cover transition-transform duration-300 hover:scale-105"
               onError={handleImageError}
-              priority
+              priority={false}
+              loading="lazy"
+              quality={85}
               sizes="(max-width: 768px) 100vw, 50vw"
-              unoptimized={true}
+              unoptimized={activity.id === 'belly-dancing' || imgSrc.includes('belly-dancing')}
             />
             {/* Badge */}
             <div className="absolute top-4 left-4">
@@ -356,11 +366,10 @@ const FeaturedActivityCard: React.FC<{ activity: Activity }> = ({ activity }) =>
           {/* Book Button */}
           <button
             onClick={handleBooking}
-            disabled={isLoading}
-            className="w-full py-3 px-6 rounded-lg font-bold text-white transition-all duration-300 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 px-6 rounded-lg font-bold text-white transition-all duration-300 hover:shadow-lg"
             style={{ backgroundColor: '#ffc414' }}
           >
-            {isLoading ? 'BOOKING...' : activity.primaryButton.text}
+            {activity.primaryButton.text}
           </button>
 
           {/* View Details Button (only for activities with detail pages) */}
@@ -381,37 +390,43 @@ const FeaturedActivityCard: React.FC<{ activity: Activity }> = ({ activity }) =>
       </div>
     </div>
   );
-};
+});
 
-// Activity Card Component
-const ActivityCard: React.FC<{ activity: Activity }> = ({ activity }) => {
+FeaturedActivityCard.displayName = 'FeaturedActivityCard';
+
+// Activity Card Component - Memoized for performance
+const ActivityCard: React.FC<{ activity: Activity; onOpenBooking?: (activity: Activity) => void }> = memo(({ 
+  activity,
+  onOpenBooking 
+}) => {
   const [imageError, setImageError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [imgSrc, setImgSrc] = useState(activity.image);
 
-  const handleBooking = () => {
-    setIsLoading(true);
-    // Always go to booking page
-    setTimeout(() => {
-      setIsLoading(false);
+  const handleBooking = useCallback(() => {
+    // SURF redirects to external booking, others open form
+    if (activity.id === 'surf') {
       window.location.href = activity.primaryButton.action;
-    }, 1000);
-  };
+    } else {
+      onOpenBooking?.(activity);
+    }
+  }, [activity, onOpenBooking]);
 
-  const handleViewDetails = () => {
+  const handleViewDetails = useCallback(() => {
     // Navigate to detail page
     window.location.href = `/activities/${activity.id}`;
-  };
+  }, [activity.id]);
 
-  const handleImageError = () => {
-    console.error('Image failed to load:', imgSrc);
+  const handleImageError = useCallback(() => {
     setImageError(true);
     setImgSrc(activity.fallbackImage);
-  };
+  }, [activity.fallbackImage]);
 
-  const gradientStyle = activity.gradientFrom && activity.gradientTo
-    ? { background: `linear-gradient(to bottom, ${activity.gradientFrom}, ${activity.gradientTo})` }
-    : {};
+  const gradientStyle = useMemo(() => 
+    activity.gradientFrom && activity.gradientTo
+      ? { background: `linear-gradient(to bottom, ${activity.gradientFrom}, ${activity.gradientTo})` }
+      : {},
+    [activity.gradientFrom, activity.gradientTo]
+  );
 
   return (
     <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
@@ -427,8 +442,8 @@ const ActivityCard: React.FC<{ activity: Activity }> = ({ activity }) => {
           className="object-cover transition-transform duration-300 group-hover:scale-105"
           onError={handleImageError}
           loading="lazy"
+          quality={85}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          unoptimized={true}
         />
         {/* Gradient Overlay */}
         {activity.gradientFrom && activity.gradientTo && (
@@ -479,11 +494,10 @@ const ActivityCard: React.FC<{ activity: Activity }> = ({ activity }) => {
         {/* Book Button */}
         <button
           onClick={handleBooking}
-          disabled={isLoading}
-          className="w-full py-2.5 px-4 rounded-lg font-bold text-white text-sm transition-all duration-300 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-2.5 px-4 rounded-lg font-bold text-white text-sm transition-all duration-300 hover:shadow-lg"
           style={{ backgroundColor: '#ffc414' }}
         >
-          {isLoading ? 'BOOKING...' : activity.primaryButton.text}
+          {activity.primaryButton.text}
         </button>
 
         {/* View Details Button (only for activities with detail pages) */}
@@ -503,19 +517,21 @@ const ActivityCard: React.FC<{ activity: Activity }> = ({ activity }) => {
       </div>
     </div>
   );
-};
+});
 
-// Package Card Component
-const PackageCard: React.FC<{ pkg: Package }> = ({ pkg }) => {
+ActivityCard.displayName = 'ActivityCard';
+
+// Package Card Component - Memoized for performance
+const PackageCard: React.FC<{ pkg: Package }> = memo(({ pkg }) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleBooking = () => {
+  const handleBooking = useCallback(() => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
       window.location.href = `/book?package=${pkg.id}`;
     }, 1000);
-  };
+  }, [pkg.id]);
 
   return (
     <div className="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
@@ -549,13 +565,26 @@ const PackageCard: React.FC<{ pkg: Package }> = ({ pkg }) => {
       </div>
     </div>
   );
-};
+});
+
+PackageCard.displayName = 'PackageCard';
 
 // Main Activities Page Component
 const ActivitiesPage: React.FC = () => {
-  const featuredActivity = activitiesData[0]; // SURF
-  const gridActivities = activitiesData.slice(1, 5); // Sandboarding, Paradise Valley, Yoga, Belly Dancing
-  const medinaTour = activitiesData[5]; // Medina Tour
+  // Memoize data to prevent unnecessary recalculations
+  const featuredActivity = useMemo(() => activitiesData[0], []); // SURF
+  const gridActivities = useMemo(() => activitiesData.slice(1, 5), []); // Sandboarding, Paradise Valley, Yoga, Belly Dancing
+  const medinaTour = useMemo(() => activitiesData[5], []); // Medina Tour
+
+  const [selectedBookingActivity, setSelectedBookingActivity] = useState<Activity | null>(null);
+
+  const handleOpenBooking = useCallback((activity: Activity) => {
+    setSelectedBookingActivity(activity);
+  }, []);
+
+  const handleCloseBooking = useCallback(() => {
+    setSelectedBookingActivity(null);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 pt-24">
@@ -574,7 +603,7 @@ const ActivitiesPage: React.FC = () => {
       {/* Featured Activity */}
       <section className="py-12 px-6 lg:px-24">
         <div className="max-w-7xl mx-auto">
-          <FeaturedActivityCard activity={featuredActivity} />
+          <FeaturedActivityCard activity={featuredActivity} onOpenBooking={handleOpenBooking} />
         </div>
       </section>
 
@@ -583,13 +612,13 @@ const ActivitiesPage: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             {gridActivities.map((activity) => (
-              <ActivityCard key={activity.id} activity={activity} />
+              <ActivityCard key={activity.id} activity={activity} onOpenBooking={handleOpenBooking} />
             ))}
           </div>
           
           {/* Medina Tour Card - Positioned after the 2x2 grid */}
           <div className="max-w-md mx-auto lg:mx-auto">
-            <ActivityCard activity={medinaTour} />
+            <ActivityCard activity={medinaTour} onOpenBooking={handleOpenBooking} />
           </div>
         </div>
       </section>
@@ -613,6 +642,15 @@ const ActivitiesPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Booking Form Modal */}
+      {selectedBookingActivity && selectedBookingActivity.id !== 'surf' && (
+        <ActivityBookingForm
+          activityType={selectedBookingActivity.title}
+          activityName={selectedBookingActivity.title}
+          onClose={handleCloseBooking}
+        />
+      )}
     </div>
   );
 };

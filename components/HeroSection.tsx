@@ -91,6 +91,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
                         className="object-cover hover:scale-105 transition-transform duration-500"
                         sizes="(max-width: 1024px) 100vw, 50vw"
                         priority={index === 0}
+                        loading={index === 0 ? 'eager' : 'lazy'}
+                        quality={85}
+                        onError={(e) => {
+                          // Silently handle image errors
+                          const target = e.target as HTMLImageElement;
+                          if (target) {
+                            target.style.display = 'none';
+                          }
+                        }}
                       />
                     </div>
                   </div>
@@ -146,6 +155,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
                         className="object-cover hover:scale-105 transition-transform duration-500"
                         sizes="100vw"
                         priority={index === 0}
+                        loading={index === 0 ? 'eager' : 'lazy'}
+                        quality={85}
+                        onError={(e) => {
+                          // Silently handle image errors
+                          const target = e.target as HTMLImageElement;
+                          if (target) {
+                            target.style.display = 'none';
+                          }
+                        }}
                       />
                     </div>
                   </div>

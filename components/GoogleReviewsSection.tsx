@@ -81,6 +81,18 @@ const GoogleReviewsSection: React.FC<GoogleReviewsSectionProps> = ({ data }) => 
                       width={48}
                       height={48}
                       className="rounded-full object-cover"
+                      loading="lazy"
+                      onError={(e) => {
+                        // Fallback to initials if image fails
+                        const target = e.target as HTMLImageElement;
+                        if (target && target.parentElement) {
+                          target.style.display = 'none';
+                          const fallback = document.createElement('div');
+                          fallback.className = 'w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center';
+                          fallback.innerHTML = `<span class="text-gray-600 font-semibold text-lg">${review.author.name.charAt(0)}</span>`;
+                          target.parentElement.appendChild(fallback);
+                        }
+                      }}
                     />
                   ) : (
                     <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">

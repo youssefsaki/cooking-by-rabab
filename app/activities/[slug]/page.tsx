@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ChevronRight, MapPin, Calendar } from 'lucide-react';
 import ActivityGallery from '@/components/ActivityGallery';
+import ActivityBookingForm from '@/components/booking/ActivityBookingForm';
 import activityDetailsData from '@/data/activity-details.json';
 
 const activityDetails = activityDetailsData as Record<string, any>;
@@ -14,8 +15,7 @@ const ActivityDetailPage = () => {
   const slug = params?.slug as string;
   const activity = activityDetails[slug as keyof typeof activityDetails];
 
-  const [selectedDate, setSelectedDate] = useState<string>('');
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showBookingForm, setShowBookingForm] = useState(false);
 
   if (!activity) {
     return (
@@ -31,8 +31,7 @@ const ActivityDetailPage = () => {
   }
 
   const handleChooseDate = () => {
-    // For now, redirect to booking page with activity
-    window.location.href = `/book?activity=${activity.id}`;
+    setShowBookingForm(true);
   };
 
   return (
@@ -79,7 +78,7 @@ const ActivityDetailPage = () => {
             <section className="mb-8 bg-white rounded-xl p-6 shadow-sm">
               <h2 className="text-xl font-bold text-gray-900 mb-4">Need to know info:</h2>
               <ul className="space-y-3">
-                {activity.needToKnow.map((item, index) => (
+                {activity.needToKnow.map((item: string, index: number) => (
                   <li key={index} className="flex items-start gap-3 text-gray-700">
                     <span className="text-primary mt-1">•</span>
                     <span>{item}</span>
@@ -92,7 +91,7 @@ const ActivityDetailPage = () => {
             <section className="mb-8 bg-white rounded-xl p-6 shadow-sm">
               <h2 className="text-xl font-bold text-gray-900 mb-4">Itinerary:</h2>
               <div className="space-y-2">
-                {activity.itinerary.map((item, index) => {
+                {activity.itinerary.map((item: string, index: number) => {
                   if (item.trim() === '') {
                     return <div key={index} className="h-2" />;
                   }
@@ -142,7 +141,7 @@ const ActivityDetailPage = () => {
               {/* Date Picker Placeholder */}
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Choose Dates for Booking
+                  Choose Date for Booking
                 </label>
                 <div className="relative">
                   <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
@@ -151,9 +150,8 @@ const ActivityDetailPage = () => {
                   <input
                     type="text"
                     readOnly
-                    placeholder="Choose Dates for Booking"
-                    value={selectedDate || ''}
-                    onClick={() => setShowDatePicker(!showDatePicker)}
+                    placeholder="Click to select date"
+                    onClick={handleChooseDate}
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white cursor-pointer hover:border-gray-400 transition-colors"
                   />
                 </div>
@@ -162,10 +160,18 @@ const ActivityDetailPage = () => {
               {/* Choose Date Button */}
               <button
                 onClick={handleChooseDate}
-                className="w-full py-4 px-6 rounded-lg font-bold text-white uppercase tracking-wide transition-all duration-300 hover:shadow-lg hover:opacity-90"
-                style={{ backgroundColor: '#20D4BF' }}
+                className="w-full py-4 px-6 rounded-xl font-black text-white uppercase tracking-wide transition-all duration-300 hover:shadow-xl text-lg"
+                style={{ 
+                  background: 'linear-gradient(135deg, #f59e0b 0%, #ffc414 50%, #fbbf24 100%)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.02)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
               >
-                Choose Date
+                🎯 Choose Date
               </button>
 
               {/* Additional Info */}
@@ -186,6 +192,15 @@ const ActivityDetailPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Booking Form Modal */}
+      {showBookingForm && (
+        <ActivityBookingForm
+          activityType={activity.title}
+          activityName={activity.title}
+          onClose={() => setShowBookingForm(false)}
+        />
+      )}
     </div>
   );
 };

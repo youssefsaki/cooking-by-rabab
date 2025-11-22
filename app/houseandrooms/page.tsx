@@ -216,6 +216,8 @@ const HouseAndRoomsPage: React.FC = () => {
                       className="object-cover transition-transform duration-700 ease-in-out hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       priority={index === 0}
+                      loading={index === 0 ? 'eager' : 'lazy'}
+                      quality={85}
                     />
                   </div>
                 ) : (

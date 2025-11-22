@@ -2,7 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Optimized imports with preload hints */
 @import 'keen-slider/keen-slider.css';
+@import 'react-datepicker/dist/react-datepicker.css';
+
+/* Image loading optimization */
+img {
+  content-visibility: auto;
+}
+
+/* Reduce layout shifts */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s ease-in-out infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
 
 /* CSS Variables for Easy Color Management - Change Primary Color Here */
 :root {
@@ -196,53 +215,77 @@
   animation: spin-slow 6s linear infinite;
 }
 
-/* Water Animation Classes */
+/* Water Animation Classes - GPU Optimized */
 .animate-water-float-1 {
   animation: water-float-1 8s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-water-float-2 {
   animation: water-float-2 10s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-water-float-3 {
   animation: water-float-3 12s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-water-float-4 {
   animation: water-float-4 9s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-water-drift-1 {
   animation: water-drift-1 7s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-water-drift-2 {
   animation: water-drift-2 11s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-water-drift-3 {
   animation: water-drift-3 9s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-water-drift-4 {
   animation: water-drift-4 13s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-water-bubble-1 {
   animation: water-bubble-1 6s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-water-bubble-2 {
   animation: water-bubble-2 8s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-water-bubble-3 {
   animation: water-bubble-3 7s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-water-bubble-4 {
   animation: water-bubble-4 9s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-pulse-glow {
@@ -464,68 +507,98 @@
   }
 }
 
-/* Cozy Animation Classes */
+/* Cozy Animation Classes - GPU Optimized */
 .animate-gradient-flow {
   background-size: 200% 200%;
   animation: gradient-flow 8s ease-in-out infinite;
+  will-change: background-position, transform;
+  transform: translateZ(0);
 }
 
 .animate-gradient-flow-reverse {
   background-size: 200% 200%;
   animation: gradient-flow-reverse 12s ease-in-out infinite;
+  will-change: background-position, transform;
+  transform: translateZ(0);
 }
 
 .animate-gradient-flow-slow {
   background-size: 200% 200%;
   animation: gradient-flow-slow 15s ease-in-out infinite;
+  will-change: background-position, transform;
+  transform: translateZ(0);
 }
 
 .animate-cozy-float-1 {
   animation: cozy-float-1 10s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-cozy-float-2 {
   animation: cozy-float-2 12s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-cozy-float-3 {
   animation: cozy-float-3 14s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-cozy-float-4 {
   animation: cozy-float-4 11s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-cozy-drift-1 {
   animation: cozy-drift-1 9s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-cozy-drift-2 {
   animation: cozy-drift-2 13s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-cozy-drift-3 {
   animation: cozy-drift-3 11s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-cozy-drift-4 {
   animation: cozy-drift-4 15s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-cozy-bubble-1 {
   animation: cozy-bubble-1 8s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-cozy-bubble-2 {
   animation: cozy-bubble-2 10s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-cozy-bubble-3 {
   animation: cozy-bubble-3 9s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-cozy-bubble-4 {
   animation: cozy-bubble-4 11s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .animate-cozy-glow-1 {
@@ -538,6 +611,26 @@
 
 .animate-cozy-glow-3 {
   animation: cozy-glow-3 6s ease-in-out infinite;
+}
+
+/* Booking Loader Progress Animation */
+@keyframes progress {
+  0% {
+    width: 0%;
+    transform: translateX(0);
+  }
+  50% {
+    width: 70%;
+    transform: translateX(0);
+  }
+  100% {
+    width: 100%;
+    transform: translateX(0);
+  }
+}
+
+.animate-progress {
+  animation: progress 3s ease-in-out infinite;
 }
 
 @layer base {
