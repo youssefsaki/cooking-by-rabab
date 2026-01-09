@@ -4,7 +4,7 @@
     "subtext": "SURF HOUSE",
     "href": "/",
     "image": {
-      "src": "/logo_color.webp",
+      "src": "/rabab-logo.jpg",
       "alt": "Playa Surf House Logo",
       "width": 240,
       "height": 100
@@ -12,14 +12,65 @@
   },
   "menuItems": [
     {
-      "id": "home",
-      "label": "HOME",
-      "href": "/"
+      "id": "ourstory",
+      "label": "OUR STORY",
+      "href": "/ourstory",
+      "hasDropdown": true,
+      "dropdownItems": [
+        {
+          "id": "our-philosophy",
+          "label": "Our Philosophy",
+          "href": "/ourstory/philosophy"
+        },
+        {
+          "id": "meet-the-chef",
+          "label": "Meet the Chef",
+          "href": "/ourstory/meet-the-chef"
+        },
+        {
+          "id": "our-kitchen",
+          "label": "Our Kitchen",
+          "href": "/ourstory/kitchen"
+        },
+        {
+          "id": "location",
+          "label": "Location",
+          "href": "/ourstory/location"
+        }
+      ]
     },
     {
-      "id": "rooms",
-      "label": "HOUSE & ROOMS",
-      "href": "/houseandrooms"
+      "id": "experiences",
+      "label": "EXPERIENCES",
+      "href": "/experiences",
+      "hasDropdown": true,
+      "dropdownItems": [
+        {
+          "id": "berber-heritage",
+          "label": "Berber Heritage",
+          "href": "/experiences/berber-heritage"
+        },
+        {
+          "id": "tea-ceremony",
+          "label": "Tea Ceremony",
+          "href": "/experiences/tea-ceremony"
+        },
+        {
+          "id": "tajine-masterclass",
+          "label": "Tajine Masterclass",
+          "href": "/experiences/tajine-masterclass"
+        },
+        {
+          "id": "amlou-workshop",
+          "label": "Amlou Workshop",
+          "href": "/experiences/amlou-workshop"
+        },
+        {
+          "id": "clay-oven-bread",
+          "label": "Clay Oven Bread",
+          "href": "/experiences/clay-oven-bread"
+        }
+      ]
     },
     {
       "id": "packages",
@@ -27,14 +78,9 @@
       "href": "/packages"
     },
     {
-      "id": "activities",
-      "label": "ACTIVITIES",
-      "href": "/activities"
-    },
-    {
-      "id": "contact",
-      "label": "FAQ & CONTACT",
-      "href": "/faq-contact"
+      "id": "private-groups",
+      "label": "PRIVATE GROUPS",
+      "href": "/private-groups"
     }
   ],
   "socialLinks": [
@@ -58,7 +104,7 @@
     }
   ],
   "ctaButton": {
-    "text": "BOOK YOUR STAY",
+    "text": "BOOK NOW",
     "href": "/book",
     "variant": "primary"
   }

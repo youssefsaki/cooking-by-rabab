@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
-import { Instagram, Home, Menu, X } from 'lucide-react';
+import { Instagram, Home, Menu, X, ChevronDown } from 'lucide-react';
 import { HeaderProps } from '@/types';
 import { getSocialIconName } from '@/lib/static-data';
 import { usePathname } from 'next/navigation';
@@ -24,6 +24,8 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 const Header: React.FC<HeaderProps> = ({ navigationData }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState<string | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -85,15 +87,56 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
           {/* Block 2: Navigation Links (Center) */}
           <div className="hidden lg:flex items-center gap-3 mt-1">
             {navigationData.menuItems.map((item: any) => {
-              const isActive = pathname === item.href;
+              const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
+              const hasDropdown = item.hasDropdown && item.dropdownItems?.length > 0;
+              
+              if (hasDropdown) {
+                return (
+                  <div
+                    key={item.id}
+                    className="relative group"
+                    onMouseEnter={() => setOpenDropdown(item.id)}
+                    onMouseLeave={() => setOpenDropdown(null)}
+                  >
+                    <button
+                      className={`text-sm font-bold tracking-wide transition-all duration-300 px-4 py-2 rounded-lg flex items-center gap-1 ${
+                        isActive || openDropdown === item.id
+                          ? 'text-primary bg-primary/10' 
+                          : 'text-dark-blue hover:text-primary'
+                      }`}
+                    >
+                      {item.label}
+                      <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${openDropdown === item.id ? 'rotate-180' : ''}`} />
+                    </button>
+                    
+                    {/* Dropdown Menu - with padding-top to bridge the gap */}
+                    {openDropdown === item.id && (
+                      <div className="absolute top-full left-0 pt-2 w-56 z-50">
+                        <div className="bg-white rounded-xl shadow-xl border border-gray-100 py-2">
+                          {item.dropdownItems.map((dropdownItem: any) => (
+                            <Link
+                              key={dropdownItem.id}
+                              href={dropdownItem.href}
+                              className="block px-4 py-3 text-sm font-medium text-dark-blue hover:text-primary hover:bg-primary/5 transition-colors duration-200"
+                            >
+                              {dropdownItem.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+              
               return (
                 <Link
                   key={item.id}
                   href={item.href}
-                  className={`text-sm font-bold tracking-wide transition-all duration-300 px-4 py-2 rounded-lg ${
+                  className={`text-sm font-bold tracking-wide transition-all duration-300 px-4 py-2 rounded-lg flex items-center gap-1 ${
                     isActive 
-                      ? 'text-primary bg-primary/10' 
-                      : 'text-dark-blue hover:text-primary hover:bg-primary/5'
+                      ? 'text-primary' 
+                      : 'text-dark-blue hover:text-primary'
                   }`}
                 >
                   {item.label}
@@ -150,13 +193,48 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
               {/* Mobile Navigation Links */}
               <div className="space-y-2">
                 {navigationData.menuItems.map((item: any) => {
-                  const isActive = pathname === item.href;
+                  const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
+                  const hasDropdown = item.hasDropdown && item.dropdownItems?.length > 0;
+
+                  if (hasDropdown) {
+                    return (
+                      <div key={item.id}>
+                        <button
+                          onClick={() => setMobileDropdownOpen(mobileDropdownOpen === item.id ? null : item.id)}
+                          className={`flex items-center justify-between w-full text-sm font-black tracking-wide transition-colors duration-200 py-2 px-4 rounded-lg ${
+                            isActive 
+                              ? 'text-primary bg-primary/10' 
+                              : 'text-dark-blue hover:text-primary hover:bg-primary/5'
+                          }`}
+                        >
+                          {item.label}
+                          <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileDropdownOpen === item.id ? 'rotate-180' : ''}`} />
+                        </button>
+                        
+                        {/* Mobile Dropdown */}
+                        {mobileDropdownOpen === item.id && (
+                          <div className="ml-4 mt-2 space-y-1 border-l-2 border-primary/20 pl-4">
+                            {item.dropdownItems.map((dropdownItem: any) => (
+                              <Link
+                                key={dropdownItem.id}
+                                href={dropdownItem.href}
+                                className="block py-2 text-sm font-medium text-dark-blue hover:text-primary transition-colors duration-200"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                              >
+                                {dropdownItem.label}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
 
                   return (
                     <Link
                       key={item.id}
                       href={item.href}
-                      className={`block text-sm font-black tracking-wide transition-colors duration-200 py-2 px-4 rounded-lg ${
+                      className={`flex items-center gap-1 text-sm font-black tracking-wide transition-colors duration-200 py-2 px-4 rounded-lg ${
                         isActive 
                           ? 'text-primary bg-primary/10' 
                           : 'text-dark-blue hover:text-primary hover:bg-primary/5'

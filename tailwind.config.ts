@@ -12,16 +12,16 @@ const config: Config = {
         // Custom Colors
         'dark-blue': '#084869',
         
-        // Golden Yellow Palette
-        primary: '#ffc414',      // Golden Yellow Primary
-        secondary: '#ffd633',    // Light Golden Yellow
-        accent: '#e6b000',       // Darker Golden Yellow
+        // Warm Orange Palette
+        primary: '#f08741',      // Warm Orange Primary
+        secondary: '#f5a066',    // Light Orange
+        accent: '#d6722e',       // Darker Orange
         white: '#FFF',
         
-        // Golden Color Variations
-        'primary-dark': '#e6b000',  // Darker Golden Yellow
-        'primary-light': '#ffd633', // Light Golden Yellow
-        'primary-pale': '#fff4cc',  // Very Light Golden Yellow
+        // Orange Color Variations
+        'primary-dark': '#d6722e',  // Darker Orange
+        'primary-light': '#f5a066', // Light Orange
+        'primary-pale': '#fef3eb',  // Very Light Orange
         
         // Warm Neutral Palette
         'warm-gray': {
@@ -48,11 +48,11 @@ const config: Config = {
         'text-secondary': '#084869',
         'text-muted': '#718096',
         
-        // Golden colors for hover effects
+        // Orange colors for hover effects
         orange: {
-          400: '#ffd633',
-          500: '#ffc414',
-          600: '#e6b000',
+          400: '#f5a066',
+          500: '#f08741',
+          600: '#d6722e',
         },
         
         // Legacy charcoal colors for compatibility

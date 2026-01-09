@@ -15,11 +15,11 @@
     "locale": "en_US"
   },
   "colors": {
-    "primary": "#ffc414",
-    "secondary": "oklch(82.8% 0.189 84.429)",
+    "primary": "#f08741",
+    "secondary": "#f5a066",
     "white": "#FFF",
-    "primary-dark": "#e6b000",
-    "primary-light": "#ffd633",
+    "primary-dark": "#d6722e",
+    "primary-light": "#f5a066",
     "secondary-dark": "oklch(70% 0.189 84.429)",
     "secondary-light": "oklch(90% 0.189 84.429)",
     "text-primary": "oklch(20% 0.05 47.604)",
