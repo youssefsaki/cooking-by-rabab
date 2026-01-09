@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { HeroProps } from '@/types';
@@ -8,76 +7,70 @@ import { HeroProps } from '@/types';
 const Hero: React.FC<HeroProps> = ({ heroData }) => {
   return (
     <section className="relative h-screen w-full overflow-hidden">
-      {/* Background Image with Cozy Overlay */}
-      <div className="absolute inset-0">
-        <Image
-          src={heroData.backgroundImage.url}
-          alt={heroData.backgroundImage.alt}
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-          quality={85}
-          placeholder="blur"
-          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-        />
-        {/* Cozy Warm Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/30 to-black/50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-yellow-900/20 via-transparent to-transparent" />
+      {/* Video Background - Full Cover */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="w-full h-full object-cover"
+        >
+          <source src="/hero.mp4" type="video/mp4" />
+        </video>
+        {/* Dark elegant overlay */}
+        <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 h-full flex items-center justify-center px-6 sm:px-8 lg:px-12">
-        <div className="container-custom text-center">
-          <div className="max-w-5xl mx-auto space-y-8 animate-fade-in">
-            {/* Subheading */}
-            <div className="animate-slide-up">
-              <h2 className="text-primary-light text-subheading-mobile sm:text-subheading font-medium uppercase tracking-wider drop-shadow-lg">
-                {heroData.subheading}
-              </h2>
-            </div>
+      {/* Content - Design 1: Elegant Centered */}
+      <div className="relative z-10 h-full flex flex-col items-center justify-center px-6 sm:px-8 lg:px-12">
+        <div className="text-center max-w-4xl mx-auto">
+          
+          {/* Decorative Line */}
+          <div className="flex items-center justify-center gap-4 mb-8 animate-fade-in">
+            <div className="w-16 h-[1px] bg-primary"></div>
+            <span className="text-primary text-sm font-medium tracking-[0.3em] uppercase">
+              {heroData.subheading}
+            </span>
+            <div className="w-16 h-[1px] bg-primary"></div>
+          </div>
 
-            {/* Main Heading */}
-            <div className="animate-slide-up" style={{ animationDelay: '0.2s' }}>
-              <h1 className="text-white text-hero-mobile sm:text-hero-tablet lg:text-hero font-extrabold uppercase leading-tight drop-shadow-2xl">
-                {heroData.heading}
-              </h1>
-            </div>
+          {/* Main Heading - Elegant Typography */}
+          <h1 className="text-white text-5xl sm:text-6xl lg:text-8xl font-light tracking-tight mb-8 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <span className="block font-extralight italic">Cook</span>
+            <span className="block font-bold uppercase tracking-wider mt-2">Like a Local</span>
+          </h1>
 
-            {/* Description */}
-            <div className="animate-slide-up" style={{ animationDelay: '0.4s' }}>
-              <p className="text-white/95 text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto mt-8 drop-shadow-lg">
-                {heroData.description}
-              </p>
-            </div>
+          {/* Thin Separator */}
+          <div className="w-24 h-[2px] bg-primary mx-auto mb-8 animate-fade-in" style={{ animationDelay: '0.3s' }}></div>
 
-            {/* CTA Buttons */}
-            <div className="animate-slide-up" style={{ animationDelay: '0.6s' }}>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-12">
-                {heroData.ctaButtons.map((button: any) => (
-                  <Link
-                    key={button.text}
-                    href={button.href}
-                    className={`text-lg px-10 py-4 min-w-[240px] sm:min-w-[260px] rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl ${
-                      button.variant === 'primary' 
-                        ? 'bg-primary hover:bg-primary-dark text-white shadow-lg' 
-                        : 'bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white/20 hover:border-white/50'
-                    }`}
-                  >
-                    {button.text}
-                  </Link>
-                ))}
-              </div>
-            </div>
+          {/* Description */}
+          <p className="text-white/80 text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto mb-12 font-light animate-slide-up" style={{ animationDelay: '0.4s' }}>
+            {heroData.description}
+          </p>
+
+          {/* Single Prominent CTA */}
+          <div className="animate-slide-up" style={{ animationDelay: '0.6s' }}>
+            <Link
+              href="/book"
+              className="inline-block bg-primary hover:bg-primary-dark text-dark-blue px-12 py-5 text-lg font-bold uppercase tracking-widest transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+            >
+              Book Your Experience
+            </Link>
+            <p className="text-white/50 text-sm mt-6 tracking-wide">
+              or <Link href="/experiences" className="text-primary hover:text-primary-light underline underline-offset-4 transition-colors">explore our classes</Link>
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Scroll Indicator - Minimal */}
       {heroData.scrollIndicator.enabled && (
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
+        <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2">
+          <div className="flex flex-col items-center gap-2 animate-bounce">
+            <span className="text-white/40 text-xs uppercase tracking-widest">Scroll</span>
+            <div className="w-[1px] h-8 bg-white/40"></div>
           </div>
         </div>
       )}
