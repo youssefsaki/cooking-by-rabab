@@ -1,0 +1,82 @@
+{
+  "sectionTitle": "An Authentic Journey",
+  "sectionSubtitle": "The Cooking Experience",
+  "description": "More than just a cooking class—we take you to a real traditional Moroccan home. From pickup in Taghazout to feast in an authentic setting, this is an immersive cultural experience.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Pickup & Journey",
+      "subtitle": "Your Adventure Begins",
+      "description": "We pick you up from Taghazout and take you on a scenic 15-20 minute drive through the stunning Moroccan countryside to an authentic traditional home. Watch the landscape transform as we leave the coast behind.",
+      "duration": "20 min",
+      "image": "/activities/paradise-valley.jpg",
+      "highlights": [
+        "Comfortable pickup from your location in Taghazout",
+        "Scenic drive through Moroccan villages and countryside",
+        "Learn about local culture and traditions along the way",
+        "Arrival at a genuine traditional Moroccan home"
+      ]
+    },
+    {
+      "step": 2,
+      "title": "Traditional Kitchen Tour",
+      "subtitle": "Where Magic Happens",
+      "description": "Step into an authentic Moroccan kitchen and discover the traditional tools and techniques that have been used for generations. See the wood-fired oven, traditional tagines, and the workspace where you'll create your feast.",
+      "duration": "20 min",
+      "image": "/hero2.jpg",
+      "highlights": [
+        "Traditional Moroccan welcome with fresh mint tea",
+        "Explore the authentic traditional kitchen setup",
+        "Learn about the wood-fired oven and how it works",
+        "Discover traditional cooking tools and their purposes",
+        "Meet your host and hear family cooking stories"
+      ]
+    },
+    {
+      "step": 3,
+      "title": "Hands-On Cooking",
+      "subtitle": "Recipes From Generations",
+      "description": "In a real Moroccan kitchen, learn authentic cooking techniques passed down through generations. From preparing tagine to baking fresh bread in a traditional wood-fired oven—this is cooking as it's meant to be.",
+      "duration": "90 min",
+      "image": "/hero2.jpg",
+      "highlights": [
+        "Learn traditional spice blending and preparation",
+        "Prepare authentic tagine, couscous, or seasonal dishes",
+        "Master Moroccan bread making (khobz) in wood-fired oven",
+        "Discover family recipes and cooking secrets",
+        "Cook in an authentic traditional kitchen setting"
+      ]
+    },
+    {
+      "step": 4,
+      "title": "Feast & Return",
+      "subtitle": "The Heart of Hospitality",
+      "description": "Gather around the table in a traditional Moroccan home to enjoy the incredible meal you've created. Share stories, laughter, and experience true Moroccan hospitality before we drive you back to Taghazout.",
+      "duration": "60 min + return",
+      "image": "/hero4.jpg",
+      "highlights": [
+        "Enjoy your homemade feast in an authentic setting",
+        "Traditional mint tea ceremony and Moroccan sweets",
+        "Receive your recipe booklet to recreate dishes at home",
+        "Certificate of completion",
+        "Comfortable return drive to Taghazout"
+      ]
+    }
+  ],
+  "cta": {
+    "title": "Ready to Cook Like a Local?",
+    "description": "Join us for an unforgettable culinary adventure. Perfect for all skill levels—from curious beginners to passionate food lovers. Your Moroccan cooking story starts here.",
+    "buttons": [
+      {
+        "text": "View Cooking Classes",
+        "href": "/activities",
+        "variant": "primary"
+      },
+      {
+        "text": "Book Now",
+        "href": "/book",
+        "variant": "secondary"
+      }
+    ]
+  }
+}
