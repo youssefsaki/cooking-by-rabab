@@ -8,16 +8,16 @@ import Hero from '@/components/Hero';
 // import HeroSection from '@/components/HeroSectionV2';
 // Design 3: Minimalist Modern Split
 import HeroSection from '@/components/HeroSectionV3';
-import RoomsSection from '@/components/RoomsSection';
+// Design 4: Horizontal Scroll Gallery
+import PackagesSection from '@/components/PackagesSectionV4';
 import GoogleReviewsSection from '@/components/GoogleReviewsSection';
 import Footer from '@/components/Footer';
-import { getStaticNavigationData, getStaticHeroData, getStaticHeroSectionData, getStaticRoomsSectionData, getStaticGoogleReviewsData, getStaticFooterData } from '@/lib/static-data';
+import { getStaticNavigationData, getStaticHeroData, getStaticHeroSectionData, getStaticGoogleReviewsData, getStaticFooterData } from '@/lib/static-data';
 
 export default function HomePage() {
   const navigationData = getStaticNavigationData();
   const heroData = getStaticHeroData();
   const heroSectionData = getStaticHeroSectionData();
-  const roomsSectionData = getStaticRoomsSectionData();
   const googleReviewsData = getStaticGoogleReviewsData();
   const footerData = getStaticFooterData();
 
@@ -26,7 +26,7 @@ export default function HomePage() {
       <Header navigationData={navigationData} />
       <Hero heroData={heroData} />
       <HeroSection data={heroSectionData} />
-      <RoomsSection data={roomsSectionData} />
+      <PackagesSection />
       <GoogleReviewsSection data={googleReviewsData} />
       <Footer data={footerData} />
     </main>
