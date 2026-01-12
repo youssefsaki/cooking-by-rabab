@@ -1,35 +1,48 @@
 {
-  "title": "OUR HOUSE,\nYOUR HOME.",
-  "subtitle": "Make lifetime friends, enjoy our relaxed vibe and feel at home immediately.",
+  "tagline": "Authentic Amazigh Experience",
+  "title": "Cook Like a Local,\nTaste the Amazigh Soul",
+  "subtitle": "Learn centuries-old recipes from Berber women who have been cooking these dishes for generations. More than a class — it's a journey into Morocco's culinary heart.",
   "features": [
     {
-      "icon": "FaMapMarkerAlt",
-      "title": "TAMRAGHT",
-      "description": "Located in the center of the surf area, for surfers looking for a relaxed vibe close to many surf spots.",
-      "link": "https://www.google.com/maps/place/Playa+Surf+House+Restaurant+%7C+Cafe/@30.5134845,-9.6807555,17z/data=!3m1!4b1!4m9!3m8!1s0xdb3b3dd1858d343:0x26ddc670aa799c34!5m2!4m1!1i2!8m2!3d30.5134845!4d-9.6807555!16s%2Fg%2F11m5v2n3x6?entry=ttu&g_ep=EgoyMDI1MTAyMi4wIKXMDSoASAFQAw%3D%3D"
+      "icon": "GiBread",
+      "title": "Traditional Bread",
+      "description": "Knead & bake authentic Moroccan bread"
     },
     {
-      "icon": "FaCalendarAlt",
-      "title": "BOOK OUR ROOMS",
-      "description": "We offer private rooms or a bed in a shared dorm."
+      "icon": "GiCookingPot",
+      "title": "Tagine Secrets",
+      "description": "Master the art of slow-cooked tagine"
+    },
+    {
+      "icon": "GiSpices",
+      "title": "Spice Journey",
+      "description": "Discover aromatic Berber spice blends"
     }
   ],
   "cta": {
-    "text": "BOOK YOUR STAY",
+    "text": "Book Your Class",
     "link": "/book"
   },
-  "images": [
-    {
-      "src": "/hero1.jpg",
-      "alt": "Bright white-walled room with wooden bunk bed"
+  "secondaryCta": {
+    "text": "See Our Menu",
+    "link": "/activities"
+  },
+  "images": {
+    "main": {
+      "src": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80",
+      "alt": "Hands kneading traditional Moroccan bread dough"
     },
-    {
-      "src": "/hero2.jpg",
-      "alt": "Warm communal dining scene with diverse group sharing meal"
+    "secondary": {
+      "src": "https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?w=600&q=80",
+      "alt": "Traditional Moroccan tagine cooking"
     },
-    {
-      "src": "/hero3.jpg",
-      "alt": "Modern minimalist private bedroom with double bed"
+    "tertiary": {
+      "src": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&q=80",
+      "alt": "Colorful Moroccan spices in market"
+    },
+    "accent": {
+      "src": "https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?w=800&q=80",
+      "alt": "Group of friends cooking together"
     }
-  ]
+  }
 }

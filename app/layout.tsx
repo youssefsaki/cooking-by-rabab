@@ -52,6 +52,10 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        {/* Preload hero video for faster loading */}
+        <link rel="preload" href="/hero.mp4" as="video" type="video/mp4" />
+      </head>
       <body className={`${robotoCondensed.variable} font-sans`}>
         <ErrorSuppressor />
         <Header navigationData={navigationData} />

@@ -2,7 +2,12 @@
 
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
-import HeroSection from '@/components/HeroSection';
+// Design 1: Warm Bento Grid
+// import HeroSection from '@/components/HeroSection';
+// Design 2: Dark Cinematic Editorial
+// import HeroSection from '@/components/HeroSectionV2';
+// Design 3: Minimalist Modern Split
+import HeroSection from '@/components/HeroSectionV3';
 import RoomsSection from '@/components/RoomsSection';
 import GoogleReviewsSection from '@/components/GoogleReviewsSection';
 import Footer from '@/components/Footer';
