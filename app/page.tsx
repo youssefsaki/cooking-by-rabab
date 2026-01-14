@@ -32,7 +32,12 @@ import PhotoGallery from '@/components/PhotoGallery';
 // import PhotoGallery from '@/components/PhotoGalleryV2';
 // Photo Gallery - Design 3: Instagram-Style Grid with Hover Cards
 // import PhotoGallery from '@/components/PhotoGalleryV3';
-import GoogleReviewsSection from '@/components/GoogleReviewsSection';
+// Google Reviews - Design 1: Card Grid
+// import GoogleReviewsSection from '@/components/GoogleReviewsSection';
+// Google Reviews - Design 2: Testimonial Carousel
+import GoogleReviewsSection from '@/components/GoogleReviewsSectionV2';
+// Google Reviews - Design 3: Horizontal Scroll with Stats
+// import GoogleReviewsSection from '@/components/GoogleReviewsSectionV3';
 import MeetTheTeam from '@/components/MeetTheTeam';
 import FAQSection from '@/components/FAQSection';
 import LocationMap from '@/components/LocationMap';
