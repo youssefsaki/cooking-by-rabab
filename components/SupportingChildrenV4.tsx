@@ -96,10 +96,10 @@ const SupportingChildrenV4: React.FC = memo(() => {
       {/* Quote Bar */}
       <div className="bg-gray-900 py-10 lg:py-12">
         <div className="max-w-5xl mx-auto px-6 lg:px-12 text-center">
-          <div className="text-4xl text-amber-500 font-serif mb-4">"</div>
+          <div className="text-4xl text-amber-500 font-serif mb-4">&ldquo;</div>
           <blockquote className="text-xl lg:text-2xl text-white font-medium italic mb-4 leading-relaxed">
             In Amazigh culture, we believe cooking is not just about food – 
-            it's about nourishing our community. When you cook with me, 
+            it&apos;s about nourishing our community. When you cook with me, 
             you become part of our village family.
           </blockquote>
           <cite className="text-amber-400 font-bold not-italic">— Rabab</cite>
