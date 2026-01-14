@@ -193,6 +193,7 @@ const PackagesV3: React.FC = memo(() => {
               src={selectedPackage.image}
               alt={selectedPackage.name}
               fill
+              loading="lazy"
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />

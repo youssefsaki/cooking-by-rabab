@@ -40,6 +40,7 @@ const FAQSection = dynamic(() => import('@/components/FAQSectionV3'), {
 
 const LocationMap = dynamic(() => import('@/components/LocationMapV3'), {
   loading: () => <div className="min-h-[600px] bg-amber-50 animate-pulse" />,
+  ssr: false,
 });
 
 const PrivateGroupsCTA = dynamic(() => import('@/components/PrivateGroupsCTA'), {

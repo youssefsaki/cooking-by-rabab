@@ -158,6 +158,7 @@ const ActivitiesShowcaseV4: React.FC = memo(() => {
                         src={experience.image}
                         alt={experience.title}
                         fill
+                        loading="lazy"
                         className={`object-cover transition-transform duration-700 ${
                           isHovered ? 'scale-110' : 'scale-100'
                         }`}

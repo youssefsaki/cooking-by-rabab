@@ -10,8 +10,8 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
     // Longer cache time for production
     minimumCacheTTL: 31536000, // 1 year
-    // Enable optimization in all environments
-    unoptimized: false,
+    // Disable image optimization to avoid hydration mismatch and slow dev loading
+    unoptimized: true,
   },
   // Performance optimizations
   swcMinify: true,

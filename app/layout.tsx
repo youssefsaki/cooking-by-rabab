@@ -51,11 +51,15 @@ export default function RootLayout({
   const navigationData = getStaticNavigationData();
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Preconnect for faster loading */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.google.com" />
+        <link rel="dns-prefetch" href="https://maps.googleapis.com" />
       </head>
-      <body className={`${robotoCondensed.variable} font-sans`}>
+      <body className={`${robotoCondensed.variable} font-sans antialiased`} suppressHydrationWarning>
         <ErrorSuppressor />
         <Header navigationData={navigationData} />
         <main className="overflow-x-hidden">

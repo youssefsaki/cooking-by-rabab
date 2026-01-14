@@ -2,7 +2,6 @@
 
 import React, { memo } from 'react';
 import { FiMapPin, FiNavigation, FiClock, FiPhone, FiMail, FiSend, FiArrowRight } from 'react-icons/fi';
-import Image from 'next/image';
 
 /**
  * LOCATION & MAP SECTION - Design 3 of 3
@@ -60,6 +59,8 @@ const journeySteps = [
 ];
 
 const LocationMapV3: React.FC = memo(() => {
+  // Component rendered client-side only (ssr: false in dynamic import)
+
   return (
     <section className="relative py-20 lg:py-32 overflow-hidden bg-gradient-to-b from-amber-50 via-white to-amber-50">
       {/* Background Pattern */}
@@ -141,7 +142,7 @@ const LocationMapV3: React.FC = memo(() => {
           <div className="lg:col-span-3 order-1 lg:order-2 space-y-6">
             {/* Map Card */}
             <div className="bg-white rounded-3xl overflow-hidden shadow-2xl border border-gray-100">
-              <div className="h-[350px] lg:h-[400px]">
+              <div className="h-[350px] lg:h-[400px] bg-gradient-to-br from-amber-100 to-orange-50">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d54451.77554183893!2d-9.761569!3d30.523589!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdb3c8b8e9b8e8e8%3A0x8e8e8e8e8e8e8e8!2sTamraght%2C%20Morocco!5e0!3m2!1sen!2s!4v1234567890"
                   width="100%"
@@ -151,7 +152,7 @@ const LocationMapV3: React.FC = memo(() => {
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   title="Location Map"
-                ></iframe>
+                />
               </div>
               
               {/* Map Footer */}

@@ -2,8 +2,8 @@
   "subheading": "TRADITIONAL AMAZIGH CUISINE",
   "heading": "AUTHENTIC MOROCCAN COOKING",
   "description": "Join Rabab in her traditional home and discover the secrets of authentic Amazigh cuisine. From handmade bread to aromatic tagines, experience cooking the way it's been done for generations.",
-  "backgroundVideo": {
-    "url": "/hero.mp4",
+  "backgroundImage": {
+    "url": "/gallery/cooking-class.jpg",
     "alt": "Traditional Moroccan cooking experience"
   },
   "ctaButtons": [
