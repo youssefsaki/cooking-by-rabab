@@ -1,134 +1,143 @@
 {
   "logo": {
-    "text": "RABAB'S",
-    "subtext": "COOKING CLASS",
+    "text": "PLAYA",
+    "subtext": "SURF HOUSE",
     "href": "/",
     "image": {
       "src": "/rabab-logo.jpg",
-      "alt": "Rabab's Cooking Class Logo",
+      "alt": "Playa Surf House Logo",
       "width": 240,
       "height": 100
     }
   },
   "menuItems": [
     {
-      "id": "home",
-      "label": "HOME",
-      "href": "/"
-    },
-    {
-      "id": "our-story",
+      "id": "ourstory",
       "label": "OUR STORY",
-      "href": "#our-story",
+      "href": "/ourstory",
       "hasDropdown": true,
       "dropdownItems": [
         {
-          "id": "meet-rabab",
-          "label": "Meet Rabab",
-          "href": "#meet-rabab"
+          "id": "our-philosophy",
+          "label": "Our Philosophy",
+          "href": "/ourstory/philosophy"
         },
         {
-          "id": "the-experience",
-          "label": "The Experience",
-          "href": "#the-experience"
+          "id": "meet-the-chef",
+          "label": "Meet the Chef",
+          "href": "/ourstory/meet-the-chef"
         },
         {
-          "id": "our-mission",
-          "label": "Our Mission",
-          "href": "#supporting-children"
+          "id": "our-kitchen",
+          "label": "Our Kitchen",
+          "href": "/ourstory/kitchen"
+        },
+        {
+          "id": "location",
+          "label": "Location",
+          "href": "/ourstory/location"
         }
       ]
     },
     {
       "id": "experiences",
       "label": "EXPERIENCES",
-      "href": "#experiences",
+      "href": "/experiences",
       "hasDropdown": true,
       "dropdownItems": [
         {
-          "id": "tagine-masterclass",
-          "label": "Tagine Masterclass",
-          "href": "#experiences"
-        },
-        {
-          "id": "bread-making",
-          "label": "Traditional Bread Making",
-          "href": "#experiences"
+          "id": "berber-heritage",
+          "label": "Berber Heritage",
+          "href": "/experiences/berber-heritage"
         },
         {
           "id": "tea-ceremony",
-          "label": "Moroccan Tea Ceremony",
-          "href": "#experiences"
+          "label": "Tea Ceremony",
+          "href": "/experiences/tea-ceremony"
         },
         {
-          "id": "full-experience",
-          "label": "Full Day Experience",
-          "href": "#experiences"
+          "id": "tajine-masterclass",
+          "label": "Tajine Masterclass",
+          "href": "/experiences/tajine-masterclass"
+        },
+        {
+          "id": "amlou-workshop",
+          "label": "Amlou Workshop",
+          "href": "/experiences/amlou-workshop"
+        },
+        {
+          "id": "clay-oven-bread",
+          "label": "Clay Oven Bread",
+          "href": "/experiences/clay-oven-bread"
         }
       ]
     },
     {
       "id": "packages",
       "label": "PACKAGES",
-      "href": "#packages",
-      "hasDropdown": true,
-      "dropdownItems": [
-        {
-          "id": "basic",
-          "label": "Basic Package",
-          "href": "#packages"
-        },
-        {
-          "id": "premium",
-          "label": "Premium Package",
-          "href": "#packages"
-        },
-        {
-          "id": "private",
-          "label": "Private Groups",
-          "href": "#packages"
-        }
-      ]
+      "href": "/packages"
     },
     {
-      "id": "gallery",
-      "label": "GALLERY",
-      "href": "#gallery"
-    },
-    {
-      "id": "reviews",
-      "label": "REVIEWS",
-      "href": "#reviews"
-    },
-    {
-      "id": "faq",
-      "label": "FAQ",
-      "href": "/faq-contact"
+      "id": "private-groups",
+      "label": "PRIVATE GROUPS",
+      "href": "/private-groups"
     }
   ],
   "socialLinks": [
     {
       "platform": "instagram",
-      "url": "https://instagram.com/rababs_cooking",
+      "url": "#",
       "icon": "Instagram",
       "ariaLabel": "Visit our Instagram page"
     },
     {
-      "platform": "facebook",
-      "url": "https://facebook.com/rababscooking",
-      "icon": "Facebook",
-      "ariaLabel": "Visit our Facebook page"
-    },
-    {
       "platform": "tiktok",
-      "url": "https://tiktok.com/@rababscooking",
+      "url": "#",
       "icon": "TikTok",
       "ariaLabel": "Visit our TikTok page"
+    },
+    {
+      "platform": "facebook",
+      "url": "#",
+      "icon": "Facebook",
+      "ariaLabel": "Visit our Facebook page"
     }
   ],
   "ctaButton": {
     "text": "BOOK NOW",
-    "href": "https://wa.me/212661736563?text=Hi%20Rabab!%20I%20would%20like%20to%20book%20a%20cooking%20class.",
-    "variant": "primary"
+    "href": "/book",
+    "variant": "primary",
+    "hasDropdown": true,
+    "dropdownItems": [
+      {
+        "id": "basic",
+        "label": "Basic",
+        "price": "€75",
+        "description": "Essential cooking experience",
+        "href": "/book?package=basic"
+      },
+      {
+        "id": "medium",
+        "label": "Signature",
+        "price": "€95",
+        "description": "Our most popular package",
+        "href": "/book?package=medium",
+        "popular": true
+      },
+      {
+        "id": "premium",
+        "label": "Premium",
+        "price": "€150",
+        "description": "Complete culinary journey",
+        "href": "/book?package=premium"
+      },
+      {
+        "id": "private-chef",
+        "label": "Private Chef",
+        "price": "€250",
+        "description": "Exclusive private experience",
+        "href": "/book?package=private-chef"
+      }
+    ]
   }
 }

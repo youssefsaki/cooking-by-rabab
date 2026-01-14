@@ -4,10 +4,22 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
-import { Instagram, Home, Menu, X, ChevronDown } from 'lucide-react';
+import { Instagram, Home, Menu, X, ChevronDown, Sparkles, Star, Crown } from 'lucide-react';
 import { HeaderProps } from '@/types';
 import { getSocialIconName } from '@/lib/static-data';
 import { usePathname } from 'next/navigation';
+
+// =====================================================
+// BOOK NOW DROPDOWN DESIGN SELECTOR
+// Change this value to switch between designs: 1, 2, or 3
+// =====================================================
+const BOOK_NOW_DROPDOWN_DESIGN = 1;
+
+// =====================================================
+// MOBILE BOOK NOW DESIGN SELECTOR
+// Change this value to switch between designs: 1, 2, or 3
+// =====================================================
+const MOBILE_BOOK_NOW_DESIGN = 1;
 
 // Custom TikTok icon component
 const TikTokIcon = ({ className }: { className?: string }) => (
@@ -26,6 +38,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState<string | null>(null);
+  const [ctaDropdownOpen, setCtaDropdownOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -166,10 +179,131 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
               })}
             </div>
 
-            {/* CTA Button */}
+            {/* CTA Button with Dropdown */}
+            {navigationData.ctaButton.hasDropdown ? (
+              <div 
+                className="relative"
+                onMouseEnter={() => setCtaDropdownOpen(true)}
+                onMouseLeave={() => setCtaDropdownOpen(false)}
+              >
+                <button className="btn-primary text-sm flex items-center gap-2">
+                  {navigationData.ctaButton.text}
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${ctaDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {/* DESIGN 1: Clean Card Grid */}
+                {ctaDropdownOpen && BOOK_NOW_DROPDOWN_DESIGN === 1 && (
+                  <div className="absolute top-full right-0 pt-3 w-80 z-50">
+                    <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+                      <div className="bg-gradient-to-r from-amber-500 to-orange-500 px-4 py-3">
+                        <p className="text-white font-bold text-sm">Choose Your Experience</p>
+                      </div>
+                      <div className="p-2">
+                        {navigationData.ctaButton.dropdownItems?.map((item: any) => (
+                          <Link
+                            key={item.id}
+                            href={item.href}
+                            className={`block p-3 rounded-xl transition-all duration-200 hover:bg-amber-50 group ${item.popular ? 'bg-amber-50/50 ring-1 ring-amber-200' : ''}`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <span className="font-bold text-gray-900 group-hover:text-amber-600">{item.label}</span>
+                                  {item.popular && (
+                                    <span className="px-2 py-0.5 bg-amber-500 text-white text-xs font-bold rounded-full">Popular</span>
+                                  )}
+                                </div>
+                                <p className="text-xs text-gray-500 mt-0.5">{item.description}</p>
+                              </div>
+                              <span className="text-lg font-black text-amber-600">{item.price}</span>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                      <div className="border-t border-gray-100 px-4 py-3 bg-gray-50">
+                        <Link href="/packages" className="text-xs text-amber-600 font-semibold hover:underline">
+                          View all package details →
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* DESIGN 2: Elegant List with Icons */}
+                {ctaDropdownOpen && BOOK_NOW_DROPDOWN_DESIGN === 2 && (
+                  <div className="absolute top-full right-0 pt-3 w-72 z-50">
+                    <div className="bg-gray-900 rounded-2xl shadow-2xl overflow-hidden border border-gray-800">
+                      <div className="p-4 border-b border-gray-800">
+                        <p className="text-amber-400 font-bold text-sm tracking-wide uppercase">Select Package</p>
+                      </div>
+                      <div className="py-2">
+                        {navigationData.ctaButton.dropdownItems?.map((item: any, index: number) => {
+                          const icons = [Sparkles, Star, Crown, Star];
+                          const IconComponent = icons[index] || Star;
+                          return (
+                            <Link
+                              key={item.id}
+                              href={item.href}
+                              className="flex items-center gap-4 px-4 py-3 hover:bg-gray-800 transition-colors group"
+                            >
+                              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${item.popular ? 'bg-amber-500' : 'bg-gray-800 group-hover:bg-gray-700'}`}>
+                                <IconComponent className={`w-5 h-5 ${item.popular ? 'text-white' : 'text-amber-400'}`} />
+                              </div>
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2">
+                                  <span className="font-bold text-white">{item.label}</span>
+                                  {item.popular && <span className="text-xs text-amber-400">★ Best Value</span>}
+                                </div>
+                                <p className="text-xs text-gray-400">{item.description}</p>
+                              </div>
+                              <span className="text-amber-400 font-black">{item.price}</span>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                      <div className="p-4 bg-gray-800/50">
+                        <Link href="/packages" className="block text-center text-sm text-white bg-amber-500 hover:bg-amber-600 py-2 rounded-lg font-bold transition-colors">
+                          Compare All Packages
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* DESIGN 3: Compact Pills */}
+                {ctaDropdownOpen && BOOK_NOW_DROPDOWN_DESIGN === 3 && (
+                  <div className="absolute top-full right-0 pt-3 w-64 z-50">
+                    <div className="bg-white rounded-xl shadow-2xl border border-gray-200 p-4">
+                      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Quick Book</p>
+                      <div className="space-y-2">
+                        {navigationData.ctaButton.dropdownItems?.map((item: any) => (
+                          <Link
+                            key={item.id}
+                            href={item.href}
+                            className={`flex items-center justify-between p-3 rounded-lg border-2 transition-all duration-200 hover:border-amber-400 hover:bg-amber-50 ${item.popular ? 'border-amber-400 bg-amber-50' : 'border-gray-100'}`}
+                          >
+                            <div className="flex items-center gap-2">
+                              {item.popular && <span className="text-amber-500">⭐</span>}
+                              <span className={`font-bold ${item.popular ? 'text-amber-700' : 'text-gray-700'}`}>{item.label}</span>
+                            </div>
+                            <span className={`font-black ${item.popular ? 'text-amber-600' : 'text-gray-600'}`}>{item.price}</span>
+                          </Link>
+                        ))}
+                      </div>
+                      <div className="mt-3 pt-3 border-t border-gray-100">
+                        <Link href="/packages" className="text-xs text-center block text-amber-600 font-semibold hover:underline">
+                          See full package details
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
             <Link href={navigationData.ctaButton.href} className="btn-primary text-sm">
               {navigationData.ctaButton.text}
             </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -266,8 +400,127 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                 })}
               </div>
 
-              {/* Mobile CTA Button */}
+              {/* Mobile CTA Button with Packages */}
               <div className="pt-4">
+                {navigationData.ctaButton.hasDropdown ? (
+                  <>
+                    {/* MOBILE DESIGN 1: Card Stack */}
+                    {MOBILE_BOOK_NOW_DESIGN === 1 && (
+                      <div className="space-y-3 px-2">
+                        <div className="flex items-center justify-between px-2">
+                          <p className="text-sm font-bold text-gray-900">Book Your Experience</p>
+                          <span className="text-xs text-gray-500">4 packages</span>
+                        </div>
+                        <div className="space-y-2">
+                          {navigationData.ctaButton.dropdownItems?.map((item: any) => (
+                            <Link
+                              key={item.id}
+                              href={item.href}
+                              className={`block p-4 rounded-xl transition-all active:scale-[0.98] ${
+                                item.popular 
+                                  ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg' 
+                                  : 'bg-gray-50 border border-gray-200'
+                              }`}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <div className="flex items-center gap-2">
+                                    <span className={`font-bold ${item.popular ? 'text-white' : 'text-gray-900'}`}>{item.label}</span>
+                                    {item.popular && <span className="text-xs bg-white/20 text-white px-2 py-0.5 rounded-full">★ Popular</span>}
+                                  </div>
+                                  <p className={`text-xs mt-1 ${item.popular ? 'text-white/80' : 'text-gray-500'}`}>{item.description}</p>
+                                </div>
+                                <span className={`text-xl font-black ${item.popular ? 'text-white' : 'text-amber-600'}`}>{item.price}</span>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                        <Link
+                          href="/packages"
+                          className="block text-center text-sm text-amber-600 font-semibold py-3 border-t border-gray-100"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          Compare all packages →
+                        </Link>
+                      </div>
+                    )}
+
+                    {/* MOBILE DESIGN 2: Horizontal Scroll Cards */}
+                    {MOBILE_BOOK_NOW_DESIGN === 2 && (
+                      <div className="space-y-3">
+                        <p className="text-sm font-bold text-gray-900 px-4">Select Package</p>
+                        <div className="flex gap-3 overflow-x-auto pb-3 px-4 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                          {navigationData.ctaButton.dropdownItems?.map((item: any) => (
+                            <Link
+                              key={item.id}
+                              href={item.href}
+                              className={`flex-shrink-0 w-36 snap-start rounded-2xl p-4 transition-all active:scale-[0.98] ${
+                                item.popular 
+                                  ? 'bg-gray-900 text-white' 
+                                  : 'bg-white border-2 border-gray-200'
+                              }`}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                              <div className="text-center">
+                                {item.popular && <span className="text-amber-400 text-xs font-bold">⭐ BEST VALUE</span>}
+                                <p className={`text-2xl font-black mt-1 ${item.popular ? 'text-amber-400' : 'text-amber-600'}`}>{item.price}</p>
+                                <p className={`font-bold text-sm mt-2 ${item.popular ? 'text-white' : 'text-gray-900'}`}>{item.label}</p>
+                                <p className={`text-xs mt-1 ${item.popular ? 'text-gray-400' : 'text-gray-500'}`}>{item.description}</p>
+                                <div className={`mt-3 py-2 rounded-lg text-xs font-bold ${item.popular ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-700'}`}>
+                                  Book Now
+                                </div>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                        <Link
+                          href="/packages"
+                          className="block text-center text-xs text-gray-500 py-2"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          View full package comparison
+                        </Link>
+                      </div>
+                    )}
+
+                    {/* MOBILE DESIGN 3: Compact Grid */}
+                    {MOBILE_BOOK_NOW_DESIGN === 3 && (
+                      <div className="px-4 space-y-4">
+                        <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-4 border border-amber-200">
+                          <p className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-3">🍳 Choose Your Package</p>
+                          <div className="grid grid-cols-2 gap-2">
+                            {navigationData.ctaButton.dropdownItems?.map((item: any) => (
+                              <Link
+                                key={item.id}
+                                href={item.href}
+                                className={`relative p-3 rounded-xl text-center transition-all active:scale-[0.98] ${
+                                  item.popular 
+                                    ? 'bg-amber-500 text-white shadow-md' 
+                                    : 'bg-white border border-amber-200'
+                                }`}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                              >
+                                {item.popular && (
+                                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">HOT</span>
+                                )}
+                                <p className={`text-lg font-black ${item.popular ? 'text-white' : 'text-amber-600'}`}>{item.price}</p>
+                                <p className={`text-xs font-bold mt-1 ${item.popular ? 'text-white' : 'text-gray-700'}`}>{item.label}</p>
+                              </Link>
+                            ))}
+                          </div>
+                          <Link
+                            href="/packages"
+                            className="block text-center text-xs text-amber-700 font-semibold mt-4 py-2 bg-white rounded-lg border border-amber-200"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                            See what's included →
+                          </Link>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                ) : (
                 <Link
                   href={navigationData.ctaButton.href}
                   className="btn-primary w-full text-center block"
@@ -275,6 +528,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                 >
                   {navigationData.ctaButton.text}
                 </Link>
+                )}
               </div>
             </nav>
           </div>
