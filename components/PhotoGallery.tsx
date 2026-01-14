@@ -75,16 +75,16 @@ const PhotoGallery: React.FC = memo(() => {
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-pink-100 to-rose-100 mb-6">
-            <FiCamera className="w-4 h-4 text-pink-600" />
-            <span className="text-sm font-bold text-pink-900 tracking-wider uppercase">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-100 to-orange-100 mb-6">
+            <FiCamera className="w-4 h-4 text-amber-600" />
+            <span className="text-sm font-bold text-amber-900 tracking-wider uppercase">
               Gallery
             </span>
           </div>
           
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6">
             See the{' '}
-            <span className="bg-gradient-to-r from-pink-600 via-rose-600 to-orange-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-clip-text text-transparent">
               Experience
             </span>
           </h2>
@@ -103,8 +103,8 @@ const PhotoGallery: React.FC = memo(() => {
               onClick={() => setSelectedCategory(category)}
               className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
                 selectedCategory === category
-                  ? 'bg-gradient-to-r from-pink-600 to-rose-600 text-white shadow-lg scale-105'
-                  : 'bg-white text-gray-600 hover:bg-gray-100 border-2 border-gray-200 hover:border-pink-300'
+                  ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg scale-105'
+                  : 'bg-white text-gray-600 hover:bg-gray-100 border-2 border-gray-200 hover:border-amber-300'
               }`}
             >
               {category}
@@ -147,7 +147,7 @@ const PhotoGallery: React.FC = memo(() => {
         {/* Bottom Text */}
         <div className="mt-16 text-center">
           <p className="text-gray-600 mb-6">
-            📸 Want to experience this yourself? <a href="/book" className="text-pink-600 font-semibold hover:underline">Book your cooking class today</a> and create your own delicious memories!
+            📸 Want to experience this yourself? <a href="/book" className="text-amber-600 font-semibold hover:underline">Book your cooking class today</a> and create your own delicious memories!
           </p>
         </div>
       </div>
