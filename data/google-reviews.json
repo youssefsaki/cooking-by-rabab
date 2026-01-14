@@ -1,88 +1,74 @@
 {
   "title": "WHAT OUR GUESTS SAY",
-  "subtitle": "Real experiences from travelers who stayed with us",
-  "overallRating": 4.8,
-  "totalReviews": 127,
+  "subtitle": "Real experiences from guests who cooked with Rabab",
+  "overallRating": 4.9,
+  "totalReviews": 156,
   "reviews": [
     {
       "id": "review-1",
       "author": {
-        "name": "Sarah Johnson",
+        "name": "Sophie Laurent",
         "avatar": null
       },
       "rating": 5,
-      "text": "Amazing stay! The rooms are clean and comfortable, and the staff is incredibly friendly. The location is perfect for surfing and the atmosphere is exactly what I was looking for. Will definitely come back!",
-      "date": "2024-01-15",
+      "text": "An absolutely magical experience! Rabab welcomed us into her home like family. We learned to make the most incredible tagine and fresh bread in a traditional clay oven. The flavors were unlike anything I've ever tasted. This was the highlight of our Morocco trip!",
+      "date": "2025-01-10",
       "verified": true
     },
     {
       "id": "review-2",
       "author": {
-        "name": "Marco Rodriguez",
+        "name": "James Mitchell",
         "avatar": null
       },
       "rating": 5,
-      "text": "Perfect surf house! Great vibes, clean facilities, and amazing people. The shared dorm was spacious and the private lockers were a nice touch. Highly recommend for solo travelers and groups.",
-      "date": "2024-01-08",
+      "text": "Rabab is an incredible teacher! Her passion for Amazigh cuisine is infectious. We made couscous from scratch, learned the secrets of her family's spice blends, and enjoyed the most delicious meal together. The pickup from Taghazout was seamless. Highly recommend!",
+      "date": "2025-01-05",
       "verified": true
     },
     {
       "id": "review-3",
       "author": {
-        "name": "Emma Thompson",
+        "name": "Maria Garcia",
         "avatar": null
       },
-      "rating": 4,
-      "text": "Lovely place with a great community feel. The rooms are well-maintained and the common areas are perfect for meeting other travelers. The staff helped organize surf lessons and local activities.",
-      "date": "2024-01-03",
+      "rating": 5,
+      "text": "This cooking class exceeded all expectations! Rabab's traditional kitchen is beautiful, and learning to cook authentic Moroccan dishes while hearing stories about Berber culture was unforgettable. The amlou we made was incredible - I've been craving it ever since!",
+      "date": "2024-12-28",
       "verified": true
     },
     {
       "id": "review-4",
       "author": {
-        "name": "Alex Chen",
+        "name": "Thomas Weber",
         "avatar": null
       },
       "rating": 5,
-      "text": "Best surf house in Tamraght! The location is unbeatable - close to multiple surf spots. The atmosphere is relaxed and welcoming. Great value for money and amazing memories made here.",
-      "date": "2023-12-28",
+      "text": "A truly authentic experience! Rabab's hospitality is warm and genuine. We baked bread in her wood-fired oven, prepared a lamb tagine, and learned the traditional Moroccan tea ceremony. The views of the Atlas Mountains from her village were stunning. A must-do!",
+      "date": "2024-12-20",
       "verified": true
     },
     {
       "id": "review-5",
       "author": {
-        "name": "Lisa Anderson",
+        "name": "Emily Chen",
         "avatar": null
       },
-      "rating": 5,
-      "text": "Incredible experience! The house has everything you need and the staff goes above and beyond. Perfect for both beginners and experienced surfers. The communal dinners were a highlight!",
-      "date": "2023-12-20",
+      "rating": 4,
+      "text": "Wonderful cooking experience with Rabab! She was patient and knowledgeable, teaching us family recipes passed down through generations. The food was delicious and we left with recipe cards to recreate the dishes at home. A perfect cultural immersion!",
+      "date": "2024-12-15",
       "verified": true
     },
     {
       "id": "review-6",
       "author": {
-        "name": "David Wilson",
+        "name": "Henrik Johansson",
         "avatar": null
       },
-      "rating": 4,
-      "text": "Great place to stay! Clean rooms, friendly atmosphere, and excellent location for surfing. The shared facilities are well-maintained and the staff is always helpful with local recommendations.",
-      "date": "2023-12-15",
+      "rating": 5,
+      "text": "Best experience in Morocco! Rabab's cooking class is so much more than just cooking - it's a journey into Amazigh culture and traditions. The tajine we made was perfection, and her homemade mint tea was divine. Don't miss this if you're in the area!",
+      "date": "2024-12-08",
       "verified": true
     }
   ]
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
