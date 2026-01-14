@@ -48,7 +48,12 @@ import MeetTheTeam from '@/components/MeetTheChefV2';
 // import FAQSection from '@/components/FAQSectionV2';
 // FAQ - Design 3: Minimalist Fullwidth Accordion
 import FAQSection from '@/components/FAQSectionV3';
-import LocationMap from '@/components/LocationMap';
+// Location - Design 1: Split Layout with Info Cards
+// import LocationMap from '@/components/LocationMap';
+// Location - Design 2: Fullwidth Map with Floating Cards
+// import LocationMap from '@/components/LocationMapV2';
+// Location - Design 3: Journey Timeline with Map Card
+import LocationMap from '@/components/LocationMapV3';
 import PrivateGroupsCTA from '@/components/PrivateGroupsCTA';
 import Footer from '@/components/Footer';
 import { getStaticNavigationData, getStaticHeroData, getStaticHeroSectionData, getStaticGoogleReviewsData, getStaticFooterData } from '@/lib/static-data';
