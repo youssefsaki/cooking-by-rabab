@@ -13,13 +13,13 @@ import { usePathname } from 'next/navigation';
 // BOOK NOW DROPDOWN DESIGN SELECTOR
 // Change this value to switch between designs: 1, 2, or 3
 // =====================================================
-const BOOK_NOW_DROPDOWN_DESIGN = 1;
+const BOOK_NOW_DROPDOWN_DESIGN: number = 1;
 
 // =====================================================
 // MOBILE BOOK NOW DESIGN SELECTOR
 // Change this value to switch between designs: 1, 2, or 3
 // =====================================================
-const MOBILE_BOOK_NOW_DESIGN = 1;
+const MOBILE_BOOK_NOW_DESIGN: number = 1;
 
 // Custom TikTok icon component
 const TikTokIcon = ({ className }: { className?: string }) => (
