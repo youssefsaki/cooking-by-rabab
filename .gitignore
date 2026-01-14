@@ -27,7 +27,7 @@ yarn-error.log*
 
 # local env files
 .env
-.env*.local
+.env.local
 .env.development.local
 .env.test.local
 .env.production.local
@@ -40,51 +40,24 @@ yarn-error.log*
 next-env.d.ts
 
 # Google service account keys (SENSITIVE - DO NOT COMMIT)
-*-*.json
-playa-surf-house-*.json
-*service-account*.json
-*credentials*.json
+playa-surf-house-firebase.json
+service-account.json
+google-credentials.json
 
 # IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
-*~
 
 # OS files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
 
 # Logs
 logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
 
 # Temporary files
 tmp/
 temp/
 *.tmp
-info/
-
-# Documentation
-docs/
-
-
-
-
-
-
-
-
-
-
-
