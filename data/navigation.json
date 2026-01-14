@@ -46,9 +46,9 @@
       "hasDropdown": true,
       "dropdownItems": [
         {
-          "id": "berber-heritage",
-          "label": "Berber Heritage",
-          "href": "/experiences/berber-heritage"
+          "id": "amazigh-heritage",
+          "label": "Amazigh Heritage",
+          "href": "/experiences/amazigh-heritage"
         },
         {
           "id": "tea-ceremony",

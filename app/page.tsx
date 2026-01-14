@@ -16,7 +16,22 @@ import TheExperience from '@/components/TheExperienceV2';
 // import TheExperience from '@/components/TheExperienceV3';
 // Design 4: Horizontal Scroll Gallery
 import PackagesSection from '@/components/PackagesSectionV4';
+// Cooking Classes - Design 1: Icon Grid Cards
+// import ActivitiesShowcase from '@/components/ActivitiesShowcase';
+// Cooking Classes - Design 2: Featured Carousel
+// import ActivitiesShowcase from '@/components/ActivitiesShowcaseV2';
+// Cooking Classes - Design 3: Horizontal Scroll Gallery
+// import ActivitiesShowcase from '@/components/ActivitiesShowcaseV3';
+// Cooking Classes - Design 4: Alternating Split Layout (Magazine Editorial)
+import ActivitiesShowcase from '@/components/ActivitiesShowcaseV4';
+// Cooking Classes - Design 5: Interactive Tab System
+// import ActivitiesShowcase from '@/components/ActivitiesShowcaseV5';
+import PhotoGallery from '@/components/PhotoGallery';
 import GoogleReviewsSection from '@/components/GoogleReviewsSection';
+import MeetTheTeam from '@/components/MeetTheTeam';
+import FAQSection from '@/components/FAQSection';
+import LocationMap from '@/components/LocationMap';
+import PrivateGroupsCTA from '@/components/PrivateGroupsCTA';
 import Footer from '@/components/Footer';
 import { getStaticNavigationData, getStaticHeroData, getStaticHeroSectionData, getStaticGoogleReviewsData, getStaticFooterData } from '@/lib/static-data';
 
@@ -34,7 +49,13 @@ export default function HomePage() {
       <HeroSection data={heroSectionData} />
       <TheExperience />
       <PackagesSection />
+      <ActivitiesShowcase />
+      <PhotoGallery />
       <GoogleReviewsSection data={googleReviewsData} />
+      <MeetTheTeam />
+      <FAQSection />
+      <LocationMap />
+      <PrivateGroupsCTA />
       <Footer data={footerData} />
     </main>
   );
