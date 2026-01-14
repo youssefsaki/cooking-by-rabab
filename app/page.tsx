@@ -38,8 +38,16 @@ import PhotoGallery from '@/components/PhotoGallery';
 import GoogleReviewsSection from '@/components/GoogleReviewsSectionV2';
 // Google Reviews - Design 3: Horizontal Scroll with Stats
 // import GoogleReviewsSection from '@/components/GoogleReviewsSectionV3';
-import MeetTheTeam from '@/components/MeetTheTeam';
-import FAQSection from '@/components/FAQSection';
+// Meet the Team - Design 1: Team Grid (multiple members)
+// import MeetTheTeam from '@/components/MeetTheTeam';
+// Meet the Chef - Design 2: Personal Spotlight (Rabab only)
+import MeetTheTeam from '@/components/MeetTheChefV2';
+// FAQ - Design 1: Accordion with Categories & Search
+// import FAQSection from '@/components/FAQSection';
+// FAQ - Design 2: Two-Column Card Layout
+// import FAQSection from '@/components/FAQSectionV2';
+// FAQ - Design 3: Minimalist Fullwidth Accordion
+import FAQSection from '@/components/FAQSectionV3';
 import LocationMap from '@/components/LocationMap';
 import PrivateGroupsCTA from '@/components/PrivateGroupsCTA';
 import Footer from '@/components/Footer';

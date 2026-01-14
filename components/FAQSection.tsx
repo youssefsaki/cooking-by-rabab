@@ -49,23 +49,23 @@ const FAQSection: React.FC = memo(() => {
     <section className="relative py-20 lg:py-32 overflow-hidden bg-gradient-to-b from-gray-50 to-white">
       {/* Background Decoration */}
       <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-gradient-to-br from-blue-200/40 to-indigo-200/40 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-gradient-to-br from-purple-200/40 to-pink-200/40 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-gradient-to-br from-amber-200/40 to-orange-200/40 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-gradient-to-br from-yellow-200/40 to-amber-200/40 rounded-full blur-3xl"></div>
       </div>
 
       <div className="relative max-w-5xl mx-auto px-6 lg:px-12">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 mb-6">
-            <FiHelpCircle className="w-4 h-4 text-blue-600" />
-            <span className="text-sm font-bold text-blue-900 tracking-wider uppercase">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-100 to-orange-100 mb-6">
+            <FiHelpCircle className="w-4 h-4 text-amber-600" />
+            <span className="text-sm font-bold text-amber-900 tracking-wider uppercase">
               FAQ
             </span>
           </div>
           
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6">
             Got{' '}
-            <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-clip-text text-transparent">
               Questions?
             </span>
           </h2>
@@ -84,7 +84,7 @@ const FAQSection: React.FC = memo(() => {
               placeholder="Search your question..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-14 pr-6 py-4 bg-white border-2 border-gray-200 rounded-2xl focus:border-blue-500 focus:outline-none transition-colors text-gray-900 placeholder-gray-400"
+              className="w-full pl-14 pr-6 py-4 bg-white border-2 border-gray-200 rounded-2xl focus:border-amber-500 focus:outline-none transition-colors text-gray-900 placeholder-gray-400"
             />
           </div>
         </div>
@@ -97,8 +97,8 @@ const FAQSection: React.FC = memo(() => {
               onClick={() => setActiveCategory(category)}
               className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
                 activeCategory === category
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg scale-105'
-                  : 'bg-white text-gray-600 hover:bg-gray-50 border-2 border-gray-200 hover:border-blue-300'
+                  ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg scale-105'
+                  : 'bg-white text-gray-600 hover:bg-gray-50 border-2 border-gray-200 hover:border-amber-300'
               }`}
             >
               {category}
@@ -123,7 +123,7 @@ const FAQSection: React.FC = memo(() => {
                       {faq.question}
                     </h3>
                     {openFAQ !== faq.id && (
-                      <span className="inline-block mt-2 text-xs font-semibold text-blue-600 uppercase tracking-wider">
+                      <span className="inline-block mt-2 text-xs font-semibold text-amber-600 uppercase tracking-wider">
                         {faq.category}
                       </span>
                     )}
@@ -131,7 +131,7 @@ const FAQSection: React.FC = memo(() => {
                   <div className="flex-shrink-0">
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
                       openFAQ === faq.id 
-                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white rotate-180' 
+                        ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white rotate-180' 
                         : 'bg-gray-100 text-gray-600'
                     }`}>
                       <FiChevronDown className="w-5 h-5" />
@@ -170,7 +170,7 @@ const FAQSection: React.FC = memo(() => {
 
         {/* Bottom CTA */}
         <div className="mt-16 text-center">
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-10 lg:p-12 shadow-xl border border-blue-100">
+          <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-10 lg:p-12 shadow-xl border border-amber-100">
             <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
               Still Have Questions?
             </h3>
@@ -182,7 +182,7 @@ const FAQSection: React.FC = memo(() => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
                 href="/faq-contact"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
               >
                 <span>Contact Us</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -192,7 +192,7 @@ const FAQSection: React.FC = memo(() => {
               
               <a 
                 href="mailto:info@example.com"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-gray-900 font-bold rounded-xl border-2 border-gray-200 hover:border-blue-600 hover:shadow-lg transition-all duration-300"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-gray-900 font-bold rounded-xl border-2 border-gray-200 hover:border-amber-500 hover:shadow-lg transition-all duration-300"
               >
                 <span>Email Us</span>
               </a>
