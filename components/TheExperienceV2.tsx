@@ -41,7 +41,7 @@ const experienceSteps: ExperienceStep[] = [
       "Learn about local culture",
       "Arrive at traditional home"
     ],
-    image: "/activities/paradise-valley.jpg",
+    image: "/journey/pickup.jpg",
     duration: "20 min",
     icon: FiMapPin
   },
@@ -56,7 +56,7 @@ const experienceSteps: ExperienceStep[] = [
       "Wood-fired oven demonstration",
       "Traditional cooking tools"
     ],
-    image: "/hero2.jpg",
+    image: "/journey/arrival.jpg",
     duration: "20 min",
     icon: FiHome
   },
@@ -71,7 +71,7 @@ const experienceSteps: ExperienceStep[] = [
       "Bread making in wood oven",
       "Family recipes & secrets"
     ],
-    image: "/hero3.jpg",
+    image: "/journey/cooking.jpg",
     duration: "90 min",
     icon: FiActivity
   },
@@ -86,7 +86,7 @@ const experienceSteps: ExperienceStep[] = [
       "Recipe booklet & certificate",
       "Return to Taghazout"
     ],
-    image: "/hero4.jpg",
+    image: "/journey/feast.jpg",
     duration: "60 min",
     icon: FiHeart
   }

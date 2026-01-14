@@ -1,56 +1,30 @@
 {
   "site": {
-    "name": "Playa Surf House",
-    "tagline": "Surf & Skate in Morocco",
-    "description": "Centrally located in Tamraght we welcome you in our beautiful house with a rooftop terrace overlooking Taghazout Bay. Experience surf and skate sessions, freshly cooked tajines, rooftop parties, sunset BBQ's, movie nights and unforgettable memories.",
+    "name": "Rabab's Cooking Class",
+    "tagline": "Authentic Amazigh Cuisine",
+    "description": "Experience traditional Moroccan cooking with Rabab in Tamraght. Learn to make authentic tagines, fresh bread, and discover the rich flavors of Amazigh cuisine passed down through generations.",
     "location": "Tamraght, Morocco",
-    "url": "https://playasurfhouse.com"
+    "url": "https://rababscooking.com"
   },
   "metadata": {
-    "title": "Playa Surf House - Surf & Skate in Morocco",
-    "description": "Centrally located in Tamraght we welcome you in our beautiful house with a rooftop terrace overlooking Taghazout Bay. Experience surf and skate sessions, freshly cooked tajines, rooftop parties, sunset BBQ's, movie nights and unforgettable memories.",
-    "keywords": ["surf", "skate", "morocco", "tamraght", "taghazout", "surf house", "skate house", "accommodation", "surf camp"],
-    "author": "Playa Surf House",
+    "title": "Rabab's Cooking Class - Authentic Moroccan Cooking Experience",
+    "description": "Experience traditional Moroccan cooking with Rabab in Tamraght. Learn to make authentic tagines, fresh bread, and discover the rich flavors of Amazigh cuisine passed down through generations.",
+    "keywords": ["moroccan cooking class", "tagine cooking", "amazigh cuisine", "berber cooking", "tamraght", "morocco cooking experience", "traditional moroccan food", "cooking workshop morocco"],
+    "author": "Rabab's Cooking Class",
     "language": "en",
     "locale": "en_US"
   },
   "colors": {
-    "primary": "#f08741",
-    "secondary": "#f5a066",
+    "primary": "#f59e0b",
+    "secondary": "#f97316",
     "white": "#FFF",
-    "primary-dark": "#d6722e",
-    "primary-light": "#f5a066",
-    "secondary-dark": "oklch(70% 0.189 84.429)",
-    "secondary-light": "oklch(90% 0.189 84.429)",
-    "text-primary": "oklch(20% 0.05 47.604)",
-    "text-secondary": "oklch(30% 0.05 84.429)",
-    "charcoal": {
-      "50": "#f6f6f6",
-      "100": "#e7e7e7",
-      "200": "#d1d1d1",
-      "300": "#b0b0b0",
-      "400": "#888888",
-      "500": "#6d6d6d",
-      "600": "#5d5d5d",
-      "700": "#4f4f4f",
-      "800": "#454545",
-      "900": "#3d3d3d",
-      "950": "#262626"
-    }
+    "primary-dark": "#d97706",
+    "primary-light": "#fbbf24"
   },
   "contact": {
-    "email": "info@playasurfhouse.com",
-    "phone": "+212 6XX XXX XXX",
-    "address": "Tamraght, Morocco",
-    "bookingUrl": "#book"
-  },
-  "features": [
-    "Surf sessions",
-    "Skate sessions", 
-    "Freshly cooked tajines",
-    "Rooftop parties",
-    "Sunset BBQ's",
-    "Movie nights",
-    "Unforgettable memories"
-  ]
+    "email": "rabab@rababscooking.com",
+    "phone": "+212 661 736 563",
+    "whatsapp": "212661736563",
+    "address": "Tamraght, Morocco"
+  }
 }

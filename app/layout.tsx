@@ -3,19 +3,9 @@ import { Roboto_Condensed } from 'next/font/google';
 import './globals.css';
 import { getStaticSiteConfig, getStaticNavigationData } from '@/lib/static-data';
 import Header from '@/components/Header';
-// Footer - Design 1: Classic Multi-Column
 import Footer from '@/components/FooterV1';
-// Footer - Design 2: Centered Minimal
-// import Footer from '@/components/FooterV2';
-// Footer - Design 3: Warm Split Design
-// import Footer from '@/components/FooterV3';
-// Footer - Design 4: Magazine Editorial
-// import Footer from '@/components/FooterV4';
-// Footer - Design 5: Compact Simple
-// import Footer from '@/components/FooterV5';
-// Footer - Design 6: Full Experience (Premium)
-// import Footer from '@/components/FooterV6';
 import ErrorSuppressor from '@/components/ErrorSuppressor';
+import WhatsAppButton from '@/components/WhatsAppButton';
 
 const robotoCondensed = Roboto_Condensed({
   weight: ['300', '400', '700'],
@@ -63,16 +53,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Preload hero video for faster loading */}
-        <link rel="preload" href="/hero.mp4" as="video" type="video/mp4" />
+        {/* Preconnect for faster loading */}
       </head>
       <body className={`${robotoCondensed.variable} font-sans`}>
         <ErrorSuppressor />
         <Header navigationData={navigationData} />
-        <main>
+        <main className="overflow-x-hidden">
           {children}
         </main>
         <Footer />
+        {/* WhatsApp Floating Button - Bottom Right */}
+        <WhatsAppButton />
       </body>
     </html>
   );

@@ -6,7 +6,6 @@
 import type { NavigationData } from './navigation.types';
 import type { HeroData } from './hero.types';
 import type { HeroSectionData } from './hero-section.types';
-import type { RoomsSectionData } from './rooms-section.types';
 import type { GoogleReviewsSectionData } from './google-reviews.types';
 import type { FooterData } from './footer.types';
 
@@ -53,12 +52,6 @@ export type {
   HeroImage,
   HeroSectionData,
 } from './hero-section.types';
-
-// Rooms Section types
-export type {
-  RoomCard,
-  RoomsSectionData,
-} from './rooms-section.types';
 
 // Google Reviews Section types
 export type {

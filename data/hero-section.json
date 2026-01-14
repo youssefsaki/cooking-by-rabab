@@ -29,20 +29,20 @@
   },
   "images": {
     "main": {
-      "src": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80",
+      "src": "/gallery/bread-baking.jpg",
       "alt": "Hands kneading traditional Moroccan bread dough"
     },
     "secondary": {
-      "src": "https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?w=600&q=80",
+      "src": "/gallery/tagine-cooking.jpg",
       "alt": "Traditional Moroccan tagine cooking"
     },
     "tertiary": {
-      "src": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600&q=80",
-      "alt": "Colorful Moroccan spices in market"
+      "src": "/gallery/spices.jpg",
+      "alt": "Colorful Moroccan spices"
     },
     "accent": {
-      "src": "https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?w=800&q=80",
-      "alt": "Group of friends cooking together"
+      "src": "/gallery/cooking-class.jpg",
+      "alt": "Group cooking together"
     }
   }
 }

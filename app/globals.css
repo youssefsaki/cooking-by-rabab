@@ -633,9 +633,48 @@ img {
   animation: progress 3s ease-in-out infinite;
 }
 
+/* CSS Variable for true viewport height on mobile */
+:root {
+  --vh: 1vh;
+}
+
+/* Hero Fullscreen - Instagram Story Style */
+.hero-fullscreen {
+  position: relative;
+  width: 100%;
+  height: calc(var(--vh, 1vh) * 100);
+  min-height: calc(var(--vh, 1vh) * 100);
+  max-height: calc(var(--vh, 1vh) * 100);
+  overflow: hidden;
+}
+
+/* Fallback using dvh for modern browsers */
+@supports (height: 100dvh) {
+  .hero-fullscreen {
+    height: 100dvh;
+    min-height: 100dvh;
+    max-height: 100dvh;
+  }
+}
+
+/* iOS Safari specific fix */
+@supports (-webkit-touch-callout: none) {
+  .hero-fullscreen {
+    height: -webkit-fill-available;
+    min-height: -webkit-fill-available;
+  }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    width: 100%;
   }
   
   body {

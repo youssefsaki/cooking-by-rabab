@@ -5,7 +5,6 @@
 import navigationData from '@/data/navigation.json';
 import heroData from '@/data/hero.json';
 import heroSectionData from '@/data/hero-section.json';
-import roomsSectionData from '@/data/rooms-section.json';
 import googleReviewsData from '@/data/google-reviews.json';
 import footerData from '@/data/footer.json';
 import siteConfig from '@/data/site-config.json';
@@ -15,7 +14,6 @@ import type {
   NavigationData,
   HeroData,
   HeroSectionData,
-  RoomsSectionData,
   GoogleReviewsSectionData,
   FooterData,
   SiteConfig,
@@ -27,14 +25,13 @@ import type {
  * These are imported at build time and don't require async loading
  */
 export const STATIC_DATA = {
-  navigation: navigationData as NavigationData,
-  hero: heroData as HeroData,
-  heroSection: heroSectionData as HeroSectionData,
-  roomsSection: roomsSectionData as RoomsSectionData,
-  googleReviews: googleReviewsData as GoogleReviewsSectionData,
-  footer: footerData as FooterData,
-  siteConfig: siteConfig as SiteConfig,
-  pagesConfig: pagesConfig as PagesConfig,
+  navigation: navigationData as unknown as NavigationData,
+  hero: heroData as unknown as HeroData,
+  heroSection: heroSectionData as unknown as HeroSectionData,
+  googleReviews: googleReviewsData as unknown as GoogleReviewsSectionData,
+  footer: footerData as unknown as FooterData,
+  siteConfig: siteConfig as unknown as SiteConfig,
+  pagesConfig: pagesConfig as unknown as PagesConfig,
 } as const;
 
 /**
@@ -56,13 +53,6 @@ export function getStaticHeroData(): HeroData {
  */
 export function getStaticHeroSectionData(): HeroSectionData {
   return STATIC_DATA.heroSection;
-}
-
-/**
- * Get rooms section data (static import)
- */
-export function getStaticRoomsSectionData(): RoomsSectionData {
-  return STATIC_DATA.roomsSection;
 }
 
 /**
@@ -109,18 +99,14 @@ export function getPageMeta(slug: string) {
   switch (slug) {
     case '/':
       return pages.home.meta;
-    case '/rooms':
-      return pages.rooms.meta;
     case '/packages':
       return pages.packages.meta;
     case '/activities':
       return pages.activities.meta;
-    case '/team':
-      return pages.team.meta;
     case '/contact':
       return pages.contact.meta;
     default:
-      return pages.home.meta; // fallback to home
+      return pages.home.meta;
   }
 }
 
@@ -136,4 +122,3 @@ export function getSocialIconName(platform: string): string {
   
   return iconMap[platform] || 'Home';
 }
-

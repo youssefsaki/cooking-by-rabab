@@ -1,43 +1,36 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'via.placeholder.com',
-        port: '',
-        pathname: '/**',
-      },
-    ],
-    formats: ['image/webp', 'image/avif'],
-    dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    minimumCacheTTL: 60,
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    // Disable image optimization in development to prevent ResponseAborted errors
-    unoptimized: process.env.NODE_ENV === 'development',
-  },
-  experimental: {
-    optimizeCss: true,
+    // Only keep remote patterns that are actually used
+    remotePatterns: [],
+    // Modern image formats for better compression
+    formats: ['image/avif', 'image/webp'],
+    // Optimized device sizes for responsive images
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
+    // Longer cache time for production
+    minimumCacheTTL: 31536000, // 1 year
+    // Enable optimization in all environments
+    unoptimized: false,
   },
   // Performance optimizations
   swcMinify: true,
   compiler: {
+    // Remove console logs in production
     removeConsole: process.env.NODE_ENV === 'production',
   },
-  // Additional performance optimizations
+  // Compression and security
   compress: true,
   poweredByHeader: false,
-  // Reduce compilation time and optimize bundle
+  // Enable React Strict Mode
+  reactStrictMode: true,
+  // Experimental features for better performance
+  experimental: {
+    optimizeCss: true,
+  },
+  // Webpack optimizations
   webpack: (config, { isServer, dev }) => {
-    // CRITICAL: Exclude googleapis and other heavy server-only packages from client bundle
+    // Exclude server-only packages from client bundle
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -46,28 +39,10 @@ const nextConfig = {
         tls: false,
         crypto: false,
       };
-      
-      // Exclude googleapis completely from client bundle
-      config.externals = config.externals || [];
-      if (typeof config.externals === 'function') {
-        const originalExternals = config.externals;
-        config.externals = (context, request, callback) => {
-          if (request.includes('googleapis') || request.includes('google')) {
-            return callback(null, 'commonjs ' + request);
-          }
-          return originalExternals(context, request, callback);
-        };
-      }
     }
     
-    // Faster refresh in development - configure watch options
-    if (dev && !isServer) {
-      config.watchOptions = {
-        poll: 1000,
-        aggregateTimeout: 300,
-      };
-    }
-    if (!isServer) {
+    // Production optimizations
+    if (!dev && !isServer) {
       config.optimization = {
         ...config.optimization,
         moduleIds: 'deterministic',
@@ -76,17 +51,18 @@ const nextConfig = {
           cacheGroups: {
             default: false,
             vendors: false,
-            // Create separate chunk for vendor libraries
+            // Separate chunk for React framework
             framework: {
               name: 'framework',
               chunks: 'all',
-              test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+              test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
               priority: 40,
               enforce: true,
             },
+            // Large libraries get their own chunks
             lib: {
               test(module) {
-                return module.size() > 160000 && /node_modules[/\\]/.test(module.identifier());
+                return module.size() > 100000 && /node_modules[/\\]/.test(module.identifier());
               },
               name(module) {
                 const hash = require('crypto').createHash('sha1');
@@ -97,18 +73,11 @@ const nextConfig = {
               minChunks: 1,
               reuseExistingChunk: true,
             },
+            // Shared modules
             commons: {
               name: 'commons',
               minChunks: 2,
               priority: 20,
-            },
-            shared: {
-              name(module, chunks) {
-                return require('crypto').createHash('sha1').update(chunks.reduce((acc, chunk) => acc + chunk.name, '')).digest('hex').substring(0, 8);
-              },
-              priority: 10,
-              minChunks: 2,
-              reuseExistingChunk: true,
             },
           },
           maxInitialRequests: 25,
@@ -117,16 +86,31 @@ const nextConfig = {
       };
     }
     
-    // Optimize image loading
-    config.module.rules.push({
-      test: /\.(png|jpg|jpeg|gif|svg|webp|avif)$/i,
-      type: 'asset/resource',
-    });
-    
     return config;
   },
-  // Enable static page optimization
-  reactStrictMode: true,
+  // Headers for caching static assets
+  async headers() {
+    return [
+      {
+        source: '/:all*(svg|jpg|jpeg|png|webp|avif|gif|ico|woff|woff2)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
 }
 
 module.exports = nextConfig

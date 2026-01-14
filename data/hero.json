@@ -1,7 +1,7 @@
 {
-  "subheading": "AUTHENTIC MOROCCAN COOKING",
-  "heading": "COOK LIKE A LOCAL",
-  "description": "Learn the secrets of traditional Berber cuisine in the heart of Morocco. From tajine to fresh bread, discover flavors passed down through generations. More than a cooking class – an immersive journey into Amazigh culture.",
+  "subheading": "TRADITIONAL AMAZIGH CUISINE",
+  "heading": "AUTHENTIC MOROCCAN COOKING",
+  "description": "Join Rabab in her traditional home and discover the secrets of authentic Amazigh cuisine. From handmade bread to aromatic tagines, experience cooking the way it's been done for generations.",
   "backgroundVideo": {
     "url": "/hero.mp4",
     "alt": "Traditional Moroccan cooking experience"
@@ -9,15 +9,9 @@
   "ctaButtons": [
     {
       "text": "BOOK YOUR EXPERIENCE",
-      "href": "/book",
+      "href": "https://wa.me/212661736563",
       "variant": "primary",
       "priority": true
-    },
-    {
-      "text": "EXPLORE CLASSES",
-      "href": "/experiences",
-      "variant": "secondary",
-      "priority": false
     }
   ],
   "scrollIndicator": {
