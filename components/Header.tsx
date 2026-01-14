@@ -514,7 +514,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                             className="block text-center text-xs text-amber-700 font-semibold mt-4 py-2 bg-white rounded-lg border border-amber-200"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
-                            See what's included →
+                            See what&apos;s included →
                           </Link>
                         </div>
                       </div>

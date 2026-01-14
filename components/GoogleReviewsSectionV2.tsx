@@ -67,10 +67,10 @@ const GoogleReviewsSectionV2: React.FC<GoogleReviewsSectionProps> = ({ data }) =
 
       {/* Decorative Quotes */}
       <div className="absolute top-20 left-10 text-[200px] text-white/5 font-serif leading-none pointer-events-none">
-        "
+        &ldquo;
       </div>
       <div className="absolute bottom-20 right-10 text-[200px] text-white/5 font-serif leading-none rotate-180 pointer-events-none">
-        "
+        &rdquo;
       </div>
 
       <div className="relative max-w-6xl mx-auto px-6 lg:px-12">
@@ -128,7 +128,7 @@ const GoogleReviewsSectionV2: React.FC<GoogleReviewsSectionProps> = ({ data }) =
             {/* Quote */}
             <blockquote className="text-center mb-10">
               <p className="text-2xl lg:text-3xl xl:text-4xl text-white font-medium leading-relaxed italic">
-                "{currentReview.text}"
+                &ldquo;{currentReview.text}&rdquo;
               </p>
             </blockquote>
 

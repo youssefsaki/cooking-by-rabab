@@ -228,7 +228,7 @@ const ActivitiesShowcaseV4: React.FC = memo(() => {
 
                     {/* Highlights */}
                     <div className="space-y-3">
-                      <h4 className="text-lg font-bold text-gray-900">What You'll Experience:</h4>
+                      <h4 className="text-lg font-bold text-gray-900">What You&apos;ll Experience:</h4>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {experience.highlights.map((highlight, i) => (
                           <div key={i} className="flex items-start gap-3">

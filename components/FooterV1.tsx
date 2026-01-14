@@ -161,7 +161,7 @@ const FooterV1: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-500 text-sm">
-              © {new Date().getFullYear()} Rabab's Kitchen. All rights reserved.
+              © {new Date().getFullYear()} Rabab&apos;s Kitchen. All rights reserved.
             </p>
             <p className="text-gray-500 text-sm flex items-center gap-1">
               Made with <FiHeart className="w-4 h-4 text-red-500" /> in Morocco
