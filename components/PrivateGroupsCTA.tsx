@@ -152,7 +152,7 @@ const PrivateGroupsCTA: React.FC = memo(() => {
               Why Choose a Private Group Experience?
             </h3>
             <p className="text-gray-300 text-lg">
-              Everything is tailored to your group's needs and preferences
+              Everything is tailored to your group&apos;s needs and preferences
             </p>
           </div>
 
@@ -180,7 +180,7 @@ const PrivateGroupsCTA: React.FC = memo(() => {
             </h3>
             
             <p className="text-lg text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Let's create something special for your group. Contact us today for a custom quote 
+              Let&apos;s create something special for your group. Contact us today for a custom quote 
               and start planning your unforgettable Moroccan adventure.
             </p>
 

@@ -144,7 +144,7 @@ const MeetTheChefV2: React.FC = memo(() => {
 
             {/* Quote */}
             <div className="relative bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-8 border-l-4 border-amber-500">
-              <div className="absolute -top-4 left-6 text-6xl text-amber-300 font-serif">"</div>
+              <div className="absolute -top-4 left-6 text-6xl text-amber-300 font-serif">&ldquo;</div>
               <p className="text-xl lg:text-2xl text-gray-800 italic leading-relaxed relative z-10">
                 {chefData.quote}
               </p>
@@ -199,7 +199,7 @@ const MeetTheChefV2: React.FC = memo(() => {
             
             <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto leading-relaxed">
               Join me in my traditional kitchen and discover the secrets of authentic Moroccan cuisine. 
-              Let's create delicious memories together!
+              Let&apos;s create delicious memories together!
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

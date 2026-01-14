@@ -85,12 +85,12 @@ const LocationMapV3: React.FC = memo(() => {
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
             Your Journey to{' '}
             <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-clip-text text-transparent">
-              Rabab's Kitchen
+              Rabab&apos;s Kitchen
             </span>
           </h2>
           
           <p className="text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            From the moment you land, we take care of everything. Here's what your journey looks like.
+            From the moment you land, we take care of everything. Here&apos;s what your journey looks like.
           </p>
         </div>
 
