@@ -53,6 +53,22 @@ export interface LogoConfig {
   };
 }
 
+/** Dropdown item for CTA button */
+export interface CTADropdownItem {
+  /** Unique identifier */
+  id: string;
+  /** Display label */
+  label: string;
+  /** Price display */
+  price: string;
+  /** Short description */
+  description: string;
+  /** Link destination */
+  href: string;
+  /** Whether this is the popular/featured option */
+  popular?: boolean;
+}
+
 /** Call-to-action button configuration */
 export interface CTAButton {
   /** Button text */
@@ -61,6 +77,10 @@ export interface CTAButton {
   href: string;
   /** Visual variant */
   variant: ButtonVariant;
+  /** Whether button has dropdown */
+  hasDropdown?: boolean;
+  /** Dropdown items for packages */
+  dropdownItems?: CTADropdownItem[];
 }
 
 /** Complete navigation data structure */
