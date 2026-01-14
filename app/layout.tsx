@@ -1,9 +1,20 @@
 import type { Metadata, Viewport } from 'next';
 import { Roboto_Condensed } from 'next/font/google';
 import './globals.css';
-import { getStaticSiteConfig, getStaticNavigationData, getStaticFooterData } from '@/lib/static-data';
+import { getStaticSiteConfig, getStaticNavigationData } from '@/lib/static-data';
 import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+// Footer - Design 1: Classic Multi-Column
+import Footer from '@/components/FooterV1';
+// Footer - Design 2: Centered Minimal
+// import Footer from '@/components/FooterV2';
+// Footer - Design 3: Warm Split Design
+// import Footer from '@/components/FooterV3';
+// Footer - Design 4: Magazine Editorial
+// import Footer from '@/components/FooterV4';
+// Footer - Design 5: Compact Simple
+// import Footer from '@/components/FooterV5';
+// Footer - Design 6: Full Experience (Premium)
+// import Footer from '@/components/FooterV6';
 import ErrorSuppressor from '@/components/ErrorSuppressor';
 
 const robotoCondensed = Roboto_Condensed({
@@ -48,7 +59,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const navigationData = getStaticNavigationData();
-  const footerData = getStaticFooterData();
 
   return (
     <html lang="en">
@@ -62,7 +72,7 @@ export default function RootLayout({
         <main>
           {children}
         </main>
-        <Footer data={footerData} />
+        <Footer />
       </body>
     </html>
   );

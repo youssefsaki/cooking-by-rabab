@@ -55,15 +55,13 @@ import FAQSection from '@/components/FAQSectionV3';
 // Location - Design 3: Journey Timeline with Map Card
 import LocationMap from '@/components/LocationMapV3';
 import PrivateGroupsCTA from '@/components/PrivateGroupsCTA';
-import Footer from '@/components/Footer';
-import { getStaticNavigationData, getStaticHeroData, getStaticHeroSectionData, getStaticGoogleReviewsData, getStaticFooterData } from '@/lib/static-data';
+import { getStaticNavigationData, getStaticHeroData, getStaticHeroSectionData, getStaticGoogleReviewsData } from '@/lib/static-data';
 
 export default function HomePage() {
   const navigationData = getStaticNavigationData();
   const heroData = getStaticHeroData();
   const heroSectionData = getStaticHeroSectionData();
   const googleReviewsData = getStaticGoogleReviewsData();
-  const footerData = getStaticFooterData();
 
   return (
     <main className="min-h-screen">
@@ -79,7 +77,6 @@ export default function HomePage() {
       <FAQSection />
       <LocationMap />
       <PrivateGroupsCTA />
-      <Footer data={footerData} />
     </main>
   );
 }
