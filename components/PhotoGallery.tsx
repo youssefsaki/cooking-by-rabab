@@ -25,19 +25,21 @@ interface GalleryImage {
   size: 'tall' | 'wide' | 'square';
 }
 
-const categories = ['All', 'Cooking', 'Activities', 'Location', 'People'];
+const categories = ['All', 'Cooking Process', 'Ingredients', 'Finished Dishes'];
 
 const galleryImages: GalleryImage[] = [
-  { id: 1, src: '/hero2.jpg', alt: 'Traditional tagine cooking', category: 'Cooking', size: 'tall' },
-  { id: 2, src: '/activities/surf.jpg', alt: 'Surfing lessons', category: 'Activities', size: 'wide' },
-  { id: 3, src: '/activities/yoga.jpg', alt: 'Rooftop yoga session', category: 'Activities', size: 'square' },
-  { id: 4, src: '/activities/paradise-valley.jpg', alt: 'Paradise Valley oasis', category: 'Location', size: 'tall' },
-  { id: 5, src: '/hero3.jpg', alt: 'Moroccan spices', category: 'Cooking', size: 'square' },
-  { id: 6, src: '/activities/medina.jpg', alt: 'Medina souk', category: 'Location', size: 'wide' },
-  { id: 7, src: '/hero4.jpg', alt: 'Traditional feast', category: 'Cooking', size: 'square' },
-  { id: 8, src: '/activities/belly-dancing.jpg', alt: 'Belly dancing class', category: 'Activities', size: 'tall' },
-  { id: 9, src: '/hero1.jpg', alt: 'Cooking class group', category: 'People', size: 'wide' },
-  { id: 10, src: '/activities/sandboarding.jpg', alt: 'Sand dunes', category: 'Location', size: 'square' }
+  { id: 1, src: '/gallery/tagine-cooking.jpg', alt: 'Traditional tagine cooking in clay pot', category: 'Cooking Process', size: 'tall' },
+  { id: 2, src: '/gallery/spices.jpg', alt: 'Colorful Moroccan spices', category: 'Ingredients', size: 'wide' },
+  { id: 3, src: '/gallery/tagine-dish.jpg', alt: 'Finished tagine dish', category: 'Finished Dishes', size: 'square' },
+  { id: 4, src: '/gallery/bread-baking.jpg', alt: 'Traditional bread baking', category: 'Cooking Process', size: 'tall' },
+  { id: 5, src: '/gallery/vegetables.jpg', alt: 'Fresh vegetables and herbs', category: 'Ingredients', size: 'square' },
+  { id: 6, src: '/gallery/coucous.jpg', alt: 'Couscous with vegetables', category: 'Finished Dishes', size: 'wide' },
+  { id: 7, src: '/gallery/tea-ceremony.jpg', alt: 'Traditional mint tea ceremony', category: 'Cooking Process', size: 'square' },
+  { id: 8, src: '/gallery/traditional-kitchen.jpg', alt: 'Traditional Moroccan kitchen', category: 'Cooking Process', size: 'tall' },
+  { id: 9, src: '/gallery/cooking-class.jpg', alt: 'Cooking class in session', category: 'Cooking Process', size: 'wide' },
+  { id: 10, src: '/gallery/pastries.jpg', alt: 'Moroccan pastries and sweets', category: 'Finished Dishes', size: 'square' },
+  { id: 11, src: '/gallery/olive-oil.jpg', alt: 'Olive oil and olives', category: 'Ingredients', size: 'square' },
+  { id: 12, src: '/gallery/hands-preparing.jpg', alt: 'Hands preparing dough', category: 'Cooking Process', size: 'tall' }
 ];
 
 const PhotoGallery: React.FC = memo(() => {
@@ -145,7 +147,7 @@ const PhotoGallery: React.FC = memo(() => {
         {/* Bottom Text */}
         <div className="mt-16 text-center">
           <p className="text-gray-600 mb-6">
-            📸 Follow us on Instagram for daily updates: <a href="#" className="text-pink-600 font-semibold hover:underline">@cookingclass_morocco</a>
+            📸 Want to experience this yourself? <a href="/book" className="text-pink-600 font-semibold hover:underline">Book your cooking class today</a> and create your own delicious memories!
           </p>
         </div>
       </div>

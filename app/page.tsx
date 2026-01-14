@@ -26,7 +26,12 @@ import PackagesSection from '@/components/PackagesSectionV4';
 import ActivitiesShowcase from '@/components/ActivitiesShowcaseV4';
 // Cooking Classes - Design 5: Interactive Tab System
 // import ActivitiesShowcase from '@/components/ActivitiesShowcaseV5';
+// Photo Gallery - Design 1: Masonry Grid with Lightbox
 import PhotoGallery from '@/components/PhotoGallery';
+// Photo Gallery - Design 2: Featured Image Slider with Thumbnails
+// import PhotoGallery from '@/components/PhotoGalleryV2';
+// Photo Gallery - Design 3: Instagram-Style Grid with Hover Cards
+// import PhotoGallery from '@/components/PhotoGalleryV3';
 import GoogleReviewsSection from '@/components/GoogleReviewsSection';
 import MeetTheTeam from '@/components/MeetTheTeam';
 import FAQSection from '@/components/FAQSection';
