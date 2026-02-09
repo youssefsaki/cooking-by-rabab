@@ -43,14 +43,30 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
         overflow: 'hidden',
       }}
     >
-      {/* Background Image - Full Cover */}
+      {/* Background Image - Desktop */}
       <Image
-        src="/gallery/cooking-class.jpg"
+        src="/hero/desktop/bg.jpg"
         alt="Moroccan Cooking Class"
         fill
         priority
         quality={90}
         sizes="100vw"
+        className="hidden md:block"
+        style={{
+          objectFit: 'cover',
+          objectPosition: 'center center',
+        }}
+      />
+      
+      {/* Background Image - Mobile */}
+      <Image
+        src="/hero/mobile/bg.jpg"
+        alt="Moroccan Cooking Class"
+        fill
+        priority
+        quality={90}
+        sizes="100vw"
+        className="block md:hidden"
         style={{
           objectFit: 'cover',
           objectPosition: 'center center',

@@ -21,6 +21,8 @@ const DIRS_TO_PROCESS = [
   'community',
   'experiences',
   'gallery',
+  'hero/desktop',
+  'hero/mobile',
   'houseandrooms',
   'journey',
   'packages',
