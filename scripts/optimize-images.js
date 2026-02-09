@@ -22,6 +22,7 @@ const DIRS_TO_PROCESS = [
   'experiences',
   'gallery',
   'hero/desktop',
+  'hero/desktop/learn-to-cook-amazigh',
   'hero/mobile',
   'houseandrooms',
   'journey',

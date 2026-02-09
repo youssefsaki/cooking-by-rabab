@@ -27,10 +27,10 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
   const [activeImage, setActiveImage] = useState(0);
   
   const allImages = [
-    data.images.main,
-    data.images.secondary,
-    data.images.tertiary,
-    data.images.accent,
+    { src: '/hero/desktop/learn-to-cook-amazigh/2.jpg', alt: 'Amazigh cooking class' },
+    { src: '/hero/desktop/learn-to-cook-amazigh/5.jpg', alt: 'Traditional Moroccan cuisine' },
+    { src: '/hero/desktop/learn-to-cook-amazigh/7.jpg', alt: 'Berber cooking experience' },
+    { src: '/hero/desktop/learn-to-cook-amazigh/3.jpg', alt: 'Authentic tagine preparation' },
   ];
 
   const experiences = ['Bread Making', 'Tagine Cooking', 'Spice Blending', 'Mint Tea Ceremony'];
@@ -105,18 +105,18 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
 
       {/* Thumbnail Strip */}
       <div className="px-5 pb-6">
-        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide py-2">
           {allImages.map((img, index) => (
             <button
               key={index}
               onClick={() => setActiveImage(index)}
-              className={`relative flex-shrink-0 w-16 h-16 overflow-hidden rounded-xl transition-all ${
+              className={`relative flex-shrink-0 w-16 h-16 overflow-visible rounded-xl transition-all ${
                 activeImage === index 
                   ? 'ring-2 ring-[#C75D3A] ring-offset-2' 
                   : 'opacity-50'
               }`}
             >
-              <Image src={img.src} alt={img.alt} fill className="object-cover" sizes="64px" />
+              <Image src={img.src} alt={img.alt} fill className="object-cover rounded-xl" sizes="64px" />
             </button>
           ))}
         </div>
@@ -433,13 +433,13 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
         </div>
 
         {/* Thumbnail Strip */}
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 pb-16 lg:pb-24">
-          <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-4">
+          <div className="flex gap-3 sm:gap-4 overflow-x-auto scrollbar-hide py-2">
             {allImages.map((img, index) => (
               <button
                 key={index}
                 onClick={() => setActiveImage(index)}
-                className={`relative flex-shrink-0 w-32 h-24 lg:w-40 lg:h-28 overflow-hidden rounded-xl transition-all duration-300 ${
+                className={`relative flex-shrink-0 w-28 h-20 sm:w-32 sm:h-24 lg:w-40 lg:h-28 overflow-visible rounded-xl transition-all duration-300 ${
                   activeImage === index 
                     ? 'ring-2 ring-[#C75D3A] ring-offset-2 ring-offset-[#FAF8F5]' 
                     : 'opacity-60 hover:opacity-100'
@@ -449,8 +449,8 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
                   src={img.src}
                   alt={img.alt}
                   fill
-                  className="object-cover"
-                  sizes="160px"
+                  className="object-cover rounded-xl"
+                  sizes="(max-width: 640px) 112px, (max-width: 1024px) 128px, 160px"
                 />
               </button>
             ))}

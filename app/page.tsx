@@ -1,8 +1,7 @@
-'use client';
-
 import dynamic from 'next/dynamic';
 import Hero from '@/components/Hero';
 import HeroSection from '@/components/HeroSectionV3';
+import PackagesSection from '@/components/PackagesV3';
 import { getStaticHeroData, getStaticHeroSectionData, getStaticGoogleReviewsData } from '@/lib/static-data';
 
 // Lazy load below-the-fold components for better initial page load
@@ -28,10 +27,6 @@ const GoogleReviewsSection = dynamic(() => import('@/components/GoogleReviewsSec
 
 const SupportingChildren = dynamic(() => import('@/components/SupportingChildrenV4'), {
   loading: () => <div className="min-h-[500px] bg-gray-900 animate-pulse" />,
-});
-
-const PackagesSection = dynamic(() => import('@/components/PackagesV3'), {
-  loading: () => <div className="min-h-[600px] bg-white animate-pulse" />,
 });
 
 const FAQSection = dynamic(() => import('@/components/FAQSectionV3'), {
@@ -62,6 +57,7 @@ export default function HomePage() {
         <PackagesSection />
       </section>
       
+      {/* Hero Section with ratings and experience includes */}
       <HeroSection data={heroSectionData} />
       
       {/* Below the fold - lazy loaded with anchor IDs */}
