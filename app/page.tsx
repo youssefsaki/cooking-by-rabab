@@ -56,6 +56,12 @@ export default function HomePage() {
     <main className="min-h-screen">
       {/* Hero - Full Screen */}
       <Hero heroData={heroData} />
+      
+      {/* Packages Section - Directly under Hero */}
+      <section id="packages">
+        <PackagesSection />
+      </section>
+      
       <HeroSection data={heroSectionData} />
       
       {/* Below the fold - lazy loaded with anchor IDs */}
@@ -81,10 +87,6 @@ export default function HomePage() {
       
       <section id="supporting-children">
         <SupportingChildren />
-      </section>
-      
-      <section id="packages">
-        <PackagesSection />
       </section>
       
       <FAQSection />
