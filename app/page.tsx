@@ -60,10 +60,23 @@ export default function HomePage() {
       {/* Hero Section with ratings and experience includes */}
       <HeroSection data={heroSectionData} />
       
-      {/* Below the fold - lazy loaded with anchor IDs */}
+      {/* The Journey Section */}
       <section id="the-experience">
         <TheExperience />
       </section>
+      
+      {/* Community Impact Section */}
+      <section id="supporting-children">
+        <SupportingChildren />
+      </section>
+      
+      {/* Reviews Section */}
+      <section id="reviews">
+        <GoogleReviewsSection data={googleReviewsData} />
+      </section>
+      
+      {/* Map Section */}
+      <LocationMap />
       
       <section id="meet-rabab">
         <MeetTheTeam />
@@ -77,16 +90,7 @@ export default function HomePage() {
         <PhotoGallery />
       </section>
       
-      <section id="reviews">
-        <GoogleReviewsSection data={googleReviewsData} />
-      </section>
-      
-      <section id="supporting-children">
-        <SupportingChildren />
-      </section>
-      
       <FAQSection />
-      <LocationMap />
       <PrivateGroupsCTA />
     </main>
   );
