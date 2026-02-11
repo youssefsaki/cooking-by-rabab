@@ -124,7 +124,7 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
 
           {/* Description */}
           <p className="text-white/90 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto mb-6 sm:mb-8 lg:mb-12 font-light px-2 sm:px-4">
-            {heroData.description}
+            Leave the coast behind for a half-day in the mountains to discover the soul of Amazigh culture and the warmth of village life through our traditional cooking class.
           </p>
 
           {/* CTA Button */}
