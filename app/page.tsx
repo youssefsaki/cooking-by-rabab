@@ -78,20 +78,7 @@ export default function HomePage() {
       {/* Map Section */}
       <LocationMap />
       
-      <section id="meet-rabab">
-        <MeetTheTeam />
-      </section>
-      
-      <section id="experiences">
-        <ActivitiesShowcase />
-      </section>
-      
-      <section id="gallery">
-        <PhotoGallery />
-      </section>
-      
       <FAQSection />
-      <PrivateGroupsCTA />
     </main>
   );
 }
