@@ -17,6 +17,7 @@ const packagesData = [
     groupSize: "Up to 8 guests",
     startTime: "13:30",
     image: "/packages/basic.jpg",
+    popular: true,
     highlights: [
       "300-year-old Amazigh house tour",
       "Moroccan mint tea ceremony",
@@ -36,8 +37,7 @@ const packagesData = [
     duration: "6 hours",
     groupSize: "Private group",
     startTime: "Flexible",
-    image: "/packages/premium.jpg",
-    popular: true,
+    image: "/packages/private-chef.jpg",
     highlights: [
       "Completely private experience",
       "Flexible scheduling & timing",

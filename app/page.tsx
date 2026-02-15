@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import Hero from '@/components/Hero';
 import HeroSection from '@/components/HeroSectionV3';
 import PackagesSection from '@/components/PackagesV3';
-import { getStaticHeroData, getStaticHeroSectionData, getStaticGoogleReviewsData } from '@/lib/static-data';
+import { getStaticHeroData, getStaticHeroSectionData } from '@/lib/static-data';
 
 // Lazy load below-the-fold components for better initial page load
 const TheExperience = dynamic(() => import('@/components/TheExperienceV2'), {
@@ -45,7 +45,6 @@ const PrivateGroupsCTA = dynamic(() => import('@/components/PrivateGroupsCTA'), 
 export default function HomePage() {
   const heroData = getStaticHeroData();
   const heroSectionData = getStaticHeroSectionData();
-  const googleReviewsData = getStaticGoogleReviewsData();
 
   return (
     <main className="min-h-screen">
@@ -72,13 +71,11 @@ export default function HomePage() {
       
       {/* Reviews Section */}
       <section id="reviews">
-        <GoogleReviewsSection data={googleReviewsData} />
+        <GoogleReviewsSection />
       </section>
       
       {/* Map Section */}
       <LocationMap />
-      
-      <FAQSection />
     </main>
   );
 }

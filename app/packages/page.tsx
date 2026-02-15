@@ -20,6 +20,7 @@ const packagesData = [
     pickup: "Taghazout Mosque",
     dropoff: "Taghazout or Tamraght",
     image: "/packages/basic.jpg",
+    alt: "Moroccan cooking class in Atlas Mountains - Traditional tagine and bread baking experience in authentic Amazigh village near Taghazout",
     popular: true,
     itinerary: [
       {
@@ -88,7 +89,8 @@ const packagesData = [
     endTime: "Flexible",
     pickup: "Custom pickup available",
     dropoff: "Your accommodation",
-    image: "/packages/premium.jpg",
+    image: "/packages/private-chef.jpg",
+    alt: "Private Moroccan cooking class with personal chef - Exclusive authentic cooking experience in traditional Atlas Mountains Amazigh home",
     itinerary: [
       {
         time: "Flexible",
@@ -204,7 +206,7 @@ export default function PackagesPage() {
                 <div className="absolute inset-0 will-change-transform">
                   <Image
                     src={pkg.image}
-                    alt={pkg.name}
+                    alt={pkg.alt}
                     fill
                     className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                     sizes="(max-width: 1024px) 100vw, 50vw"
@@ -305,6 +307,184 @@ export default function PackagesPage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Full Itinerary Section - Design 1 */}
+      <section className="relative py-16 sm:py-20 lg:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <div className="inline-block mb-6">
+              <div className="px-6 py-3 rounded-full bg-gradient-to-r from-amber-100 to-orange-100 border-2 border-amber-200">
+                <span className="text-amber-900 font-black text-sm uppercase tracking-wider">Complete Journey</span>
+              </div>
+            </div>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-6 leading-tight">
+              Your Journey into the{' '}
+              <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
+                Mountains
+              </span>
+            </h2>
+            <p className="text-xl sm:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+              A half-day immersive cultural experience
+            </p>
+          </div>
+
+          {/* Timeline */}
+          <div className="relative max-w-5xl mx-auto">
+            {/* Vertical Line */}
+            <div className="absolute left-8 sm:left-10 top-0 bottom-0 w-1 bg-gradient-to-b from-amber-500 via-orange-500 to-amber-400 hidden sm:block" />
+
+            <div className="space-y-8 sm:space-y-10">
+              {/* 13:30 - The Scenic Ascent */}
+              <div className="relative flex gap-6 sm:gap-8">
+                <div className="flex-shrink-0 relative z-10">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-2xl border-4 border-white">
+                    <span className="text-sm sm:text-base font-black text-white">13:30</span>
+                  </div>
+                </div>
+                <div className="flex-1 bg-white rounded-2xl p-6 sm:p-8 shadow-xl border-2 border-amber-100 hover:shadow-2xl hover:border-amber-300 transition-all duration-300">
+                  <h3 className="text-2xl sm:text-3xl font-black text-gray-900 mb-3">
+                    The Scenic Ascent
+                  </h3>
+                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+                    Meet us at the Taghazout Mosque for a comfortable 15-minute drive into the Small Atlas Mountains. We'll wind through the Argan forest, where you can breathe the fresh mountain air and enjoy a breathtaking panoramic view of the ocean from above.
+                  </p>
+                </div>
+              </div>
+
+              {/* 14:00 - A Warm Village Welcome */}
+              <div className="relative flex gap-6 sm:gap-8">
+                <div className="flex-shrink-0 relative z-10">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-2xl border-4 border-white">
+                    <span className="text-sm sm:text-base font-black text-white">14:00</span>
+                  </div>
+                </div>
+                <div className="flex-1 bg-white rounded-2xl p-6 sm:p-8 shadow-xl border-2 border-amber-100 hover:shadow-2xl hover:border-amber-300 transition-all duration-300">
+                  <h3 className="text-2xl sm:text-3xl font-black text-gray-900 mb-3">
+                    A Warm Village Welcome
+                  </h3>
+                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+                    Arrive at our village and step inside an ancient 300-year-old Amazigh house, one of the oldest in North Africa. Meet the local family and I will be your guided tour to show you how our ancestors lived in the heart of these mountains.
+                  </p>
+                </div>
+              </div>
+
+              {/* 14:30 - The Garden Tea Ritual */}
+              <div className="relative flex gap-6 sm:gap-8">
+                <div className="flex-shrink-0 relative z-10">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-2xl border-4 border-white">
+                    <span className="text-sm sm:text-base font-black text-white">14:30</span>
+                  </div>
+                </div>
+                <div className="flex-1 bg-white rounded-2xl p-6 sm:p-8 shadow-xl border-2 border-amber-100 hover:shadow-2xl hover:border-amber-300 transition-all duration-300">
+                  <h3 className="text-2xl sm:text-3xl font-black text-gray-900 mb-3">
+                    The Garden Tea Ritual
+                  </h3>
+                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+                    Relax in our authentic workshop and learn the art of Moroccan tea. You'll pick fresh mint and herbs directly from our small garden to brew your own pot. Enjoy your tea with homemade Moroccan sweets I've prepared for you, as we sit together for a warm conversation to get to know one another.
+                  </p>
+                </div>
+              </div>
+
+              {/* 15:00 - Prepare The Traditional Bread */}
+              <div className="relative flex gap-6 sm:gap-8">
+                <div className="flex-shrink-0 relative z-10">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-2xl border-4 border-white">
+                    <span className="text-sm sm:text-base font-black text-white">15:00</span>
+                  </div>
+                </div>
+                <div className="flex-1 bg-white rounded-2xl p-6 sm:p-8 shadow-xl border-2 border-amber-100 hover:shadow-2xl hover:border-amber-300 transition-all duration-300">
+                  <h3 className="text-2xl sm:text-3xl font-black text-gray-900 mb-3">
+                    Prepare The Traditional Bread
+                  </h3>
+                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+                    Master the ancient art of village bread. You will knead your own dough by hand before baking it in our traditional stone oven. We fire the hearth with Argan wood, infusing the bread with a rich, smoky aroma and a golden crust that you can only find in the heart of the mountains.
+                  </p>
+                </div>
+              </div>
+
+              {/* 15:30 - The Tagine Workshop */}
+              <div className="relative flex gap-6 sm:gap-8">
+                <div className="flex-shrink-0 relative z-10">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-2xl border-4 border-white">
+                    <span className="text-sm sm:text-base font-black text-white">15:30</span>
+                  </div>
+                </div>
+                <div className="flex-1 bg-white rounded-2xl p-6 sm:p-8 shadow-xl border-2 border-amber-100 hover:shadow-2xl hover:border-amber-300 transition-all duration-300">
+                  <h3 className="text-2xl sm:text-3xl font-black text-gray-900 mb-3">
+                    The Tagine Workshop
+                  </h3>
+                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+                    Prepare an authentic Tagine by cleaning fresh vegetables, marinating your chicken or fish in special Moroccan spices, and mastering the sweet and salty combination as it slow-cooks over an Argan wood fire for a delicious, smoky aroma.
+                  </p>
+                </div>
+              </div>
+
+              {/* 16:30 - The Ancient Millstone */}
+              <div className="relative flex gap-6 sm:gap-8">
+                <div className="flex-shrink-0 relative z-10">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-2xl border-4 border-white">
+                    <span className="text-sm sm:text-base font-black text-white">16:30</span>
+                  </div>
+                </div>
+                <div className="flex-1 bg-white rounded-2xl p-6 sm:p-8 shadow-xl border-2 border-amber-100 hover:shadow-2xl hover:border-amber-300 transition-all duration-300">
+                  <h3 className="text-2xl sm:text-3xl font-black text-gray-900 mb-3">
+                    The Ancient Millstone
+                  </h3>
+                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+                    Experience the magic of making your own Amlou using a traditional stone millstone—one of our most ancient tools that we still preserve and use today. You will grind toasted almonds by hand, blending them with pure Argan oil and orange honey to create the most delicious spread you can taste in Morocco.
+                  </p>
+                </div>
+              </div>
+
+              {/* 17:30 - The Family Feast & Sunset */}
+              <div className="relative flex gap-6 sm:gap-8">
+                <div className="flex-shrink-0 relative z-10">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-2xl border-4 border-white">
+                    <span className="text-sm sm:text-base font-black text-white">17:30</span>
+                  </div>
+                </div>
+                <div className="flex-1 bg-white rounded-2xl p-6 sm:p-8 shadow-xl border-2 border-amber-100 hover:shadow-2xl hover:border-amber-300 transition-all duration-300">
+                  <h3 className="text-2xl sm:text-3xl font-black text-gray-900 mb-3">
+                    The Family Feast & Sunset
+                  </h3>
+                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+                    After half day of tradition and cooking, it is time to sit together as one family. Enjoy the delicious meal you created, sharing stories and laughter over the steaming Tagine and fresh bread. It is more than just a dinner; it is a moment of true Moroccan hospitality in the peaceful heart of the mountains, watching the sunset over the Atlas peaks before we begin our journey back to Taghazout.
+                  </p>
+                </div>
+              </div>
+
+              {/* 19:00 - Journey Home */}
+              <div className="relative flex gap-6 sm:gap-8">
+                <div className="flex-shrink-0 relative z-10">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-2xl border-4 border-white">
+                    <span className="text-sm sm:text-base font-black text-white">19:00</span>
+                  </div>
+                </div>
+                <div className="flex-1 bg-white rounded-2xl p-6 sm:p-8 shadow-xl border-2 border-amber-100 hover:shadow-2xl hover:border-amber-300 transition-all duration-300">
+                  <h3 className="text-2xl sm:text-3xl font-black text-gray-900 mb-3">
+                    Journey Home
+                  </h3>
+                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+                    After the sun sets and we've shared our final goodbyes, we begin the scenic drive back, dropping you directly in Taghazout or Tamraght by 19:30 – 20:00.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA Button */}
+          <div className="text-center mt-16">
+            <Link
+              href="/book"
+              className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold py-5 px-12 rounded-full hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-2xl text-lg"
+            >
+              <span>Book This Experience</span>
+              <FiArrowRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </section>

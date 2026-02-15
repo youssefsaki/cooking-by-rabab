@@ -25,6 +25,7 @@ interface ExperienceStep {
   description: string;
   highlights: string[];
   image: string;
+  alt: string;
   duration: string;
   icon: any;
 }
@@ -41,7 +42,8 @@ const experienceSteps: ExperienceStep[] = [
       "Learn about local culture",
       "Arrive at traditional home"
     ],
-    image: "/journey/pickup.jpg",
+    image: "/journey/journey-1.jpeg",
+    alt: "Taghazout Morocco pickup location - Scenic coastal village starting point for authentic Moroccan cooking class journey to Atlas Mountains",
     duration: "20 min",
     icon: FiMapPin
   },
@@ -56,7 +58,8 @@ const experienceSteps: ExperienceStep[] = [
       "Wood-fired oven demonstration",
       "Traditional cooking tools"
     ],
-    image: "/journey/arrival.jpg",
+    image: "/journey/journey-2.jpg",
+    alt: "Traditional Moroccan kitchen tour - Authentic Amazigh cooking space with wood-fired oven and traditional tagines in Atlas Mountains home",
     duration: "20 min",
     icon: FiHome
   },
@@ -71,7 +74,8 @@ const experienceSteps: ExperienceStep[] = [
       "Bread making in wood oven",
       "Family recipes & secrets"
     ],
-    image: "/journey/cooking.jpg",
+    image: "/journey/journey-3.jpg",
+    alt: "Hands-on Moroccan cooking class - Learning traditional tagine preparation and bread baking techniques in authentic village kitchen",
     duration: "90 min",
     icon: FiActivity
   },
@@ -86,7 +90,8 @@ const experienceSteps: ExperienceStep[] = [
       "Recipe booklet & certificate",
       "Return to Taghazout"
     ],
-    image: "/journey/feast.jpg",
+    image: "/journey/journey-4.jpg",
+    alt: "Moroccan feast and hospitality - Traditional home-cooked meal experience with mint tea ceremony in Atlas Mountains Amazigh home",
     duration: "60 min",
     icon: FiHeart
   }
@@ -132,7 +137,7 @@ const TheExperienceV2: React.FC = memo(() => {
             <div className="relative w-full lg:w-1/2 h-[50vh] min-h-[400px] sm:h-[55vh] lg:h-auto">
               <Image
                 src={step.image}
-                alt={step.title}
+                alt={step.alt}
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"

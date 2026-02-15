@@ -62,7 +62,7 @@ const LocationMapV3: React.FC = memo(() => {
   // Component rendered client-side only (ssr: false in dynamic import)
 
   return (
-    <section className="relative py-20 lg:py-32 overflow-hidden bg-gradient-to-b from-amber-50 via-white to-amber-50">
+    <section className="relative py-12 lg:py-16 overflow-hidden bg-gradient-to-b from-amber-50 via-white to-amber-50">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0" 
