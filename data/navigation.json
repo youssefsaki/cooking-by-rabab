@@ -43,34 +43,7 @@
       "id": "experiences",
       "label": "EXPERIENCES",
       "href": "/experiences",
-      "hasDropdown": true,
-      "dropdownItems": [
-        {
-          "id": "berber-heritage",
-          "label": "Berber Heritage",
-          "href": "/experiences/berber-heritage"
-        },
-        {
-          "id": "tea-ceremony",
-          "label": "Tea Ceremony",
-          "href": "/experiences/tea-ceremony"
-        },
-        {
-          "id": "tajine-masterclass",
-          "label": "Tajine Masterclass",
-          "href": "/experiences/tajine-masterclass"
-        },
-        {
-          "id": "amlou-workshop",
-          "label": "Amlou Workshop",
-          "href": "/experiences/amlou-workshop"
-        },
-        {
-          "id": "clay-oven-bread",
-          "label": "Clay Oven Bread",
-          "href": "/experiences/clay-oven-bread"
-        }
-      ]
+      "hasDropdown": false
     },
     {
       "id": "packages",
@@ -111,32 +84,18 @@
     "dropdownItems": [
       {
         "id": "basic",
-        "label": "Basic",
-        "price": "€75",
-        "description": "Essential cooking experience",
-        "href": "/book?package=basic"
-      },
-      {
-        "id": "medium",
-        "label": "Signature",
-        "price": "€95",
-        "description": "Our most popular package",
-        "href": "/book?package=medium",
+        "label": "Basic Package",
+        "price": "500 MAD",
+        "description": "Half-day immersive experience",
+        "href": "/book?package=basic",
         "popular": true
       },
       {
-        "id": "premium",
-        "label": "Premium",
-        "price": "€150",
-        "description": "Complete culinary journey",
-        "href": "/book?package=premium"
-      },
-      {
-        "id": "private-chef",
-        "label": "Private Chef",
-        "price": "€250",
-        "description": "Exclusive private experience",
-        "href": "/book?package=private-chef"
+        "id": "private",
+        "label": "Private Package",
+        "price": "800 MAD",
+        "description": "Exclusive personalized journey",
+        "href": "/book?package=private"
       }
     ]
   }
