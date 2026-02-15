@@ -49,6 +49,12 @@
       "id": "packages",
       "label": "PACKAGES",
       "href": "/packages"
+    },
+    {
+      "id": "events",
+      "label": "EVENTS",
+      "href": "/events",
+      "hasDropdown": false
     }
   ],
   "socialLinks": [
