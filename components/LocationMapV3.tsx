@@ -169,7 +169,7 @@ const LocationMapV3: React.FC = memo(() => {
                   </div>
                   
                   <a 
-                    href={`https://www.google.com/maps/search/?api=1&query=${locationData.coordinates.lat},${locationData.coordinates.lng}`}
+                    href="https://www.google.com/maps/search/?api=1&query=Taghazout+Morocco"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-3 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition-colors"

@@ -257,7 +257,7 @@ const TheExperienceV2: React.FC = memo(() => {
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
             <a 
-              href="/activities"
+              href="/book"
               className="inline-flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-base sm:text-lg rounded-full shadow-xl hover:shadow-2xl active:scale-95 sm:hover:scale-105 transition-all duration-300"
             >
               <span>Book Your Experience</span>
@@ -265,7 +265,7 @@ const TheExperienceV2: React.FC = memo(() => {
             </a>
             
             <a 
-              href="/faq-contact"
+              href="/packages"
               className="inline-flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-white text-gray-900 font-bold text-base sm:text-lg rounded-full border-2 border-gray-200 hover:border-amber-500 active:scale-95 sm:hover:shadow-lg transition-all duration-300"
             >
               <span>Learn More</span>

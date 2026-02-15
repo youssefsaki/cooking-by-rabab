@@ -186,7 +186,7 @@ const PackagesV3: React.FC = memo(() => {
                 {/* Bottom Buttons - Optimized */}
                 <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 mt-4">
                   <Link
-                    href={`/packages#${pkg.id}`}
+                    href="/packages"
                     className="flex-1 inline-flex items-center justify-center border-2 border-white text-white font-bold px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 rounded-full hover:bg-white hover:text-black transition-all duration-200 text-xs sm:text-sm md:text-base"
                   >
                     Full Details
@@ -201,22 +201,6 @@ const PackagesV3: React.FC = memo(() => {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="text-center mt-12 lg:mt-16">
-          <div className="inline-block bg-white rounded-2xl px-8 py-6 shadow-xl border border-amber-100">
-            <p className="text-gray-800 mb-4 text-sm sm:text-base font-medium">
-              Need help choosing the perfect package?
-            </p>
-            <Link
-              href="/packages"
-              className="inline-flex items-center gap-2 text-amber-600 hover:text-amber-700 font-bold transition-colors duration-200 text-sm sm:text-base group"
-            >
-              <span>Compare all packages in detail</span>
-              <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
-            </Link>
-          </div>
         </div>
       </div>
     </section>

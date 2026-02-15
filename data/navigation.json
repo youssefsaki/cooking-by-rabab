@@ -49,11 +49,6 @@
       "id": "packages",
       "label": "PACKAGES",
       "href": "/packages"
-    },
-    {
-      "id": "private-groups",
-      "label": "PRIVATE GROUPS",
-      "href": "/private-groups"
     }
   ],
   "socialLinks": [

@@ -98,7 +98,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
           </div>
 
           {/* Block 2: Navigation Links (Center) */}
-          <div className="hidden lg:flex items-center gap-3 mt-1">
+          <div className="hidden lg:flex items-center justify-center gap-3 flex-1">
             {navigationData.menuItems.map((item: any) => {
               const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
               const hasDropdown = item.hasDropdown && item.dropdownItems?.length > 0;

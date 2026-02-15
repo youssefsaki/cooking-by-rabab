@@ -31,11 +31,11 @@ const footerData = {
     { label: "Book Now", href: "/book" }
   ],
   experiences: [
-    { label: "Tajine Masterclass", href: "/experiences/tajine-masterclass" },
-    { label: "Amazigh Heritage", href: "/experiences/amazigh-heritage" },
-    { label: "Tea Ceremony", href: "/experiences/tea-ceremony" },
-    { label: "Clay Oven Bread", href: "/experiences/clay-oven-bread" },
-    { label: "Amlou Workshop", href: "/experiences/amlou-workshop" }
+    { label: "Tajine Masterclass", href: "/experiences#tajine-masterclass" },
+    { label: "Amazigh Heritage", href: "/experiences#amazigh-heritage" },
+    { label: "Tea Ceremony", href: "/experiences#tea-ceremony" },
+    { label: "Clay Oven Bread", href: "/experiences#clay-oven-bread" },
+    { label: "Amlou Workshop", href: "/experiences#amlou-workshop" }
   ],
   contact: {
     address: "Tamraght Village, Agadir-Ida-Ou-Tanane, Morocco",

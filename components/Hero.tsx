@@ -130,9 +130,7 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
           {/* CTA Button */}
           <div>
             <a
-              href="https://wa.me/212661736563?text=Hi%20Rabab!%20I%20would%20like%20to%20book%20a%20cooking%20class."
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/book"
               className="inline-block bg-amber-500 hover:bg-amber-600 text-white px-6 sm:px-8 lg:px-12 py-3 sm:py-4 lg:py-5 text-sm sm:text-base lg:text-lg font-bold uppercase tracking-widest transition-all duration-300 hover:scale-105 hover:shadow-2xl rounded-lg"
             >
               Book Your Experience
