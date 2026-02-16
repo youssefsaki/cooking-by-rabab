@@ -18,11 +18,6 @@
       "hasDropdown": true,
       "dropdownItems": [
         {
-          "id": "our-philosophy",
-          "label": "Our Philosophy",
-          "href": "/ourstory/philosophy"
-        },
-        {
           "id": "meet-the-chef",
           "label": "Meet the Chef",
           "href": "/ourstory/meet-the-chef"
