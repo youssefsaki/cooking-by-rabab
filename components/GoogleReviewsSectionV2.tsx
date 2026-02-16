@@ -3,17 +3,16 @@
 import React, { useEffect } from 'react';
 
 /**
- * GOOGLE REVIEWS SECTION - Taggbox Widget
+ * GOOGLE REVIEWS SECTION - Elfsight Widget
  * 
- * Displays real Google Reviews using Taggbox embedded widget
+ * Displays real Google Reviews using Elfsight embedded widget
  */
 
 const GoogleReviewsSectionV2: React.FC = () => {
   useEffect(() => {
-    // Load Taggbox script
+    // Load Elfsight script
     const script = document.createElement('script');
-    script.src = 'https://widget.taggbox.com/embed.min.js';
-    script.type = 'text/javascript';
+    script.src = 'https://elfsightcdn.com/platform.js';
     script.async = true;
     document.body.appendChild(script);
 
@@ -26,7 +25,7 @@ const GoogleReviewsSectionV2: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative pt-16 sm:pt-20 lg:pt-24 pb-0 overflow-hidden bg-white">
+    <section className="relative pt-16 sm:pt-20 lg:pt-24 pb-16 overflow-hidden bg-white">
       {/* Header */}
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12 mb-12">
         <div className="text-center">
@@ -42,13 +41,11 @@ const GoogleReviewsSectionV2: React.FC = () => {
         </div>
       </div>
 
-      {/* Taggbox Widget Container */}
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-12 mb-0 pb-0">
+      {/* Elfsight Widget Container */}
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
         <div 
-          className="taggbox" 
-          style={{ width: '100%', height: '600px', overflow: 'auto', marginBottom: 0, paddingBottom: 0 }} 
-          data-widget-id="316672" 
-          data-website="1"
+          className="elfsight-app-a3d605ad-6647-4f58-98e8-d52fb2c285b9" 
+          data-elfsight-app-lazy
         ></div>
       </div>
     </section>
