@@ -192,7 +192,7 @@ const PackagesV3: React.FC = memo(() => {
                     Full Details
                   </Link>
                   <Link
-                    href="/book"
+                    href={`/book?package=${pkg.id}`}
                     className="flex-1 inline-flex items-center justify-center bg-white text-black font-bold px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 rounded-full hover:bg-gradient-to-r hover:from-amber-500 hover:to-orange-500 hover:text-white transition-all duration-200 shadow-xl text-xs sm:text-sm md:text-base"
                   >
                     Book Now

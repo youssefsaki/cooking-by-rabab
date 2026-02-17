@@ -1,18 +1,32 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { FiCheck, FiMail, FiPhone, FiUser, FiMapPin } from 'react-icons/fi';
 
 export default function BookPage() {
+  const searchParams = useSearchParams();
+  const packageParam = searchParams.get('package');
+  
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
     country: '',
     email: '',
-    packageType: 'basic',
+    packageType: packageParam === 'private' ? 'private' : 'basic',
     dietaryPreference: 'none',
     allergies: '',
   });
+
+  // Update package type if URL parameter changes
+  useEffect(() => {
+    if (packageParam === 'private' || packageParam === 'basic') {
+      setFormData(prev => ({
+        ...prev,
+        packageType: packageParam
+      }));
+    }
+  }, [packageParam]);
 
   const [submitted, setSubmitted] = useState(false);
 

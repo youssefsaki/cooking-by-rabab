@@ -305,7 +305,7 @@ export default function PackagesPage() {
                       View Full Details
                     </button>
                     <Link
-                      href="/book"
+                      href={`/book?package=${pkg.id}`}
                       className="flex-1 inline-flex items-center justify-center bg-white text-black font-bold px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 rounded-full hover:bg-gradient-to-r hover:from-amber-500 hover:to-orange-500 hover:text-white transition-all duration-200 shadow-xl text-xs sm:text-sm md:text-base"
                     >
                       Book Now
@@ -511,7 +511,7 @@ export default function PackagesPage() {
               </button>
               
               <Link
-                href="/book"
+                href={`/book?package=${displayPackage.id}`}
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-6 py-3 rounded-full hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-xl"
               >
                 <span>Book Now</span>
@@ -622,7 +622,7 @@ export default function PackagesPage() {
                   Book your {displayPackage.name} today and create unforgettable memories
                 </p>
                 <Link
-                  href="/book"
+                  href={`/book?package=${displayPackage.id}`}
                   className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold py-5 px-12 rounded-full hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-2xl text-lg sm:text-xl"
                 >
                   <span>Book {displayPackage.name}</span>
