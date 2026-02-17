@@ -4,35 +4,35 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function OurKitchenPage() {
-  // Placeholder images - client will add actual kitchen photos
+  // Kitchen gallery images
   const galleryImages = [
     {
-      src: '/kitchen/kitchen-1.jpg',
+      src: '/our-story/our-kitchen/wood-fire-oven.jpg',
       alt: 'Traditional Amazigh wood-fired oven in authentic Moroccan kitchen',
-      title: 'Wood-Fired Oven'
+      title: 'Wood Fire Oven'
     },
     {
-      src: '/kitchen/kitchen-2.jpg',
+      src: '/our-story/our-kitchen/traditional-tagines.jpg',
       alt: 'Traditional tagine pots and cooking utensils in Moroccan kitchen',
       title: 'Traditional Tagines'
     },
     {
-      src: '/kitchen/kitchen-3.jpg',
+      src: '/our-story/our-kitchen/kitchen-workspace.jpg',
       alt: 'Authentic Amazigh kitchen workspace with traditional tools',
       title: 'Kitchen Workspace'
     },
     {
-      src: '/kitchen/kitchen-4.jpg',
+      src: '/our-story/our-kitchen/spices.jpg',
       alt: 'Traditional Moroccan spices and ingredients display',
-      title: 'Spices & Ingredients'
+      title: 'Spices'
     },
     {
-      src: '/kitchen/kitchen-5.jpg',
+      src: '/our-story/our-kitchen/bread-making-station.jpg',
       alt: 'Traditional bread making area in Amazigh kitchen',
       title: 'Bread Making Station'
     },
     {
-      src: '/kitchen/kitchen-6.jpg',
+      src: '/our-story/our-kitchen/kitchen-overview.jpg',
       alt: 'Complete view of authentic traditional Moroccan kitchen',
       title: 'Kitchen Overview'
     }
@@ -90,15 +90,14 @@ export default function OurKitchenPage() {
 
               <div className="relative">
                 <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-2xl">
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center">
-                    <div className="text-center text-gray-400">
-                      <svg className="w-24 h-24 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      <p className="text-sm font-medium">Kitchen Hero Image</p>
-                      <p className="text-xs mt-1">To be added by client</p>
-                    </div>
-                  </div>
+                  <Image
+                    src="/our-story/our-kitchen/main.jpg"
+                    alt="Authentic traditional Moroccan Amazigh kitchen in Taghazout Atlas Mountains"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    priority
+                  />
                 </div>
                 {/* Decorative Element */}
                 <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-amber-500 rounded-full opacity-20 blur-3xl -z-10"></div>
@@ -180,16 +179,14 @@ export default function OurKitchenPage() {
                   key={index} 
                   className="group relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer"
                 >
-                  {/* Placeholder for images */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber-200 via-orange-200 to-amber-300 flex items-center justify-center">
-                    <div className="text-center text-gray-600">
-                      <svg className="w-16 h-16 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      <p className="text-sm font-medium">{image.title}</p>
-                      <p className="text-xs mt-1">Image placeholder</p>
-                    </div>
-                  </div>
+                  {/* Kitchen Image */}
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
 
                   {/* Overlay on hover */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">

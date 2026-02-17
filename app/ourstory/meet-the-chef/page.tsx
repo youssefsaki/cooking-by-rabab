@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { FiArrowRight } from 'react-icons/fi';
 
@@ -32,14 +33,15 @@ export default function MeetTheChefPage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             {/* Image Placeholder */}
-            <div className="relative h-[420px] lg:h-[500px] bg-gradient-to-br from-amber-100 via-orange-100 to-amber-200 rounded-3xl overflow-hidden shadow-2xl border-2 border-amber-200 flex items-center justify-center">
-              <div className="text-center p-8">
-                <div className="w-28 h-28 mx-auto mb-5 bg-white/60 rounded-full flex items-center justify-center backdrop-blur-sm">
-                  <span className="text-5xl">👩‍🍳</span>
-                </div>
-                <p className="text-xl font-bold text-amber-900 mb-2">Rabab</p>
-                <p className="text-base text-amber-700">Photo Coming Soon</p>
-              </div>
+            <div className="relative h-[932px] rounded-3xl overflow-hidden shadow-2xl border-2 border-amber-200">
+              <Image
+                src="/our-story/meet-the-chef/meet-the-chef.jpg"
+                alt="Rabab - Traditional Moroccan Chef and Cooking Class Host in Taghazout Atlas Mountains"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+              />
             </div>
 
             {/* Story Content */}

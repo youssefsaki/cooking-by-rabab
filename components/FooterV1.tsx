@@ -39,13 +39,13 @@ const footerData = {
   ],
   contact: {
     address: "Tamraght Village, Agadir-Ida-Ou-Tanane, Morocco",
-    phone: "+212 600 000 000",
+    phone: "+212 726 671 746",
     email: "rabab@cookingclass.ma",
-    whatsapp: "+212600000000"
+    whatsapp: "212726671746"
   },
   social: [
     { platform: "Instagram", url: "https://instagram.com/rababskitchen", icon: FiInstagram },
-    { platform: "WhatsApp", url: "https://wa.me/212600000000", icon: FiSend }
+    { platform: "WhatsApp", url: "https://wa.me/212726671746", icon: FiSend }
   ]
 };
 
