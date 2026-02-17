@@ -51,44 +51,44 @@ const packagesData = [
 
 const PackagesV3: React.FC = memo(() => {
   return (
-    <section className="relative py-16 sm:py-20 lg:py-28 bg-[#F5EFE7] overflow-hidden">
+    <section className="relative py-12 sm:py-16 lg:py-20 bg-[#F5EFE7] overflow-hidden">
       {/* Decorative Elements */}
       <div className="absolute top-0 left-0 w-64 h-64 bg-amber-200/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-orange-200/20 rounded-full blur-3xl pointer-events-none" />
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
         {/* Header */}
-        <div className="text-center mb-12 lg:mb-16">
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white shadow-xl mb-6 border border-amber-100">
-            <span className="text-xl">🍽️</span>
-            <span className="text-sm font-bold text-amber-900 tracking-wider uppercase">
+        <div className="text-center mb-8 lg:mb-10">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-xl mb-4 border border-amber-100">
+            <span className="text-lg">🍽️</span>
+            <span className="text-xs font-bold text-amber-900 tracking-wider uppercase">
               Choose Your Experience
             </span>
           </div>
           
-          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-black text-gray-900 mb-4 sm:mb-6 leading-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black text-gray-900 mb-3 sm:mb-4 leading-tight">
             Cooking Class{' '}
             <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-clip-text text-transparent">
               Packages
             </span>
           </h2>
           
-          <p className="text-base sm:text-lg lg:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
             Immerse yourself in authentic Amazigh culture with our mountain cooking experiences
           </p>
         </div>
 
         {/* Packages Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6 max-w-6xl mx-auto">
           {packagesData.map((pkg) => (
             <div
               key={pkg.id}
-              className="group relative h-[550px] sm:h-[650px] rounded-3xl overflow-hidden cursor-pointer shadow-2xl hover:shadow-3xl transition-all duration-300 will-change-transform"
+              className="group relative h-[550px] sm:h-[600px] lg:h-[580px] rounded-3xl overflow-hidden cursor-pointer shadow-2xl hover:shadow-3xl transition-all duration-300 will-change-transform"
             >
               {/* Popular Badge */}
               {pkg.popular && (
-                <div className="absolute top-6 right-6 z-30 pointer-events-none">
-                  <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-full text-xs sm:text-sm font-bold shadow-xl">
+                <div className="absolute top-4 right-4 z-30 pointer-events-none">
+                  <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-xl">
                     ⭐ Most Popular
                   </div>
                 </div>
@@ -111,22 +111,22 @@ const PackagesV3: React.FC = memo(() => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-300 ease-out group-hover:from-black/90 group-hover:via-black/70 group-hover:to-black/50" />
 
               {/* Default Content - Faster fade out */}
-              <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-10 transition-all duration-300 ease-out group-hover:opacity-0 group-hover:translate-y-2 will-change-transform">
-                <div className="space-y-3 mb-4">
-                  <div className="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/30">
-                    <span className="text-white text-sm font-semibold">{pkg.duration} • {pkg.groupSize}</span>
+              <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8 transition-all duration-300 ease-out group-hover:opacity-0 group-hover:translate-y-2 will-change-transform">
+                <div className="space-y-2 mb-3">
+                  <div className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full border border-white/30">
+                    <span className="text-white text-xs font-semibold">{pkg.duration} • {pkg.groupSize}</span>
                   </div>
                 </div>
-                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3 leading-tight drop-shadow-lg">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2 leading-tight drop-shadow-lg">
                   {pkg.name}
                 </h3>
-                <p className="text-lg sm:text-xl text-white/95 font-light leading-relaxed drop-shadow-md">
+                <p className="text-base sm:text-lg text-white/95 font-light leading-relaxed drop-shadow-md">
                   {pkg.tagline}
                 </p>
-                <div className="mt-4 flex items-baseline gap-2">
-                  <span className="text-4xl sm:text-5xl font-black text-white drop-shadow-lg">{pkg.price}</span>
-                  <span className="text-xl text-white/90 font-semibold">{pkg.currency}</span>
-                  <span className="text-sm text-white/80">per person</span>
+                <div className="mt-3 flex items-baseline gap-2">
+                  <span className="text-3xl sm:text-4xl font-black text-white drop-shadow-lg">{pkg.price}</span>
+                  <span className="text-lg text-white/90 font-semibold">{pkg.currency}</span>
+                  <span className="text-xs text-white/80">per person</span>
                 </div>
               </div>
 

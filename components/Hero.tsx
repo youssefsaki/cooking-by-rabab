@@ -99,31 +99,32 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
           alignItems: 'center',
           justifyContent: 'center',
           padding: '1rem',
+          paddingTop: '5rem',
           zIndex: 2,
         }}
       >
         <div className="text-center max-w-4xl mx-auto">
           
           {/* Decorative Line */}
-          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-6 lg:mb-8">
-            <div className="w-8 sm:w-12 lg:w-16 h-[1px] bg-amber-500"></div>
-            <span className="text-amber-500 text-[10px] sm:text-xs lg:text-sm font-medium tracking-[0.15em] sm:tracking-[0.2em] lg:tracking-[0.3em] uppercase whitespace-nowrap">
+          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4 lg:mb-6">
+            <div className="w-6 sm:w-8 lg:w-12 h-[1px] bg-amber-500"></div>
+            <span className="text-amber-500 text-[9px] sm:text-[10px] lg:text-xs font-medium tracking-[0.15em] sm:tracking-[0.2em] uppercase whitespace-nowrap">
               {heroData.subheading}
             </span>
-            <div className="w-8 sm:w-12 lg:w-16 h-[1px] bg-amber-500"></div>
+            <div className="w-6 sm:w-8 lg:w-12 h-[1px] bg-amber-500"></div>
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-light tracking-tight mb-4 sm:mb-6 lg:mb-8">
+          <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-light tracking-tight mb-3 sm:mb-4 lg:mb-6">
             <span className="block font-extralight italic">Authentic</span>
             <span className="block font-bold uppercase tracking-wider mt-1 sm:mt-2">Moroccan Cooking</span>
           </h1>
 
           {/* Thin Separator */}
-          <div className="w-16 sm:w-20 lg:w-24 h-[2px] bg-amber-500 mx-auto mb-4 sm:mb-6 lg:mb-8"></div>
+          <div className="w-12 sm:w-16 lg:w-20 h-[2px] bg-amber-500 mx-auto mb-3 sm:mb-4 lg:mb-6"></div>
 
           {/* Description */}
-          <p className="text-white/90 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto mb-6 sm:mb-8 lg:mb-12 font-light px-2 sm:px-4">
+          <p className="text-white/90 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed max-w-2xl mx-auto mb-5 sm:mb-6 lg:mb-8 font-light px-2 sm:px-4">
             Leave the coast behind for a half-day in the mountains to discover the soul of Amazigh culture and the warmth of village life through our traditional cooking class.
           </p>
 
