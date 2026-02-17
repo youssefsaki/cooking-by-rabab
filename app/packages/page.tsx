@@ -292,6 +292,13 @@ export default function PackagesPage() {
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedPackage(pkg.id);
+                        // Wait for React to render the dynamic details section, then scroll
+                        setTimeout(() => {
+                          const detailsSection = document.getElementById('selected-package-details');
+                          if (detailsSection) {
+                            detailsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          }
+                        }, 300);
                       }}
                       className="flex-1 inline-flex items-center justify-center border-2 border-white text-white font-bold px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 rounded-full hover:bg-white hover:text-black transition-all duration-200 text-xs sm:text-sm md:text-base"
                     >
@@ -312,7 +319,7 @@ export default function PackagesPage() {
       </section>
 
       {/* Full Itinerary Section - Design 1 */}
-      <section className="relative py-16 sm:py-20 lg:py-24 bg-white">
+      <section id="package-details" className="relative py-16 sm:py-20 lg:py-24 bg-white scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           {/* Section Header */}
           <div className="text-center mb-16">
@@ -491,7 +498,7 @@ export default function PackagesPage() {
 
       {/* Detailed Itinerary - Enhanced */}
       {displayPackage && (
-        <section className="relative py-16 sm:py-20 lg:py-24 bg-white">
+        <section id="selected-package-details" className="relative py-16 sm:py-20 lg:py-24 bg-white scroll-mt-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
             {/* Close Button - Enhanced */}
             <div className="flex justify-between items-center mb-12">
