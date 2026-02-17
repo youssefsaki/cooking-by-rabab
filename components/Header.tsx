@@ -8,6 +8,7 @@ import { Instagram, Home, Menu, X, ChevronDown, Sparkles, Star, Crown } from 'lu
 import { HeaderProps } from '@/types';
 import { getSocialIconName } from '@/lib/static-data';
 import { usePathname } from 'next/navigation';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // =====================================================
 // BOOK NOW DROPDOWN DESIGN SELECTOR
@@ -39,7 +40,15 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState<string | null>(null);
   const [ctaDropdownOpen, setCtaDropdownOpen] = useState(false);
+  const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   const pathname = usePathname();
+  const { language, setLanguage, t } = useLanguage();
+
+  const languages = [
+    { code: 'EN' as const, label: 'English', flag: '🇬🇧' },
+    { code: 'FR' as const, label: 'Français', flag: '🇫🇷' },
+    { code: 'DE' as const, label: 'Deutsch', flag: '🇩🇪' }
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -118,7 +127,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                           : 'text-dark-blue hover:text-primary'
                       }`}
                     >
-                      {item.label}
+                      {item.id === 'ourstory' ? t.nav.ourStory : item.label}
                       <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${openDropdown === item.id ? 'rotate-180' : ''}`} />
                     </button>
                     
@@ -126,21 +135,34 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                     {openDropdown === item.id && (
                       <div className="absolute top-full left-0 pt-2 w-56 z-50">
                         <div className="bg-white rounded-xl shadow-xl border border-gray-100 py-2">
-                          {item.dropdownItems.map((dropdownItem: any) => (
-                            <Link
-                              key={dropdownItem.id}
-                              href={dropdownItem.href}
-                              className="block px-4 py-3 text-sm font-medium text-dark-blue hover:text-primary hover:bg-primary/5 transition-colors duration-200"
-                            >
-                              {dropdownItem.label}
-                            </Link>
-                          ))}
+                          {item.dropdownItems.map((dropdownItem: any) => {
+                            const translatedLabel = 
+                              dropdownItem.id === 'meet-the-chef' ? t.nav.meetTheChef :
+                              dropdownItem.id === 'our-kitchen' ? t.nav.ourKitchen :
+                              dropdownItem.id === 'location' ? t.nav.location :
+                              dropdownItem.label;
+                            return (
+                              <Link
+                                key={dropdownItem.id}
+                                href={dropdownItem.href}
+                                className="block px-4 py-3 text-sm font-medium text-dark-blue hover:text-primary hover:bg-primary/5 transition-colors duration-200"
+                              >
+                                {translatedLabel}
+                              </Link>
+                            );
+                          })}
                         </div>
                       </div>
                     )}
                   </div>
                 );
               }
+              
+              const translatedLabel = 
+                item.id === 'experiences' ? t.nav.experiences :
+                item.id === 'packages' ? t.nav.packages :
+                item.id === 'events' ? t.nav.events :
+                item.label;
               
               return (
                 <Link
@@ -152,31 +174,58 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                       : 'text-dark-blue hover:text-primary'
                   }`}
                 >
-                  {item.label}
+                  {translatedLabel}
                 </Link>
               );
             })}
           </div>
 
-          {/* Block 3: CTA Button + Social Icons (Right) */}
+          {/* Block 3: CTA Button + Language Selector (Right) */}
           <div className="hidden lg:flex items-center gap-4">
-            {/* Social Media Icons */}
-            <div className="flex items-center gap-2">
-              {navigationData.socialLinks.map((social: any) => {
-                const IconComponent = getSocialIcon(social.platform);
-                return (
-                  <Link
-                    key={social.platform}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-dark-blue hover:text-primary transition-colors duration-300"
-                    aria-label={social.ariaLabel}
-                  >
-                    <IconComponent className="w-5 h-5" />
-                  </Link>
-                );
-              })}
+            {/* Language Selector */}
+            <div className="relative">
+              <button 
+                onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+              >
+                <span className="text-xl">{languages.find(l => l.code === language)?.flag}</span>
+                <span className="text-sm font-bold text-dark-blue">{language}</span>
+                <ChevronDown className={`w-4 h-4 text-dark-blue transition-transform duration-200 ${languageDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Language Dropdown */}
+              {languageDropdownOpen && (
+                <>
+                  {/* Backdrop to close dropdown when clicking outside */}
+                  <div 
+                    className="fixed inset-0 z-40" 
+                    onClick={() => setLanguageDropdownOpen(false)}
+                  />
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 z-50">
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => {
+                          setLanguage(lang.code);
+                          setLanguageDropdownOpen(false);
+                        }}
+                        className={`w-full flex items-center gap-3 px-4 py-2.5 hover:bg-amber-50 transition-colors duration-200 ${
+                          language === lang.code ? 'bg-amber-50' : ''
+                        }`}
+                      >
+                        <span className="text-2xl">{lang.flag}</span>
+                        <div className="flex-1 text-left">
+                          <div className="text-sm font-semibold text-gray-900">{lang.label}</div>
+                          <div className="text-xs text-gray-500">{lang.code}</div>
+                        </div>
+                        {language === lang.code && (
+                          <span className="text-amber-500">✓</span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
             {/* CTA Button with Dropdown */}
@@ -187,7 +236,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                 onMouseLeave={() => setCtaDropdownOpen(false)}
               >
                 <button className="btn-primary text-sm flex items-center gap-2">
-                  {navigationData.ctaButton.text}
+                  {t.nav.bookNow}
                   <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${ctaDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
                 

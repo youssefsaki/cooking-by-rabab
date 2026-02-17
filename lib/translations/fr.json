@@ -1,0 +1,137 @@
+{
+  "nav": {
+    "ourStory": "NOTRE HISTOIRE",
+    "experiences": "EXPÉRIENCES",
+    "packages": "FORFAITS",
+    "events": "ÉVÉNEMENTS",
+    "bookNow": "RÉSERVER",
+    "meetTheChef": "Rencontrer le Chef",
+    "ourKitchen": "Notre Cuisine",
+    "location": "Emplacement"
+  },
+  "hero": {
+    "badge": "CUISINE TRADITIONNELLE AMAZIGH",
+    "title": "Authentique",
+    "titleHighlight": "CUISINE MAROCAINE",
+    "description": "Quittez la côte pour une demi-journée dans les montagnes pour découvrir l'âme de la culture amazigh et la chaleur de la vie villageoise à travers notre cours de cuisine traditionnelle.",
+    "bookButton": "RÉSERVEZ VOTRE EXPÉRIENCE"
+  },
+  "packages": {
+    "badge": "CHOISISSEZ VOTRE EXPÉRIENCE",
+    "title": "Forfaits de Cours de Cuisine",
+    "description": "Plongez dans la culture amazigh authentique avec nos expériences culinaires de montagne",
+    "mostPopular": "Le Plus Populaire",
+    "basic": {
+      "title": "Forfait de Base",
+      "subtitle": "Votre Voyage dans les Montagnes",
+      "description": "Une expérience culturelle immersive d'une demi-journée",
+      "price": "500 MAD/personne",
+      "duration": "6 heures",
+      "startTime": "Début à 13h30",
+      "pickup": "Prise en charge à la Mosquée de Taghazout"
+    },
+    "private": {
+      "title": "Forfait Privé",
+      "subtitle": "Votre Expérience Exclusive en Montagne",
+      "description": "Un voyage culturel personnalisé d'une journée complète",
+      "price": "800 MAD/personne",
+      "startTime": "Heure de début flexible",
+      "pickup": "Prise en charge à l'hôtel incluse"
+    },
+    "viewDetails": "Voir les Détails",
+    "bookNow": "Réserver"
+  },
+  "experiences": {
+    "title": "Découvrez le Maroc Authentique",
+    "description": "Cinq expériences culinaires uniques, chacune racontant une histoire de la culture marocaine, de la tradition et de la chaleur de l'hospitalité berbère.",
+    "bookExperience": "Réserver une Expérience",
+    "tajine": {
+      "title": "Masterclass Tajine",
+      "subtitle": "Le Plat Emblématique du Maroc",
+      "description": "Maîtrisez l'art du plat le plus emblématique du Maroc dans ce cours complet."
+    },
+    "amazigh": {
+      "title": "Héritage Amazigh",
+      "subtitle": "Traditions Berbères Anciennes",
+      "description": "Plongez dans la culture amazigh authentique et les traditions culinaires."
+    },
+    "tea": {
+      "title": "Cérémonie du Thé",
+      "subtitle": "L'Art du Thé à la Menthe Marocain",
+      "description": "Découvrez l'élégance de la cérémonie du thé marocain traditionnel."
+    },
+    "bread": {
+      "title": "Pain au Four en Argile",
+      "subtitle": "Tradition au Feu de Bois",
+      "description": "Découvrez l'art ancien de la cuisson du pain marocain traditionnel."
+    },
+    "amlou": {
+      "title": "Atelier Amlou",
+      "subtitle": "L'Or Liquide du Maroc",
+      "description": "Découvrez les secrets de la fabrication de l'amlou marocain traditionnel."
+    }
+  },
+  "booking": {
+    "title": "Commencez Votre Voyage Culinaire",
+    "description": "Remplissez le formulaire ci-dessous et nous vous contacterons pour confirmer votre réservation.",
+    "fullName": "Nom Complet",
+    "fullNamePlaceholder": "Entrez votre nom complet",
+    "phone": "Numéro de Téléphone",
+    "phonePlaceholder": "Entrez votre numéro de téléphone",
+    "country": "Pays",
+    "countryPlaceholder": "Sélectionnez votre pays",
+    "email": "Adresse E-mail",
+    "emailPlaceholder": "Entrez votre adresse e-mail",
+    "packageType": "Sélectionner le Forfait",
+    "basicPackage": "Forfait de Base - 500 MAD",
+    "privatePackage": "Forfait Privé - 800 MAD",
+    "dietary": "Préférences Alimentaires",
+    "dietaryNone": "Aucune restriction",
+    "dietaryVegetarian": "Végétarien",
+    "dietaryVegan": "Végétalien",
+    "allergies": "Allergies ou Exigences Spéciales",
+    "allergiesPlaceholder": "Veuillez nous informer de toute allergie ou exigence particulière",
+    "submit": "Soumettre la Demande de Réservation",
+    "submitting": "Envoi en cours...",
+    "success": "Réservation Soumise avec Succès!",
+    "successMessage": "Merci pour votre demande de réservation! Nous vous contacterons sous peu pour confirmer votre expérience.",
+    "bookAnother": "Réserver une Autre Expérience",
+    "backHome": "Retour à l'Accueil"
+  },
+  "common": {
+    "readMore": "Lire Plus",
+    "learnMore": "En Savoir Plus",
+    "viewAll": "Voir Tout",
+    "close": "Fermer",
+    "duration": "Durée",
+    "groupSize": "Taille du Groupe",
+    "perPerson": "par personne",
+    "hours": "heures",
+    "guests": "invités"
+  },
+  "footer": {
+    "tagline": "Cours de Cuisine Marocaine Traditionnelle",
+    "description": "Apprenez des recettes amazigh authentiques transmises de génération en génération au cœur de Tamraght, Maroc.",
+    "quickLinks": "Liens Rapides",
+    "experiences": "Expériences",
+    "contactUs": "Contactez-Nous",
+    "whatsappUs": "WhatsApp",
+    "madeWith": "Fait avec",
+    "inMorocco": "au Maroc",
+    "rights": "Tous droits réservés",
+    "links": {
+      "home": "Accueil",
+      "cookingClasses": "Cours de Cuisine",
+      "aboutRabab": "À Propos de Rabab",
+      "gallery": "Galerie",
+      "bookNow": "Réserver"
+    },
+    "experienceLinks": {
+      "tajine": "Masterclass Tajine",
+      "amazigh": "Héritage Amazigh",
+      "tea": "Cérémonie du Thé",
+      "bread": "Pain au Four en Argile",
+      "amlou": "Atelier Amlou"
+    }
+  }
+}

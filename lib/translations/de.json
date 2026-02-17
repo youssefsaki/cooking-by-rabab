@@ -1,0 +1,137 @@
+{
+  "nav": {
+    "ourStory": "UNSERE GESCHICHTE",
+    "experiences": "ERLEBNISSE",
+    "packages": "PAKETE",
+    "events": "VERANSTALTUNGEN",
+    "bookNow": "JETZT BUCHEN",
+    "meetTheChef": "Treffen Sie den Koch",
+    "ourKitchen": "Unsere Küche",
+    "location": "Standort"
+  },
+  "hero": {
+    "badge": "TRADITIONELLE AMAZIGH-KÜCHE",
+    "title": "Authentisch",
+    "titleHighlight": "MAROKKANISCHES KOCHEN",
+    "description": "Verlassen Sie die Küste für einen halben Tag in den Bergen, um die Seele der Amazigh-Kultur und die Wärme des Dorflebens durch unseren traditionellen Kochkurs zu entdecken.",
+    "bookButton": "BUCHEN SIE IHR ERLEBNIS"
+  },
+  "packages": {
+    "badge": "WÄHLEN SIE IHR ERLEBNIS",
+    "title": "Kochkurs-Pakete",
+    "description": "Tauchen Sie ein in die authentische Amazigh-Kultur mit unseren Berg-Kocherlebnissen",
+    "mostPopular": "Am Beliebtesten",
+    "basic": {
+      "title": "Basis-Paket",
+      "subtitle": "Ihre Reise in die Berge",
+      "description": "Ein halbtägiges immersives Kulturerlebnis",
+      "price": "500 MAD/Person",
+      "duration": "6 Stunden",
+      "startTime": "Beginn um 13:30 Uhr",
+      "pickup": "Abholung an der Taghazout-Moschee"
+    },
+    "private": {
+      "title": "Privat-Paket",
+      "subtitle": "Ihr Exklusives Bergerlebnis",
+      "description": "Eine personalisierte ganztägige Kulturreise",
+      "price": "800 MAD/Person",
+      "startTime": "Flexible Startzeit",
+      "pickup": "Hotel-Abholung inklusive"
+    },
+    "viewDetails": "Details Anzeigen",
+    "bookNow": "Jetzt Buchen"
+  },
+  "experiences": {
+    "title": "Entdecken Sie das Authentische Marokko",
+    "description": "Fünf einzigartige kulinarische Erlebnisse, die jeweils eine Geschichte der marokkanischen Kultur, Tradition und der Wärme der Berber-Gastfreundschaft erzählen.",
+    "bookExperience": "Ein Erlebnis Buchen",
+    "tajine": {
+      "title": "Tajine-Meisterklasse",
+      "subtitle": "Marokkos Ikonisches Gericht",
+      "description": "Meistern Sie die Kunst von Marokkos ikonischstem Gericht in diesem umfassenden Kurs."
+    },
+    "amazigh": {
+      "title": "Amazigh-Erbe",
+      "subtitle": "Alte Berber-Traditionen",
+      "description": "Tauchen Sie ein in die authentische Amazigh-Kultur und kulinarische Traditionen."
+    },
+    "tea": {
+      "title": "Tee-Zeremonie",
+      "subtitle": "Die Kunst des Marokkanischen Minztees",
+      "description": "Erleben Sie die Eleganz der traditionellen marokkanischen Teezeremonie."
+    },
+    "bread": {
+      "title": "Lehmofen-Brot",
+      "subtitle": "Holzfeuer-Tradition",
+      "description": "Erleben Sie die alte Kunst des Backens von traditionellem marokkanischem Brot."
+    },
+    "amlou": {
+      "title": "Amlou-Workshop",
+      "subtitle": "Flüssiges Gold Marokkos",
+      "description": "Entdecken Sie die Geheimnisse der Herstellung von traditionellem marokkanischem Amlou."
+    }
+  },
+  "booking": {
+    "title": "Beginnen Sie Ihre Kulinarische Reise",
+    "description": "Füllen Sie das Formular unten aus und wir werden Sie kontaktieren, um Ihre Buchung zu bestätigen.",
+    "fullName": "Vollständiger Name",
+    "fullNamePlaceholder": "Geben Sie Ihren vollständigen Namen ein",
+    "phone": "Telefonnummer",
+    "phonePlaceholder": "Geben Sie Ihre Telefonnummer ein",
+    "country": "Land",
+    "countryPlaceholder": "Wählen Sie Ihr Land",
+    "email": "E-Mail-Adresse",
+    "emailPlaceholder": "Geben Sie Ihre E-Mail-Adresse ein",
+    "packageType": "Paket Auswählen",
+    "basicPackage": "Basis-Paket - 500 MAD",
+    "privatePackage": "Privat-Paket - 800 MAD",
+    "dietary": "Ernährungspräferenzen",
+    "dietaryNone": "Keine Einschränkungen",
+    "dietaryVegetarian": "Vegetarisch",
+    "dietaryVegan": "Vegan",
+    "allergies": "Allergien oder Besondere Anforderungen",
+    "allergiesPlaceholder": "Bitte teilen Sie uns Allergien oder besondere Anforderungen mit",
+    "submit": "Buchungsanfrage Absenden",
+    "submitting": "Wird gesendet...",
+    "success": "Buchung Erfolgreich Übermittelt!",
+    "successMessage": "Vielen Dank für Ihre Buchungsanfrage! Wir werden Sie in Kürze kontaktieren, um Ihr Erlebnis zu bestätigen.",
+    "bookAnother": "Ein Weiteres Erlebnis Buchen",
+    "backHome": "Zurück zur Startseite"
+  },
+  "common": {
+    "readMore": "Mehr Lesen",
+    "learnMore": "Mehr Erfahren",
+    "viewAll": "Alle Anzeigen",
+    "close": "Schließen",
+    "duration": "Dauer",
+    "groupSize": "Gruppengröße",
+    "perPerson": "pro Person",
+    "hours": "Stunden",
+    "guests": "Gäste"
+  },
+  "footer": {
+    "tagline": "Traditionelle Marokkanische Kochkurse",
+    "description": "Lernen Sie authentische Amazigh-Rezepte, die über Generationen hinweg im Herzen von Tamraght, Marokko, weitergegeben wurden.",
+    "quickLinks": "Schnelllinks",
+    "experiences": "Erlebnisse",
+    "contactUs": "Kontaktieren Sie Uns",
+    "whatsappUs": "WhatsApp",
+    "madeWith": "Gemacht mit",
+    "inMorocco": "in Marokko",
+    "rights": "Alle Rechte vorbehalten",
+    "links": {
+      "home": "Startseite",
+      "cookingClasses": "Kochkurse",
+      "aboutRabab": "Über Rabab",
+      "gallery": "Galerie",
+      "bookNow": "Jetzt Buchen"
+    },
+    "experienceLinks": {
+      "tajine": "Tajine Meisterklasse",
+      "amazigh": "Amazigh Erbe",
+      "tea": "Teezeremonie",
+      "bread": "Tonofenbrot",
+      "amlou": "Amlou Workshop"
+    }
+  }
+}

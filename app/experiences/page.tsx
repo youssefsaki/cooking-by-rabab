@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FiArrowRight, FiClock, FiUsers, FiCheck } from 'react-icons/fi';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Experience {
   id: string;
@@ -84,6 +85,8 @@ const experiences: Experience[] = [
 
 // SEO optimized for Moroccan cooking experiences, Tajine masterclass, Amazigh heritage, Taghazout culinary tours
 export default function ExperiencesPage() {
+  const { t } = useLanguage();
+  
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section - Optimized for 13" */}
@@ -91,21 +94,21 @@ export default function ExperiencesPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-4 leading-tight">
-              Discover{' '}
+              {t.experiences.title.split(' ').slice(0, 1).join(' ')}{' '}
               <span className="bg-gradient-to-r from-orange-600 via-amber-600 to-orange-500 bg-clip-text text-transparent">
-                Authentic Morocco
+                {t.experiences.title.split(' ').slice(1).join(' ')}
               </span>
             </h1>
             
             <p className="text-base lg:text-lg text-gray-600 leading-relaxed mb-8">
-              Five unique culinary experiences, each telling a story of Moroccan culture, tradition, and the warmth of Berber hospitality.
+              {t.experiences.description}
             </p>
 
             <Link
               href="/book"
               className="inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-8 py-4 rounded-full hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-xl hover:scale-105"
             >
-              <span>Book an Experience</span>
+              <span>{t.experiences.bookExperience}</span>
               <FiArrowRight className="w-5 h-5" />
             </Link>
           </div>
@@ -143,14 +146,29 @@ export default function ExperiencesPage() {
                     {/* Content */}
                     <div className={`${!isEven ? 'lg:order-1' : ''}`}>
                       <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-2">
-                        {experience.title}
+                        {experience.id === 'tajine-masterclass' ? t.experiences.tajine.title :
+                         experience.id === 'amazigh-heritage' ? t.experiences.amazigh.title :
+                         experience.id === 'tea-ceremony' ? t.experiences.tea.title :
+                         experience.id === 'clay-oven-bread' ? t.experiences.bread.title :
+                         experience.id === 'amlou-workshop' ? t.experiences.amlou.title :
+                         experience.title}
                       </h2>
                       <p className="text-lg text-amber-600 font-semibold mb-4 italic">
-                        {experience.subtitle}
+                        {experience.id === 'tajine-masterclass' ? t.experiences.tajine.subtitle :
+                         experience.id === 'amazigh-heritage' ? t.experiences.amazigh.subtitle :
+                         experience.id === 'tea-ceremony' ? t.experiences.tea.subtitle :
+                         experience.id === 'clay-oven-bread' ? t.experiences.bread.subtitle :
+                         experience.id === 'amlou-workshop' ? t.experiences.amlou.subtitle :
+                         experience.subtitle}
                       </p>
                       
                       <p className="text-base text-gray-700 leading-relaxed mb-5">
-                        {experience.longDescription}
+                        {experience.id === 'tajine-masterclass' ? t.experiences.tajine.description :
+                         experience.id === 'amazigh-heritage' ? t.experiences.amazigh.description :
+                         experience.id === 'tea-ceremony' ? t.experiences.tea.description :
+                         experience.id === 'clay-oven-bread' ? t.experiences.bread.description :
+                         experience.id === 'amlou-workshop' ? t.experiences.amlou.description :
+                         experience.longDescription}
                       </p>
 
                       {/* Duration & Group Size */}
@@ -182,7 +200,7 @@ export default function ExperiencesPage() {
                         href="/book"
                         className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-7 py-3.5 rounded-full hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-lg hover:scale-105"
                       >
-                        <span>Book Now</span>
+                        <span>{t.packages.bookNow}</span>
                         <FiArrowRight className="w-5 h-5" />
                       </Link>
                     </div>

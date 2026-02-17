@@ -9,6 +9,7 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import Select from 'react-select';
 import { FiCheck, FiMail, FiPhone, FiUser, FiMapPin } from 'react-icons/fi';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Country options for dropdown
 const countryOptions = [
@@ -67,6 +68,7 @@ const validationSchema = Yup.object({
 export default function BookPage() {
   const searchParams = useSearchParams();
   const packageParam = searchParams.get('package');
+  const { t } = useLanguage();
   
   const [submitted, setSubmitted] = useState(false);
 
@@ -142,10 +144,10 @@ Looking forward to cooking with you! 🇲🇦`;
               <FiCheck className="w-12 h-12 text-white" />
             </div>
             <h1 className="text-4xl font-black text-gray-900 mb-4">
-              Booking Submitted Successfully!
+              {t.booking.success}
             </h1>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              Thank you for your booking request! We've received your information and will contact you shortly via email or WhatsApp to confirm your reservation.
+              {t.booking.successMessage}
             </p>
             <div className="bg-green-50 border-2 border-green-200 rounded-xl p-6 mb-8">
               <p className="text-sm text-green-800 font-semibold mb-2">✓ Your booking details have been saved</p>
@@ -169,13 +171,13 @@ Looking forward to cooking with you! 🇲🇦`;
                 }}
                 className="inline-block bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-8 py-4 rounded-full hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-lg hover:scale-105"
               >
-                Book Another Experience
+                {t.booking.bookAnother}
               </button>
               <Link
                 href="/"
                 className="inline-block bg-white text-gray-900 font-bold px-8 py-4 rounded-full border-2 border-gray-200 hover:border-amber-500 transition-all duration-300 shadow-lg hover:scale-105"
               >
-                Back to Home
+                {t.booking.backHome}
               </Link>
             </div>
           </div>
@@ -190,14 +192,11 @@ Looking forward to cooking with you! 🇲🇦`;
       <section className="pt-40 pb-12 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl sm:text-6xl font-black text-gray-900 mb-6 leading-tight">
-            Start Your{' '}
-            <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
-              Culinary Journey
-            </span>
+            {t.booking.title}
           </h1>
           
           <p className="text-xl text-gray-600 leading-relaxed">
-            Fill out the form below and we'll contact you to confirm your booking.
+            {t.booking.description}
           </p>
         </div>
       </section>
@@ -211,7 +210,7 @@ Looking forward to cooking with you! 🇲🇦`;
             <div className="mb-6">
               <label htmlFor="fullName" className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
                 <FiUser className="w-4 h-4 text-amber-600" />
-                Full Name *
+                {t.booking.fullName} *
               </label>
               <input
                 type="text"
@@ -223,7 +222,7 @@ Looking forward to cooking with you! 🇲🇦`;
                     ? 'border-red-500 focus:border-red-500'
                     : 'border-gray-200 focus:border-amber-500'
                 }`}
-                placeholder="Enter your full name"
+                placeholder={t.booking.fullNamePlaceholder}
               />
               {formik.touched.fullName && formik.errors.fullName && (
                 <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -236,7 +235,7 @@ Looking forward to cooking with you! 🇲🇦`;
             <div className="mb-6">
               <label htmlFor="phone" className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
                 <FiPhone className="w-4 h-4 text-amber-600" />
-                Phone Number *
+                {t.booking.phone} *
               </label>
               <style jsx global>{`
                 .phone-input-container .react-tel-input {
@@ -366,7 +365,7 @@ Looking forward to cooking with you! 🇲🇦`;
             <div className="mb-6">
               <label htmlFor="country" className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
                 <FiMapPin className="w-4 h-4 text-amber-600" />
-                Country *
+                {t.booking.country} *
               </label>
               <Select
                 id="country"
@@ -377,7 +376,7 @@ Looking forward to cooking with you! 🇲🇦`;
                   formik.setFieldValue('country', option?.value || '');
                 }}
                 onBlur={() => formik.setFieldTouched('country', true)}
-                placeholder="Select your country..."
+                placeholder={t.booking.countryPlaceholder}
                 isClearable
                 isSearchable
                 classNamePrefix="react-select"
@@ -487,7 +486,7 @@ Looking forward to cooking with you! 🇲🇦`;
             <div className="mb-6">
               <label htmlFor="email" className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
                 <FiMail className="w-4 h-4 text-amber-600" />
-                Email *
+                {t.booking.email} *
               </label>
               <input
                 type="email"
@@ -499,7 +498,7 @@ Looking forward to cooking with you! 🇲🇦`;
                     ? 'border-red-500 focus:border-red-500'
                     : 'border-gray-200 focus:border-amber-500'
                 }`}
-                placeholder="your.email@example.com"
+                placeholder={t.booking.emailPlaceholder}
               />
               {formik.touched.email && formik.errors.email && (
                 <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -511,7 +510,7 @@ Looking forward to cooking with you! 🇲🇦`;
             {/* Package Selection */}
             <div className="mb-6">
               <label htmlFor="packageType" className="text-sm font-bold text-gray-700 mb-3 block">
-                Select Package *
+                {t.booking.packageType} *
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <label className={`relative cursor-pointer ${formik.values.packageType === 'basic' ? 'ring-2 ring-amber-500' : ''}`}>
@@ -526,14 +525,14 @@ Looking forward to cooking with you! 🇲🇦`;
                   />
                   <div className="border-2 border-gray-200 rounded-xl p-4 hover:border-amber-300 transition-colors">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-bold text-gray-900">Basic Package</span>
+                      <span className="font-bold text-gray-900">{t.packages.basic.title}</span>
                       {formik.values.packageType === 'basic' && (
                         <div className="w-6 h-6 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full flex items-center justify-center">
                           <FiCheck className="w-4 h-4 text-white" />
                         </div>
                       )}
                     </div>
-                    <p className="text-sm text-gray-600 mb-2">Half-day immersive experience</p>
+                    <p className="text-sm text-gray-600 mb-2">{t.packages.basic.subtitle}</p>
                     <p className="text-2xl font-black text-amber-600">500 MAD</p>
                   </div>
                 </label>
@@ -550,14 +549,14 @@ Looking forward to cooking with you! 🇲🇦`;
                   />
                   <div className="border-2 border-gray-200 rounded-xl p-4 hover:border-amber-300 transition-colors">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-bold text-gray-900">Private Package</span>
+                      <span className="font-bold text-gray-900">{t.packages.private.title}</span>
                       {formik.values.packageType === 'private' && (
                         <div className="w-6 h-6 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full flex items-center justify-center">
                           <FiCheck className="w-4 h-4 text-white" />
                         </div>
                       )}
                     </div>
-                    <p className="text-sm text-gray-600 mb-2">Exclusive personalized journey</p>
+                    <p className="text-sm text-gray-600 mb-2">{t.packages.private.subtitle}</p>
                     <p className="text-2xl font-black text-amber-600">800 MAD</p>
                   </div>
                 </label>
@@ -572,7 +571,7 @@ Looking forward to cooking with you! 🇲🇦`;
             {/* Dietary Preference */}
             <div className="mb-6">
               <label htmlFor="dietaryPreference" className="text-sm font-bold text-gray-700 mb-2 block">
-                Dietary Preference
+                {t.booking.dietary}
               </label>
               <select
                 id="dietaryPreference"
@@ -584,9 +583,9 @@ Looking forward to cooking with you! 🇲🇦`;
                     : 'border-gray-200 focus:border-amber-500'
                 }`}
               >
-                <option value="none">No restrictions</option>
-                <option value="vegetarian">Vegetarian</option>
-                <option value="vegan">Vegan</option>
+                <option value="none">{t.booking.dietaryNone}</option>
+                <option value="vegetarian">{t.booking.dietaryVegetarian}</option>
+                <option value="vegan">{t.booking.dietaryVegan}</option>
               </select>
               {formik.touched.dietaryPreference && formik.errors.dietaryPreference && (
                 <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -598,7 +597,7 @@ Looking forward to cooking with you! 🇲🇦`;
             {/* Allergies */}
             <div className="mb-8">
               <label htmlFor="allergies" className="text-sm font-bold text-gray-700 mb-2 block">
-                Allergies or Special Requirements
+                {t.booking.allergies}
               </label>
               <textarea
                 id="allergies"
@@ -610,7 +609,7 @@ Looking forward to cooking with you! 🇲🇦`;
                     ? 'border-red-500 focus:border-red-500'
                     : 'border-gray-200 focus:border-amber-500'
                 }`}
-                placeholder="Please let us know if you have any allergies or special dietary requirements..."
+                placeholder={t.booking.allergiesPlaceholder}
               />
               {formik.touched.allergies && formik.errors.allergies && (
                 <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -631,11 +630,11 @@ Looking forward to cooking with you! 🇲🇦`;
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  <span className="text-lg">Submitting Your Booking...</span>
+                  <span className="text-lg">{t.booking.submitting}</span>
                 </>
               ) : (
                 <>
-                  <span className="text-lg">Submit Booking Request</span>
+                  <span className="text-lg">{t.booking.submit}</span>
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>

@@ -1,0 +1,137 @@
+{
+  "nav": {
+    "ourStory": "OUR STORY",
+    "experiences": "EXPERIENCES",
+    "packages": "PACKAGES",
+    "events": "EVENTS",
+    "bookNow": "BOOK NOW",
+    "meetTheChef": "Meet the Chef",
+    "ourKitchen": "Our Kitchen",
+    "location": "Location"
+  },
+  "hero": {
+    "badge": "TRADITIONAL AMAZIGH CUISINE",
+    "title": "Authentic",
+    "titleHighlight": "MOROCCAN COOKING",
+    "description": "Leave the coast behind for a half-day in the mountains to discover the soul of Amazigh culture and the warmth of village life through our traditional cooking class.",
+    "bookButton": "BOOK YOUR EXPERIENCE"
+  },
+  "packages": {
+    "badge": "CHOOSE YOUR EXPERIENCE",
+    "title": "Cooking Class Packages",
+    "description": "Immerse yourself in authentic Amazigh culture with our mountain cooking experiences",
+    "mostPopular": "Most Popular",
+    "basic": {
+      "title": "Basic Package",
+      "subtitle": "Your Journey into the Mountains",
+      "description": "A half-day immersive cultural experience",
+      "price": "500 MAD/person",
+      "duration": "6 hours",
+      "startTime": "13:30 Start Time",
+      "pickup": "Taghazout Mosque Pickup"
+    },
+    "private": {
+      "title": "Private Package",
+      "subtitle": "Your Exclusive Mountain Experience",
+      "description": "A personalized full-day cultural journey",
+      "price": "800 MAD/person",
+      "startTime": "Flexible Start Time",
+      "pickup": "Hotel Pickup Included"
+    },
+    "viewDetails": "View Full Details",
+    "bookNow": "Book Now"
+  },
+  "experiences": {
+    "title": "Discover Authentic Morocco",
+    "description": "Five unique culinary experiences, each telling a story of Moroccan culture, tradition, and the warmth of Berber hospitality.",
+    "bookExperience": "Book an Experience",
+    "tajine": {
+      "title": "Tajine Masterclass",
+      "subtitle": "Morocco's Iconic Dish",
+      "description": "Master the art of Morocco's most iconic dish in this comprehensive class."
+    },
+    "amazigh": {
+      "title": "Amazigh Heritage",
+      "subtitle": "Ancient Berber Traditions",
+      "description": "Immerse yourself in authentic Amazigh culture and culinary traditions."
+    },
+    "tea": {
+      "title": "Tea Ceremony",
+      "subtitle": "The Art of Moroccan Mint Tea",
+      "description": "Experience the elegance of traditional Moroccan tea ceremony."
+    },
+    "bread": {
+      "title": "Clay Oven Bread",
+      "subtitle": "Wood-Fired Tradition",
+      "description": "Experience the ancient art of baking traditional Moroccan bread."
+    },
+    "amlou": {
+      "title": "Amlou Workshop",
+      "subtitle": "Liquid Gold of Morocco",
+      "description": "Discover the secrets of making traditional Moroccan amlou."
+    }
+  },
+  "booking": {
+    "title": "Start Your Culinary Journey",
+    "description": "Fill out the form below and we'll contact you to confirm your booking.",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Enter your full name",
+    "phone": "Phone Number",
+    "phonePlaceholder": "Enter your phone number",
+    "country": "Country",
+    "countryPlaceholder": "Select your country",
+    "email": "Email Address",
+    "emailPlaceholder": "Enter your email address",
+    "packageType": "Select Package",
+    "basicPackage": "Basic Package - 500 MAD",
+    "privatePackage": "Private Package - 800 MAD",
+    "dietary": "Dietary Preferences",
+    "dietaryNone": "No restrictions",
+    "dietaryVegetarian": "Vegetarian",
+    "dietaryVegan": "Vegan",
+    "allergies": "Allergies or Special Requirements",
+    "allergiesPlaceholder": "Please let us know about any allergies or special requirements",
+    "submit": "Submit Booking Request",
+    "submitting": "Submitting...",
+    "success": "Booking Submitted Successfully!",
+    "successMessage": "Thank you for your booking request! We'll contact you shortly to confirm your experience.",
+    "bookAnother": "Book Another Experience",
+    "backHome": "Back to Home"
+  },
+  "common": {
+    "readMore": "Read More",
+    "learnMore": "Learn More",
+    "viewAll": "View All",
+    "close": "Close",
+    "duration": "Duration",
+    "groupSize": "Group Size",
+    "perPerson": "per person",
+    "hours": "hours",
+    "guests": "guests"
+  },
+  "footer": {
+    "tagline": "Traditional Moroccan Cooking Classes",
+    "description": "Learn authentic Amazigh recipes passed down through generations in the heart of Tamraght, Morocco.",
+    "quickLinks": "Quick Links",
+    "experiences": "Experiences",
+    "contactUs": "Contact Us",
+    "whatsappUs": "WhatsApp Us",
+    "madeWith": "Made with",
+    "inMorocco": "in Morocco",
+    "rights": "All rights reserved",
+    "links": {
+      "home": "Home",
+      "cookingClasses": "Cooking Classes",
+      "aboutRabab": "About Rabab",
+      "gallery": "Gallery",
+      "bookNow": "Book Now"
+    },
+    "experienceLinks": {
+      "tajine": "Tajine Masterclass",
+      "amazigh": "Amazigh Heritage",
+      "tea": "Tea Ceremony",
+      "bread": "Clay Oven Bread",
+      "amlou": "Amlou Workshop"
+    }
+  }
+}

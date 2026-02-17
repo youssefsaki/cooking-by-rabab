@@ -4,6 +4,7 @@ import React, { memo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FiClock, FiUsers, FiMapPin } from 'react-icons/fi';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const packagesData = [
   {
@@ -50,6 +51,8 @@ const packagesData = [
 ];
 
 const PackagesV3: React.FC = memo(() => {
+  const { t } = useLanguage();
+  
   return (
     <section className="relative py-12 sm:py-16 lg:py-20 bg-[#F5EFE7] overflow-hidden">
       {/* Decorative Elements */}
@@ -62,19 +65,19 @@ const PackagesV3: React.FC = memo(() => {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-xl mb-4 border border-amber-100">
             <span className="text-lg">🍽️</span>
             <span className="text-xs font-bold text-amber-900 tracking-wider uppercase">
-              Choose Your Experience
+              {t.packages.badge}
             </span>
           </div>
           
           <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black text-gray-900 mb-3 sm:mb-4 leading-tight">
-            Cooking Class{' '}
+            {t.packages.title.split(' ')[0]}{' '}
             <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-clip-text text-transparent">
-              Packages
+              {t.packages.title.split(' ').slice(1).join(' ')}
             </span>
           </h2>
           
           <p className="text-sm sm:text-base lg:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
-            Immerse yourself in authentic Amazigh culture with our mountain cooking experiences
+            {t.packages.description}
           </p>
         </div>
 
@@ -89,7 +92,7 @@ const PackagesV3: React.FC = memo(() => {
               {pkg.popular && (
                 <div className="absolute top-4 right-4 z-30 pointer-events-none">
                   <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-xl">
-                    ⭐ Most Popular
+                    ⭐ {t.packages.mostPopular}
                   </div>
                 </div>
               )}
@@ -118,15 +121,15 @@ const PackagesV3: React.FC = memo(() => {
                   </div>
                 </div>
                 <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2 leading-tight drop-shadow-lg">
-                  {pkg.name}
+                  {pkg.id === 'basic' ? t.packages.basic.title : t.packages.private.title}
                 </h3>
                 <p className="text-base sm:text-lg text-white/95 font-light leading-relaxed drop-shadow-md">
-                  {pkg.tagline}
+                  {pkg.id === 'basic' ? t.packages.basic.subtitle : t.packages.private.subtitle}
                 </p>
                 <div className="mt-3 flex items-baseline gap-2">
                   <span className="text-3xl sm:text-4xl font-black text-white drop-shadow-lg">{pkg.price}</span>
                   <span className="text-lg text-white/90 font-semibold">{pkg.currency}</span>
-                  <span className="text-xs text-white/80">per person</span>
+                  <span className="text-xs text-white/80">{pkg.id === 'basic' ? t.packages.basic.price.split('/')[1] : t.packages.private.price.split('/')[1]}</span>
                 </div>
               </div>
 
@@ -136,17 +139,17 @@ const PackagesV3: React.FC = memo(() => {
                 <div className="space-y-4 sm:space-y-5">
                   <div>
                     <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 sm:mb-3 leading-tight drop-shadow-lg">
-                      {pkg.name}
+                      {pkg.id === 'basic' ? t.packages.basic.title : t.packages.private.title}
                     </h3>
                     <p className="text-sm sm:text-base md:text-lg text-white/95 leading-relaxed drop-shadow-md mb-4">
-                      {pkg.subtitle}
+                      {pkg.id === 'basic' ? t.packages.basic.description : t.packages.private.description}
                     </p>
                     
                     {/* Price Display */}
                     <div className="flex items-baseline gap-2 mb-4">
                       <span className="text-3xl sm:text-4xl font-black text-white">{pkg.price}</span>
                       <span className="text-lg text-white/90 font-semibold">{pkg.currency}</span>
-                      <span className="text-sm text-white/80">per person</span>
+                      <span className="text-sm text-white/80">{pkg.id === 'basic' ? t.packages.basic.price.split('/')[1] : t.packages.private.price.split('/')[1]}</span>
                     </div>
                   </div>
 
@@ -189,13 +192,13 @@ const PackagesV3: React.FC = memo(() => {
                     href="/packages"
                     className="flex-1 inline-flex items-center justify-center border-2 border-white text-white font-bold px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 rounded-full hover:bg-white hover:text-black transition-all duration-200 text-xs sm:text-sm md:text-base"
                   >
-                    Full Details
+                    {t.packages.viewDetails}
                   </Link>
                   <Link
                     href={`/book?package=${pkg.id}`}
                     className="flex-1 inline-flex items-center justify-center bg-white text-black font-bold px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 rounded-full hover:bg-gradient-to-r hover:from-amber-500 hover:to-orange-500 hover:text-white transition-all duration-200 shadow-xl text-xs sm:text-sm md:text-base"
                   >
-                    Book Now
+                    {t.packages.bookNow}
                   </Link>
                 </div>
               </div>

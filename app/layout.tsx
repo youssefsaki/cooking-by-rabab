@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/FooterV1';
 import ErrorSuppressor from '@/components/ErrorSuppressor';
 import WhatsAppButton from '@/components/WhatsAppButton';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 
 const robotoCondensed = Roboto_Condensed({
   weight: ['300', '400', '700'],
@@ -60,14 +61,16 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://maps.googleapis.com" />
       </head>
       <body className={`${robotoCondensed.variable} font-sans antialiased`} suppressHydrationWarning>
-        <ErrorSuppressor />
-        <Header navigationData={navigationData} />
-        <main className="overflow-x-hidden">
-          {children}
-        </main>
-        <Footer />
-        {/* WhatsApp Floating Button - Bottom Right */}
-        <WhatsAppButton />
+        <LanguageProvider>
+          <ErrorSuppressor />
+          <Header navigationData={navigationData} />
+          <main className="overflow-x-hidden">
+            {children}
+          </main>
+          <Footer />
+          {/* WhatsApp Floating Button - Bottom Right */}
+          <WhatsAppButton />
+        </LanguageProvider>
       </body>
     </html>
   );

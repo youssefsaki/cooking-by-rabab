@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { FiMapPin, FiPhone, FiMail, FiInstagram, FiSend, FiHeart } from 'react-icons/fi';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 /**
  * FOOTER - Design 1 of 6
@@ -50,6 +51,8 @@ const footerData = {
 };
 
 const FooterV1: React.FC = () => {
+  const { t } = useLanguage();
+  
   return (
     <footer className="bg-gray-900 text-white">
       {/* Main Footer */}
@@ -60,10 +63,10 @@ const FooterV1: React.FC = () => {
             <div className="mb-6">
               <span className="text-3xl mb-2 block">👩‍🍳</span>
               <h3 className="text-2xl font-black text-white">{footerData.brand.name}</h3>
-              <p className="text-amber-400 font-medium text-sm">{footerData.brand.tagline}</p>
+              <p className="text-amber-400 font-medium text-sm">{t.footer.tagline}</p>
             </div>
             <p className="text-gray-400 leading-relaxed text-sm mb-6">
-              {footerData.brand.description}
+              {t.footer.description}
             </p>
             
             {/* Social Links */}
@@ -88,41 +91,71 @@ const FooterV1: React.FC = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-bold text-white mb-6">Quick Links</h4>
+            <h4 className="text-lg font-bold text-white mb-6">{t.footer.quickLinks}</h4>
             <ul className="space-y-3">
-              {footerData.quickLinks.map((link) => (
-                <li key={link.label}>
-                  <Link 
-                    href={link.href}
-                    className="text-gray-400 hover:text-amber-400 transition-colors text-sm"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link href="/" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                  {t.footer.links.home}
+                </Link>
+              </li>
+              <li>
+                <Link href="/experiences" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                  {t.footer.links.cookingClasses}
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                  {t.footer.links.aboutRabab}
+                </Link>
+              </li>
+              <li>
+                <Link href="/gallery" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                  {t.footer.links.gallery}
+                </Link>
+              </li>
+              <li>
+                <Link href="/book" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                  {t.footer.links.bookNow}
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Experiences */}
           <div>
-            <h4 className="text-lg font-bold text-white mb-6">Experiences</h4>
+            <h4 className="text-lg font-bold text-white mb-6">{t.footer.experiences}</h4>
             <ul className="space-y-3">
-              {footerData.experiences.map((link) => (
-                <li key={link.label}>
-                  <Link 
-                    href={link.href}
-                    className="text-gray-400 hover:text-amber-400 transition-colors text-sm"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link href="/experiences#tajine-masterclass" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                  {t.footer.experienceLinks.tajine}
+                </Link>
+              </li>
+              <li>
+                <Link href="/experiences#amazigh-heritage" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                  {t.footer.experienceLinks.amazigh}
+                </Link>
+              </li>
+              <li>
+                <Link href="/experiences#tea-ceremony" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                  {t.footer.experienceLinks.tea}
+                </Link>
+              </li>
+              <li>
+                <Link href="/experiences#clay-oven-bread" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                  {t.footer.experienceLinks.bread}
+                </Link>
+              </li>
+              <li>
+                <Link href="/experiences#amlou-workshop" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                  {t.footer.experienceLinks.amlou}
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="text-lg font-bold text-white mb-6">Contact Us</h4>
+            <h4 className="text-lg font-bold text-white mb-6">{t.footer.contactUs}</h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <FiMapPin className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
@@ -150,7 +183,7 @@ const FooterV1: React.FC = () => {
               className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition-colors text-sm"
             >
               <FiSend className="w-4 h-4" />
-              <span>WhatsApp Us</span>
+              <span>{t.footer.whatsappUs}</span>
             </a>
           </div>
         </div>
@@ -161,10 +194,10 @@ const FooterV1: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-500 text-sm">
-              © {new Date().getFullYear()} Rabab&apos;s Kitchen. All rights reserved.
+              © {new Date().getFullYear()} Rabab&apos;s Kitchen. {t.footer.rights}.
             </p>
             <p className="text-gray-500 text-sm flex items-center gap-1">
-              Made with <FiHeart className="w-4 h-4 text-red-500" /> in Morocco
+              {t.footer.madeWith} <FiHeart className="w-4 h-4 text-red-500" /> {t.footer.inMorocco}
             </p>
           </div>
         </div>
