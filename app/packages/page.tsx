@@ -154,8 +154,8 @@ export default function PackagesPage() {
 
   return (
     <main className="min-h-screen bg-[#F5EFE7]">
-      {/* Packages Cards Section */}
-      <section className="relative pt-28 sm:pt-32 lg:pt-36 pb-16 sm:pb-20 lg:pb-28 overflow-hidden">
+      {/* Packages Cards Section - Optimized for 13" */}
+      <section className="relative pt-28 sm:pt-32 lg:pt-36 pb-12 sm:pb-16 lg:pb-20 overflow-hidden">
         {/* Decorative Elements */}
         <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-amber-300/30 to-orange-300/30 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-orange-300/30 to-amber-300/30 rounded-full blur-3xl pointer-events-none" />
@@ -163,35 +163,35 @@ export default function PackagesPage() {
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           {/* Enhanced Header */}
-          <div className="text-center mb-12 lg:mb-20">
-            <div className="inline-block mb-6">
-              <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-white shadow-2xl border-2 border-amber-100">
-                <span className="text-2xl">🍽️</span>
-                <span className="text-sm font-black text-amber-900 tracking-wider uppercase">
+          <div className="text-center mb-10 lg:mb-14">
+            <div className="inline-block mb-5">
+              <div className="flex items-center gap-2 px-5 py-2 rounded-full bg-white shadow-2xl border-2 border-amber-100">
+                <span className="text-xl">🍽️</span>
+                <span className="text-xs font-black text-amber-900 tracking-wider uppercase">
                   Authentic Experiences
                 </span>
               </div>
             </div>
             
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-gray-900 mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-4 leading-tight">
               Cooking Class{' '}
               <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-clip-text text-transparent">
                 Packages
               </span>
             </h1>
             
-            <p className="text-lg sm:text-xl lg:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed font-light">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed font-light">
               Click on a package to explore the complete journey
             </p>
           </div>
 
           {/* Packages Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto mb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6 max-w-6xl mx-auto mb-16">
             {packagesData.map((pkg) => (
               <div
                 key={pkg.id}
                 onClick={() => setSelectedPackage(selectedPackage === pkg.id ? null : pkg.id)}
-                className="group relative h-[550px] sm:h-[650px] rounded-3xl overflow-hidden cursor-pointer shadow-2xl hover:shadow-3xl transition-all duration-300 will-change-transform"
+                className="group relative h-[520px] sm:h-[580px] lg:h-[560px] rounded-3xl overflow-hidden cursor-pointer shadow-2xl hover:shadow-3xl transition-all duration-300 will-change-transform"
               >
                 {/* Popular Badge */}
                 {pkg.popular && (
@@ -318,23 +318,23 @@ export default function PackagesPage() {
         </div>
       </section>
 
-      {/* Full Itinerary Section - Design 1 */}
-      <section id="package-details" className="relative py-16 sm:py-20 lg:py-24 bg-white scroll-mt-24">
+      {/* Full Itinerary Section - Optimized for 13" */}
+      <section id="package-details" className="relative py-12 sm:py-16 lg:py-20 bg-white scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="inline-block mb-6">
-              <div className="px-6 py-3 rounded-full bg-gradient-to-r from-amber-100 to-orange-100 border-2 border-amber-200">
-                <span className="text-amber-900 font-black text-sm uppercase tracking-wider">Complete Journey</span>
+          <div className="text-center mb-12">
+            <div className="inline-block mb-5">
+              <div className="px-5 py-2 rounded-full bg-gradient-to-r from-amber-100 to-orange-100 border-2 border-amber-200">
+                <span className="text-amber-900 font-black text-xs uppercase tracking-wider">Complete Journey</span>
               </div>
             </div>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-6 leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-4 leading-tight">
               Your Journey into the{' '}
               <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
                 Mountains
               </span>
             </h2>
-            <p className="text-xl sm:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
               A half-day immersive cultural experience
             </p>
           </div>
@@ -496,12 +496,12 @@ export default function PackagesPage() {
         </div>
       </section>
 
-      {/* Detailed Itinerary - Enhanced */}
+      {/* Detailed Itinerary - Optimized for 13" */}
       {displayPackage && (
-        <section id="selected-package-details" className="relative py-16 sm:py-20 lg:py-24 bg-white scroll-mt-24">
+        <section id="selected-package-details" className="relative py-12 sm:py-16 lg:py-20 bg-white scroll-mt-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
             {/* Close Button - Enhanced */}
-            <div className="flex justify-between items-center mb-12">
+            <div className="flex justify-between items-center mb-10">
               <button
                 onClick={() => setSelectedPackage(null)}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-full transition-all duration-200"
@@ -519,16 +519,16 @@ export default function PackagesPage() {
               </Link>
             </div>
 
-            {/* Package Info Header - Enhanced */}
-            <div className="bg-gradient-to-br from-amber-50 via-orange-50 to-amber-50 rounded-3xl p-8 sm:p-12 lg:p-16 mb-16 border-2 border-amber-200 shadow-2xl">
-              <div className="text-center mb-8">
-                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-4">
+            {/* Package Info Header - Optimized for 13" */}
+            <div className="bg-gradient-to-br from-amber-50 via-orange-50 to-amber-50 rounded-3xl p-6 sm:p-10 lg:p-12 mb-12 border-2 border-amber-200 shadow-2xl">
+              <div className="text-center mb-6">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-3">
                   {displayPackage.name}
                 </h2>
-                <p className="text-2xl sm:text-3xl text-amber-600 font-bold mb-4">
+                <p className="text-xl sm:text-2xl text-amber-600 font-bold mb-3">
                   {displayPackage.tagline}
                 </p>
-                <p className="text-lg sm:text-xl text-gray-700 max-w-2xl mx-auto">
+                <p className="text-base sm:text-lg text-gray-700 max-w-2xl mx-auto">
                   {displayPackage.subtitle}
                 </p>
               </div>
