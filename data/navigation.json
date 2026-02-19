@@ -81,15 +81,22 @@
       {
         "id": "basic",
         "label": "Basic Package",
-        "price": "500 MAD",
+        "price": "60 EUR",
         "description": "Half-day immersive experience",
         "href": "/book?package=basic",
         "popular": true
       },
       {
+        "id": "weekly-event",
+        "label": "Weekly Event",
+        "price": "80 EUR",
+        "description": "Special weekly cooking event",
+        "href": "/book?package=weekly-event"
+      },
+      {
         "id": "private",
         "label": "Private Package",
-        "price": "800 MAD",
+        "price": "100 EUR",
         "description": "Exclusive personalized journey",
         "href": "/book?package=private"
       }

@@ -133,5 +133,108 @@
       "bread": "Pain au Four en Argile",
       "amlou": "Atelier Amlou"
     }
+  },
+  "heroSection": {
+    "rating": "invités",
+    "learnToCook": "Apprenez à cuisiner Amazigh",
+    "learnToCookPart1": "Apprenez à cuisiner",
+    "learnToCookPart2": "Amazigh",
+    "description": "Apprenez des recettes centenaires des femmes berbères qui cuisinent ces plats depuis des générations. Plus qu'un cours — c'est un voyage au cœur culinaire du Maroc.",
+    "bookClass": "RÉSERVEZ VOTRE COURS",
+    "duration": "DURÉE",
+    "group": "GROUPE",
+    "dishes": "PLATS",
+    "dishesLowercase": "plats",
+    "handsOn": "PRATIQUE",
+    "experienceIncludes": "L'expérience comprend",
+    "ratedBy": "Noté 4,9 par plus de 500",
+    "reviews": "500+ avis",
+    "amazighExperience": "Expérience Amazigh",
+    "cookLikeLocal": "Cuisinez",
+    "likeA": "comme un",
+    "local": "local",
+    "class": "cours",
+    "bookNow": "Réserver"
+  },
+  "experience": {
+    "title": "LE VOYAGE",
+    "subtitle": "Une Expérience Marocaine Authentique",
+    "description": "De votre porte à une maison traditionnelle, chaque moment est conçu pour l'authenticité et la connexion.",
+    "step1": {
+      "title": "Prise en Charge & Voyage",
+      "subtitle": "Votre Aventure Commence",
+      "description": "Nous vous prenons à Taghazout et vous emmenons en 15-20 minutes à travers la magnifique campagne marocaine vers une maison traditionnelle authentique. Regardez le paysage se transformer.",
+      "highlights": ["Prise en charge confortable à Taghazout", "Trajet pittoresque à la campagne", "Découvrez la culture locale", "Arrivée à la maison traditionnelle"]
+    },
+    "step2": {
+      "title": "Visite de la Cuisine Traditionnelle",
+      "subtitle": "Où la Magie Opère",
+      "description": "Entrez dans une cuisine marocaine authentique et découvrez les outils et techniques traditionnels utilisés depuis des générations. Voyez le four à bois, les tajines traditionnels et l'espace où vous créerez votre festin.",
+      "highlights": ["Accueil avec thé à la menthe frais", "Explorez la cuisine authentique", "Démonstration du four à bois", "Outils de cuisine traditionnels"]
+    },
+    "step3": {
+      "title": "Cuisine Pratique",
+      "subtitle": "Recettes de Générations",
+      "description": "Dans une vraie cuisine marocaine, apprenez des techniques de cuisine authentiques transmises de génération en génération. De la préparation du tajine à la cuisson du pain dans un four à bois traditionnel.",
+      "highlights": ["Mélange d'épices traditionnel", "Préparation authentique du tajine", "Cuisson du pain au four à bois", "Recettes et secrets de famille"]
+    },
+    "step4": {
+      "title": "Festin & Retour",
+      "subtitle": "Le Cœur de l'Hospitalité",
+      "description": "Rassemblez-vous autour de la table dans une maison marocaine traditionnelle pour savourer le repas incroyable que vous avez créé. Partagez des histoires, des rires et vivez la vraie hospitalité marocaine avant que nous vous ramenions à Taghazout.",
+      "highlights": ["Festin dans un cadre authentique", "Cérémonie du thé à la menthe", "Livre de recettes et certificat", "Retour à Taghazout"]
+    },
+    "finalTitle": "Vivez le Maroc Authentique",
+    "finalDescription": "Rejoignez-nous pour un voyage qui va au-delà de la cuisine. C'est de la connexion, de la culture et de la communauté—le tout enveloppé dans la chaleur de l'hospitalité marocaine.",
+    "bookExperience": "Réservez Votre Expérience",
+    "learnMore": "En Savoir Plus"
+  },
+  "community": {
+    "badge": "IMPACT COMMUNAUTAIRE",
+    "title": "Votre Repas Soutient les Enfants Locaux",
+    "description": "Chaque cours de cuisine profite directement aux enfants du village de Tamraght. Nous fournissons des fournitures scolaires, des repas quotidiens et un soutien éducatif à plus de 50 enfants chaque mois.",
+    "quote": "Dans la culture amazigh, nous croyons que la cuisine n'est pas seulement une question de nourriture – c'est nourrir notre communauté. Quand vous cuisinez avec moi, vous faites partie de notre famille villageoise.",
+    "readMore": "En Savoir Plus Sur Notre Mission",
+    "bookGiveBack": "Réserver et Donner",
+    "impactItems": ["📚 Fournitures scolaires et cartables", "🍲 Repas quotidiens nutritifs", "✏️ Soutien scolaire", "🎉 Activités culturelles"],
+    "children": "Enfants",
+    "tipsDonated": "Pourboires Donnés",
+    "schools": "Écoles"
+  },
+  "reviews": {
+    "title": "Ce Que Disent Nos Invités",
+    "titlePart1": "Ce Que Disent Nos ",
+    "titlePart2": "Invités",
+    "description": "Expériences réelles de voyageurs qui ont rejoint nos cours de cuisine"
+  },
+  "location": {
+    "badge": "VENEZ NOUS RENDRE VISITE",
+    "title": "Votre Voyage vers la Cuisine de Rabab",
+    "titlePart1": "Votre Voyage vers ",
+    "titlePart2": "la Cuisine de Rabab",
+    "description": "Dès votre arrivée, nous prenons tout en charge. Voici à quoi ressemble votre voyage.",
+    "journeyTitle": "Votre Voyage",
+    "getDirections": "Itinéraire",
+    "callUs": "Appelez-nous",
+    "messageUs": "Nous Écrire",
+    "writeUs": "Nous Écrire",
+    "step1": { "title": "Atterrissez à l'Aéroport d'Agadir", "description": "Nous vous attendrons pour vous récupérer - gratuit pour tous les invités !", "time": "0 min" },
+    "step2": { "title": "Trajet Côtier Pittoresque", "description": "Profitez des magnifiques vues sur l'océan Atlantique.", "time": "25 min" },
+    "step3": { "title": "Arrivée à Taghazout", "description": "Entrez dans notre maison de village amazigh traditionnelle.", "time": "30 min" },
+    "step4": { "title": "Rencontrez Rabab", "description": "Thé de bienvenue et commencez votre aventure culinaire !", "time": "À la cuisine ! 👩‍🍳" }
+  },
+  "packageHighlights": {
+    "basic": [
+      "Visite maison amazigh 300 ans",
+      "Cérémonie du thé à la menthe",
+      "Cuisson pain traditionnel",
+      "Atelier tajine authentique"
+    ],
+    "private": [
+      "Expérience totalement privée",
+      "Horaires flexibles",
+      "Menu personnalisable",
+      "Accès exclusif maison amazigh"
+    ]
   }
 }

@@ -10,11 +10,11 @@ const packagesData = [
     id: "basic",
     name: "Basic Package",
     tagline: "Your Journey into the Mountains",
-    subtitle: "A half-day immersive cultural experience",
-    price: "500",
-    currency: "MAD",
-    duration: "6 hours",
-    groupSize: "Up to 8 guests",
+    subtitle: "Half-Day Authentic Berber Cultural Experience Above Taghazout",
+    price: "60",
+    currency: "EUR",
+    duration: "4 hours",
+    groupSize: "2-13 guests",
     startTime: "13:30",
     endTime: "19:30-20:00",
     pickup: "Taghazout Mosque",
@@ -65,15 +65,46 @@ const packagesData = [
       }
     ],
     includes: [
-      "Free pickup from Taghazout Mosque",
+      "Pick up from Taghazout Mosque at 13:30",
+      "Minimum 2 guests required",
       "300-year-old Amazigh house tour",
       "Traditional Moroccan tea ceremony",
       "Village bread baking workshop",
       "Authentic tagine cooking",
-      "Amlou making with ancient millstone",
+      "Make Moroccan spread (Amlou)",
       "Family-style feast with sunset views",
-      "All ingredients and materials",
       "Return transport to Taghazout/Tamraght"
+    ]
+  },
+  {
+    id: "weekly-event",
+    name: "Weekly Event",
+    tagline: "The Amazigh Village Music Gala",
+    subtitle: "Join us for our Weekly Berber Music Event At Sunset in a traditional village",
+    price: "80",
+    currency: "EUR",
+    duration: "4 hours",
+    groupSize: "6-13 guests",
+    startTime: "15:00",
+    endTime: "TBD",
+    pickup: "Taghazout Mosque",
+    dropoff: "Taghazout or Tamraght",
+    image: "/packages/basic.jpg",
+    alt: "Weekly cooking event in Morocco - Community cooking class experience in Atlas Mountains",
+    itinerary: [
+      {
+        time: "TBD",
+        title: "Event Details Coming Soon",
+        description: "Join us for our special weekly cooking event. More details will be announced soon. This is a unique opportunity to experience Moroccan cooking in a communal setting."
+      }
+    ],
+    includes: [
+      "Every Thursday at 15:00",
+      "Minimum 6 guests required",
+      "Pickup from Taghazout Mosque",
+      "Mint tea ceremony",
+      "Make your barbecue",
+      "Traditional Amazigh music & celebration"
     ]
   },
   {
@@ -81,9 +112,9 @@ const packagesData = [
     name: "Private Package",
     tagline: "Exclusive Mountain Experience",
     subtitle: "Personalized journey for you and your group",
-    price: "800",
-    currency: "MAD",
-    duration: "6 hours",
+    price: "100",
+    currency: "EUR",
+    duration: "5 hours",
     groupSize: "Private group (2-8 guests)",
     startTime: "Flexible",
     endTime: "Flexible",
@@ -134,16 +165,15 @@ const packagesData = [
       }
     ],
     includes: [
-      "Private exclusive experience",
-      "Flexible scheduling and timing",
-      "Custom pickup and drop-off",
-      "Personalized menu options",
+      "Completely private experience",
+      "Flexible scheduling & timing",
+      "Your choice of location",
+      "Custom menu options",
       "300-year-old Amazigh house tour",
       "Complete cooking workshop",
-      "All ingredients and materials",
+      "All ingredients & materials",
       "Private family-style feast",
-      "Dietary accommodations available",
-      "Photography opportunities"
+      "Dietary accommodations available"
     ]
   }
 ];
@@ -181,7 +211,7 @@ export default function PackagesPage() {
             </h1>
             
             <p className="text-base sm:text-lg lg:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed font-light">
-              Click on a package to explore the complete journey
+              Immerse yourself in authentic Berber culture. Experience traditional village life and an ancestral cooking journey. Located just 15 mins from the Taghazout coast.
             </p>
           </div>
 

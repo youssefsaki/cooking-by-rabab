@@ -3,6 +3,7 @@
 import React, { memo } from 'react';
 import Image from 'next/image';
 import { FiArrowRight, FiMapPin, FiHome, FiActivity, FiHeart } from 'react-icons/fi';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 /**
  * THE COOKING CLASS EXPERIENCE SECTION - Design 2 of 3
@@ -30,74 +31,21 @@ interface ExperienceStep {
   icon: any;
 }
 
-const experienceSteps: ExperienceStep[] = [
-  {
-    step: 1,
-    title: "Pickup & Journey",
-    subtitle: "Your Adventure Begins",
-    description: "We pick you up from Taghazout and take you on a scenic 15-20 minute drive through the stunning Moroccan countryside to an authentic traditional home. Watch the landscape transform as we leave the coast behind.",
-    highlights: [
-      "Comfortable pickup from Taghazout",
-      "Scenic countryside drive",
-      "Learn about local culture",
-      "Arrive at traditional home"
-    ],
-    image: "/journey/journey-1.jpeg",
-    alt: "Taghazout Morocco pickup location - Scenic coastal village starting point for authentic Moroccan cooking class journey to Atlas Mountains",
-    duration: "20 min",
-    icon: FiMapPin
-  },
-  {
-    step: 2,
-    title: "Traditional Kitchen Tour",
-    subtitle: "Where Magic Happens",
-    description: "Step into an authentic Moroccan kitchen and discover the traditional tools and techniques that have been used for generations. See the wood-fired oven, traditional tagines, and the workspace where you'll create your feast.",
-    highlights: [
-      "Welcome with fresh mint tea",
-      "Explore authentic kitchen",
-      "Wood-fired oven demonstration",
-      "Traditional cooking tools"
-    ],
-    image: "/journey/journey-2.jpg",
-    alt: "Traditional Moroccan kitchen tour - Authentic Amazigh cooking space with wood-fired oven and traditional tagines in Atlas Mountains home",
-    duration: "20 min",
-    icon: FiHome
-  },
-  {
-    step: 3,
-    title: "Hands-On Cooking",
-    subtitle: "Recipes From Generations",
-    description: "In a real Moroccan kitchen, learn authentic cooking techniques passed down through generations. From preparing tagine to baking fresh bread in a traditional wood-fired oven—this is cooking as it's meant to be.",
-    highlights: [
-      "Traditional spice blending",
-      "Authentic tagine preparation",
-      "Bread making in wood oven",
-      "Family recipes & secrets"
-    ],
-    image: "/journey/journey-3.jpg",
-    alt: "Hands-on Moroccan cooking class - Learning traditional tagine preparation and bread baking techniques in authentic village kitchen",
-    duration: "90 min",
-    icon: FiActivity
-  },
-  {
-    step: 4,
-    title: "Feast & Return",
-    subtitle: "The Heart of Hospitality",
-    description: "Gather around the table in a traditional Moroccan home to enjoy the incredible meal you've created. Share stories, laughter, and experience true Moroccan hospitality before we drive you back to Taghazout.",
-    highlights: [
-      "Feast in authentic setting",
-      "Mint tea ceremony",
-      "Recipe booklet & certificate",
-      "Return to Taghazout"
-    ],
-    image: "/journey/journey-4.jpg",
-    alt: "Moroccan feast and hospitality - Traditional home-cooked meal experience with mint tea ceremony in Atlas Mountains Amazigh home",
-    duration: "60 min",
-    icon: FiHeart
-  }
-];
+const stepMeta = [
+  { image: "/journey/journey-1.jpeg", alt: "Taghazout Morocco pickup location - Scenic coastal village starting point for authentic Moroccan cooking class journey to Atlas Mountains", duration: "20 min", icon: FiMapPin },
+  { image: "/journey/journey-2.jpg", alt: "Traditional Moroccan kitchen tour - Authentic Amazigh cooking space with wood-fired oven and traditional tagines in Atlas Mountains home", duration: "20 min", icon: FiHome },
+  { image: "/journey/journey-3.jpg", alt: "Hands-on Moroccan cooking class - Learning traditional tagine preparation and bread baking techniques in authentic village kitchen", duration: "90 min", icon: FiActivity },
+  { image: "/journey/journey-4.jpg", alt: "Moroccan feast and hospitality - Traditional home-cooked meal experience with mint tea ceremony in Atlas Mountains Amazigh home", duration: "60 min", icon: FiHeart },
+] as const;
 
 const TheExperienceV2: React.FC = memo(() => {
+  const { t } = useLanguage();
+  const experienceSteps: ExperienceStep[] = [
+    { step: 1, ...t.experience.step1, ...stepMeta[0] },
+    { step: 2, ...t.experience.step2, ...stepMeta[1] },
+    { step: 3, ...t.experience.step3, ...stepMeta[2] },
+    { step: 4, ...t.experience.step4, ...stepMeta[3] },
+  ];
   return (
     <section className="relative bg-white">
       {/* Header Section - Mobile Optimized */}
@@ -105,20 +53,16 @@ const TheExperienceV2: React.FC = memo(() => {
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-block mb-4 sm:mb-6">
             <span className="text-xs sm:text-sm font-bold text-amber-600 tracking-[0.25em] sm:tracking-[0.3em] uppercase">
-              The Journey
+              {t.experience.title}
             </span>
           </div>
           
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-6 sm:mb-8 leading-tight px-4">
-            An Authentic
-            <br />
-            <span className="italic font-light">Moroccan</span>
-            <br />
-            Experience
+            {t.experience.subtitle}
           </h2>
           
           <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed px-4">
-            From your doorstep to a traditional home, every moment is crafted for authenticity and connection.
+            {t.experience.description}
           </p>
         </div>
       </div>
@@ -160,13 +104,6 @@ const TheExperienceV2: React.FC = memo(() => {
                   <span className="text-2xl font-black text-white">
                     {step.step}
                   </span>
-                </div>
-              </div>
-
-              {/* Duration Badge - Mobile Optimized */}
-              <div className="absolute top-6 left-6 sm:top-8 sm:left-8">
-                <div className="bg-white/95 backdrop-blur-sm px-3 py-2 sm:px-4 sm:py-2 rounded-full shadow-lg">
-                  <span className="text-xs sm:text-sm font-bold text-gray-900">{step.duration}</span>
                 </div>
               </div>
 
@@ -247,12 +184,11 @@ const TheExperienceV2: React.FC = memo(() => {
           </div>
           
           <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 px-4">
-            Experience Authentic Morocco
+            {t.experience.finalTitle}
           </h3>
           
           <p className="text-base sm:text-lg text-gray-600 mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed px-4">
-            Join us for a journey that goes beyond cooking. This is connection, culture, and community—
-            all wrapped in the warmth of Moroccan hospitality.
+            {t.experience.finalDescription}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
@@ -260,7 +196,7 @@ const TheExperienceV2: React.FC = memo(() => {
               href="/book"
               className="inline-flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-base sm:text-lg rounded-full shadow-xl hover:shadow-2xl active:scale-95 sm:hover:scale-105 transition-all duration-300"
             >
-              <span>Book Your Experience</span>
+              <span>{t.experience.bookExperience}</span>
               <FiArrowRight className="w-5 h-5" />
             </a>
             
@@ -268,7 +204,7 @@ const TheExperienceV2: React.FC = memo(() => {
               href="/packages"
               className="inline-flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-white text-gray-900 font-bold text-base sm:text-lg rounded-full border-2 border-gray-200 hover:border-amber-500 active:scale-95 sm:hover:shadow-lg transition-all duration-300"
             >
-              <span>Learn More</span>
+              <span>{t.experience.learnMore}</span>
             </a>
           </div>
         </div>

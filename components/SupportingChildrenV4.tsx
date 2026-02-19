@@ -4,6 +4,7 @@ import React, { memo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FiHeart, FiArrowRight } from 'react-icons/fi';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 /**
  * SUPPORTING LOCAL CHILDREN SECTION - Design 4
@@ -18,6 +19,7 @@ import { FiHeart, FiArrowRight } from 'react-icons/fi';
  */
 
 const SupportingChildrenV4: React.FC = memo(() => {
+  const { t } = useLanguage();
   return (
     <section className="py-0 overflow-hidden">
       {/* Main Split Section */}
@@ -36,16 +38,16 @@ const SupportingChildrenV4: React.FC = memo(() => {
           <div className="absolute bottom-6 left-6 right-6 lg:bottom-10 lg:left-10 lg:right-10">
             <div className="grid grid-cols-3 gap-3">
               <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg">
-                <div className="text-2xl lg:text-3xl font-black text-amber-600">50+</div>
-                <p className="text-xs text-gray-600">Children</p>
+                <div className="text-2xl lg:text-3xl font-black text-amber-600">10+</div>
+                <p className="text-xs text-gray-600">{t.community.children}</p>
               </div>
               <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg">
                 <div className="text-2xl lg:text-3xl font-black text-amber-600">100%</div>
-                <p className="text-xs text-gray-600">Tips Donated</p>
+                <p className="text-xs text-gray-600">{t.community.tipsDonated}</p>
               </div>
               <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg">
                 <div className="text-2xl lg:text-3xl font-black text-amber-600">4</div>
-                <p className="text-xs text-gray-600">Schools</p>
+                <p className="text-xs text-gray-600">{t.community.schools}</p>
               </div>
             </div>
           </div>
@@ -55,26 +57,19 @@ const SupportingChildrenV4: React.FC = memo(() => {
         <div className="bg-gradient-to-br from-amber-500 to-orange-500 p-10 lg:p-16 flex flex-col justify-center">
           <div className="max-w-lg">
             <span className="inline-block px-4 py-2 bg-white/20 rounded-full text-white text-sm font-bold uppercase tracking-wider mb-6">
-              ❤️ Community Impact
+              ❤️ {t.community.badge}
             </span>
             
             <h2 className="text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
-              Your Meal Supports Local Children
+              {t.community.title}
             </h2>
             
             <p className="text-white/90 text-lg leading-relaxed mb-8">
-              Every cooking class directly benefits children in Tamraght village. 
-              We provide school supplies, daily meals, and educational support 
-              to over 50 children in need.
+              {t.community.description}
             </p>
 
             <div className="space-y-4 mb-8">
-              {[
-                "📚 School supplies & backpacks",
-                "🍲 Nutritious daily meals",
-                "✏️ After-school tutoring",
-                "🎉 Cultural activities"
-              ].map((item, index) => (
+              {t.community.impactItems.map((item, index) => (
                 <div key={index} className="flex items-center gap-3 text-white">
                   <span>{item}</span>
                 </div>
@@ -86,7 +81,7 @@ const SupportingChildrenV4: React.FC = memo(() => {
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-amber-600 font-bold text-lg rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
             >
               <FiHeart className="w-5 h-5" />
-              <span>Book & Give Back</span>
+              <span>{t.community.bookGiveBack}</span>
               <FiArrowRight className="w-5 h-5" />
             </Link>
           </div>
@@ -98,9 +93,7 @@ const SupportingChildrenV4: React.FC = memo(() => {
         <div className="max-w-5xl mx-auto px-6 lg:px-12 text-center">
           <div className="text-4xl text-amber-500 font-serif mb-4">&ldquo;</div>
           <blockquote className="text-xl lg:text-2xl text-white font-medium italic mb-4 leading-relaxed">
-            In Amazigh culture, we believe cooking is not just about food – 
-            it&apos;s about nourishing our community. When you cook with me, 
-            you become part of our village family.
+            {t.community.quote}
           </blockquote>
           <cite className="text-amber-400 font-bold not-italic">— Rabab</cite>
         </div>

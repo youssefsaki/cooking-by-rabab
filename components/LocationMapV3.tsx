@@ -2,6 +2,7 @@
 
 import React, { memo } from 'react';
 import { FiMapPin, FiNavigation, FiClock, FiPhone, FiMail, FiSend, FiArrowRight } from 'react-icons/fi';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 /**
  * LOCATION & MAP SECTION - Design 3 of 3
@@ -31,34 +32,14 @@ const locationData = {
   hours: "Daily: 9:00 AM - 6:00 PM"
 };
 
-const journeySteps = [
-  {
-    step: "01",
-    title: "Land at Agadir Airport",
-    description: "We'll be waiting to pick you up - free for all guests!",
-    time: "0 min"
-  },
-  {
-    step: "02",
-    title: "Scenic Coastal Drive",
-    description: "Enjoy beautiful Atlantic Ocean views along the way.",
-    time: "25 min"
-  },
-  {
-    step: "03",
-    title: "Arrive in Taghazout",
-    description: "Enter our traditional Amazigh village home.",
-    time: "30 min"
-  },
-  {
-    step: "04",
-    title: "Meet Rabab",
-    description: "Welcome tea and begin your culinary adventure!",
-    time: "Let's cook! 👩‍🍳"
-  }
-];
-
 const LocationMapV3: React.FC = memo(() => {
+  const { t } = useLanguage();
+  const journeySteps = [
+    { step: "01", ...t.location.step1 },
+    { step: "02", ...t.location.step2 },
+    { step: "03", ...t.location.step3 },
+    { step: "04", ...t.location.step4 },
+  ];
   // Component rendered client-side only (ssr: false in dynamic import)
 
   return (
@@ -78,19 +59,19 @@ const LocationMapV3: React.FC = memo(() => {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-100 to-orange-100 mb-6">
             <span className="text-xl">📍</span>
             <span className="text-sm font-bold text-amber-900 tracking-wider uppercase">
-              Come Visit Us
+              {t.location.badge}
             </span>
           </div>
           
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-            Your Journey to{' '}
+            {t.location.titlePart1}
             <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-clip-text text-transparent">
-              Rabab&apos;s Kitchen
+              {t.location.titlePart2}
             </span>
           </h2>
           
           <p className="text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            From the moment you land, we take care of everything. Here&apos;s what your journey looks like.
+            {t.location.description}
           </p>
         </div>
 
@@ -102,7 +83,7 @@ const LocationMapV3: React.FC = memo(() => {
               <span className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
                 <FiNavigation className="w-5 h-5 text-white" />
               </span>
-              Your Journey
+              {t.location.journeyTitle}
             </h3>
 
             <div className="relative">
@@ -174,7 +155,7 @@ const LocationMapV3: React.FC = memo(() => {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-3 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition-colors"
                   >
-                    <span>Get Directions</span>
+                    <span>{t.location.getDirections}</span>
                     <FiArrowRight className="w-4 h-4" />
                   </a>
                 </div>
@@ -190,7 +171,7 @@ const LocationMapV3: React.FC = memo(() => {
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                   <FiPhone className="w-6 h-6 text-amber-600" />
                 </div>
-                <p className="text-sm text-gray-500 mb-1">Call Us</p>
+                <p className="text-sm text-gray-500 mb-1">{t.location.callUs}</p>
                 <p className="text-gray-900 font-bold">{locationData.phone}</p>
               </a>
 
@@ -204,7 +185,7 @@ const LocationMapV3: React.FC = memo(() => {
                   <FiSend className="w-6 h-6 text-green-600" />
                 </div>
                 <p className="text-sm text-gray-500 mb-1">WhatsApp</p>
-                <p className="text-gray-900 font-bold">Message Us</p>
+                <p className="text-gray-900 font-bold">{t.location.messageUs}</p>
               </a>
 
               <a 
@@ -215,7 +196,7 @@ const LocationMapV3: React.FC = memo(() => {
                   <FiMail className="w-6 h-6 text-orange-600" />
                 </div>
                 <p className="text-sm text-gray-500 mb-1">Email</p>
-                <p className="text-gray-900 font-bold">Write Us</p>
+                <p className="text-gray-900 font-bold">{t.location.writeUs}</p>
               </a>
             </div>
           </div>

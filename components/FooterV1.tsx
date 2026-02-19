@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { FiMapPin, FiPhone, FiMail, FiInstagram, FiSend, FiHeart } from 'react-icons/fi';
+import { SiTiktok } from 'react-icons/si';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 /**
@@ -39,14 +40,14 @@ const footerData = {
     { label: "Amlou Workshop", href: "/experiences#amlou-workshop" }
   ],
   contact: {
-    address: "Tamraght Village, Agadir-Ida-Ou-Tanane, Morocco",
+    address: "Taghazout Village, Agadir-Ida-Ou-Tanane, Morocco",
     phone: "+212 726 671 746",
-    email: "rabab@cookingclass.ma",
+    email: "rababouhadda5@gmail.com",
     whatsapp: "212726671746"
   },
   social: [
     { platform: "Instagram", url: "https://instagram.com/rababskitchen", icon: FiInstagram },
-    { platform: "WhatsApp", url: "https://wa.me/212726671746", icon: FiSend }
+    { platform: "TikTok", url: "https://www.tiktok.com/@rababskitchen", icon: SiTiktok }
   ]
 };
 

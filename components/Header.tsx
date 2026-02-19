@@ -127,7 +127,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                           : 'text-dark-blue hover:text-primary'
                       }`}
                     >
-                      {item.id === 'ourstory' ? t.nav.ourStory : item.label}
+                      {item.id === 'ourstory' ? (t?.nav?.ourStory || item.label) : item.label}
                       <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${openDropdown === item.id ? 'rotate-180' : ''}`} />
                     </button>
                     
@@ -137,9 +137,9 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                         <div className="bg-white rounded-xl shadow-xl border border-gray-100 py-2">
                           {item.dropdownItems.map((dropdownItem: any) => {
                             const translatedLabel = 
-                              dropdownItem.id === 'meet-the-chef' ? t.nav.meetTheChef :
-                              dropdownItem.id === 'our-kitchen' ? t.nav.ourKitchen :
-                              dropdownItem.id === 'location' ? t.nav.location :
+                              dropdownItem.id === 'meet-the-chef' ? (t?.nav?.meetTheChef || dropdownItem.label) :
+                              dropdownItem.id === 'our-kitchen' ? (t?.nav?.ourKitchen || dropdownItem.label) :
+                              dropdownItem.id === 'location' ? (t?.nav?.location || dropdownItem.label) :
                               dropdownItem.label;
                             return (
                               <Link
@@ -430,23 +430,55 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                 })}
               </div>
               
-              {/* Mobile Social Links */}
-              <div className="flex items-center gap-3 pt-4 border-t border-gray-200">
-                {navigationData.socialLinks.map((social: any) => {
-                  const IconComponent = getSocialIcon(social.platform);
-                  return (
-                    <Link
-                      key={social.platform}
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-dark-blue hover:text-primary transition-colors duration-300"
-                      aria-label={social.ariaLabel}
-                    >
-                      <IconComponent className="w-6 h-6" />
-                    </Link>
-                  );
-                })}
+              {/* Mobile Language Selector */}
+              <div className="pt-4 border-t border-gray-200 px-4">
+                <p className="text-xs font-bold text-gray-600 uppercase tracking-wider mb-3">Language / Langue / Sprache</p>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    onClick={() => {
+                      setLanguage('EN');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all ${
+                      language === 'EN'
+                        ? 'bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-lg'
+                        : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
+                    }`}
+                  >
+                    <span className="text-2xl mb-1">🇬🇧</span>
+                    <span className="text-xs font-bold">English</span>
+                  </button>
+                  
+                  <button
+                    onClick={() => {
+                      setLanguage('FR');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all ${
+                      language === 'FR'
+                        ? 'bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-lg'
+                        : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
+                    }`}
+                  >
+                    <span className="text-2xl mb-1">🇫🇷</span>
+                    <span className="text-xs font-bold">Français</span>
+                  </button>
+                  
+                  <button
+                    onClick={() => {
+                      setLanguage('DE');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all ${
+                      language === 'DE'
+                        ? 'bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-lg'
+                        : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
+                    }`}
+                  >
+                    <span className="text-2xl mb-1">🇩🇪</span>
+                    <span className="text-xs font-bold">Deutsch</span>
+                  </button>
+                </div>
               </div>
 
               {/* Mobile CTA Button with Packages */}
@@ -458,7 +490,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                       <div className="space-y-3 px-2">
                         <div className="flex items-center justify-between px-2">
                           <p className="text-sm font-bold text-gray-900">Book Your Experience</p>
-                          <span className="text-xs text-gray-500">4 packages</span>
+                          <span className="text-xs text-gray-500">3 packages</span>
                         </div>
                         <div className="space-y-2">
                           {navigationData.ctaButton.dropdownItems?.map((item: any) => (

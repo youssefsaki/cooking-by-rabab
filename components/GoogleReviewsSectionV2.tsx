@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 /**
  * GOOGLE REVIEWS SECTION - Elfsight Widget
@@ -9,6 +10,7 @@ import React, { useEffect } from 'react';
  */
 
 const GoogleReviewsSectionV2: React.FC = () => {
+  const { t } = useLanguage();
   useEffect(() => {
     // Load Elfsight script
     const script = document.createElement('script');
@@ -30,13 +32,13 @@ const GoogleReviewsSectionV2: React.FC = () => {
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12 mb-12">
         <div className="text-center">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-4">
-            What Our{' '}
+            {t.reviews.titlePart1}
             <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
-              Guests Say
+              {t.reviews.titlePart2}
             </span>
           </h2>
           <p className="text-lg lg:text-xl text-gray-700 max-w-2xl mx-auto">
-            Real experiences from travelers who joined our cooking classes
+            {t.reviews.description}
           </p>
         </div>
       </div>

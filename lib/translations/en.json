@@ -133,5 +133,108 @@
       "bread": "Clay Oven Bread",
       "amlou": "Amlou Workshop"
     }
+  },
+  "heroSection": {
+    "rating": "guests",
+    "learnToCook": "Learn to cook Amazigh",
+    "learnToCookPart1": "Learn to cook",
+    "learnToCookPart2": "Amazigh",
+    "description": "Go beyond the restaurants and learn to cook like a local. Our authentic Berber cooking class takes you into a traditional village home just 15 minutes above the Taghazout coast. You will master the art of the clay-pot tagine, learn to bake traditional mountain bread, and discover the secret spice blends of the Atlas Mountains. This immersive half-day experience is the perfect way to discover Amazigh and Berber culture through its most famous flavors.",
+    "bookClass": "BOOK YOUR CLASS",
+    "duration": "DURATION",
+    "group": "GUESTS",
+    "dishes": "DISHES",
+    "dishesLowercase": "dishes",
+    "handsOn": "HANDS-ON",
+    "experienceIncludes": "Experience includes",
+    "ratedBy": "Rated 4.9 by 500+",
+    "reviews": "500+ reviews",
+    "amazighExperience": "Amazigh Experience",
+    "cookLikeLocal": "Cook",
+    "likeA": "like a",
+    "local": "local",
+    "class": "class",
+    "bookNow": "Book Now"
+  },
+  "experience": {
+    "title": "THE JOURNEY",
+    "subtitle": "An Immersive Moroccan Experience",
+    "description": "Experience an authentic Morocco stay in a traditional workshop designed to let you live exactly like a local.",
+    "step1": {
+      "title": "Pickup & Journey",
+      "subtitle": "Your Adventure Begins",
+      "description": "We pick you up from Taghazout and take you on a scenic 15-20 minute drive through the stunning Moroccan countryside to an authentic traditional home. Watch the landscape transform as we leave the coast behind.",
+      "highlights": ["Comfortable pickup in from Taghazout Mosque", "Scenic countryside drive", "Learn about local culture", "Arrive at traditional workshop"]
+    },
+    "step2": {
+      "title": "Traditional Kitchen Tour",
+      "subtitle": "Where Magic Happens",
+      "description": "Step into an authentic Moroccan kitchen and discover the traditional tools and techniques that have been used for generations. See the wood-fired oven, traditional tagines, and the workspace where you'll create your feast.",
+      "highlights": ["Make your own tea with the local herbs", "Enjoy tea with Moroccan handmade sweets", "Explore authentic kitchen", "Wood-fired oven demonstration"]
+    },
+    "step3": {
+      "title": "Hands-On Cooking",
+      "subtitle": "Recipes From Generations",
+      "description": "In a real Moroccan kitchen, learn authentic cooking techniques passed down through generations. From preparing tagine to baking fresh bread in a traditional wood-fired oven—this is cooking as it's meant to be.",
+      "highlights": ["Kneading the dough", "Bread making in wood oven", "Prepare local Berber tagine (salty and sweet)", "Making Moroccan spread Amlou", "Family recipes & secrets"]
+    },
+    "step4": {
+      "title": "Feast & Return",
+      "subtitle": "The Heart of Hospitality",
+      "description": "Gather around the table in a traditional Moroccan home to enjoy the incredible meal you've created. Share stories, laughter, and experience true Moroccan hospitality before we drive you back to Taghazout.",
+      "highlights": ["Feast in authentic setting", "Mint tea with a sunset view", "Recipe booklet", "Return to Taghazout"]
+    },
+    "finalTitle": "Experience Authentic Morocco",
+    "finalDescription": "Join us for a journey that goes beyond cooking. This is connection, culture, and community—all wrapped in the warmth of Moroccan hospitality.",
+    "bookExperience": "Book Your Experience",
+    "learnMore": "Learn More"
+  },
+  "community": {
+    "badge": "COMMUNITY IMPACT",
+    "title": "Your Meal Supports Local Children",
+    "description": "Every cooking class directly benefits children in Tamsoult village. We provide school supplies, nutritious meals, and educational support to over 10 children each month.",
+    "quote": "In Amazigh culture, we believe cooking is not just about food – it's about nourishing our community. When you cook with me, you become part of our village family.",
+    "readMore": "Read More About Our Mission",
+    "bookGiveBack": "Book & Give Back",
+    "impactItems": ["📚 School supplies & backpacks", "🍲 Nutritious meals", "🧸 Toys for children", "👕 Clothes for children"],
+    "children": "Children",
+    "tipsDonated": "Tips Donated",
+    "schools": "Schools"
+  },
+  "reviews": {
+    "title": "What Our Guests Say",
+    "titlePart1": "What Our ",
+    "titlePart2": "Guests Say",
+    "description": "Real experiences from travelers who joined our cooking classes"
+  },
+  "location": {
+    "badge": "COME VISIT US",
+    "title": "Your Journey to Rabab's Kitchen",
+    "titlePart1": "Your Journey to ",
+    "titlePart2": "Rabab's Kitchen",
+    "description": "From the moment you land, we take care of everything. Here's what your journey looks like.",
+    "journeyTitle": "Your Journey",
+    "getDirections": "Get Directions",
+    "callUs": "Call Us",
+    "messageUs": "Message Us",
+    "writeUs": "Write Us",
+    "step1": { "title": "Land at Agadir Airport", "description": "We'll be waiting to pick you up - free for all guests!", "time": "0 min" },
+    "step2": { "title": "Scenic Coastal Drive", "description": "Enjoy beautiful Atlantic Ocean views along the way.", "time": "25 min" },
+    "step3": { "title": "Arrive in Taghazout", "description": "Enter our traditional Amazigh village home.", "time": "30 min" },
+    "step4": { "title": "Meet Rabab", "description": "Welcome tea and begin your culinary adventure!", "time": "Let's cook! 👩‍🍳" }
+  },
+  "packageHighlights": {
+    "basic": [
+      "300-year-old Amazigh house tour",
+      "Moroccan mint tea ceremony",
+      "Traditional village bread baking",
+      "Authentic tagine cooking workshop"
+    ],
+    "private": [
+      "Completely private experience",
+      "Flexible scheduling & timing",
+      "Customizable menu options",
+      "Exclusive Amazigh house access"
+    ]
   }
 }

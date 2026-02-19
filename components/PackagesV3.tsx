@@ -11,21 +11,41 @@ const packagesData = [
     id: "basic",
     name: "Basic Package",
     tagline: "Your Journey into the Mountains",
-    subtitle: "A half-day immersive cultural experience in the Atlas Mountains",
-    price: "500",
-    currency: "MAD",
-    duration: "6 hours",
-    groupSize: "Up to 8 guests",
+    subtitle: "Half-Day Authentic Berber Cultural Experience Above Taghazout",
+    price: "60",
+    currency: "EUR",
+    duration: "4 hours",
+    groupSize: "2-13 guests",
     startTime: "13:30",
     image: "/packages/basic.jpg",
     popular: true,
     highlights: [
+      "Pick up from Taghazout Mosque at 13:30",
+      "Minimum 2 guests required",
       "300-year-old Amazigh house tour",
       "Moroccan mint tea ceremony",
       "Traditional village bread baking",
-      "Authentic tagine cooking workshop",
-      "Amlou making with ancient millstone",
-      "Family feast with Atlas sunset views"
+      "Make Moroccan spread (Amlou)"
+    ]
+  },
+  {
+    id: "weekly-event",
+    name: "Weekly Event",
+    tagline: "The Amazigh Village Music Gala",
+    subtitle: "Join us for our Weekly Berber Music Event At Sunset in a traditional village",
+    price: "80",
+    currency: "EUR",
+    duration: "4 hours",
+    groupSize: "6-13 guests",
+    startTime: "15:00",
+    image: "/packages/basic.jpg",
+    highlights: [
+      "Every Thursday at 15:00",
+      "Minimum 6 guests required",
+      "Pickup from Taghazout Mosque",
+      "Mint tea ceremony",
+      "Make your barbecue",
+      "Traditional Amazigh music & celebration"
     ]
   },
   {
@@ -33,9 +53,9 @@ const packagesData = [
     name: "Private Package",
     tagline: "Exclusive Mountain Experience",
     subtitle: "Personalized culinary journey designed exclusively for your group",
-    price: "800",
-    currency: "MAD",
-    duration: "6 hours",
+    price: "100",
+    currency: "EUR",
+    duration: "5 hours",
     groupSize: "Private group",
     startTime: "Flexible",
     image: "/packages/private-chef.jpg",
@@ -43,7 +63,7 @@ const packagesData = [
       "Completely private experience",
       "Flexible scheduling & timing",
       "Customizable menu options",
-      "Exclusive Amazigh house access",
+      "Your choice of location",
       "Personalized cooking instruction",
       "Private family-style feast"
     ]
@@ -77,16 +97,16 @@ const PackagesV3: React.FC = memo(() => {
           </h2>
           
           <p className="text-sm sm:text-base lg:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
-            {t.packages.description}
+            Immerse yourself in authentic Berber culture. Experience traditional village life and an ancestral cooking journey. Located just 15 mins from the Taghazout coast.
           </p>
         </div>
 
-        {/* Packages Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6 max-w-6xl mx-auto">
+        {/* Packages Grid - Flexbox to maintain card width */}
+        <div className="flex flex-wrap justify-center gap-5 lg:gap-6 max-w-6xl mx-auto">
           {packagesData.map((pkg) => (
             <div
               key={pkg.id}
-              className="group relative h-[550px] sm:h-[600px] lg:h-[580px] rounded-3xl overflow-hidden cursor-pointer shadow-2xl hover:shadow-3xl transition-all duration-300 will-change-transform"
+              className="group relative h-[550px] sm:h-[600px] lg:h-[580px] w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(50%-0.75rem)] rounded-3xl overflow-hidden cursor-pointer shadow-2xl hover:shadow-3xl transition-all duration-300 will-change-transform"
             >
               {/* Popular Badge */}
               {pkg.popular && (
@@ -121,15 +141,15 @@ const PackagesV3: React.FC = memo(() => {
                   </div>
                 </div>
                 <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2 leading-tight drop-shadow-lg">
-                  {pkg.id === 'basic' ? t.packages.basic.title : t.packages.private.title}
+                  {pkg.name}
                 </h3>
                 <p className="text-base sm:text-lg text-white/95 font-light leading-relaxed drop-shadow-md">
-                  {pkg.id === 'basic' ? t.packages.basic.subtitle : t.packages.private.subtitle}
+                  {pkg.subtitle}
                 </p>
                 <div className="mt-3 flex items-baseline gap-2">
                   <span className="text-3xl sm:text-4xl font-black text-white drop-shadow-lg">{pkg.price}</span>
                   <span className="text-lg text-white/90 font-semibold">{pkg.currency}</span>
-                  <span className="text-xs text-white/80">{pkg.id === 'basic' ? t.packages.basic.price.split('/')[1] : t.packages.private.price.split('/')[1]}</span>
+                  <span className="text-xs text-white/80">per person</span>
                 </div>
               </div>
 
@@ -139,17 +159,17 @@ const PackagesV3: React.FC = memo(() => {
                 <div className="space-y-4 sm:space-y-5">
                   <div>
                     <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 sm:mb-3 leading-tight drop-shadow-lg">
-                      {pkg.id === 'basic' ? t.packages.basic.title : t.packages.private.title}
+                      {pkg.name}
                     </h3>
                     <p className="text-sm sm:text-base md:text-lg text-white/95 leading-relaxed drop-shadow-md mb-4">
-                      {pkg.id === 'basic' ? t.packages.basic.description : t.packages.private.description}
+                      {pkg.subtitle}
                     </p>
                     
                     {/* Price Display */}
                     <div className="flex items-baseline gap-2 mb-4">
                       <span className="text-3xl sm:text-4xl font-black text-white">{pkg.price}</span>
                       <span className="text-lg text-white/90 font-semibold">{pkg.currency}</span>
-                      <span className="text-sm text-white/80">{pkg.id === 'basic' ? t.packages.basic.price.split('/')[1] : t.packages.private.price.split('/')[1]}</span>
+                      <span className="text-sm text-white/80">per person</span>
                     </div>
                   </div>
 
@@ -165,24 +185,20 @@ const PackagesV3: React.FC = memo(() => {
                     </div>
                     <div className="flex items-center gap-2 px-3 py-1.5 bg-white/15 backdrop-blur-sm rounded-full border border-white/20">
                       <FiMapPin className="w-3.5 h-3.5 text-amber-300" />
-                      <span className="text-white text-xs sm:text-sm font-medium">Atlas Mountains</span>
+                      <span className="text-white text-xs sm:text-sm font-medium">
+                        {pkg.id === 'private' ? 'Your Location' : pkg.id === 'weekly-event' ? 'Amazigh Village' : 'Amazigh Village'}
+                      </span>
                     </div>
                   </div>
                   
-                  {/* Highlights List - No scroll, limited items */}
+                  {/* Highlights List - Show all items */}
                   <div className="grid grid-cols-1 gap-2">
-                    {pkg.highlights.slice(0, 4).map((highlight, index) => (
+                    {pkg.highlights.map((highlight, index) => (
                       <div key={index} className="flex items-center gap-2.5 text-white/95">
                         <span className="text-amber-300 text-sm flex-shrink-0">✦</span>
                         <span className="text-xs sm:text-sm leading-snug">{highlight}</span>
                       </div>
                     ))}
-                    {pkg.highlights.length > 4 && (
-                      <div className="flex items-center gap-2.5 text-white/80 italic">
-                        <span className="text-amber-300/60 text-sm">+</span>
-                        <span className="text-xs sm:text-sm">and {pkg.highlights.length - 4} more experiences...</span>
-                      </div>
-                    )}
                   </div>
                 </div>
 
