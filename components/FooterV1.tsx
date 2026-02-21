@@ -28,8 +28,6 @@ const footerData = {
   quickLinks: [
     { label: "Home", href: "/" },
     { label: "Cooking Classes", href: "/experiences" },
-    { label: "About Rabab", href: "/about" },
-    { label: "Gallery", href: "/gallery" },
     { label: "Book Now", href: "/book" }
   ],
   experiences: [
@@ -102,16 +100,6 @@ const FooterV1: React.FC = () => {
               <li>
                 <Link href="/experiences" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
                   {t.footer.links.cookingClasses}
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
-                  {t.footer.links.aboutRabab}
-                </Link>
-              </li>
-              <li>
-                <Link href="/gallery" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
-                  {t.footer.links.gallery}
                 </Link>
               </li>
               <li>

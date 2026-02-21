@@ -125,7 +125,7 @@ export default function LocationPage() {
                 Why Our Location is Special
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                More than just a cooking class - it's a journey into authentic Moroccan life
+                More than just a cooking class - it&apos;s a journey into authentic Moroccan life
               </p>
             </div>
 
@@ -207,7 +207,7 @@ export default function LocationPage() {
                   <div>
                     <h3 className="text-xl font-bold text-gray-900 mb-2">We Pick You Up</h3>
                     <p className="text-gray-700">
-                      We'll collect you from your accommodation in Taghazout at the scheduled time
+                      We&apos;ll collect you from your accommodation in Taghazout at the scheduled time
                     </p>
                   </div>
                 </div>
@@ -235,7 +235,7 @@ export default function LocationPage() {
                   <div>
                     <h3 className="text-xl font-bold text-gray-900 mb-2">Return to Taghazout</h3>
                     <p className="text-gray-700">
-                      After your experience, we'll drive you back to your accommodation
+                      After your experience, we&apos;ll drive you back to your accommodation
                     </p>
                   </div>
                 </div>

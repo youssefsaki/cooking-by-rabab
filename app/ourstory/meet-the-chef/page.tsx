@@ -48,7 +48,7 @@ export default function MeetTheChefPage() {
             <div className="space-y-5">
               <div>
                 <h2 className="text-3xl font-black text-gray-900 mb-3">
-                  Hello, I'm Rabab
+                  Hello, I&apos;m Rabab
                 </h2>
                 <div className="w-14 h-1 bg-gradient-to-r from-amber-500 to-orange-500 mb-5"></div>
               </div>

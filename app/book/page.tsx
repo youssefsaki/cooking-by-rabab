@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useFormik } from 'formik';
@@ -65,7 +65,8 @@ const validationSchema = Yup.object({
     .max(500, 'Allergies description must be less than 500 characters')
 });
 
-export default function BookPage() {
+// BookingForm component that uses searchParams
+function BookingForm() {
   const searchParams = useSearchParams();
   const packageParam = searchParams.get('package');
   const { t } = useLanguage();
@@ -151,7 +152,7 @@ Looking forward to cooking with you! 🇲🇦`;
             </p>
             <div className="bg-green-50 border-2 border-green-200 rounded-xl p-6 mb-8">
               <p className="text-sm text-green-800 font-semibold mb-2">✓ Your booking details have been saved</p>
-              <p className="text-sm text-green-700">✓ We'll reach out within 24 hours</p>
+              <p className="text-sm text-green-700">✓ We&apos;ll reach out within 24 hours</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
@@ -215,7 +216,6 @@ Looking forward to cooking with you! 🇲🇦`;
               <input
                 type="text"
                 id="fullName"
-                name="fullName"
                 {...formik.getFieldProps('fullName')}
                 className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none transition-colors ${
                   formik.touched.fullName && formik.errors.fullName
@@ -369,7 +369,6 @@ Looking forward to cooking with you! 🇲🇦`;
               </label>
               <Select
                 id="country"
-                name="country"
                 options={countryOptions}
                 value={countryOptions.find(option => option.value === formik.values.country) || null}
                 onChange={(option) => {
@@ -491,7 +490,6 @@ Looking forward to cooking with you! 🇲🇦`;
               <input
                 type="email"
                 id="email"
-                name="email"
                 {...formik.getFieldProps('email')}
                 className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none transition-colors ${
                   formik.touched.email && formik.errors.email
@@ -575,7 +573,6 @@ Looking forward to cooking with you! 🇲🇦`;
               </label>
               <select
                 id="dietaryPreference"
-                name="dietaryPreference"
                 {...formik.getFieldProps('dietaryPreference')}
                 className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none transition-colors ${
                   formik.touched.dietaryPreference && formik.errors.dietaryPreference
@@ -601,7 +598,6 @@ Looking forward to cooking with you! 🇲🇦`;
               </label>
               <textarea
                 id="allergies"
-                name="allergies"
                 {...formik.getFieldProps('allergies')}
                 rows={3}
                 className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none transition-colors resize-none ${
@@ -643,11 +639,20 @@ Looking forward to cooking with you! 🇲🇦`;
             </button>
 
             <p className="text-sm text-gray-500 text-center mt-4">
-              By submitting this form, your booking request will be saved and we'll contact you shortly to confirm.
+              By submitting this form, your booking request will be saved and we&apos;ll contact you shortly to confirm.
             </p>
           </form>
         </div>
       </section>
     </main>
+  );
+}
+
+// Main page component with Suspense boundary
+export default function BookPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500"></div></div>}>
+      <BookingForm />
+    </Suspense>
   );
 }

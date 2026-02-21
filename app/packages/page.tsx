@@ -387,7 +387,7 @@ export default function PackagesPage() {
                     The Scenic Ascent
                   </h3>
                   <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                    Meet us at the Taghazout Mosque for a comfortable 15-minute drive into the Small Atlas Mountains. We'll wind through the Argan forest, where you can breathe the fresh mountain air and enjoy a breathtaking panoramic view of the ocean from above.
+                    Meet us at the Taghazout Mosque for a comfortable 15-minute drive into the Small Atlas Mountains. We&apos;ll wind through the Argan forest, where you can breathe the fresh mountain air and enjoy a breathtaking panoramic view of the ocean from above.
                   </p>
                 </div>
               </div>
@@ -421,7 +421,7 @@ export default function PackagesPage() {
                     The Garden Tea Ritual
                   </h3>
                   <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                    Relax in our authentic workshop and learn the art of Moroccan tea. You'll pick fresh mint and herbs directly from our small garden to brew your own pot. Enjoy your tea with homemade Moroccan sweets I've prepared for you, as we sit together for a warm conversation to get to know one another.
+                    Relax in our authentic workshop and learn the art of Moroccan tea. You&apos;ll pick fresh mint and herbs directly from our small garden to brew your own pot. Enjoy your tea with homemade Moroccan sweets I&apos;ve prepared for you, as we sit together for a warm conversation to get to know one another.
                   </p>
                 </div>
               </div>
@@ -506,7 +506,7 @@ export default function PackagesPage() {
                     Journey Home
                   </h3>
                   <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-                    After the sun sets and we've shared our final goodbyes, we begin the scenic drive back, dropping you directly in Taghazout or Tamraght by 19:30 – 20:00.
+                    After the sun sets and we&apos;ve shared our final goodbyes, we begin the scenic drive back, dropping you directly in Taghazout or Tamraght by 19:30 – 20:00.
                   </p>
                 </div>
               </div>
@@ -621,7 +621,7 @@ export default function PackagesPage() {
             {/* What's Included - Enhanced */}
             <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl p-8 sm:p-12 lg:p-16 border-2 border-amber-500 shadow-2xl mb-16">
               <h3 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-10 text-center">
-                What's{' '}
+                What&apos;s{' '}
                 <span className="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
                   Included
                 </span>
