@@ -668,6 +668,8 @@ img {
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* iOS Safari smooth scrolling */
+    -webkit-overflow-scrolling: touch;
   }
   
   html, body {
@@ -675,6 +677,9 @@ img {
     padding: 0;
     overflow-x: hidden;
     width: 100%;
+    /* Prevent iOS Safari bounce effect */
+    position: relative;
+    overscroll-behavior-y: none;
   }
   
   body {
@@ -684,6 +689,37 @@ img {
     font-family: var(--font-roboto-condensed), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* iOS Safari smooth scrolling */
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+  
+  /* iOS Safari specific fixes */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+  
+  /* Enable momentum scrolling on iOS */
+  .overflow-y-auto,
+  .overflow-x-auto,
+  .overflow-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Fix for iOS Safari input zoom */
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+  
+  /* Disable iOS Safari text size adjust */
+  body {
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 }
 

@@ -51,12 +51,20 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
   ];
 
   useEffect(() => {
+    let mounted = true;
+    
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      if (mounted) {
+        setIsScrolled(window.scrollY > 10);
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => {
+      mounted = false;
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const getSocialIcon = (platform: string) => {

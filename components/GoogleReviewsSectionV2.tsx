@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 /**
@@ -11,17 +11,53 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 const GoogleReviewsSectionV2: React.FC = () => {
   const { t } = useLanguage();
+  const [scriptLoaded, setScriptLoaded] = useState(false);
+
   useEffect(() => {
-    // Load Elfsight script
-    const script = document.createElement('script');
-    script.src = 'https://elfsightcdn.com/platform.js';
-    script.async = true;
-    document.body.appendChild(script);
+    let script: HTMLScriptElement | null = null;
+    let mounted = true;
+
+    const loadScript = async () => {
+      try {
+        // Check if script already exists
+        const existingScript = document.querySelector('script[src="https://elfsightcdn.com/platform.js"]');
+        
+        if (existingScript) {
+          if (mounted) setScriptLoaded(true);
+          return;
+        }
+
+        // Load Elfsight script
+        script = document.createElement('script');
+        script.src = 'https://elfsightcdn.com/platform.js';
+        script.async = true;
+        
+        script.onload = () => {
+          if (mounted) setScriptLoaded(true);
+        };
+        
+        script.onerror = (error) => {
+          console.error('Failed to load Elfsight script:', error);
+          if (mounted) setScriptLoaded(false);
+        };
+        
+        document.body.appendChild(script);
+      } catch (error) {
+        console.error('Error loading script:', error);
+      }
+    };
+
+    loadScript();
 
     return () => {
+      mounted = false;
       // Cleanup script on unmount
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
+      if (script && document.body.contains(script)) {
+        try {
+          document.body.removeChild(script);
+        } catch (error) {
+          console.error('Error removing script:', error);
+        }
       }
     };
   }, []);
@@ -45,10 +81,19 @@ const GoogleReviewsSectionV2: React.FC = () => {
 
       {/* Elfsight Widget Container */}
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
-        <div 
-          className="elfsight-app-a3d605ad-6647-4f58-98e8-d52fb2c285b9" 
-          data-elfsight-app-lazy
-        ></div>
+        {scriptLoaded ? (
+          <div 
+            className="elfsight-app-a3d605ad-6647-4f58-98e8-d52fb2c285b9" 
+            data-elfsight-app-lazy
+          ></div>
+        ) : (
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500 mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading reviews...</p>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

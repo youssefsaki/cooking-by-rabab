@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { HeroProps } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -8,29 +8,47 @@ import { useLanguage } from '@/contexts/LanguageContext';
 const Hero: React.FC<HeroProps> = ({ heroData }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    
     // Fix for mobile browsers - set exact viewport height
     const setVH = () => {
-      const vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty('--vh', `${vh}px`);
-      
-      if (containerRef.current) {
-        containerRef.current.style.height = `${window.innerHeight}px`;
+      try {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+        
+        if (containerRef.current && mounted) {
+          containerRef.current.style.height = `${window.innerHeight}px`;
+        }
+      } catch (error) {
+        console.error('Error setting viewport height:', error);
       }
     };
     
     setVH();
-    window.addEventListener('resize', setVH);
-    window.addEventListener('orientationchange', () => {
-      setTimeout(setVH, 100);
-    });
+    
+    // Use passive event listeners for better scroll performance
+    const handleResize = () => {
+      if (mounted) setVH();
+    };
+    
+    const handleOrientationChange = () => {
+      if (mounted) {
+        setTimeout(setVH, 100);
+      }
+    };
+
+    window.addEventListener('resize', handleResize, { passive: true });
+    window.addEventListener('orientationchange', handleOrientationChange, { passive: true });
 
     return () => {
-      window.removeEventListener('resize', setVH);
-      window.removeEventListener('orientationchange', setVH);
+      setMounted(false);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleOrientationChange);
     };
-  }, []);
+  }, [mounted]);
 
   return (
     <div 
@@ -43,6 +61,8 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
         minHeight: 'calc(var(--vh, 1vh) * 100)',
         maxHeight: 'calc(var(--vh, 1vh) * 100)',
         overflow: 'hidden',
+        WebkitOverflowScrolling: 'touch',
+        touchAction: 'pan-y',
       }}
     >
       {/* Background Image - Desktop */}
@@ -135,6 +155,7 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
             <a
               href="/book"
               className="inline-block bg-amber-500 hover:bg-amber-600 text-white px-10 sm:px-10 lg:px-12 py-5 sm:py-4.5 lg:py-5 text-base sm:text-base lg:text-lg font-bold uppercase tracking-widest transition-all duration-300 hover:scale-105 hover:shadow-2xl rounded-lg"
+              style={{ touchAction: 'manipulation' }}
             >
               {t.hero.bookButton}
             </a>
