@@ -25,20 +25,37 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguageState] = useState<Language>('EN');
   const [t, setT] = useState<Translations>(translations.EN);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Load saved language from localStorage
-    const saved = localStorage.getItem('language') as Language;
-    if (saved && translations[saved]) {
-      setLanguageState(saved);
-      setT(translations[saved]);
+    // Prevent running on server or multiple times
+    if (mounted) return;
+    
+    setMounted(true);
+    
+    // Safely load saved language from localStorage with error handling
+    try {
+      const saved = localStorage.getItem('language') as Language;
+      if (saved && translations[saved]) {
+        setLanguageState(saved);
+        setT(translations[saved]);
+      }
+    } catch (error) {
+      // iOS Safari may block localStorage access
+      console.error('Could not access localStorage:', error);
     }
-  }, []);
+  }, [mounted]); // Add mounted to dependencies to prevent infinite loop
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     setT(translations[lang]);
-    localStorage.setItem('language', lang);
+    
+    // Safely save to localStorage with error handling
+    try {
+      localStorage.setItem('language', lang);
+    } catch (error) {
+      console.error('Could not save to localStorage:', error);
+    }
   };
 
   return (

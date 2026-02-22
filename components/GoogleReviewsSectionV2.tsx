@@ -27,12 +27,6 @@ const GoogleReviewsSectionV2: React.FC = () => {
           return;
         }
 
-        // TEMPORARILY DISABLED - Testing if this causes iOS Safari crash
-        console.log('Elfsight script loading disabled for debugging');
-        if (mounted) setScriptLoaded(true); // Pretend it loaded
-        return;
-
-        /*
         // Load Elfsight script
         script = document.createElement('script');
         script.src = 'https://elfsightcdn.com/platform.js';
@@ -48,7 +42,6 @@ const GoogleReviewsSectionV2: React.FC = () => {
         };
         
         document.body.appendChild(script);
-        */
       } catch (error) {
         console.error('Error loading script:', error);
       }
