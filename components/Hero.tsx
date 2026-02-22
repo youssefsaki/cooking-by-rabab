@@ -65,7 +65,7 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
         alt="Moroccan Cooking Class"
         fill
         priority
-        quality={90}
+        quality={75}
         sizes="100vw"
         className="hidden md:block"
         style={{
@@ -80,8 +80,8 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
         alt="Moroccan Cooking Class"
         fill
         priority
-        quality={90}
-        sizes="100vw"
+        quality={60}
+        sizes="(max-width: 768px) 100vw, 50vw"
         className="block md:hidden"
         style={{
           objectFit: 'cover',

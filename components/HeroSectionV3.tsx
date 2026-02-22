@@ -92,8 +92,8 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
             alt={allImages[activeImage].alt}
             fill
             className="object-cover"
-            sizes="100vw"
-            priority
+            sizes="(max-width: 768px) 100vw, 50vw"
+            loading="lazy"
           />
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -125,7 +125,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
                   : 'opacity-50'
               }`}
             >
-              <Image src={img.src} alt={img.alt} fill className="object-cover rounded-xl" sizes="64px" />
+              <Image src={img.src} alt={img.alt} fill className="object-cover rounded-xl" sizes="64px" loading="lazy" />
             </button>
           ))}
         </div>
@@ -161,7 +161,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
           fill
           className="object-cover"
           sizes="100vw"
-          priority
+          loading="lazy"
         />
         {/* Dark gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/20" />
@@ -308,7 +308,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
             fill
             className="object-cover"
             sizes="100vw"
-            priority
+            loading="lazy"
           />
         </div>
 
@@ -406,7 +406,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
               fill
               className="object-cover transition-all duration-700"
               sizes="100vw"
-              priority
+              loading="lazy"
             />
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
@@ -460,6 +460,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
                   fill
                   className="object-cover rounded-xl"
                   sizes="(max-width: 640px) 112px, (max-width: 1024px) 128px, 160px"
+                  loading="lazy"
                 />
               </button>
             ))}

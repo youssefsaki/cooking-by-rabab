@@ -125,8 +125,8 @@ const PackagesV3: React.FC = memo(() => {
                   fill
                   className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  priority
-                  quality={85}
+                  loading="lazy"
+                  quality={75}
                 />
               </div>
 

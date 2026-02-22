@@ -85,7 +85,7 @@ const MeetTheChefV2: React.FC = memo(() => {
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                priority
+                loading="lazy"
               />
               
               {/* Gradient Overlay */}

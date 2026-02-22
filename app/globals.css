@@ -6,10 +6,7 @@
 @import 'keen-slider/keen-slider.css';
 @import 'react-datepicker/dist/react-datepicker.css';
 
-/* Image loading optimization */
-img {
-  content-visibility: auto;
-}
+/* Image loading - content-visibility removed (causes iOS Safari rendering issues) */
 
 /* Reduce layout shifts */
 .loading-skeleton {
