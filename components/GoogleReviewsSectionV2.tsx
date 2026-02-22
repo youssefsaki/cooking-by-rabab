@@ -81,11 +81,10 @@ const GoogleReviewsSectionV2: React.FC = () => {
         </div>
       </div>
 
-      {/* Elfsight Widget Container */}
+      {/* Elfsight Widget Container - div must always be in DOM for Elfsight to find it */}
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
-        {scriptLoaded ? (
-          <div className="elfsight-app-a3d605ad-6647-4f58-98e8-d52fb2c285b9"></div>
-        ) : scriptFailed ? (
+        <div className="elfsight-app-a3d605ad-6647-4f58-98e8-d52fb2c285b9"></div>
+        {scriptFailed && (
           <div className="flex items-center justify-center min-h-[200px]">
             <div className="text-center">
               <p className="text-gray-500 text-sm">{t.googleReviews.unavailable}</p>
@@ -99,7 +98,8 @@ const GoogleReviewsSectionV2: React.FC = () => {
               </a>
             </div>
           </div>
-        ) : (
+        )}
+        {!scriptLoaded && !scriptFailed && (
           <div className="flex items-center justify-center min-h-[200px]">
             <div className="text-center">
               <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-amber-500 mx-auto mb-3"></div>
