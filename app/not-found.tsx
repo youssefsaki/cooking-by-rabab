@@ -1,8 +1,12 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { FiHome, FiBook, FiCalendar, FiArrowRight } from 'react-icons/fi';
 
 export default function NotFound() {
+  const { t } = useLanguage();
   return (
     <main className="min-h-screen bg-gradient-to-b from-amber-50 via-white to-orange-50 flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-32 pb-16">
       <div className="max-w-4xl w-full text-center">
@@ -27,13 +31,12 @@ export default function NotFound() {
 
           {/* Heading */}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-4 sm:mb-6">
-            Oops! This Recipe Doesn&apos;t Exist
+            {t.notFound.title}
           </h1>
 
           {/* Description */}
           <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed">
-            Looks like this page wandered off into the Atlas Mountains. 
-            Don&apos;t worry—we&apos;ll help you find your way back to our delicious experiences!
+            {t.notFound.description}
           </p>
 
           {/* Quick Links */}
@@ -46,8 +49,8 @@ export default function NotFound() {
                 <FiHome className="w-7 h-7 text-white" />
               </div>
               <div>
-                <h3 className="font-bold text-gray-900 mb-1">Home</h3>
-                <p className="text-sm text-gray-600">Back to homepage</p>
+                <h3 className="font-bold text-gray-900 mb-1">{t.notFound.home}</h3>
+                <p className="text-sm text-gray-600">{t.notFound.homeDescription}</p>
               </div>
             </Link>
 
@@ -59,8 +62,8 @@ export default function NotFound() {
                 <FiBook className="w-7 h-7 text-white" />
               </div>
               <div>
-                <h3 className="font-bold text-gray-900 mb-1">Packages</h3>
-                <p className="text-sm text-gray-600">View our classes</p>
+                <h3 className="font-bold text-gray-900 mb-1">{t.notFound.packages}</h3>
+                <p className="text-sm text-gray-600">{t.notFound.packagesDescription}</p>
               </div>
             </Link>
 
@@ -72,8 +75,8 @@ export default function NotFound() {
                 <FiCalendar className="w-7 h-7 text-white" />
               </div>
               <div>
-                <h3 className="font-bold text-gray-900 mb-1">Book Now</h3>
-                <p className="text-sm text-gray-600">Reserve your spot</p>
+                <h3 className="font-bold text-gray-900 mb-1">{t.notFound.bookNow}</h3>
+                <p className="text-sm text-gray-600">{t.notFound.bookNowDescription}</p>
               </div>
             </Link>
           </div>
@@ -83,13 +86,13 @@ export default function NotFound() {
             href="/"
             className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-lg rounded-full shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
           >
-            <span>Return to Homepage</span>
+            <span>{t.notFound.returnHome}</span>
             <FiArrowRight className="w-5 h-5" />
           </Link>
 
           {/* Additional Help Text */}
           <p className="mt-8 sm:mt-10 text-sm text-gray-500">
-            Need help? Contact us at{' '}
+            {t.notFound.needHelp}{' '}
             <a 
               href="mailto:rababouhadda5@gmail.com" 
               className="text-amber-600 hover:text-amber-700 font-semibold underline"

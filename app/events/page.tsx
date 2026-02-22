@@ -4,9 +4,11 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FiCalendar, FiClock, FiUsers, FiMapPin, FiArrowRight } from 'react-icons/fi';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // SEO optimized for Amazigh music, Moroccan cultural events, Taghazout traditional music, Ahwach performance
 export default function EventsPage() {
+  const { t } = useLanguage();
   return (
     <main className="min-h-screen bg-white overflow-hidden">
       {/* Hero Section - Optimized for 13" */}
@@ -33,20 +35,18 @@ export default function EventsPage() {
               <div>
                 <div className="inline-block mb-3">
                   <span className="text-xs font-bold tracking-[0.3em] uppercase text-white/90">
-                    Weekly Cultural Event
+                    {t.events.badge}
                   </span>
                 </div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-5">
-                  LIVE THE
+                  {t.events.title1}
                   <br />
-                  <span className="italic font-light">Amazigh</span>
+                  <span className="italic font-light">{t.events.title2}</span>
                   <br />
-                  MUSIC
+                  {t.events.title3}
                 </h1>
                 <p className="text-base text-white/90 leading-relaxed max-w-lg">
-                  Immerse yourself in the rich musical heritage of the Souss-Massa region. 
-                  Experience traditional Ahwach performances, cultural storytelling, and authentic 
-                  Amazigh music every Thursday night.
+                  {t.events.description}
                 </p>
               </div>
 
@@ -54,15 +54,15 @@ export default function EventsPage() {
               <div className="flex flex-wrap gap-2.5">
                 <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/30">
                   <FiCalendar className="w-4 h-4" />
-                  <span className="text-sm font-bold">Every Thursday</span>
+                  <span className="text-sm font-bold">{t.events.everyThursday}</span>
                 </div>
                 <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/30">
                   <FiClock className="w-4 h-4" />
-                  <span className="text-sm font-bold">17:00 - 18:00</span>
+                  <span className="text-sm font-bold">{t.events.time}</span>
                 </div>
                 <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/30">
                   <FiMapPin className="w-4 h-4" />
-                  <span className="text-sm font-bold">Atlas Mountains</span>
+                  <span className="text-sm font-bold">{t.events.atlasLocation}</span>
                 </div>
               </div>
             </div>
@@ -75,16 +75,16 @@ export default function EventsPage() {
                   <div className="w-28 h-28 mx-auto mb-5 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
                     <span className="text-5xl">🎸</span>
                   </div>
-                  <p className="text-xl font-bold text-white mb-2">Amazigh Musicians</p>
-                  <p className="text-base text-white/70">Photo Coming Soon</p>
+                  <p className="text-xl font-bold text-white mb-2">{t.events.amazighMusicians}</p>
+                  <p className="text-base text-white/70">{t.events.photoComingSoon}</p>
                 </div>
 
                 {/* Decorative Text Overlay */}
                 <div className="absolute top-8 left-8">
                   <p className="text-white/30 text-7xl font-black italic leading-none">
-                    Live
+                    {t.events.liveTheMusic}
                     <br />
-                    <span className="text-5xl">the Music</span>
+                    <span className="text-5xl">{t.events.theMusic}</span>
                   </p>
                 </div>
               </div>
@@ -126,7 +126,7 @@ export default function EventsPage() {
         <div className="relative max-w-6xl mx-auto px-6 lg:px-12">
           <div className="text-center mb-12">
             <h2 className="text-4xl sm:text-5xl font-black text-white mb-3">
-              WHAT TO EXPECT
+              {t.events.whatToExpect}
             </h2>
             <div className="w-20 h-1 bg-white/50 mx-auto"></div>
           </div>
@@ -134,37 +134,33 @@ export default function EventsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-2xl hover:scale-105 transition-transform duration-300">
               <div className="text-4xl mb-3">🎭</div>
-              <h3 className="text-xl font-black text-gray-900 mb-2">Ahwach Performance</h3>
+              <h3 className="text-xl font-black text-gray-900 mb-2">{t.events.ahwach.title}</h3>
               <p className="text-sm text-gray-700 leading-relaxed">
-                Watch authentic Ahwach dance and music performed in traditional circles, combining 
-                singing, dancing, and poetry led by local Amazigh artists.
+                {t.events.ahwach.description}
               </p>
             </div>
 
             <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-2xl hover:scale-105 transition-transform duration-300">
               <div className="text-4xl mb-3">📖</div>
-              <h3 className="text-xl font-black text-gray-900 mb-2">Cultural Storytelling</h3>
+              <h3 className="text-xl font-black text-gray-900 mb-2">{t.events.storytelling.title}</h3>
               <p className="text-sm text-gray-700 leading-relaxed">
-                Experience traditional poetry and stories that have been passed down through 
-                generations, celebrating Amazigh heritage and connection to the land.
+                {t.events.storytelling.description}
               </p>
             </div>
 
             <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-2xl hover:scale-105 transition-transform duration-300">
               <div className="text-4xl mb-3">🎶</div>
-              <h3 className="text-xl font-black text-gray-900 mb-2">Live Musicians</h3>
+              <h3 className="text-xl font-black text-gray-900 mb-2">{t.events.musicians.title}</h3>
               <p className="text-sm text-gray-700 leading-relaxed">
-                Enjoy live performances featuring traditional instruments including the Bendir drum, 
-                Ribab string instrument, and the Talâouwadt flute.
+                {t.events.musicians.description}
               </p>
             </div>
 
             <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-2xl hover:scale-105 transition-transform duration-300">
               <div className="text-4xl mb-3">🍵</div>
-              <h3 className="text-xl font-black text-gray-900 mb-2">Tea & Refreshments</h3>
+              <h3 className="text-xl font-black text-gray-900 mb-2">{t.events.teaRefreshments.title}</h3>
               <p className="text-sm text-gray-700 leading-relaxed">
-                Enjoy traditional Moroccan mint tea and local sweets in the authentic 
-                atmosphere of an Amazigh cultural gathering.
+                {t.events.teaRefreshments.description}
               </p>
             </div>
           </div>
@@ -175,19 +171,19 @@ export default function EventsPage() {
       <section className="py-16 bg-gradient-to-b from-amber-50 to-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-4">
-            Join Us This{' '}
+            {t.events.ctaTitle}{' '}
             <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
-              Thursday
+              {t.events.ctaTitleHighlight}
             </span>
           </h2>
           <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-            Experience the soul of Amazigh culture through music and storytelling. 
+            {t.events.ctaDescription}
           </p>
           <Link
             href="/book"
             className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-10 py-5 rounded-full hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-2xl hover:scale-105 text-base"
           >
-            <span>BOOK NOW</span>
+            <span>{t.events.bookNow}</span>
             <FiArrowRight className="w-5 h-5" />
           </Link>
         </div>

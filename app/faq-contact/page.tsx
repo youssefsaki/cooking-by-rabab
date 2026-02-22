@@ -7,11 +7,13 @@ import TabNavigation from '@/components/faq-contact/TabNavigation';
 import FAQAccordion from '@/components/faq-contact/FAQAccordion';
 import ContactCard from '@/components/faq-contact/ContactCard';
 import ContactForm from '@/components/faq-contact/ContactForm';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { FAQData, ContactInfo } from '@/types/faq-contact.types';
 import faqData from '@/data/faqs.json';
 import contactData from '@/data/contact.json';
 
 const FAQContactPage: React.FC = () => {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('All');
   
   const faqs: FAQData = faqData;
@@ -35,14 +37,14 @@ const FAQContactPage: React.FC = () => {
             className="inline-flex items-center gap-2 text-gray-600 hover:text-primary transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Home
+            {t.faqContact.backToHome}
           </Link>
 
           {/* Badge */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 bg-primary-pale px-6 py-2 rounded-full">
               <Star className="w-4 h-4 text-primary" />
-              <span className="text-primary font-semibold text-sm">HELP & SUPPORT</span>
+              <span className="text-primary font-semibold text-sm">{t.faqContact.badge}</span>
               <Star className="w-4 h-4 text-primary" />
             </div>
           </div>
@@ -50,11 +52,11 @@ const FAQContactPage: React.FC = () => {
           {/* Main Title */}
           <div className="text-center mb-8">
             <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight">
-              <span className="text-primary">FAQ &</span>{' '}
-              <span className="text-dark-blue">Contact</span>
+              <span className="text-primary">{t.faqContact.title}</span>{' '}
+              <span className="text-dark-blue">{t.faqContact.titleHighlight}</span>
             </h1>
             <p className="text-lg text-gray-600 mt-4 max-w-3xl mx-auto">
-              Find answers to common questions or get in touch with our friendly support team
+              {t.faqContact.subtitle}
             </p>
           </div>
 
@@ -66,11 +68,11 @@ const FAQContactPage: React.FC = () => {
             </div>
             <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-200">
               <Zap className="w-4 h-4 text-primary" />
-              <span className="text-gray-700 text-sm font-medium">Quick Response</span>
+              <span className="text-gray-700 text-sm font-medium">{t.faqContact.quickResponse}</span>
             </div>
             <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-200">
               <Heart className="w-4 h-4 text-primary" />
-              <span className="text-gray-700 text-sm font-medium">Friendly Team</span>
+              <span className="text-gray-700 text-sm font-medium">{t.faqContact.friendlyTeam}</span>
             </div>
           </div>
         </div>
@@ -87,7 +89,7 @@ const FAQContactPage: React.FC = () => {
             <div className="lg:col-span-2">
               <div className="flex items-center gap-2 mb-6">
                 <HelpCircle className="w-6 h-6 text-primary" />
-                <h2 className="text-2xl font-bold text-dark-blue">Frequently Asked Questions</h2>
+                <h2 className="text-2xl font-bold text-dark-blue">{t.faqContact.faqTitle}</h2>
               </div>
 
               <TabNavigation
@@ -100,7 +102,7 @@ const FAQContactPage: React.FC = () => {
                 <FAQAccordion faqs={filteredFAQs} />
               ) : (
                 <div className="bg-white rounded-xl p-8 text-center shadow-sm border border-gray-200">
-                  <p className="text-gray-600">No FAQs available for this category.</p>
+                  <p className="text-gray-600">{t.faqContact.noFaqs}</p>
                 </div>
               )}
             </div>

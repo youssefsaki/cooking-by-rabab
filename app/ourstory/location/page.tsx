@@ -1,9 +1,10 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function LocationPage() {
+  const { t } = useLanguage();
   return (
     <main className="overflow-x-hidden">
       <main className="min-h-screen">
@@ -18,10 +19,10 @@ export default function LocationPage() {
 
           <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 drop-shadow-2xl">
-              Our Location
+              {t.ourStory.location.heroTitle}
             </h1>
             <p className="text-xl sm:text-2xl text-white/95 font-light max-w-2xl mx-auto drop-shadow-lg">
-              15 Minutes Above Taghazout in the Atlas Mountains
+              {t.ourStory.location.heroSubtitle}
             </p>
           </div>
 
@@ -40,17 +41,17 @@ export default function LocationPage() {
               <div className="space-y-6">
                 <div className="inline-block">
                   <span className="text-teal-600 font-bold text-sm uppercase tracking-widest bg-teal-50 px-4 py-2 rounded-full">
-                    Atlas Mountains
+                    {t.ourStory.location.badge}
                   </span>
                 </div>
                 <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-                  Nestled in the <span className="text-teal-600">Heart of Nature</span>
+                  {t.ourStory.location.introTitle} <span className="text-teal-600">{t.ourStory.location.introTitleHighlight}</span>
                 </h2>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  Our traditional home is located just 15-20 minutes above the coastal village of Taghazout, in the stunning Atlas Mountains. This authentic Amazigh village offers breathtaking views, fresh mountain air, and a genuine connection to Moroccan culture.
+                  {t.ourStory.location.introP1}
                 </p>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  The scenic drive from Taghazout takes you through winding mountain roads, past argan trees, and into a landscape that has remained unchanged for centuries. This is where tradition lives, and where your culinary journey begins.
+                  {t.ourStory.location.introP2}
                 </p>
 
                 <div className="pt-6">
@@ -64,7 +65,7 @@ export default function LocationPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    Get Directions
+                    {t.ourStory.location.getDirections}
                   </a>
                 </div>
               </div>
@@ -93,10 +94,10 @@ export default function LocationPage() {
           <div className="max-w-7xl mx-auto px-6 lg:px-12">
             <div className="text-center mb-12">
               <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                Find Us on the Map
+                {t.ourStory.location.mapTitle}
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Located in Taghazout, Morocco - Gateway to the Atlas Mountains
+                {t.ourStory.location.mapSubtitle}
               </p>
             </div>
 
@@ -122,52 +123,24 @@ export default function LocationPage() {
           <div className="max-w-6xl mx-auto px-6 lg:px-12">
             <div className="text-center mb-16">
               <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                Why Our Location is Special
+                {t.ourStory.location.featuresTitle}
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                More than just a cooking class - it&apos;s a journey into authentic Moroccan life
+                {t.ourStory.location.featuresSubtitle}
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {[
-                {
-                  icon: '🏔️',
-                  title: 'Atlas Mountains Setting',
-                  description: 'Surrounded by stunning mountain landscapes and traditional Amazigh villages'
-                },
-                {
-                  icon: '🚗',
-                  title: '15-20 Minutes from Taghazout',
-                  description: 'Easy scenic drive from the coastal village, with pickup included'
-                },
-                {
-                  icon: '🏡',
-                  title: 'Authentic Village Life',
-                  description: 'Experience real Moroccan culture in a traditional mountain community'
-                },
-                {
-                  icon: '🌿',
-                  title: 'Fresh Mountain Air',
-                  description: 'Escape the coast and breathe in the pure air of the Atlas Mountains'
-                },
-                {
-                  icon: '🌄',
-                  title: 'Breathtaking Views',
-                  description: 'Panoramic vistas of valleys, mountains, and traditional architecture'
-                },
-                {
-                  icon: '🤝',
-                  title: 'Local Community',
-                  description: 'Support village women and experience genuine Amazigh hospitality'
-                }
-              ].map((feature, index) => (
-                <div key={index} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <div className="text-5xl mb-4">{feature.icon}</div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-                </div>
-              ))}
+              {t.ourStory.location.features.map((feature, index) => {
+                const icons = ['🏔️', '🚗', '🏡', '🌿', '🌄', '🤝'];
+                return (
+                  <div key={index} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div className="text-5xl mb-4">{icons[index]}</div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
+                    <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -177,69 +150,29 @@ export default function LocationPage() {
           <div className="max-w-4xl mx-auto px-6 lg:px-12">
             <div className="text-center mb-12">
               <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                How to Get Here
+                {t.ourStory.location.howToGetHere}
               </h2>
               <p className="text-lg text-gray-600">
-                We make it easy - pickup is included in all our packages
+                {t.ourStory.location.howToGetHereSubtitle}
               </p>
             </div>
 
             <div className="space-y-6">
-              <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-2xl p-8 border-l-4 border-teal-600">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center font-bold text-xl">
-                    1
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Book Your Experience</h3>
-                    <p className="text-gray-700">
-                      Choose your package and confirm your booking through our website or WhatsApp
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-2xl p-8 border-l-4 border-teal-600">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center font-bold text-xl">
-                    2
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">We Pick You Up</h3>
-                    <p className="text-gray-700">
-                      We&apos;ll collect you from your accommodation in Taghazout at the scheduled time
-                    </p>
+              {t.ourStory.location.steps.map((step, index) => (
+                <div key={index} className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-2xl p-8 border-l-4 border-teal-600">
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center font-bold text-xl">
+                      {index + 1}
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">{step.title}</h3>
+                      <p className="text-gray-700">
+                        {step.description}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-2xl p-8 border-l-4 border-teal-600">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center font-bold text-xl">
-                    3
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Scenic Mountain Drive</h3>
-                    <p className="text-gray-700">
-                      Enjoy a beautiful 15-20 minute drive through the Atlas Mountains to our traditional home
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-2xl p-8 border-l-4 border-teal-600">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center font-bold text-xl">
-                    4
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Return to Taghazout</h3>
-                    <p className="text-gray-700">
-                      After your experience, we&apos;ll drive you back to your accommodation
-                    </p>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
@@ -255,23 +188,23 @@ export default function LocationPage() {
 
           <div className="relative z-10 max-w-4xl mx-auto text-center px-6">
             <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6 drop-shadow-lg">
-              Ready to Visit Us?
+              {t.ourStory.location.ctaTitle}
             </h2>
             <p className="text-xl text-white/95 mb-10 drop-shadow-md">
-              Book your authentic Moroccan cooking experience in the Atlas Mountains
+              {t.ourStory.location.ctaDescription}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
                 href="/book"
                 className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-white text-teal-600 font-bold text-lg rounded-full shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
               >
-                Book Your Experience
+                {t.ourStory.location.bookYourExperience}
               </Link>
               <Link 
                 href="/packages"
                 className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-transparent border-2 border-white text-white font-bold text-lg rounded-full hover:bg-white hover:text-teal-600 transition-all duration-300"
               >
-                View Packages
+                {t.ourStory.location.viewPackages}
               </Link>
             </div>
           </div>

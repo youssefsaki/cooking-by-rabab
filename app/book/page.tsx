@@ -646,7 +646,7 @@ Looking forward to cooking with you! 🇲🇦`;
             </button>
 
             <p className="text-sm text-gray-500 text-center mt-4">
-              By submitting this form, your booking request will be saved and we&apos;ll contact you shortly to confirm.
+              {t.booking.disclaimer}
             </p>
           </form>
         </div>

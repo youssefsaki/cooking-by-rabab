@@ -253,7 +253,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                   <div className="absolute top-full right-0 pt-3 w-80 z-50">
                     <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
                       <div className="bg-gradient-to-r from-amber-500 to-orange-500 px-4 py-3">
-                        <p className="text-white font-bold text-sm">Choose Your Experience</p>
+                        <p className="text-white font-bold text-sm">{t.header.chooseExperience}</p>
                       </div>
                       <div className="p-2">
                         {navigationData.ctaButton.dropdownItems?.map((item: any) => (
@@ -279,7 +279,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                       </div>
                       <div className="border-t border-gray-100 px-4 py-3 bg-gray-50">
                         <Link href="/packages" className="text-xs text-amber-600 font-semibold hover:underline">
-                          View all package details →
+                          {t.header.viewAllPackages} →
                         </Link>
                       </div>
                     </div>
@@ -291,7 +291,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                   <div className="absolute top-full right-0 pt-3 w-72 z-50">
                     <div className="bg-gray-900 rounded-2xl shadow-2xl overflow-hidden border border-gray-800">
                       <div className="p-4 border-b border-gray-800">
-                        <p className="text-amber-400 font-bold text-sm tracking-wide uppercase">Select Package</p>
+                        <p className="text-amber-400 font-bold text-sm tracking-wide uppercase">{t.header.selectPackage}</p>
                       </div>
                       <div className="py-2">
                         {navigationData.ctaButton.dropdownItems?.map((item: any, index: number) => {
@@ -320,7 +320,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                       </div>
                       <div className="p-4 bg-gray-800/50">
                         <Link href="/packages" className="block text-center text-sm text-white bg-amber-500 hover:bg-amber-600 py-2 rounded-lg font-bold transition-colors">
-                          Compare All Packages
+                          {t.header.comparePackages}
                         </Link>
                       </div>
                     </div>
@@ -331,7 +331,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                 {ctaDropdownOpen && BOOK_NOW_DROPDOWN_DESIGN === 3 && (
                   <div className="absolute top-full right-0 pt-3 w-64 z-50">
                     <div className="bg-white rounded-xl shadow-2xl border border-gray-200 p-4">
-                      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Quick Book</p>
+                      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">{t.header.quickBook}</p>
                       <div className="space-y-2">
                         {navigationData.ctaButton.dropdownItems?.map((item: any) => (
                           <Link
@@ -349,7 +349,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                       </div>
                       <div className="mt-3 pt-3 border-t border-gray-100">
                         <Link href="/packages" className="text-xs text-center block text-amber-600 font-semibold hover:underline">
-                          See full package details
+                          {t.header.viewAllPackages}
                         </Link>
                       </div>
                     </div>
@@ -497,8 +497,8 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                     {MOBILE_BOOK_NOW_DESIGN === 1 && (
                       <div className="space-y-3 px-2">
                         <div className="flex items-center justify-between px-2">
-                          <p className="text-sm font-bold text-gray-900">Book Your Experience</p>
-                          <span className="text-xs text-gray-500">3 packages</span>
+                          <p className="text-sm font-bold text-gray-900">{t.header.bookYourExperience}</p>
+                          <span className="text-xs text-gray-500">{t.header.packages}</span>
                         </div>
                         <div className="space-y-2">
                           {navigationData.ctaButton.dropdownItems?.map((item: any) => (
@@ -538,7 +538,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                     {/* MOBILE DESIGN 2: Horizontal Scroll Cards */}
                     {MOBILE_BOOK_NOW_DESIGN === 2 && (
                       <div className="space-y-3">
-                        <p className="text-sm font-bold text-gray-900 px-4">Select Package</p>
+                        <p className="text-sm font-bold text-gray-900 px-4">{t.header.selectPackage}</p>
                         <div className="flex gap-3 overflow-x-auto pb-3 px-4 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                           {navigationData.ctaButton.dropdownItems?.map((item: any) => (
                             <Link
@@ -568,7 +568,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                           className="block text-center text-xs text-gray-500 py-2"
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
-                          View full package comparison
+                          {t.header.viewAllPackages}
                         </Link>
                       </div>
                     )}
@@ -603,7 +603,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                             className="block text-center text-xs text-amber-700 font-semibold mt-4 py-2 bg-white rounded-lg border border-amber-200"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
-                            See what&apos;s included →
+                            {t.header.seeWhatsIncluded} →
                           </Link>
                         </div>
                       </div>

@@ -163,11 +163,11 @@ export default function ExperiencesPage() {
                       </p>
                       
                       <p className="text-base text-gray-700 leading-relaxed mb-5">
-                        {experience.id === 'tajine-masterclass' ? t.experiences.tajine.description :
-                         experience.id === 'amazigh-heritage' ? t.experiences.amazigh.description :
-                         experience.id === 'tea-ceremony' ? t.experiences.tea.description :
-                         experience.id === 'clay-oven-bread' ? t.experiences.bread.description :
-                         experience.id === 'amlou-workshop' ? t.experiences.amlou.description :
+                        {experience.id === 'tajine-masterclass' ? t.experiences.tajine.longDescription :
+                         experience.id === 'amazigh-heritage' ? t.experiences.amazigh.longDescription :
+                         experience.id === 'tea-ceremony' ? t.experiences.tea.longDescription :
+                         experience.id === 'clay-oven-bread' ? t.experiences.bread.longDescription :
+                         experience.id === 'amlou-workshop' ? t.experiences.amlou.longDescription :
                          experience.longDescription}
                       </p>
 
@@ -185,7 +185,12 @@ export default function ExperiencesPage() {
 
                       {/* Highlights */}
                       <div className="space-y-2 mb-6">
-                        {experience.highlights.map((highlight, i) => (
+                        {(experience.id === 'tajine-masterclass' ? t.experiences.tajine.highlights :
+                          experience.id === 'amazigh-heritage' ? t.experiences.amazigh.highlights :
+                          experience.id === 'tea-ceremony' ? t.experiences.tea.highlights :
+                          experience.id === 'clay-oven-bread' ? t.experiences.bread.highlights :
+                          experience.id === 'amlou-workshop' ? t.experiences.amlou.highlights :
+                          experience.highlights).map((highlight, i) => (
                           <div key={i} className="flex items-start gap-2.5">
                             <div className="w-5 h-5 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                               <FiCheck className="w-3.5 h-3.5 text-white" />

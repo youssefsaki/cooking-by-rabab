@@ -4,9 +4,11 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FiArrowRight } from 'react-icons/fi';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // SEO optimized for Moroccan cooking class, Amazigh culture, Taghazout experiences
 export default function MeetTheChefPage() {
+  const { t } = useLanguage();
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section - Optimized for 13" */}
@@ -15,14 +17,14 @@ export default function MeetTheChefPage() {
           <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white shadow-lg border border-amber-200 mb-4">
             <span className="text-xl">👩‍🍳</span>
             <span className="text-xs font-bold text-amber-900 tracking-wider uppercase">
-              Meet Rabab
+              {t.ourStory.meetTheChef.badge}
             </span>
           </div>
           
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-4 leading-tight">
-            Your Host &{' '}
+            {t.ourStory.meetTheChef.title}{' '}
             <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
-              Cultural Guide
+              {t.ourStory.meetTheChef.titleHighlight}
             </span>
           </h1>
         </div>
@@ -55,30 +57,23 @@ export default function MeetTheChefPage() {
 
               <div className="prose prose-base max-w-none">
                 <p className="text-gray-700 leading-relaxed mb-4 text-sm sm:text-base">
-                  My name is Rabab, and I was born and raised in the Atlas Mountains. With a background 
-                  in Business Management, I decided in 2024 to launch my own project: an authentic cooking 
-                  class and cultural experience.
+                  {t.ourStory.meetTheChef.paragraph1}
                 </p>
 
                 <p className="text-gray-700 leading-relaxed mb-4 text-sm sm:text-base">
-                  As an Amazigh woman, my mission is to share my culture with the world and the travelers 
-                  who come to the Taghazout area.
+                  {t.ourStory.meetTheChef.paragraph2}
                 </p>
 
                 <p className="text-gray-700 leading-relaxed mb-4 text-sm sm:text-base">
-                  Located just 15 minutes above Taghazout, I have started a local workshop that is a direct 
-                  collaboration with village women. This project is designed to give an authentic and immersive 
-                  experience to those who want to discover the real Morocco beyond the surf.
+                  {t.ourStory.meetTheChef.paragraph3}
                 </p>
 
                 <p className="text-gray-700 leading-relaxed mb-4 text-sm sm:text-base">
-                  In my workshop, I teach you how to prepare Amazigh food using the original tools and 
-                  techniques of my roots, which have been passed down for 10,000 years in North Africa.
+                  {t.ourStory.meetTheChef.paragraph4}
                 </p>
 
                 <p className="text-gray-700 leading-relaxed font-semibold text-amber-700 text-sm sm:text-base">
-                  By joining my workshop, you are helping me bring value to these local women, allowing them 
-                  to be productive and earn the financial independence they need to support their families.
+                  {t.ourStory.meetTheChef.paragraph5}
                 </p>
               </div>
             </div>
@@ -90,27 +85,27 @@ export default function MeetTheChefPage() {
       <section className="py-16 bg-gradient-to-b from-white to-amber-50">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-4">
-            Cook With{' '}
+            {t.ourStory.meetTheChef.ctaTitle}{' '}
             <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
-              Rabab
+              {t.ourStory.meetTheChef.ctaTitleHighlight}
             </span>
           </h2>
           <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-            Join me in the mountains for an authentic cultural experience and support our local community.
+            {t.ourStory.meetTheChef.ctaDescription}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/book"
               className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-8 py-4 rounded-full hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-xl hover:scale-105"
             >
-              <span>Book Your Class</span>
+              <span>{t.ourStory.meetTheChef.bookYourClass}</span>
               <FiArrowRight className="w-5 h-5" />
             </Link>
             <Link
               href="/packages"
               className="inline-flex items-center justify-center gap-3 bg-white text-gray-900 font-bold px-8 py-4 rounded-full border-2 border-gray-200 hover:border-amber-500 transition-all duration-300 shadow-lg"
             >
-              <span>View Packages</span>
+              <span>{t.ourStory.meetTheChef.viewPackages}</span>
             </Link>
           </div>
         </div>

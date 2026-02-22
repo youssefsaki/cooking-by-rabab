@@ -45,30 +45,44 @@
     "title": "Discover Authentic Morocco",
     "description": "Five unique culinary experiences, each telling a story of Moroccan culture, tradition, and the warmth of Berber hospitality.",
     "bookExperience": "Book an Experience",
+    "ctaTitle": "Ready to Start Your",
+    "ctaTitleHighlight": "Culinary Journey?",
+    "ctaDescription": "Book your authentic Moroccan cooking experience today and create unforgettable memories in the Atlas Mountains.",
+    "viewPackages": "View Packages",
     "tajine": {
       "title": "Tajine Masterclass",
       "subtitle": "Morocco's Iconic Dish",
-      "description": "Master the art of Morocco's most iconic dish in this comprehensive class."
+      "description": "Master the art of Morocco's most iconic dish in this comprehensive class.",
+      "longDescription": "Master the art of Morocco's most iconic dish in this comprehensive class. Learn to prepare slow-cooked tagines with aromatic spices, tender meats, and vegetables in traditional clay pots, achieving the perfect balance of flavors that makes Moroccan tagine world-renowned.",
+      "highlights": ["Clay pot cooking techniques", "Spice layering & blending", "Meat & vegetable tagines", "Preserved lemons preparation", "Traditional serving methods"]
     },
     "amazigh": {
       "title": "Amazigh Heritage",
       "subtitle": "Ancient Berber Traditions",
-      "description": "Immerse yourself in authentic Amazigh culture and culinary traditions."
+      "description": "Immerse yourself in authentic Amazigh culture and culinary traditions.",
+      "longDescription": "Immerse yourself in authentic Amazigh culture and culinary traditions. Learn ancient cooking methods, traditional recipes, and the rich cultural stories behind Amazigh cuisine passed down through generations in the Atlas Mountains.",
+      "highlights": ["Traditional cooking methods", "Cultural storytelling", "Authentic Berber recipes", "Amazigh history & customs", "Family-style dining"]
     },
     "tea": {
       "title": "Tea Ceremony",
       "subtitle": "The Art of Moroccan Mint Tea",
-      "description": "Experience the elegance of traditional Moroccan tea ceremony."
+      "description": "Experience the elegance of traditional Moroccan tea ceremony.",
+      "longDescription": "Experience the elegance of traditional Moroccan tea ceremony. Learn the proper techniques for brewing perfect mint tea, master the iconic high-pour method, and understand the cultural significance of tea in Moroccan hospitality.",
+      "highlights": ["Tea selection & quality", "High-pour technique mastery", "Fresh mint preparation", "Cultural significance", "Traditional glassware"]
     },
     "bread": {
       "title": "Clay Oven Bread",
       "subtitle": "Wood-Fired Tradition",
-      "description": "Experience the ancient art of baking traditional Moroccan bread."
+      "description": "Experience the ancient art of baking traditional Moroccan bread.",
+      "longDescription": "Experience the ancient art of baking traditional Moroccan bread in a wood-fired clay oven. From kneading dough by hand to achieving the perfect golden crust, learn authentic Amazigh bread-making techniques that have remained unchanged for centuries.",
+      "highlights": ["Dough preparation from scratch", "Hand kneading techniques", "Clay oven baking", "Multiple bread varieties", "Wood fire management"]
     },
     "amlou": {
       "title": "Amlou Workshop",
       "subtitle": "Liquid Gold of Morocco",
-      "description": "Discover the secrets of making traditional Moroccan amlou."
+      "description": "Discover the secrets of making traditional Moroccan amlou.",
+      "longDescription": "Discover the secrets of making traditional Moroccan amlou - a delicious blend of argan oil, roasted almonds, and honey. Learn traditional grinding techniques using ancient millstones and achieve the perfect consistency for this beloved Berber spread.",
+      "highlights": ["Argan oil knowledge", "Almond roasting & grinding", "Traditional millstone use", "Perfect consistency", "Honey blending techniques"]
     }
   },
   "booking": {
@@ -96,7 +110,8 @@
     "success": "Booking Submitted Successfully!",
     "successMessage": "Thank you for your booking request! We'll contact you shortly to confirm your experience.",
     "bookAnother": "Book Another Experience",
-    "backHome": "Back to Home"
+    "backHome": "Back to Home",
+    "disclaimer": "By submitting this form, your booking request will be saved and we'll contact you shortly to confirm."
   },
   "common": {
     "readMore": "Read More",
@@ -236,5 +251,267 @@
       "Customizable menu options",
       "Exclusive Amazigh house access"
     ]
+  },
+  "events": {
+    "badge": "Weekly Cultural Event",
+    "title1": "LIVE THE",
+    "title2": "Amazigh",
+    "title3": "MUSIC",
+    "description": "Immerse yourself in the rich musical heritage of the Souss-Massa region. Experience traditional Ahwach performances, cultural storytelling, and authentic Amazigh music every Thursday night.",
+    "everyThursday": "Every Thursday",
+    "time": "17:00 - 18:00",
+    "atlasLocation": "Atlas Mountains",
+    "amazighMusicians": "Amazigh Musicians",
+    "photoComingSoon": "Photo Coming Soon",
+    "liveTheMusic": "Live",
+    "theMusic": "the Music",
+    "whatToExpect": "WHAT TO EXPECT",
+    "ahwach": {
+      "title": "Ahwach Performance",
+      "description": "Watch authentic Ahwach dance and music performed in traditional circles, combining singing, dancing, and poetry led by local Amazigh artists."
+    },
+    "storytelling": {
+      "title": "Cultural Storytelling",
+      "description": "Experience traditional poetry and stories that have been passed down through generations, celebrating Amazigh heritage and connection to the land."
+    },
+    "musicians": {
+      "title": "Live Musicians",
+      "description": "Enjoy live performances featuring traditional instruments including the Bendir drum, Ribab string instrument, and the Talâouwadt flute."
+    },
+    "teaRefreshments": {
+      "title": "Tea & Refreshments",
+      "description": "Enjoy traditional Moroccan mint tea and local sweets in the authentic atmosphere of an Amazigh cultural gathering."
+    },
+    "ctaTitle": "Join Us This",
+    "ctaTitleHighlight": "Thursday",
+    "ctaDescription": "Experience the soul of Amazigh culture through music and storytelling.",
+    "bookNow": "BOOK NOW"
+  },
+  "packagesPage": {
+    "badge": "Authentic Experiences",
+    "title": "Cooking Class",
+    "titleHighlight": "Packages",
+    "description": "Immerse yourself in authentic Berber culture. Experience traditional village life and an ancestral cooking journey. Located just 15 mins from the Taghazout coast.",
+    "mostPopular": "Most Popular",
+    "perPerson": "per person",
+    "viewFullDetails": "View Full Details",
+    "bookNow": "Book Now",
+    "atlasLocation": "Atlas Mountains",
+    "andMoreIncluded": "and {n} more included...",
+    "completeJourney": "Complete Journey",
+    "journeyTitle": "Your Journey into the",
+    "journeyTitleHighlight": "Mountains",
+    "journeyDescription": "A half-day immersive cultural experience",
+    "bookThisExperience": "Book This Experience",
+    "closeDetails": "Close Details",
+    "duration": "Duration",
+    "startTime": "Start Time",
+    "pickup": "Pickup",
+    "completeItinerary": "Complete",
+    "itineraryHighlight": "Itinerary",
+    "whatsIncluded": "What's",
+    "includedHighlight": "Included",
+    "readyTitle": "Ready for Your",
+    "readyTitleHighlight": "Adventure?",
+    "readyDescription": "Book your {name} today and create unforgettable memories",
+    "bookPackage": "Book {name}",
+    "basic": {
+      "name": "Basic Package",
+      "tagline": "Your Journey into the Mountains",
+      "subtitle": "Half-Day Authentic Berber Cultural Experience Above Taghazout",
+      "duration": "4 hours",
+      "groupSize": "2-13 guests",
+      "itinerary": [
+        { "time": "13:30", "title": "The Scenic Ascent", "description": "Meet us at the Taghazout Mosque for a comfortable 15-minute drive into the Small Atlas Mountains. We'll wind through the Argan forest, where you can breathe the fresh mountain air and enjoy a breathtaking panoramic view of the ocean from above." },
+        { "time": "14:00", "title": "A Warm Village Welcome", "description": "Arrive at our village and step inside an ancient 300-year-old Amazigh house, one of the oldest in North Africa. Meet the local family and I will be your guided tour to show you how our ancestors lived in the heart of these mountains." },
+        { "time": "14:30", "title": "The Garden Tea Ritual", "description": "Relax in our authentic workshop and learn the art of Moroccan tea. You'll pick fresh mint and herbs directly from our small garden to brew your own pot. Enjoy your tea with homemade Moroccan sweets I've prepared for you, as we sit together for a warm conversation to get to know one another." },
+        { "time": "15:00", "title": "Prepare The Traditional Bread", "description": "Master the ancient art of village bread. You will knead your own dough by hand before baking it in our traditional stone oven. We fire the hearth with Argan wood, infusing the bread with a rich, smoky aroma and a golden crust that you can only find in the heart of the mountains." },
+        { "time": "15:30", "title": "The Tagine Workshop", "description": "Prepare an authentic Tagine by cleaning fresh vegetables, marinating your chicken or fish in special Moroccan spices, and mastering the sweet and salty combination as it slow-cooks over an Argan wood fire for a delicious, smoky aroma." },
+        { "time": "16:30", "title": "The Ancient Millstone", "description": "Experience the magic of making your own Amlou using a traditional stone millstone—one of our most ancient tools that we still preserve and use today. You will grind toasted almonds by hand, blending them with pure Argan oil and orange honey to create the most delicious spread you can taste in Morocco." },
+        { "time": "17:30", "title": "The Family Feast & Sunset", "description": "After half day of tradition and cooking, it is time to sit together as one family. Enjoy the delicious meal you created, sharing stories and laughter over the steaming Tagine and fresh bread. It is more than just a dinner; it is a moment of true Moroccan hospitality in the peaceful heart of the mountains, watching the sunset over the Atlas peaks before we begin our journey back to Taghazout." },
+        { "time": "19:00", "title": "Journey Home", "description": "After the sun sets and we've shared our final goodbyes, we begin the scenic drive back, dropping you directly in Taghazout or Tamraght by 19:30 – 20:00." }
+      ],
+      "includes": [
+        "Pick up from Taghazout Mosque at 13:30",
+        "Minimum 2 guests required",
+        "300-year-old Amazigh house tour",
+        "Traditional Moroccan tea ceremony",
+        "Village bread baking workshop",
+        "Authentic tagine cooking",
+        "Make Moroccan spread (Amlou)",
+        "Family-style feast with sunset views",
+        "Return transport to Taghazout/Tamraght"
+      ]
+    },
+    "weeklyEvent": {
+      "name": "Weekly Event",
+      "tagline": "The Amazigh Village Music Gala",
+      "subtitle": "Join us for our Weekly Berber Music Event At Sunset in a traditional village",
+      "duration": "4 hours",
+      "groupSize": "6-13 guests",
+      "itinerary": [
+        { "time": "TBD", "title": "Event Details Coming Soon", "description": "Join us for our special weekly cooking event. More details will be announced soon. This is a unique opportunity to experience Moroccan cooking in a communal setting." }
+      ],
+      "includes": [
+        "Every Thursday at 15:00",
+        "Minimum 6 guests required",
+        "Pickup from Taghazout Mosque",
+        "Mint tea ceremony",
+        "Make your barbecue",
+        "Traditional Amazigh music & celebration"
+      ]
+    },
+    "private": {
+      "name": "Private Package",
+      "tagline": "Exclusive Mountain Experience",
+      "subtitle": "Personalized journey for you and your group",
+      "duration": "5 hours",
+      "groupSize": "Private group (2-8 guests)",
+      "itinerary": [
+        { "time": "Flexible", "title": "Private Pickup", "description": "We'll pick you up from your accommodation at your preferred time. Enjoy a comfortable private drive through the Argan forest with stunning ocean views from the mountains." },
+        { "time": "Start", "title": "Exclusive House Welcome", "description": "Private tour of our ancient 300-year-old Amazigh house. Take your time exploring and learning about our ancestral way of life with personalized attention." },
+        { "time": "+30 min", "title": "Personalized Tea Ceremony", "description": "Private tea ceremony in our garden. Pick your own fresh herbs and learn the authentic Moroccan tea ritual at your own pace." },
+        { "time": "+1 hour", "title": "Bread Making Workshop", "description": "Exclusive bread-making session. Knead your dough and bake it in our traditional stone oven with Argan wood, creating that signature smoky flavor." },
+        { "time": "+1.5 hours", "title": "Custom Tagine Creation", "description": "Choose your preferred ingredients and create your personalized tagine. We'll accommodate dietary preferences and teach you the authentic techniques with individual attention." },
+        { "time": "+2.5 hours", "title": "Amlou Making Experience", "description": "Private session using our ancient millstone. Grind toasted almonds by hand and blend with pure Argan oil and honey to create authentic Amlou." },
+        { "time": "+3.5 hours", "title": "Private Family Feast", "description": "Enjoy your meal in an intimate setting with your group. Share stories and experience genuine Moroccan hospitality while watching the sunset over the Atlas Mountains." },
+        { "time": "End", "title": "Private Return Journey", "description": "Comfortable private transport back to your accommodation at your preferred time." }
+      ],
+      "includes": [
+        "Completely private experience",
+        "Flexible scheduling & timing",
+        "Your choice of location",
+        "Custom menu options",
+        "300-year-old Amazigh house tour",
+        "Complete cooking workshop",
+        "All ingredients & materials",
+        "Private family-style feast",
+        "Dietary accommodations available"
+      ]
+    }
+  },
+  "ourStory": {
+    "meetTheChef": {
+      "badge": "Meet Rabab",
+      "title": "Your Host &",
+      "titleHighlight": "Cultural Guide",
+      "hello": "Hello, I'm Rabab",
+      "paragraph1": "My name is Rabab, and I was born and raised in the Atlas Mountains. With a background in Business Management, I decided in 2024 to launch my own project: an authentic cooking class and cultural experience.",
+      "paragraph2": "As an Amazigh woman, my mission is to share my culture with the world and the travelers who come to the Taghazout area.",
+      "paragraph3": "Located just 15 minutes above Taghazout, I have started a local workshop that is a direct collaboration with village women. This project is designed to give an authentic and immersive experience to those who want to discover the real Morocco beyond the surf.",
+      "paragraph4": "In my workshop, I teach you how to prepare Amazigh food using the original tools and techniques of my roots, which have been passed down for 10,000 years in North Africa.",
+      "paragraph5": "By joining my workshop, you are helping me bring value to these local women, allowing them to be productive and earn the financial independence they need to support their families.",
+      "ctaTitle": "Cook With",
+      "ctaTitleHighlight": "Rabab",
+      "ctaDescription": "Join me in the mountains for an authentic cultural experience and support our local community.",
+      "bookYourClass": "Book Your Class",
+      "viewPackages": "View Packages"
+    },
+    "kitchen": {
+      "heroTitle": "Our Kitchen",
+      "heroSubtitle": "Where 10,000 Years of Tradition Comes Alive",
+      "badge": "Authentic & Traditional",
+      "introTitle": "A Kitchen Rooted in",
+      "introTitleHighlight": "Heritage",
+      "introP1": "Step into an authentic Amazigh kitchen where time-honored traditions meet the warmth of Moroccan hospitality. Every tool, every technique, and every recipe tells a story passed down through generations.",
+      "introP2": "Our kitchen is equipped with traditional wood-fired ovens, handcrafted tagines, and the same tools that have been used for thousands of years. This is not a modern cooking studio—this is where real Moroccan food is born.",
+      "featuresTitle": "Traditional Tools & Techniques",
+      "featuresSubtitle": "Experience cooking the way it has been done for millennia",
+      "features": [
+        { "title": "Wood-Fired Oven", "description": "Traditional clay oven for baking authentic Moroccan bread and cooking tagines" },
+        { "title": "Handcrafted Tagines", "description": "Authentic ceramic tagines used for slow-cooking traditional Moroccan dishes" },
+        { "title": "Stone Grinding Tools", "description": "Traditional tools for grinding spices and making amlou the ancient way" },
+        { "title": "Bread Making Station", "description": "Dedicated area for kneading and preparing traditional Moroccan bread" },
+        { "title": "Spice Collection", "description": "Authentic Moroccan spices sourced from local markets and cooperatives" },
+        { "title": "Traditional Cookware", "description": "Clay pots, copper utensils, and tools passed down through generations" }
+      ],
+      "galleryTitle": "Kitchen Gallery",
+      "gallerySubtitle": "Take a visual tour of our authentic traditional kitchen",
+      "galleryImages": ["Wood Fire Oven", "Traditional Tagines", "Kitchen Workspace", "Spices", "Bread Making Station", "Kitchen Overview"],
+      "ctaTitle": "Ready to Cook in Our Traditional Kitchen?",
+      "ctaDescription": "Join us for an authentic culinary experience in the heart of the Atlas Mountains",
+      "bookYourExperience": "Book Your Experience",
+      "viewPackages": "View Packages"
+    },
+    "location": {
+      "heroTitle": "Our Location",
+      "heroSubtitle": "15 Minutes Above Taghazout in the Atlas Mountains",
+      "badge": "Atlas Mountains",
+      "introTitle": "Nestled in the",
+      "introTitleHighlight": "Heart of Nature",
+      "introP1": "Our traditional home is located just 15-20 minutes above the coastal village of Taghazout, in the stunning Atlas Mountains. This authentic Amazigh village offers breathtaking views, fresh mountain air, and a genuine connection to Moroccan culture.",
+      "introP2": "The scenic drive from Taghazout takes you through winding mountain roads, past argan trees, and into a landscape that has remained unchanged for centuries. This is where tradition lives, and where your culinary journey begins.",
+      "getDirections": "Get Directions",
+      "mapTitle": "Find Us on the Map",
+      "mapSubtitle": "Located in Taghazout, Morocco - Gateway to the Atlas Mountains",
+      "featuresTitle": "Why Our Location is Special",
+      "featuresSubtitle": "More than just a cooking class - it's a journey into authentic Moroccan life",
+      "features": [
+        { "title": "Atlas Mountains Setting", "description": "Surrounded by stunning mountain landscapes and traditional Amazigh villages" },
+        { "title": "15-20 Minutes from Taghazout", "description": "Easy scenic drive from the coastal village, with pickup included" },
+        { "title": "Authentic Village Life", "description": "Experience real Moroccan culture in a traditional mountain community" },
+        { "title": "Fresh Mountain Air", "description": "Escape the coast and breathe in the pure air of the Atlas Mountains" },
+        { "title": "Breathtaking Views", "description": "Panoramic vistas of valleys, mountains, and traditional architecture" },
+        { "title": "Local Community", "description": "Support village women and experience genuine Amazigh hospitality" }
+      ],
+      "howToGetHere": "How to Get Here",
+      "howToGetHereSubtitle": "We make it easy - pickup is included in all our packages",
+      "steps": [
+        { "title": "Book Your Experience", "description": "Choose your package and confirm your booking through our website or WhatsApp" },
+        { "title": "We Pick You Up", "description": "We'll collect you from your accommodation in Taghazout at the scheduled time" },
+        { "title": "Scenic Mountain Drive", "description": "Enjoy a beautiful 15-20 minute drive through the Atlas Mountains to our traditional home" },
+        { "title": "Return to Taghazout", "description": "After your experience, we'll drive you back to your accommodation" }
+      ],
+      "ctaTitle": "Ready to Visit Us?",
+      "ctaDescription": "Book your authentic Moroccan cooking experience in the Atlas Mountains",
+      "bookYourExperience": "Book Your Experience",
+      "viewPackages": "View Packages"
+    }
+  },
+  "faqContact": {
+    "backToHome": "Back to Home",
+    "badge": "HELP & SUPPORT",
+    "title": "FAQ &",
+    "titleHighlight": "Contact",
+    "subtitle": "Find answers to common questions or get in touch with our friendly support team",
+    "support247": "24/7 Support",
+    "quickResponse": "Quick Response",
+    "friendlyTeam": "Friendly Team",
+    "faqTitle": "Frequently Asked Questions",
+    "noFaqs": "No FAQs available for this category."
+  },
+  "notFound": {
+    "title": "Oops! This Recipe Doesn't Exist",
+    "description": "Looks like this page wandered off into the Atlas Mountains. Don't worry—we'll help you find your way back to our delicious experiences!",
+    "home": "Home",
+    "homeDescription": "Back to homepage",
+    "packages": "Packages",
+    "packagesDescription": "View our classes",
+    "bookNow": "Book Now",
+    "bookNowDescription": "Reserve your spot",
+    "returnHome": "Return to Homepage",
+    "needHelp": "Need help? Contact us at"
+  },
+  "errorPage": {
+    "title": "Something Went Wrong",
+    "description": "We encountered an unexpected error. Don't worry, you can try refreshing the page or return to our homepage.",
+    "tryAgain": "Try Again",
+    "goHome": "Go Home"
+  },
+  "header": {
+    "chooseExperience": "Choose Your Experience",
+    "selectPackage": "Select Package",
+    "comparePackages": "Compare All Packages",
+    "quickBook": "Quick Book",
+    "viewAllPackages": "View all package details",
+    "bookYourExperience": "Book Your Experience",
+    "packages": "3 packages",
+    "compareAllPackages": "Compare all packages",
+    "seeWhatsIncluded": "See what's included"
+  },
+  "googleReviews": {
+    "loading": "Loading reviews...",
+    "unavailable": "Reviews are temporarily unavailable.",
+    "seeOnGoogle": "See our reviews on Google"
   }
 }

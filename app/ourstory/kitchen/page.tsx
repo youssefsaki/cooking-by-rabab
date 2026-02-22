@@ -2,41 +2,20 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function OurKitchenPage() {
+  const { t } = useLanguage();
+
   // Kitchen gallery images
   const galleryImages = [
-    {
-      src: '/our-story/our-kitchen/wood-fire-oven.jpg',
-      alt: 'Traditional Amazigh wood-fired oven in authentic Moroccan kitchen',
-      title: 'Wood Fire Oven'
-    },
-    {
-      src: '/our-story/our-kitchen/traditional-tagines.jpg',
-      alt: 'Traditional tagine pots and cooking utensils in Moroccan kitchen',
-      title: 'Traditional Tagines'
-    },
-    {
-      src: '/our-story/our-kitchen/kitchen-workspace.jpg',
-      alt: 'Authentic Amazigh kitchen workspace with traditional tools',
-      title: 'Kitchen Workspace'
-    },
-    {
-      src: '/our-story/our-kitchen/spices.jpg',
-      alt: 'Traditional Moroccan spices and ingredients display',
-      title: 'Spices'
-    },
-    {
-      src: '/our-story/our-kitchen/bread-making-station.jpg',
-      alt: 'Traditional bread making area in Amazigh kitchen',
-      title: 'Bread Making Station'
-    },
-    {
-      src: '/our-story/our-kitchen/kitchen-overview.jpg',
-      alt: 'Complete view of authentic traditional Moroccan kitchen',
-      title: 'Kitchen Overview'
-    }
-  ];
+    { src: '/our-story/our-kitchen/wood-fire-oven.jpg', alt: 'Traditional Amazigh wood-fired oven in authentic Moroccan kitchen' },
+    { src: '/our-story/our-kitchen/traditional-tagines.jpg', alt: 'Traditional tagine pots and cooking utensils in Moroccan kitchen' },
+    { src: '/our-story/our-kitchen/kitchen-workspace.jpg', alt: 'Authentic Amazigh kitchen workspace with traditional tools' },
+    { src: '/our-story/our-kitchen/spices.jpg', alt: 'Traditional Moroccan spices and ingredients display' },
+    { src: '/our-story/our-kitchen/bread-making-station.jpg', alt: 'Traditional bread making area in Amazigh kitchen' },
+    { src: '/our-story/our-kitchen/kitchen-overview.jpg', alt: 'Complete view of authentic traditional Moroccan kitchen' }
+  ].map((img, index) => ({ ...img, title: t.ourStory.kitchen.galleryImages[index] }));
 
   return (
     <main className="overflow-x-hidden">
@@ -52,10 +31,10 @@ export default function OurKitchenPage() {
 
           <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 drop-shadow-2xl">
-              Our Kitchen
+              {t.ourStory.kitchen.heroTitle}
             </h1>
             <p className="text-xl sm:text-2xl text-white/95 font-light max-w-2xl mx-auto drop-shadow-lg">
-              Where 10,000 Years of Tradition Comes Alive
+              {t.ourStory.kitchen.heroSubtitle}
             </p>
           </div>
 
@@ -74,17 +53,17 @@ export default function OurKitchenPage() {
               <div className="space-y-6">
                 <div className="inline-block">
                   <span className="text-amber-600 font-bold text-sm uppercase tracking-widest bg-amber-50 px-4 py-2 rounded-full">
-                    Authentic & Traditional
+                    {t.ourStory.kitchen.badge}
                   </span>
                 </div>
                 <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-                  A Kitchen Rooted in <span className="text-amber-600">Heritage</span>
+                  {t.ourStory.kitchen.introTitle} <span className="text-amber-600">{t.ourStory.kitchen.introTitleHighlight}</span>
                 </h2>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  Step into an authentic Amazigh kitchen where time-honored traditions meet the warmth of Moroccan hospitality. Every tool, every technique, and every recipe tells a story passed down through generations.
+                  {t.ourStory.kitchen.introP1}
                 </p>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  Our kitchen is equipped with traditional wood-fired ovens, handcrafted tagines, and the same tools that have been used for thousands of years. This is not a modern cooking studio—this is where real Moroccan food is born.
+                  {t.ourStory.kitchen.introP2}
                 </p>
               </div>
 
@@ -111,52 +90,24 @@ export default function OurKitchenPage() {
           <div className="max-w-6xl mx-auto px-6 lg:px-12">
             <div className="text-center mb-16">
               <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                Traditional Tools & Techniques
+                {t.ourStory.kitchen.featuresTitle}
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Experience cooking the way it has been done for millennia
+                {t.ourStory.kitchen.featuresSubtitle}
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                {
-                  icon: '🔥',
-                  title: 'Wood-Fired Oven',
-                  description: 'Traditional clay oven for baking authentic Moroccan bread and cooking tagines'
-                },
-                {
-                  icon: '🍲',
-                  title: 'Handcrafted Tagines',
-                  description: 'Authentic ceramic tagines used for slow-cooking traditional Moroccan dishes'
-                },
-                {
-                  icon: '🌾',
-                  title: 'Stone Grinding Tools',
-                  description: 'Traditional tools for grinding spices and making amlou the ancient way'
-                },
-                {
-                  icon: '🥖',
-                  title: 'Bread Making Station',
-                  description: 'Dedicated area for kneading and preparing traditional Moroccan bread'
-                },
-                {
-                  icon: '🧂',
-                  title: 'Spice Collection',
-                  description: 'Authentic Moroccan spices sourced from local markets and cooperatives'
-                },
-                {
-                  icon: '🏺',
-                  title: 'Traditional Cookware',
-                  description: 'Clay pots, copper utensils, and tools passed down through generations'
-                }
-              ].map((feature, index) => (
+              {t.ourStory.kitchen.features.map((feature, index) => {
+                const icons = ['🔥', '🍲', '🌾', '🥖', '🧂', '🏺'];
+                return (
                 <div key={index} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <div className="text-5xl mb-4">{feature.icon}</div>
+                  <div className="text-5xl mb-4">{icons[index]}</div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
                   <p className="text-gray-600 leading-relaxed">{feature.description}</p>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
@@ -166,10 +117,10 @@ export default function OurKitchenPage() {
           <div className="max-w-7xl mx-auto px-6 lg:px-12">
             <div className="text-center mb-16">
               <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                Kitchen Gallery
+                {t.ourStory.kitchen.galleryTitle}
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Take a visual tour of our authentic traditional kitchen
+                {t.ourStory.kitchen.gallerySubtitle}
               </p>
             </div>
 
@@ -212,23 +163,23 @@ export default function OurKitchenPage() {
 
           <div className="relative z-10 max-w-4xl mx-auto text-center px-6">
             <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6 drop-shadow-lg">
-              Ready to Cook in Our Traditional Kitchen?
+              {t.ourStory.kitchen.ctaTitle}
             </h2>
             <p className="text-xl text-white/95 mb-10 drop-shadow-md">
-              Join us for an authentic culinary experience in the heart of the Atlas Mountains
+              {t.ourStory.kitchen.ctaDescription}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
                 href="/book"
                 className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-white text-amber-600 font-bold text-lg rounded-full shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
               >
-                Book Your Experience
+                {t.ourStory.kitchen.bookYourExperience}
               </Link>
               <Link 
                 href="/packages"
                 className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-transparent border-2 border-white text-white font-bold text-lg rounded-full hover:bg-white hover:text-amber-600 transition-all duration-300"
               >
-                View Packages
+                {t.ourStory.kitchen.viewPackages}
               </Link>
             </div>
           </div>

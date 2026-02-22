@@ -95,14 +95,14 @@ const GoogleReviewsSectionV2: React.FC = () => {
         ) : scriptFailed ? (
           <div className="flex items-center justify-center min-h-[200px]">
             <div className="text-center">
-              <p className="text-gray-500 text-sm">Reviews are temporarily unavailable.</p>
+              <p className="text-gray-500 text-sm">{t.googleReviews.unavailable}</p>
               <a
                 href="https://www.google.com/search?q=taghazout+cooking+class+reviews"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-amber-600 text-sm font-semibold hover:underline mt-2 inline-block"
               >
-                See our reviews on Google &rarr;
+                {t.googleReviews.seeOnGoogle}
               </a>
             </div>
           </div>
@@ -110,7 +110,7 @@ const GoogleReviewsSectionV2: React.FC = () => {
           <div className="flex items-center justify-center min-h-[200px]">
             <div className="text-center">
               <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-amber-500 mx-auto mb-3"></div>
-              <p className="text-gray-600 text-sm">Loading reviews...</p>
+              <p className="text-gray-600 text-sm">{t.googleReviews.loading}</p>
             </div>
           </div>
         )}
