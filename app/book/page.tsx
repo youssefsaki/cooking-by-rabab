@@ -39,14 +39,49 @@ const countryOptions = [
   { value: 'Other', label: '🌍 Other', flag: '🌍' },
 ];
 
-// Yup validation schema
+// Expected phone number lengths per country dial code (total digits including code)
+// Some countries accept a range of lengths
+const PHONE_LENGTHS: Record<string, number[]> = {
+  '212': [12],        // Morocco: +212 XXXXXXXXX
+  '33': [11],         // France: +33 XXXXXXXXX
+  '34': [11],         // Spain: +34 XXXXXXXXX
+  '49': [12, 13],     // Germany: +49 XXXXXXXXXX(X)
+  '44': [12],         // UK: +44 XXXXXXXXXX
+  '1': [11],          // US/Canada: +1 XXXXXXXXXX
+  '31': [11],         // Netherlands: +31 XXXXXXXXX
+  '32': [11],         // Belgium: +32 XXXXXXXXX
+  '39': [12, 13],     // Italy: +39 XXXXXXXXXX(X)
+  '351': [12],        // Portugal: +351 XXXXXXXXX
+  '41': [11],         // Switzerland: +41 XXXXXXXXX
+  '61': [11],         // Australia: +61 XXXXXXXXX
+  '55': [12, 13],     // Brazil: +55 XXXXXXXXXX(X)
+  '52': [12],         // Mexico: +52 XXXXXXXXXX
+  '54': [12, 13],     // Argentina: +54 XXXXXXXXXX(X)
+  '81': [12, 13],     // Japan: +81 XXXXXXXXXX(X)
+  '82': [12, 13],     // South Korea: +82 XXXXXXXXXX(X)
+  '86': [13],         // China: +86 XXXXXXXXXXX
+  '91': [12],         // India: +91 XXXXXXXXXX
+  '971': [12, 13],    // UAE: +971 XXXXXXXXX(X)
+  '966': [12],        // Saudi Arabia: +966 XXXXXXXXX
+  '27': [11],         // South Africa: +27 XXXXXXXXX
+};
+
+function validatePhoneForCountry(phone: string, dialCode: string): boolean {
+  const digitsOnly = phone.replace(/\D/g, '');
+  const expectedLengths = PHONE_LENGTHS[dialCode];
+  if (!expectedLengths) {
+    return digitsOnly.length >= 10 && digitsOnly.length <= 15;
+  }
+  return expectedLengths.includes(digitsOnly.length);
+}
+
+// Yup validation schema (phone validated separately via custom logic)
 const validationSchema = Yup.object({
   fullName: Yup.string()
     .min(2, 'Name must be at least 2 characters')
     .max(100, 'Name must be less than 100 characters')
     .required('Full name is required'),
   phone: Yup.string()
-    .min(10, 'Phone number must be at least 10 digits')
     .required('Phone number is required'),
   country: Yup.string()
     .min(2, 'Country must be at least 2 characters')
@@ -72,8 +107,9 @@ function BookingForm() {
   const { t } = useLanguage();
   
   const [submitted, setSubmitted] = useState(false);
+  const [phoneDialCode, setPhoneDialCode] = useState('212');
+  const [phoneError, setPhoneError] = useState('');
 
-  // Formik setup
   const formik = useFormik({
     initialValues: {
       fullName: '',
@@ -86,6 +122,11 @@ function BookingForm() {
     },
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
+      if (!validatePhoneForCountry(values.phone, phoneDialCode)) {
+        setPhoneError(`Phone number must match the format for +${phoneDialCode}`);
+        setSubmitting(false);
+        return;
+      }
       try {
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzQ3JkKD71-giIoQLQDLF1yaN7rJ1cxTCbFU4JBnRxGaWgk6w0iE-na2prwPZe7mfjomg/exec';
 
@@ -343,10 +384,24 @@ Looking forward to cooking with you! 🇲🇦`;
                 <PhoneInput
                   country={'ma'}
                   value={formik.values.phone}
-                  onChange={(value) => {
+                  onChange={(value: string, countryData: any) => {
                     formik.setFieldValue('phone', value);
+                    const dialCode = countryData?.dialCode || '212';
+                    setPhoneDialCode(dialCode);
+                    if (value && value.length > dialCode.length) {
+                      const isValid = validatePhoneForCountry(value, dialCode);
+                      setPhoneError(isValid ? '' : `Phone number must match the format for +${dialCode}`);
+                    } else {
+                      setPhoneError('');
+                    }
                   }}
-                  onBlur={() => formik.setFieldTouched('phone', true)}
+                  onBlur={() => {
+                    formik.setFieldTouched('phone', true);
+                    if (formik.values.phone) {
+                      const isValid = validatePhoneForCountry(formik.values.phone, phoneDialCode);
+                      setPhoneError(isValid ? '' : `Phone number must match the format for +${phoneDialCode}`);
+                    }
+                  }}
                   inputProps={{
                     name: 'phone',
                     required: true,
@@ -361,9 +416,9 @@ Looking forward to cooking with you! 🇲🇦`;
                   }}
                 />
               </div>
-              {formik.touched.phone && formik.errors.phone && (
+              {formik.touched.phone && (formik.errors.phone || phoneError) && (
                 <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
-                  <span>⚠</span> {formik.errors.phone}
+                  <span>⚠</span> {formik.errors.phone || phoneError}
                 </p>
               )}
             </div>

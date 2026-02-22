@@ -17,28 +17,27 @@ const GoogleReviewsSectionV2: React.FC = () => {
   useEffect(() => {
     if (typeof document === 'undefined') return;
 
-    let script: HTMLScriptElement | null = null;
     let mounted = true;
     let timeoutId: ReturnType<typeof setTimeout>;
 
     const loadScript = () => {
       try {
-        const existingScript = document.querySelector('script[src="https://elfsightcdn.com/platform.js"]');
+        const existingScript = document.querySelector('script[src*="elfsight"]');
         if (existingScript) {
           if (mounted) setScriptLoaded(true);
           return;
         }
 
-        script = document.createElement('script');
-        script.src = 'https://elfsightcdn.com/platform.js';
+        const script = document.createElement('script');
+        script.src = 'https://static.elfsight.com/platform/platform.js';
         script.async = true;
+        script.defer = true;
 
         timeoutId = setTimeout(() => {
-          if (mounted) {
+          if (mounted && !scriptLoaded) {
             setScriptFailed(true);
-            console.warn('Elfsight script timed out after 8s');
           }
-        }, 8000);
+        }, 15000);
 
         script.onload = () => {
           clearTimeout(timeoutId);
@@ -50,9 +49,8 @@ const GoogleReviewsSectionV2: React.FC = () => {
           if (mounted) setScriptFailed(true);
         };
 
-        document.body.appendChild(script);
-      } catch (error) {
-        console.error('Error loading Elfsight script:', error);
+        document.head.appendChild(script);
+      } catch {
         if (mounted) setScriptFailed(true);
       }
     };
@@ -62,10 +60,8 @@ const GoogleReviewsSectionV2: React.FC = () => {
     return () => {
       mounted = false;
       clearTimeout(timeoutId);
-      if (script && document.body.contains(script)) {
-        try { document.body.removeChild(script); } catch {}
-      }
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -88,10 +84,7 @@ const GoogleReviewsSectionV2: React.FC = () => {
       {/* Elfsight Widget Container */}
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
         {scriptLoaded ? (
-          <div 
-            className="elfsight-app-a3d605ad-6647-4f58-98e8-d52fb2c285b9" 
-            data-elfsight-app-lazy
-          ></div>
+          <div className="elfsight-app-a3d605ad-6647-4f58-98e8-d52fb2c285b9"></div>
         ) : scriptFailed ? (
           <div className="flex items-center justify-center min-h-[200px]">
             <div className="text-center">
