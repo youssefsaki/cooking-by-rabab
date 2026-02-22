@@ -54,27 +54,34 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Global Error Handler - Catch all errors before they crash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.onerror = function(msg, url, lineNo, columnNo, error) {
+                console.error('Global Error:', msg, url, lineNo, columnNo, error);
+                return false;
+              };
+              window.onunhandledrejection = function(event) {
+                console.error('Unhandled Promise Rejection:', event.reason);
+              };
+            `,
+          }}
+        />
+        
+        {/* Eruda Mobile Console - Load FIRST for debugging */}
+        <script src="https://cdn.jsdelivr.net/npm/eruda" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `eruda.init();`,
+          }}
+        />
+        
         {/* Preconnect for faster loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.google.com" />
         <link rel="dns-prefetch" href="https://maps.googleapis.com" />
-        
-        {/* Eruda Mobile Console - Shows console on mobile devices for debugging */}
-        <script src="//cdn.jsdelivr.net/npm/eruda" async></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              // Initialize Eruda mobile console for debugging
-              document.addEventListener('DOMContentLoaded', function() {
-                if (typeof eruda !== 'undefined') {
-                  eruda.init();
-                  console.log('Eruda mobile console initialized');
-                }
-              });
-            `,
-          }}
-        />
       </head>
       <body className={`${robotoCondensed.variable} font-sans antialiased`} suppressHydrationWarning>
         <LanguageProvider>
