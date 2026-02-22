@@ -59,6 +59,22 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.google.com" />
         <link rel="dns-prefetch" href="https://maps.googleapis.com" />
+        
+        {/* Eruda Mobile Console - Shows console on mobile devices for debugging */}
+        <script src="//cdn.jsdelivr.net/npm/eruda" async></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Initialize Eruda mobile console for debugging
+              document.addEventListener('DOMContentLoaded', function() {
+                if (typeof eruda !== 'undefined') {
+                  eruda.init();
+                  console.log('Eruda mobile console initialized');
+                }
+              });
+            `,
+          }}
+        />
       </head>
       <body className={`${robotoCondensed.variable} font-sans antialiased`} suppressHydrationWarning>
         <LanguageProvider>
