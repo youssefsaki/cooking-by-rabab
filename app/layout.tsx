@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from 'next';
 import { Roboto_Condensed } from 'next/font/google';
-import Script from 'next/script';
 import './globals.css';
 import { getStaticSiteConfig, getStaticNavigationData } from '@/lib/static-data';
 import Header from '@/components/Header';
 import Footer from '@/components/FooterV1';
 import ErrorSuppressor from '@/components/ErrorSuppressor';
 import WhatsAppButton from '@/components/WhatsAppButton';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 
 const robotoCondensed = Roboto_Condensed({
@@ -62,49 +62,20 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://maps.googleapis.com" />
       </head>
       <body className={`${robotoCondensed.variable} font-sans antialiased`} suppressHydrationWarning>
-        {/* Global Error Handler - Must be first */}
-        <Script
-          id="global-error-handler"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.onerror = function(msg, url, lineNo, columnNo, error) {
-                console.error('Global Error:', msg, url, lineNo, columnNo, error);
-                return false;
-              };
-              window.onunhandledrejection = function(event) {
-                console.error('Unhandled Promise Rejection:', event.reason);
-              };
-            `,
-          }}
-        />
-        
-        {/* Eruda Mobile Console */}
-        <Script
-          src="https://cdn.jsdelivr.net/npm/eruda"
-          strategy="beforeInteractive"
-        />
-        <Script
-          id="eruda-init"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              if (typeof eruda !== 'undefined') {
-                eruda.init();
-              }
-            `,
-          }}
-        />
-        
         <LanguageProvider>
           <ErrorSuppressor />
-          <Header navigationData={navigationData} />
+          <ErrorBoundary name="Header">
+            <Header navigationData={navigationData} />
+          </ErrorBoundary>
           <main className="overflow-x-hidden">
             {children}
           </main>
-          <Footer />
-          {/* WhatsApp Floating Button - Bottom Right */}
-          <WhatsAppButton />
+          <ErrorBoundary name="Footer">
+            <Footer />
+          </ErrorBoundary>
+          <ErrorBoundary name="WhatsApp">
+            <WhatsAppButton />
+          </ErrorBoundary>
         </LanguageProvider>
       </body>
     </html>

@@ -29,8 +29,8 @@ const WhatsAppButton: React.FC = () => {
         Chat with us!
       </span>
       
-      {/* Pulse Animation */}
-      <span className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-25"></span>
+      {/* Gentle pulse - stops after 3 iterations to save GPU memory on iOS */}
+      <span className="absolute inset-0 rounded-full bg-green-500 opacity-25 animate-pulse" style={{ animationIterationCount: 3 }}></span>
     </a>
   );
 };

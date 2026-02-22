@@ -2,22 +2,10 @@ import dynamic from 'next/dynamic';
 import Hero from '@/components/Hero';
 import HeroSection from '@/components/HeroSectionV3';
 import PackagesSection from '@/components/PackagesV3';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import { getStaticHeroData, getStaticHeroSectionData } from '@/lib/static-data';
 
-// Lazy load below-the-fold components for better initial page load
 const TheExperience = dynamic(() => import('@/components/TheExperienceV2'), {
-  loading: () => <div className="min-h-[600px] bg-gray-50 animate-pulse" />,
-});
-
-const MeetTheTeam = dynamic(() => import('@/components/MeetTheChefV2'), {
-  loading: () => <div className="min-h-[500px] bg-white animate-pulse" />,
-});
-
-const ActivitiesShowcase = dynamic(() => import('@/components/ActivitiesShowcaseV4'), {
-  loading: () => <div className="min-h-[800px] bg-white animate-pulse" />,
-});
-
-const PhotoGallery = dynamic(() => import('@/components/PhotoGallery'), {
   loading: () => <div className="min-h-[600px] bg-gray-50 animate-pulse" />,
 });
 
@@ -29,17 +17,9 @@ const SupportingChildren = dynamic(() => import('@/components/SupportingChildren
   loading: () => <div className="min-h-[500px] bg-gray-900 animate-pulse" />,
 });
 
-const FAQSection = dynamic(() => import('@/components/FAQSectionV3'), {
-  loading: () => <div className="min-h-[500px] bg-gray-900 animate-pulse" />,
-});
-
 const LocationMap = dynamic(() => import('@/components/LocationMapV3'), {
   loading: () => <div className="min-h-[600px] bg-amber-50 animate-pulse" />,
   ssr: false,
-});
-
-const PrivateGroupsCTA = dynamic(() => import('@/components/PrivateGroupsCTA'), {
-  loading: () => <div className="min-h-[300px] bg-gray-900 animate-pulse" />,
 });
 
 export default function HomePage() {
@@ -48,34 +28,41 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen">
-      {/* Hero - Full Screen */}
-      <Hero heroData={heroData} />
-      
-      {/* Packages Section - Directly under Hero */}
-      <section id="packages">
-        <PackagesSection />
-      </section>
-      
-      {/* Hero Section with ratings and experience includes */}
-      <HeroSection data={heroSectionData} />
-      
-      {/* The Journey Section */}
-      <section id="the-experience">
-        <TheExperience />
-      </section>
-      
-      {/* Community Impact Section */}
-      <section id="supporting-children">
-        <SupportingChildren />
-      </section>
-      
-      {/* Reviews Section */}
-      <section id="reviews">
-        <GoogleReviewsSection />
-      </section>
-      
-      {/* Map Section */}
-      <LocationMap />
+      <ErrorBoundary name="Hero">
+        <Hero heroData={heroData} />
+      </ErrorBoundary>
+
+      <ErrorBoundary name="Packages">
+        <section id="packages">
+          <PackagesSection />
+        </section>
+      </ErrorBoundary>
+
+      <ErrorBoundary name="HeroSection">
+        <HeroSection data={heroSectionData} />
+      </ErrorBoundary>
+
+      <ErrorBoundary name="TheExperience">
+        <section id="the-experience">
+          <TheExperience />
+        </section>
+      </ErrorBoundary>
+
+      <ErrorBoundary name="SupportingChildren">
+        <section id="supporting-children">
+          <SupportingChildren />
+        </section>
+      </ErrorBoundary>
+
+      <ErrorBoundary name="GoogleReviews">
+        <section id="reviews">
+          <GoogleReviewsSection />
+        </section>
+      </ErrorBoundary>
+
+      <ErrorBoundary name="LocationMap">
+        <LocationMap />
+      </ErrorBoundary>
     </main>
   );
 }

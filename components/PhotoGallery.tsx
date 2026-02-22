@@ -54,12 +54,16 @@ const PhotoGallery: React.FC = memo(() => {
   const openLightbox = (index: number) => {
     setCurrentImageIndex(index);
     setLightboxOpen(true);
-    document.body.style.overflow = 'hidden';
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = 'hidden';
+    }
   };
 
   const closeLightbox = () => {
     setLightboxOpen(false);
-    document.body.style.overflow = '';
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = '';
+    }
   };
 
   const goToPrevious = () => {

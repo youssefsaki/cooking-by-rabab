@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { HeroProps } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -8,47 +8,41 @@ import { useLanguage } from '@/contexts/LanguageContext';
 const Hero: React.FC<HeroProps> = ({ heroData }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    
-    // Fix for mobile browsers - set exact viewport height
+    let active = true;
+
     const setVH = () => {
+      if (!active) return;
       try {
         const vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
-        
-        if (containerRef.current && mounted) {
+        if (containerRef.current) {
           containerRef.current.style.height = `${window.innerHeight}px`;
         }
       } catch (error) {
         console.error('Error setting viewport height:', error);
       }
     };
-    
+
     setVH();
-    
-    // Use passive event listeners for better scroll performance
-    const handleResize = () => {
-      if (mounted) setVH();
-    };
-    
+
+    let orientationTimer: ReturnType<typeof setTimeout>;
+    const handleResize = () => { if (active) setVH(); };
     const handleOrientationChange = () => {
-      if (mounted) {
-        setTimeout(setVH, 100);
-      }
+      if (active) orientationTimer = setTimeout(setVH, 100);
     };
 
     window.addEventListener('resize', handleResize, { passive: true });
     window.addEventListener('orientationchange', handleOrientationChange, { passive: true });
 
     return () => {
-      setMounted(false);
+      active = false;
+      clearTimeout(orientationTimer);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('orientationchange', handleOrientationChange);
     };
-  }, [mounted]);
+  }, []);
 
   return (
     <div 

@@ -87,17 +87,24 @@ function BookingForm() {
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        // Send to Google Sheets
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzQ3JkKD71-giIoQLQDLF1yaN7rJ1cxTCbFU4JBnRxGaWgk6w0iE-na2prwPZe7mfjomg/exec';
-        
-        await fetch(GOOGLE_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(values)
-        });
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+        try {
+          await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values),
+            signal: controller.signal,
+          });
+        } catch (fetchError) {
+          console.error('Fetch error (non-blocking):', fetchError);
+        } finally {
+          clearTimeout(timeoutId);
+        }
         
         // Show success message
         setSubmitted(true);

@@ -12,38 +12,48 @@ import { useLanguage } from '@/contexts/LanguageContext';
 const GoogleReviewsSectionV2: React.FC = () => {
   const { t } = useLanguage();
   const [scriptLoaded, setScriptLoaded] = useState(false);
+  const [scriptFailed, setScriptFailed] = useState(false);
 
   useEffect(() => {
+    if (typeof document === 'undefined') return;
+
     let script: HTMLScriptElement | null = null;
     let mounted = true;
+    let timeoutId: ReturnType<typeof setTimeout>;
 
-    const loadScript = async () => {
+    const loadScript = () => {
       try {
-        // Check if script already exists
         const existingScript = document.querySelector('script[src="https://elfsightcdn.com/platform.js"]');
-        
         if (existingScript) {
           if (mounted) setScriptLoaded(true);
           return;
         }
 
-        // Load Elfsight script
         script = document.createElement('script');
         script.src = 'https://elfsightcdn.com/platform.js';
         script.async = true;
-        
+
+        timeoutId = setTimeout(() => {
+          if (mounted) {
+            setScriptFailed(true);
+            console.warn('Elfsight script timed out after 8s');
+          }
+        }, 8000);
+
         script.onload = () => {
+          clearTimeout(timeoutId);
           if (mounted) setScriptLoaded(true);
         };
-        
-        script.onerror = (error) => {
-          console.error('Failed to load Elfsight script:', error);
-          if (mounted) setScriptLoaded(false);
+
+        script.onerror = () => {
+          clearTimeout(timeoutId);
+          if (mounted) setScriptFailed(true);
         };
-        
+
         document.body.appendChild(script);
       } catch (error) {
-        console.error('Error loading script:', error);
+        console.error('Error loading Elfsight script:', error);
+        if (mounted) setScriptFailed(true);
       }
     };
 
@@ -51,13 +61,9 @@ const GoogleReviewsSectionV2: React.FC = () => {
 
     return () => {
       mounted = false;
-      // Cleanup script on unmount
+      clearTimeout(timeoutId);
       if (script && document.body.contains(script)) {
-        try {
-          document.body.removeChild(script);
-        } catch (error) {
-          console.error('Error removing script:', error);
-        }
+        try { document.body.removeChild(script); } catch {}
       }
     };
   }, []);
@@ -86,11 +92,25 @@ const GoogleReviewsSectionV2: React.FC = () => {
             className="elfsight-app-a3d605ad-6647-4f58-98e8-d52fb2c285b9" 
             data-elfsight-app-lazy
           ></div>
-        ) : (
-          <div className="flex items-center justify-center min-h-[400px]">
+        ) : scriptFailed ? (
+          <div className="flex items-center justify-center min-h-[200px]">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500 mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading reviews...</p>
+              <p className="text-gray-500 text-sm">Reviews are temporarily unavailable.</p>
+              <a
+                href="https://www.google.com/search?q=taghazout+cooking+class+reviews"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-amber-600 text-sm font-semibold hover:underline mt-2 inline-block"
+              >
+                See our reviews on Google &rarr;
+              </a>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center min-h-[200px]">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-amber-500 mx-auto mb-3"></div>
+              <p className="text-gray-600 text-sm">Loading reviews...</p>
             </div>
           </div>
         )}

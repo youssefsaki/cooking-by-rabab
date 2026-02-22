@@ -215,78 +215,19 @@ img {
   animation: spin-slow 6s linear infinite;
 }
 
-/* Water Animation Classes - GPU Optimized */
-.animate-water-float-1 {
-  animation: water-float-1 8s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-water-float-2 {
-  animation: water-float-2 10s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-water-float-3 {
-  animation: water-float-3 12s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-water-float-4 {
-  animation: water-float-4 9s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-water-drift-1 {
-  animation: water-drift-1 7s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-water-drift-2 {
-  animation: water-drift-2 11s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-water-drift-3 {
-  animation: water-drift-3 9s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-water-drift-4 {
-  animation: water-drift-4 13s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-water-bubble-1 {
-  animation: water-bubble-1 6s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-water-bubble-2 {
-  animation: water-bubble-2 8s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-water-bubble-3 {
-  animation: water-bubble-3 7s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-water-bubble-4 {
-  animation: water-bubble-4 9s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
+/* Water Animation Classes */
+.animate-water-float-1 { animation: water-float-1 8s ease-in-out infinite; }
+.animate-water-float-2 { animation: water-float-2 10s ease-in-out infinite; }
+.animate-water-float-3 { animation: water-float-3 12s ease-in-out infinite; }
+.animate-water-float-4 { animation: water-float-4 9s ease-in-out infinite; }
+.animate-water-drift-1 { animation: water-drift-1 7s ease-in-out infinite; }
+.animate-water-drift-2 { animation: water-drift-2 11s ease-in-out infinite; }
+.animate-water-drift-3 { animation: water-drift-3 9s ease-in-out infinite; }
+.animate-water-drift-4 { animation: water-drift-4 13s ease-in-out infinite; }
+.animate-water-bubble-1 { animation: water-bubble-1 6s ease-in-out infinite; }
+.animate-water-bubble-2 { animation: water-bubble-2 8s ease-in-out infinite; }
+.animate-water-bubble-3 { animation: water-bubble-3 7s ease-in-out infinite; }
+.animate-water-bubble-4 { animation: water-bubble-4 9s ease-in-out infinite; }
 
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
@@ -507,99 +448,22 @@ img {
   }
 }
 
-/* Cozy Animation Classes - GPU Optimized */
-.animate-gradient-flow {
-  background-size: 200% 200%;
-  animation: gradient-flow 8s ease-in-out infinite;
-  will-change: background-position, transform;
-  transform: translateZ(0);
-}
-
-.animate-gradient-flow-reverse {
-  background-size: 200% 200%;
-  animation: gradient-flow-reverse 12s ease-in-out infinite;
-  will-change: background-position, transform;
-  transform: translateZ(0);
-}
-
-.animate-gradient-flow-slow {
-  background-size: 200% 200%;
-  animation: gradient-flow-slow 15s ease-in-out infinite;
-  will-change: background-position, transform;
-  transform: translateZ(0);
-}
-
-.animate-cozy-float-1 {
-  animation: cozy-float-1 10s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-cozy-float-2 {
-  animation: cozy-float-2 12s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-cozy-float-3 {
-  animation: cozy-float-3 14s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-cozy-float-4 {
-  animation: cozy-float-4 11s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-cozy-drift-1 {
-  animation: cozy-drift-1 9s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-cozy-drift-2 {
-  animation: cozy-drift-2 13s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-cozy-drift-3 {
-  animation: cozy-drift-3 11s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-cozy-drift-4 {
-  animation: cozy-drift-4 15s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-cozy-bubble-1 {
-  animation: cozy-bubble-1 8s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-cozy-bubble-2 {
-  animation: cozy-bubble-2 10s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-cozy-bubble-3 {
-  animation: cozy-bubble-3 9s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.animate-cozy-bubble-4 {
-  animation: cozy-bubble-4 11s ease-in-out infinite;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
+/* Cozy Animation Classes */
+.animate-gradient-flow { background-size: 200% 200%; animation: gradient-flow 8s ease-in-out infinite; }
+.animate-gradient-flow-reverse { background-size: 200% 200%; animation: gradient-flow-reverse 12s ease-in-out infinite; }
+.animate-gradient-flow-slow { background-size: 200% 200%; animation: gradient-flow-slow 15s ease-in-out infinite; }
+.animate-cozy-float-1 { animation: cozy-float-1 10s ease-in-out infinite; }
+.animate-cozy-float-2 { animation: cozy-float-2 12s ease-in-out infinite; }
+.animate-cozy-float-3 { animation: cozy-float-3 14s ease-in-out infinite; }
+.animate-cozy-float-4 { animation: cozy-float-4 11s ease-in-out infinite; }
+.animate-cozy-drift-1 { animation: cozy-drift-1 9s ease-in-out infinite; }
+.animate-cozy-drift-2 { animation: cozy-drift-2 13s ease-in-out infinite; }
+.animate-cozy-drift-3 { animation: cozy-drift-3 11s ease-in-out infinite; }
+.animate-cozy-drift-4 { animation: cozy-drift-4 15s ease-in-out infinite; }
+.animate-cozy-bubble-1 { animation: cozy-bubble-1 8s ease-in-out infinite; }
+.animate-cozy-bubble-2 { animation: cozy-bubble-2 10s ease-in-out infinite; }
+.animate-cozy-bubble-3 { animation: cozy-bubble-3 9s ease-in-out infinite; }
+.animate-cozy-bubble-4 { animation: cozy-bubble-4 11s ease-in-out infinite; }
 
 .animate-cozy-glow-1 {
   animation: cozy-glow-1 4s ease-in-out infinite;
@@ -761,5 +625,29 @@ img {
   
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+}
+
+/* Disable heavy animations on iOS Safari to prevent memory crashes */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* On touch devices (mobile), disable non-essential background animations */
+@media (hover: none) and (pointer: coarse) {
+  .animate-water-float-1, .animate-water-float-2, .animate-water-float-3, .animate-water-float-4,
+  .animate-water-drift-1, .animate-water-drift-2, .animate-water-drift-3, .animate-water-drift-4,
+  .animate-water-bubble-1, .animate-water-bubble-2, .animate-water-bubble-3, .animate-water-bubble-4,
+  .animate-cozy-float-1, .animate-cozy-float-2, .animate-cozy-float-3, .animate-cozy-float-4,
+  .animate-cozy-drift-1, .animate-cozy-drift-2, .animate-cozy-drift-3, .animate-cozy-drift-4,
+  .animate-cozy-bubble-1, .animate-cozy-bubble-2, .animate-cozy-bubble-3, .animate-cozy-bubble-4,
+  .animate-gradient-flow, .animate-gradient-flow-reverse, .animate-gradient-flow-slow,
+  .animate-cozy-glow-1, .animate-cozy-glow-2, .animate-cozy-glow-3,
+  .animate-pulse-glow, .animate-spin-slow {
+    animation: none !important;
   }
 }
