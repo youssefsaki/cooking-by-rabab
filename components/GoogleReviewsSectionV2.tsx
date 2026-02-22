@@ -32,6 +32,7 @@ const GoogleReviewsSectionV2: React.FC = () => {
         if (mounted) setScriptLoaded(true); // Pretend it loaded
         return;
 
+        /*
         // Load Elfsight script
         script = document.createElement('script');
         script.src = 'https://elfsightcdn.com/platform.js';
@@ -47,6 +48,7 @@ const GoogleReviewsSectionV2: React.FC = () => {
         };
         
         document.body.appendChild(script);
+        */
       } catch (error) {
         console.error('Error loading script:', error);
       }

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Roboto_Condensed } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import { getStaticSiteConfig, getStaticNavigationData } from '@/lib/static-data';
 import Header from '@/components/Header';
@@ -54,8 +55,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Global Error Handler - Catch all errors before they crash */}
-        <script
+        {/* Preconnect for faster loading */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.google.com" />
+        <link rel="dns-prefetch" href="https://maps.googleapis.com" />
+      </head>
+      <body className={`${robotoCondensed.variable} font-sans antialiased`} suppressHydrationWarning>
+        {/* Global Error Handler - Must be first */}
+        <Script
+          id="global-error-handler"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               window.onerror = function(msg, url, lineNo, columnNo, error) {
@@ -69,21 +79,23 @@ export default function RootLayout({
           }}
         />
         
-        {/* Eruda Mobile Console - Load FIRST for debugging */}
-        <script src="https://cdn.jsdelivr.net/npm/eruda" />
-        <script
+        {/* Eruda Mobile Console */}
+        <Script
+          src="https://cdn.jsdelivr.net/npm/eruda"
+          strategy="beforeInteractive"
+        />
+        <Script
+          id="eruda-init"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
-            __html: `eruda.init();`,
+            __html: `
+              if (typeof eruda !== 'undefined') {
+                eruda.init();
+              }
+            `,
           }}
         />
         
-        {/* Preconnect for faster loading */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://www.google.com" />
-        <link rel="dns-prefetch" href="https://maps.googleapis.com" />
-      </head>
-      <body className={`${robotoCondensed.variable} font-sans antialiased`} suppressHydrationWarning>
         <LanguageProvider>
           <ErrorSuppressor />
           <Header navigationData={navigationData} />
