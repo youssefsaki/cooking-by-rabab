@@ -28,7 +28,7 @@ const locationData = {
   },
   phone: "+212 726 671 746",
   whatsapp: "212726671746",
-  email: "rabab@cookingclass.ma",
+  email: "rababouhadda5@gmail.com",
   hours: "Daily: 9:00 AM - 6:00 PM"
 };
 

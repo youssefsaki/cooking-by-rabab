@@ -376,8 +376,8 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden border-t border-gray-200 bg-white">
-            <nav className="py-4 space-y-4">
+          <div className="lg:hidden border-t border-gray-200 bg-white max-h-[calc(100vh-6rem)] overflow-y-auto">
+            <nav className="py-4 space-y-4 pb-24">
               {/* Mobile Navigation Links */}
               <div className="space-y-2">
                 {navigationData.menuItems.map((item: any) => {
@@ -492,7 +492,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                   <>
                     {/* MOBILE DESIGN 1: Card Stack */}
                     {MOBILE_BOOK_NOW_DESIGN === 1 && (
-                      <div className="space-y-3 px-2">
+                      <div className="space-y-3 px-2 pr-20">
                         <div className="flex items-center justify-between px-2">
                           <p className="text-sm font-bold text-gray-900">{t.header.bookYourExperience}</p>
                           <span className="text-xs text-gray-500">{t.header.packages}</span>
@@ -509,15 +509,15 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                               }`}
                               onClick={() => setIsMobileMenuOpen(false)}
                             >
-                              <div className="flex items-center justify-between">
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className={`font-bold ${item.popular ? 'text-white' : 'text-gray-900'}`}>{item.label}</span>
-                                    {item.popular && <span className="text-xs bg-white/20 text-white px-2 py-0.5 rounded-full">★ Popular</span>}
-                                  </div>
-                                  <p className={`text-xs mt-1 ${item.popular ? 'text-white/80' : 'text-gray-500'}`}>{item.description}</p>
+                              <div>
+                                <div className="flex items-center justify-between mb-1">
+                                  <span className={`font-bold ${item.popular ? 'text-white' : 'text-gray-900'}`}>{item.label}</span>
+                                  {item.popular && <span className="text-xs bg-white/20 text-white px-2 py-0.5 rounded-full">★ Popular</span>}
                                 </div>
-                                <span className={`text-xl font-black ${item.popular ? 'text-white' : 'text-amber-600'}`}>{item.price}</span>
+                                <div className="flex items-center justify-between">
+                                  <p className={`text-xs ${item.popular ? 'text-white/80' : 'text-gray-500'}`}>{item.description}</p>
+                                  <span className={`text-lg font-black whitespace-nowrap ml-3 ${item.popular ? 'text-white' : 'text-amber-600'}`}>{item.price}</span>
+                                </div>
                               </div>
                             </Link>
                           ))}

@@ -28,8 +28,8 @@ const experiences: Experience[] = [
     "description": "The secret to perfect slow-cooked tagines",
     "longDescription": "Master the art of Morocco's most iconic dish in this comprehensive class. Learn to prepare slow-cooked tagines with aromatic spices, tender meats, and vegetables in traditional clay pots, achieving the perfect balance of flavors that makes Moroccan tagine world-renowned.",
     "image": "/experiences/tajine.jpg",
-    "duration": "3-4 hours",
-    "groupSize": "4-8 guests",
+    "duration": "4 hours",
+    "groupSize": "2-13 guests",
     "highlights": ["Clay pot cooking techniques", "Spice layering & blending", "Meat & vegetable tagines", "Preserved lemons preparation", "Traditional serving methods"],
     "color": "from-orange-500 to-red-600"
   },
@@ -41,7 +41,7 @@ const experiences: Experience[] = [
     "longDescription": "Immerse yourself in authentic Amazigh culture and culinary traditions. Learn ancient cooking methods, traditional recipes, and the rich cultural stories behind Amazigh cuisine passed down through generations in the Atlas Mountains.",
     "image": "/experiences/amazigh.jpg",
     "duration": "4 hours",
-    "groupSize": "4-8 guests",
+    "groupSize": "2-13 guests",
     "highlights": ["Traditional cooking methods", "Cultural storytelling", "Authentic Berber recipes", "Amazigh history & customs", "Family-style dining"],
     "color": "from-amber-500 to-orange-600"
   },
@@ -52,8 +52,8 @@ const experiences: Experience[] = [
     "description": "Traditional Moroccan hospitality ritual",
     "longDescription": "Experience the elegance of traditional Moroccan tea ceremony. Learn the proper techniques for brewing perfect mint tea, master the iconic high-pour method, and understand the cultural significance of tea in Moroccan hospitality.",
     "image": "/experiences/tea.jpg",
-    "duration": "1.5 hours",
-    "groupSize": "2-10 guests",
+    "duration": "4 hours",
+    "groupSize": "2-13 guests",
     "highlights": ["Tea selection & quality", "High-pour technique mastery", "Fresh mint preparation", "Cultural significance", "Traditional glassware"],
     "color": "from-green-500 to-emerald-600"
   },
@@ -64,8 +64,8 @@ const experiences: Experience[] = [
     "description": "Ancient bread-making in clay ovens",
     "longDescription": "Experience the ancient art of baking traditional Moroccan bread in a wood-fired clay oven. From kneading dough by hand to achieving the perfect golden crust, learn authentic Amazigh bread-making techniques that have remained unchanged for centuries.",
     "image": "/experiences/oven-bread.jpg",
-    "duration": "2-3 hours",
-    "groupSize": "4-6 guests",
+    "duration": "4 hours",
+    "groupSize": "2-13 guests",
     "highlights": ["Dough preparation from scratch", "Hand kneading techniques", "Clay oven baking", "Multiple bread varieties", "Wood fire management"],
     "color": "from-amber-500 to-yellow-600"
   },
@@ -76,8 +76,8 @@ const experiences: Experience[] = [
     "description": "Argan oil, almonds, and honey perfection",
     "longDescription": "Discover the secrets of making traditional Moroccan amlou - a delicious blend of argan oil, roasted almonds, and honey. Learn traditional grinding techniques using ancient millstones and achieve the perfect consistency for this beloved Berber spread.",
     "image": "/experiences/amlou-workshop.jpg",
-    "duration": "2 hours",
-    "groupSize": "4-10 guests",
+    "duration": "4 hours",
+    "groupSize": "2-13 guests",
     "highlights": ["Argan oil knowledge", "Almond roasting & grinding", "Traditional millstone use", "Perfect consistency", "Honey blending techniques"],
     "color": "from-yellow-500 to-amber-600"
   }
