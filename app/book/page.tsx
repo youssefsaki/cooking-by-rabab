@@ -152,7 +152,7 @@ function BookingForm() {
         
         // Prepare WhatsApp message
         const whatsappPhone = '212726671746'; // Your WhatsApp number
-        const packageName = values.packageType === 'basic' ? 'Basic Package (500 MAD)' : 'Private Package (800 MAD)';
+        const packageName = values.packageType === 'basic' ? 'Basic Package (60 EUR)' : values.packageType === 'weekly-event' ? 'Weekly Event (80 EUR)' : 'Private Package (100 EUR)';
         const dietaryText = values.dietaryPreference === 'none' ? 'No restrictions' : values.dietaryPreference.charAt(0).toUpperCase() + values.dietaryPreference.slice(1);
         const allergiesText = values.allergies || 'None';
         
@@ -169,10 +169,12 @@ function BookingForm() {
 
 Looking forward to cooking with you! 🇲🇦`;
         
-        // Open WhatsApp with pre-filled message after a short delay
         setTimeout(() => {
           const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`;
-          window.open(whatsappUrl, '_blank');
+          const newWindow = window.open(whatsappUrl, '_blank');
+          if (!newWindow || newWindow.closed) {
+            window.location.href = whatsappUrl;
+          }
         }, 1500);
       } catch (error) {
         console.error('Error submitting form:', error);
