@@ -38,7 +38,7 @@ const packagesData = [
     duration: "4 hours",
     groupSize: "6-13 guests",
     startTime: "15:00",
-    image: "/packages/basic.jpg",
+    image: "/packages/weekly.jpeg",
     highlights: [
       "Every Thursday at 15:00",
       "Minimum 6 guests required",
@@ -205,7 +205,7 @@ const PackagesV3: React.FC = memo(() => {
                 {/* Bottom Buttons - Optimized */}
                 <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 mt-4">
                   <Link
-                    href="/packages"
+                    href={`/packages#${pkg.id}`}
                     className="flex-1 inline-flex items-center justify-center border-2 border-white text-white font-bold px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 rounded-full hover:bg-white hover:text-black transition-all duration-200 text-xs sm:text-sm md:text-base"
                   >
                     {t.packages.viewDetails}

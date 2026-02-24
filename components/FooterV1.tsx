@@ -23,7 +23,7 @@ const footerData = {
   brand: {
     name: "Rabab's Kitchen",
     tagline: "Traditional Moroccan Cooking Classes",
-    description: "Learn authentic Amazigh recipes passed down through generations in the heart of Tamraght, Morocco."
+    description: "Learn authentic Amazigh recipes passed down through generations in the heart of Taghazout, Morocco."
   },
   quickLinks: [
     { label: "Home", href: "/" },
@@ -44,8 +44,8 @@ const footerData = {
     whatsapp: "212726671746"
   },
   social: [
-    { platform: "Instagram", url: "https://instagram.com/rababskitchen", icon: FiInstagram },
-    { platform: "TikTok", url: "https://www.tiktok.com/@rababskitchen", icon: SiTiktok }
+    { platform: "Instagram", url: "https://www.instagram.com/_cookingwithrabab/", icon: FiInstagram },
+    { platform: "TikTok", url: "https://www.tiktok.com/@cookingwithrabab", icon: SiTiktok }
   ]
 };
 

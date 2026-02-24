@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FiClock, FiUsers, FiMapPin, FiCheck, FiArrowRight } from 'react-icons/fi';
@@ -8,6 +8,17 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function PackagesPage() {
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash && ['basic', 'weekly-event', 'private'].includes(hash)) {
+      setSelectedPackage(hash);
+      setTimeout(() => {
+        const el = document.getElementById('selected-package-details');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 400);
+    }
+  }, []);
   const { t } = useLanguage();
 
   const packagesData = [
@@ -43,7 +54,7 @@ export default function PackagesPage() {
       endTime: "TBD",
       pickup: "Taghazout Mosque",
       dropoff: "Taghazout or Tamraght",
-      image: "/packages/basic.jpg",
+      image: "/packages/weekly.jpeg",
       alt: "Weekly cooking event in Morocco - Community cooking class experience in Atlas Mountains",
       itinerary: t.packagesPage.weeklyEvent.itinerary,
       includes: t.packagesPage.weeklyEvent.includes,

@@ -131,7 +131,7 @@ export default function RootLayout({
           <ErrorBoundary name="Header">
             <Header navigationData={navigationData} />
           </ErrorBoundary>
-          <main className="overflow-x-hidden">
+          <main>
             {children}
           </main>
           <ErrorBoundary name="Footer">

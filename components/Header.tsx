@@ -36,6 +36,7 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 
 const Header: React.FC<HeaderProps> = ({ navigationData }) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState<string | null>(null);
@@ -51,20 +52,15 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
   ];
 
   useEffect(() => {
-    let mounted = true;
-    
+    setHasMounted(true);
+    setIsScrolled(window.scrollY > 10);
+
     const handleScroll = () => {
-      if (mounted) {
-        setIsScrolled(window.scrollY > 10);
-      }
+      setIsScrolled(window.scrollY > 10);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    return () => {
-      mounted = false;
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const getSocialIcon = (platform: string) => {
@@ -84,7 +80,8 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/95 backdrop-blur-md shadow-xl border-b border-gray-200/30' : 'bg-white/90 backdrop-blur-sm shadow-lg'
+        !hasMounted ? 'bg-white/95 shadow-lg' :
+        isScrolled ? 'bg-white shadow-xl border-b border-gray-200/30' : 'bg-white/95 shadow-lg'
       }`}
     >
       <div className="header-container">

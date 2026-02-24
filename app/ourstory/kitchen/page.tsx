@@ -18,8 +18,7 @@ export default function OurKitchenPage() {
   ].map((img, index) => ({ ...img, title: t.ourStory.kitchen.galleryImages[index] }));
 
   return (
-    <main className="overflow-x-hidden">
-      <main className="min-h-screen">
+    <div className="min-h-screen">
         {/* Hero Section */}
         <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center bg-gradient-to-br from-amber-600 via-orange-500 to-amber-700 overflow-hidden">
           {/* Background Pattern */}
@@ -184,7 +183,6 @@ export default function OurKitchenPage() {
             </div>
           </div>
         </section>
-      </main>
-    </main>
+    </div>
   );
 }

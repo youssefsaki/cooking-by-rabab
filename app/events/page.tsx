@@ -10,7 +10,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 export default function EventsPage() {
   const { t } = useLanguage();
   return (
-    <main className="min-h-screen bg-white overflow-hidden">
+    <main className="min-h-screen bg-white">
       {/* Hero Section - Optimized for 13" */}
       <section className="relative min-h-[85vh] flex items-center">
         {/* Left Side - Coral/Orange Background with Content */}

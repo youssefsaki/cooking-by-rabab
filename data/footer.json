@@ -1,6 +1,6 @@
 {
   "logo": {
-    "src": "/rabab-logo.jpg",
+    "src": "/rabab-logo.png",
     "alt": "Playa Surf House Logo",
     "width": 200,
     "height": 80
@@ -108,7 +108,7 @@
     }
   ],
   "contactInfo": {
-    "address": "Tamraght, Agadir, Morocco",
+    "address": "Taghazout, Agadir, Morocco",
     "phone": "+212 6XX XXX XXX",
     "email": "info@playasurfhouse.com"
   },

@@ -27,19 +27,14 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
 
     setVH();
 
-    let orientationTimer: ReturnType<typeof setTimeout>;
-    const handleResize = () => { if (active) setVH(); };
     const handleOrientationChange = () => {
-      if (active) orientationTimer = setTimeout(setVH, 100);
+      if (active) setTimeout(setVH, 150);
     };
 
-    window.addEventListener('resize', handleResize, { passive: true });
     window.addEventListener('orientationchange', handleOrientationChange, { passive: true });
 
     return () => {
       active = false;
-      clearTimeout(orientationTimer);
-      window.removeEventListener('resize', handleResize);
       window.removeEventListener('orientationchange', handleOrientationChange);
     };
   }, []);
@@ -55,8 +50,6 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
         minHeight: 'calc(var(--vh, 1vh) * 100)',
         maxHeight: 'calc(var(--vh, 1vh) * 100)',
         overflow: 'hidden',
-        WebkitOverflowScrolling: 'touch',
-        touchAction: 'pan-y',
       }}
     >
       {/* Background Image - Desktop */}

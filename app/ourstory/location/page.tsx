@@ -6,8 +6,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 export default function LocationPage() {
   const { t } = useLanguage();
   return (
-    <main className="overflow-x-hidden">
-      <main className="min-h-screen">
+    <div className="min-h-screen">
         {/* Hero Section */}
         <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center bg-gradient-to-br from-teal-600 via-cyan-500 to-blue-600 overflow-hidden">
           {/* Background Pattern */}
@@ -209,7 +208,6 @@ export default function LocationPage() {
             </div>
           </div>
         </section>
-      </main>
-    </main>
+    </div>
   );
 }

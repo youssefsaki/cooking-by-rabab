@@ -26,8 +26,8 @@ const locationData = {
     lat: 30.5236,
     lng: -9.7366
   },
-  phone: "+212 600 000 000",
-  whatsapp: "+212600000000",
+  phone: "+212 726 671 746",
+  whatsapp: "212726671746",
   email: "rabab@cookingclass.ma",
   hours: "Daily: 9:00 AM - 6:00 PM"
 };
