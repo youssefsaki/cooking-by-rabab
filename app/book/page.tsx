@@ -91,7 +91,7 @@ const validationSchema = Yup.object({
     .email('Invalid email address')
     .required('Email is required'),
   packageType: Yup.string()
-    .oneOf(['basic', 'private'], 'Please select a valid package')
+    .oneOf(['basic', 'weekly-event', 'private'], 'Please select a valid package')
     .required('Package selection is required'),
   dietaryPreference: Yup.string()
     .oneOf(['none', 'vegetarian', 'vegan'], 'Please select a valid dietary preference')
@@ -116,7 +116,7 @@ function BookingForm() {
       phone: '',
       country: '',
       email: '',
-      packageType: packageParam === 'private' ? 'private' : 'basic',
+      packageType: packageParam === 'private' ? 'private' : packageParam === 'weekly-event' ? 'weekly-event' : 'basic',
       dietaryPreference: 'none',
       allergies: '',
     },
@@ -214,7 +214,7 @@ Looking forward to cooking with you! 🇲🇦`;
                       phone: '',
                       country: '',
                       email: '',
-                      packageType: packageParam === 'private' ? 'private' : 'basic',
+                      packageType: packageParam === 'private' ? 'private' : packageParam === 'weekly-event' ? 'weekly-event' : 'basic',
                       dietaryPreference: 'none',
                       allergies: '',
                     }
@@ -432,6 +432,7 @@ Looking forward to cooking with you! 🇲🇦`;
                 {t.booking.country} *
               </label>
               <Select
+                instanceId="country-select"
                 id="country"
                 options={countryOptions}
                 value={countryOptions.find(option => option.value === formik.values.country) || null}
@@ -574,7 +575,7 @@ Looking forward to cooking with you! 🇲🇦`;
               <label htmlFor="packageType" className="text-sm font-bold text-gray-700 mb-3 block">
                 {t.booking.packageType} *
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <label className={`relative cursor-pointer ${formik.values.packageType === 'basic' ? 'ring-2 ring-amber-500' : ''}`}>
                   <input
                     type="radio"
@@ -595,7 +596,31 @@ Looking forward to cooking with you! 🇲🇦`;
                       )}
                     </div>
                     <p className="text-sm text-gray-600 mb-2">{t.packages.basic.subtitle}</p>
-                    <p className="text-2xl font-black text-amber-600">500 MAD</p>
+                    <p className="text-2xl font-black text-amber-600">60 EUR</p>
+                  </div>
+                </label>
+
+                <label className={`relative cursor-pointer ${formik.values.packageType === 'weekly-event' ? 'ring-2 ring-amber-500' : ''}`}>
+                  <input
+                    type="radio"
+                    name="packageType"
+                    value="weekly-event"
+                    checked={formik.values.packageType === 'weekly-event'}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    className="sr-only"
+                  />
+                  <div className="border-2 border-gray-200 rounded-xl p-4 hover:border-amber-300 transition-colors">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-bold text-gray-900">Weekly Event</span>
+                      {formik.values.packageType === 'weekly-event' && (
+                        <div className="w-6 h-6 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full flex items-center justify-center">
+                          <FiCheck className="w-4 h-4 text-white" />
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-sm text-gray-600 mb-2">Weekly Berber Music Event at Sunset</p>
+                    <p className="text-2xl font-black text-amber-600">80 EUR</p>
                   </div>
                 </label>
 
@@ -619,7 +644,7 @@ Looking forward to cooking with you! 🇲🇦`;
                       )}
                     </div>
                     <p className="text-sm text-gray-600 mb-2">{t.packages.private.subtitle}</p>
-                    <p className="text-2xl font-black text-amber-600">800 MAD</p>
+                    <p className="text-2xl font-black text-amber-600">100 EUR</p>
                   </div>
                 </label>
               </div>
