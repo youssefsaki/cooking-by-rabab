@@ -36,12 +36,12 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
   ];
   
   const allImages = [
-    { src: '/hero/desktop/learn-to-cook-amazigh/2.jpg', alt: 'Amazigh cooking class' },
-    { src: '/hero/desktop/learn-to-cook-amazigh/5.jpg', alt: 'Traditional Moroccan cuisine' },
-    { src: '/hero/desktop/learn-to-cook-amazigh/7.jpg', alt: 'Amazigh cooking experience' },
-    { src: '/hero/desktop/learn-to-cook-amazigh/3.jpg', alt: 'Authentic tagine preparation' },
-    { src: '/hero/desktop/learn-to-cook-amazigh/6.jpg', alt: 'Traditional Amazigh bread baking' },
-    { src: '/hero/desktop/learn-to-cook-amazigh/4.jpg', alt: 'Moroccan tea ceremony' },
+    { src: '/hero/desktop/learn-to-cook-amazigh/2.jpg', alt: 'Moroccan cooking class Taghazout — hands-on Amazigh cooking in Berber village kitchen' },
+    { src: '/hero/desktop/learn-to-cook-amazigh/5.jpg', alt: 'Traditional Moroccan cuisine Taghazout — authentic Berber dishes prepared in Atlas Mountains' },
+    { src: '/hero/desktop/learn-to-cook-amazigh/7.jpg', alt: 'Amazigh cooking experience Taghazout — traditional village cooking class near Agadir coast' },
+    { src: '/hero/desktop/learn-to-cook-amazigh/3.jpg', alt: 'Tajine masterclass Taghazout — slow-cooked Moroccan tagine in traditional clay pot' },
+    { src: '/hero/desktop/learn-to-cook-amazigh/6.jpg', alt: 'Clay oven bread making Taghazout — wood-fired Berber bread baking in Atlas Mountains' },
+    { src: '/hero/desktop/learn-to-cook-amazigh/4.jpg', alt: 'Moroccan mint tea ceremony Taghazout — traditional Amazigh hospitality after cooking class' },
   ];
 
   // ============================================

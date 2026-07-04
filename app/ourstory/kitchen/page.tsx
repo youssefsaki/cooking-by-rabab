@@ -9,12 +9,12 @@ export default function OurKitchenPage() {
 
   // Kitchen gallery images
   const galleryImages = [
-    { src: '/our-story/our-kitchen/wood-fire-oven.jpg', alt: 'Traditional Amazigh wood-fired oven in authentic Moroccan kitchen' },
-    { src: '/our-story/our-kitchen/traditional-tagines.jpg', alt: 'Traditional tagine pots and cooking utensils in Moroccan kitchen' },
-    { src: '/our-story/our-kitchen/kitchen-workspace.jpg', alt: 'Authentic Amazigh kitchen workspace with traditional tools' },
-    { src: '/our-story/our-kitchen/spices.jpg', alt: 'Traditional Moroccan spices and ingredients display' },
-    { src: '/our-story/our-kitchen/bread-making-station.jpg', alt: 'Traditional bread making area in Amazigh kitchen' },
-    { src: '/our-story/our-kitchen/kitchen-overview.jpg', alt: 'Complete view of authentic traditional Moroccan kitchen' }
+    { src: '/our-story/our-kitchen/wood-fire-oven.jpg', alt: 'Traditional Amazigh wood-fired clay oven — Taghazout cooking class Berber village kitchen' },
+    { src: '/our-story/our-kitchen/traditional-tagines.jpg', alt: 'Traditional Moroccan tagine pots — Taghazout cooking class kitchen tools Atlas Mountains' },
+    { src: '/our-story/our-kitchen/kitchen-workspace.jpg', alt: 'Authentic Amazigh kitchen workspace Taghazout — traditional Berber cooking class preparation area' },
+    { src: '/our-story/our-kitchen/spices.jpg', alt: 'Moroccan spices and ingredients — Taghazout cooking class Berber village kitchen display' },
+    { src: '/our-story/our-kitchen/bread-making-station.jpg', alt: 'Clay oven bread making station Taghazout — traditional Berber bread preparation area Morocco' },
+    { src: '/our-story/our-kitchen/kitchen-overview.jpg', alt: 'Traditional Moroccan Amazigh kitchen overview — Taghazout cooking class in 300-year-old Berber home' }
   ].map((img, index) => ({ ...img, title: t.ourStory.kitchen.galleryImages[index] }));
 
   return (
@@ -70,7 +70,7 @@ export default function OurKitchenPage() {
                 <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-2xl">
                   <Image
                     src="/our-story/our-kitchen/main.jpg"
-                    alt="Authentic traditional Moroccan Amazigh kitchen in Taghazout Atlas Mountains"
+                    alt="Traditional Moroccan Amazigh kitchen Taghazout — 300-year-old Berber cooking class space in Atlas Mountains"
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 100vw, 50vw"

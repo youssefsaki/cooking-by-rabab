@@ -27,6 +27,7 @@ interface Experience {
   description: string;
   longDescription: string;
   image: string;
+  imageAlt: string;
   duration: string;
   groupSize: string;
   highlights: string[];
@@ -43,6 +44,7 @@ const experiences: Experience[] = [
     description: 'Journey into the heart of Amazigh culture',
     longDescription: 'Immerse yourself in authentic Amazigh culture and culinary traditions. Learn ancient cooking methods, traditional recipes, and the rich cultural stories behind Amazigh cuisine passed down through generations.',
     image: '/experiences/amazigh-heritage.jpg',
+    imageAlt: 'Berber village cooking experience Taghazout — authentic Amazigh heritage and traditional recipes Atlas Mountains',
     duration: '4 hours',
     groupSize: '4-8 guests',
     highlights: ['Traditional cooking methods', 'Cultural storytelling', 'Authentic recipes', 'Amazigh history'],
@@ -57,6 +59,7 @@ const experiences: Experience[] = [
     description: 'Master the iconic mint tea ritual',
     longDescription: 'Discover the ceremonial art of preparing and pouring traditional Moroccan mint tea. Learn the perfect balance of green tea, fresh mint, and sugar, and master the iconic high-pour technique that defines Moroccan hospitality.',
     image: '/experiences/tea-ceremony.jpg',
+    imageAlt: 'Moroccan mint tea ceremony Taghazout — traditional Amazigh hospitality at cooking class',
     duration: '1.5 hours',
     groupSize: '2-10 guests',
     highlights: ['Tea selection & brewing', 'High-pour technique', 'Fresh mint preparation', 'Cultural significance'],
@@ -71,6 +74,7 @@ const experiences: Experience[] = [
     description: 'The secret to perfect slow-cooked tagines',
     longDescription: 'Master the art of Morocco\'s most iconic dish in this comprehensive class. Learn to prepare slow-cooked tagines with aromatic spices, tender meats, and vegetables in traditional clay pots, achieving the perfect balance of flavors.',
     image: '/experiences/tajine-masterclass.jpg',
+    imageAlt: 'Tajine masterclass Taghazout — traditional Moroccan tagine cooking class in clay pot',
     duration: '3-4 hours',
     groupSize: '4-8 guests',
     highlights: ['Clay pot cooking', 'Spice layering', 'Meat & vegetable tagines', 'Preserved lemons'],
@@ -85,6 +89,7 @@ const experiences: Experience[] = [
     description: 'Argan oil, almonds, and honey perfection',
     longDescription: 'Discover the secrets of making traditional Moroccan amlou - a delicious blend of argan oil, roasted almonds, and honey. Learn traditional grinding techniques and perfect consistency for this beloved Berber spread.',
     image: '/experiences/amlou-workshop.webp',
+    imageAlt: 'Amlou workshop Morocco Taghazout — argan oil almond spread making in Berber village',
     duration: '2 hours',
     groupSize: '4-10 guests',
     highlights: ['Argan oil knowledge', 'Almond roasting', 'Traditional grinding', 'Perfect consistency'],
@@ -98,6 +103,7 @@ const experiences: Experience[] = [
     description: 'Ancient bread-making in clay ovens',
     longDescription: 'Experience the ancient art of baking traditional Moroccan bread in a wood-fired clay oven. From kneading dough by hand to achieving the perfect golden crust, learn authentic Amazigh bread-making techniques.',
     image: '/experiences/clay-oven-bread.jpg',
+    imageAlt: 'Clay oven bread making Taghazout — wood-fired Berber bread baking in traditional village kitchen',
     duration: '2-3 hours',
     groupSize: '4-6 guests',
     highlights: ['Dough preparation', 'Hand kneading', 'Clay oven baking', 'Multiple varieties'],
@@ -156,7 +162,7 @@ const ActivitiesShowcaseV4: React.FC = memo(() => {
                     <div className="relative h-[400px] lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl">
                       <Image
                         src={experience.image}
-                        alt={experience.title}
+                        alt={experience.imageAlt}
                         fill
                         loading="lazy"
                         className={`object-cover transition-transform duration-700 ${

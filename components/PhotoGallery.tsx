@@ -28,18 +28,18 @@ interface GalleryImage {
 const categories = ['All', 'Cooking Process', 'Ingredients', 'Finished Dishes'];
 
 const galleryImages: GalleryImage[] = [
-  { id: 1, src: '/gallery/tagine-cooking.jpg', alt: 'Traditional tagine cooking in clay pot', category: 'Cooking Process', size: 'tall' },
-  { id: 2, src: '/gallery/spices.jpg', alt: 'Colorful Moroccan spices', category: 'Ingredients', size: 'wide' },
-  { id: 3, src: '/gallery/tagine-dish.jpg', alt: 'Finished tagine dish', category: 'Finished Dishes', size: 'square' },
-  { id: 4, src: '/gallery/bread-baking.jpg', alt: 'Traditional bread baking', category: 'Cooking Process', size: 'tall' },
-  { id: 5, src: '/gallery/vegetables.jpg', alt: 'Fresh vegetables and herbs', category: 'Ingredients', size: 'square' },
-  { id: 6, src: '/gallery/coucous.jpg', alt: 'Couscous with vegetables', category: 'Finished Dishes', size: 'wide' },
-  { id: 7, src: '/gallery/tea-ceremony.jpg', alt: 'Traditional mint tea ceremony', category: 'Cooking Process', size: 'square' },
-  { id: 8, src: '/gallery/traditional-kitchen.jpg', alt: 'Traditional Moroccan kitchen', category: 'Cooking Process', size: 'tall' },
-  { id: 9, src: '/gallery/cooking-class.jpg', alt: 'Cooking class in session', category: 'Cooking Process', size: 'wide' },
-  { id: 10, src: '/gallery/pastries.jpg', alt: 'Moroccan pastries and sweets', category: 'Finished Dishes', size: 'square' },
-  { id: 11, src: '/gallery/olive-oil.jpg', alt: 'Olive oil and olives', category: 'Ingredients', size: 'square' },
-  { id: 12, src: '/gallery/hands-preparing.jpg', alt: 'Hands preparing dough', category: 'Cooking Process', size: 'tall' }
+  { id: 1, src: '/gallery/tagine-cooking.jpg', alt: 'Tajine masterclass Taghazout — traditional Moroccan tagine cooking in clay pot', category: 'Cooking Process', size: 'tall' },
+  { id: 2, src: '/gallery/spices.jpg', alt: 'Moroccan spices Taghazout cooking class — aromatic spice blends for Berber village dishes', category: 'Ingredients', size: 'wide' },
+  { id: 3, src: '/gallery/tagine-dish.jpg', alt: 'Finished Moroccan tagine dish — authentic Berber cooking class meal Taghazout Atlas Mountains', category: 'Finished Dishes', size: 'square' },
+  { id: 4, src: '/gallery/bread-baking.jpg', alt: 'Clay oven bread making Taghazout — wood-fired Berber bread baking in traditional village kitchen', category: 'Cooking Process', size: 'tall' },
+  { id: 5, src: '/gallery/vegetables.jpg', alt: 'Fresh Moroccan vegetables and herbs — local ingredients for Taghazout cooking class', category: 'Ingredients', size: 'square' },
+  { id: 6, src: '/gallery/coucous.jpg', alt: 'Traditional Moroccan couscous — Berber village feast after cooking class near Taghazout', category: 'Finished Dishes', size: 'wide' },
+  { id: 7, src: '/gallery/tea-ceremony.jpg', alt: 'Moroccan mint tea ceremony Taghazout — Amazigh hospitality after cooking experience', category: 'Cooking Process', size: 'square' },
+  { id: 8, src: '/gallery/traditional-kitchen.jpg', alt: 'Traditional Moroccan Amazigh kitchen Taghazout — authentic Berber cooking space Atlas Mountains', category: 'Cooking Process', size: 'tall' },
+  { id: 9, src: '/gallery/cooking-class.jpg', alt: 'Taghazout cooking class in session — hands-on Moroccan cooking experience Berber village', category: 'Cooking Process', size: 'wide' },
+  { id: 10, src: '/gallery/pastries.jpg', alt: 'Moroccan pastries and sweets — traditional Amazigh desserts from Taghazout cooking class', category: 'Finished Dishes', size: 'square' },
+  { id: 11, src: '/gallery/olive-oil.jpg', alt: 'Moroccan olive oil and olives — local ingredients for Taghazout Berber village cooking', category: 'Ingredients', size: 'square' },
+  { id: 12, src: '/gallery/hands-preparing.jpg', alt: 'Hands-on Moroccan cooking class Taghazout — kneading dough for traditional Berber bread', category: 'Cooking Process', size: 'tall' }
 ];
 
 const PhotoGallery: React.FC = memo(() => {

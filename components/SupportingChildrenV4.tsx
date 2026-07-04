@@ -28,7 +28,7 @@ const SupportingChildrenV4: React.FC = memo(() => {
         <div className="relative h-[400px] lg:h-auto">
           <Image
             src="/community/children-school.jpg"
-            alt="Supporting local children"
+            alt="Taghazout cooking class supports local children — community impact from Berber village cooking experience Tamsoult Morocco"
             fill
             className="object-cover"
             sizes="(max-width: 1024px) 100vw, 50vw"

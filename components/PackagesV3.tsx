@@ -18,6 +18,7 @@ const packagesData = [
     groupSize: "2-13 guests",
     startTime: "13:30",
     image: "/packages/basic.jpg",
+    imageAlt: "Taghazout cooking class — half-day Berber village experience with tagine and clay oven bread in Atlas Mountains",
     popular: true,
     highlights: [
       "Pick up from Taghazout Mosque at 13:30",
@@ -39,6 +40,7 @@ const packagesData = [
     groupSize: "6-13 guests",
     startTime: "15:00",
     image: "/packages/weekly.jpeg",
+    imageAlt: "Weekly Amazigh music event Taghazout — Berber village sunset celebration and cooking experience Morocco",
     highlights: [
       "Every Thursday at 15:00",
       "Minimum 6 guests required",
@@ -59,6 +61,7 @@ const packagesData = [
     groupSize: "Private group",
     startTime: "Flexible",
     image: "/packages/private-chef.jpg",
+    imageAlt: "Private Moroccan cooking class Taghazout — exclusive Berber village culinary experience in Atlas Mountains",
     highlights: [
       "Completely private experience",
       "Flexible scheduling & timing",
@@ -121,7 +124,7 @@ const PackagesV3: React.FC = memo(() => {
               <div className="absolute inset-0 will-change-transform">
                 <Image
                   src={pkg.image}
-                  alt={pkg.name}
+                  alt={pkg.imageAlt}
                   fill
                   className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                   sizes="(max-width: 1024px) 100vw, 50vw"

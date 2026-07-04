@@ -81,7 +81,7 @@ const MeetTheChefV2: React.FC = memo(() => {
             <div className="relative h-[500px] lg:h-[700px] rounded-3xl overflow-hidden shadow-2xl">
               <Image
                 src={chefData.image}
-                alt={chefData.name}
+                alt="Rabab — Taghazout cooking class host and Berber cultural guide in Atlas Mountains Morocco"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"

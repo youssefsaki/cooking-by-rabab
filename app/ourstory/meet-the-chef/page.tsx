@@ -38,7 +38,7 @@ export default function MeetTheChefPage() {
             <div className="relative h-[932px] rounded-3xl overflow-hidden shadow-2xl border-2 border-amber-200">
               <Image
                 src="/our-story/meet-the-chef/meet-the-chef.jpg"
-                alt="Rabab - Traditional Moroccan Chef and Cooking Class Host in Taghazout Atlas Mountains"
+                alt="Rabab — Taghazout cooking class host and Berber cultural guide in Atlas Mountains Morocco"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
