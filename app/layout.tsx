@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Taghazout Cooking Class - Authentic Moroccan & Amazigh Cooking Experience',
-    description: 'Experience authentic Moroccan cooking in the Atlas Mountains above Taghazout. Half-day immersive cultural experience in a 300-year-old Berber village home.',
+    description: 'Book your Taghazout cooking class — half-day Berber village experience with pickup included. Learn tagine, clay oven bread & amlou in a 300-year-old Berber village home.',
     type: 'website',
     locale: 'en_US',
     url: siteConfig.site.url,
@@ -48,14 +48,14 @@ export const metadata: Metadata = {
         url: '/hero/desktop/bg.jpg',
         width: 1920,
         height: 1080,
-        alt: 'Authentic Moroccan cooking class in Taghazout Atlas Mountains',
+        alt: 'Taghazout cooking class — authentic Berber cooking experience in Atlas Mountains Morocco',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Taghazout Cooking Class - Authentic Moroccan Cooking Experience',
-    description: 'Learn traditional Amazigh tagine, bread baking & tea ceremony in a 300-year-old Berber village home above Taghazout.',
+    title: 'Taghazout Cooking Class — Authentic Moroccan Cooking Experience',
+    description: 'Book your Taghazout cooking class. Learn Amazigh tagine, clay oven bread & tea ceremony in the Atlas Mountains above Taghazout.',
     images: ['/hero/desktop/bg.jpg'],
   },
   robots: {
