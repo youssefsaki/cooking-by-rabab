@@ -515,5 +515,58 @@
     "loading": "Bewertungen werden geladen...",
     "unavailable": "Bewertungen sind vorübergehend nicht verfügbar.",
     "seeOnGoogle": "Unsere Bewertungen auf Google ansehen"
+  },
+  "thingsToDo": {
+    "badge": "Jenseits der Wellen",
+    "title": "Aktivitäten in Taghazout außer Surfen",
+    "description": "Taghazout ist berühmt für seine Wellen — aber es gibt so viel mehr. Von authentischen Berber-Kochkursen im Atlas bis zu wöchentlicher Amazigh-Musik, Lehmofenbrot und Dorf-Kulturerlebnissen — entdecken Sie das echte Marokko nur 15 Minuten oberhalb der Küste.",
+    "learnMore": "Mehr erfahren",
+    "ctaDescription": "Bereit für eine Pause vom Surfen? Begleiten Sie Rabab zum authentischsten Nicht-Surf-Erlebnis in Taghazout — ein halbtägiger Berber-Kochkurs mit Abholung inklusive.",
+    "bookCookingClass": "Taghazout Kochkurs Buchen",
+    "viewAllExperiences": "Alle Erlebnisse Anzeigen",
+    "activities": [
+      {
+        "id": "cooking-class",
+        "emoji": "👩‍🍳",
+        "title": "Marokkanischer Kochkurs Taghazout",
+        "description": "Buchen Sie ein halbtägiges Berberdorf-Kocherlebnis — Tajine, Lehmofenbrot, Amlou und Familienfest im Atlas.",
+        "imageAlt": "Marokkanischer Kochkurs Taghazout — Berberdorf-Erlebnis im Atlas-Gebirge"
+      },
+      {
+        "id": "tajine",
+        "emoji": "🍲",
+        "title": "Tajine-Meisterklasse Taghazout",
+        "description": "Lernen Sie die Geheimnisse des langsam gegarten marokkanischen Tajine mit aromatischen Gewürzen im traditionellen Tontopf.",
+        "imageAlt": "Tajine-Meisterklasse Taghazout — traditioneller marokkanischer Tajine-Kochkurs"
+      },
+      {
+        "id": "bread",
+        "emoji": "🫓",
+        "title": "Lehmofenbrot Taghazout",
+        "description": "Kneten Sie Teig von Hand und backen Sie authentisches Bergbrot in einem holzbefeuerten Lehmofen — alte Amazigh-Tradition.",
+        "imageAlt": "Lehmofenbrot Taghazout — Berber-Brotbacken am Holzfeuer Marokko"
+      },
+      {
+        "id": "music",
+        "emoji": "🎵",
+        "title": "Wöchentliches Amazigh-Musik-Event",
+        "description": "Jeden Donnerstag — traditionelle Ahwach-Aufführungen, Berber-Musiker und kulturelles Geschichtenerzählen im Atlas.",
+        "imageAlt": "Amazigh-Musik-Event Taghazout — Aktivitäten außer Surfen Marokko"
+      },
+      {
+        "id": "atlas",
+        "emoji": "🏔️",
+        "title": "Atlas-Tagesausflug ab Taghazout",
+        "description": "Malerische 15-minütige Fahrt durch Arganwälder zu einem traditionellen Berberdorf — Abholung an der Taghazout-Moschee inklusive.",
+        "imageAlt": "Atlas-Tagesausflug ab Taghazout — Berberdorf-Kocherlebnis"
+      },
+      {
+        "id": "rabab",
+        "emoji": "🤝",
+        "title": "Rabab Treffen — Kulturelle Begleiterin",
+        "description": "Besuchen Sie ein 300 Jahre altes Amazigh-Haus und lernen Sie jahrhundertealte Rezepte von einer lokalen Gastgeberin, die Dorffrauen unterstützt.",
+        "imageAlt": "Rabab Kochkurs Taghazout — authentische Berber-Kulturführerin Marokko"
+      }
+    ]
   }
 }

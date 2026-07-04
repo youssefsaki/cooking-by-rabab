@@ -515,5 +515,58 @@
     "loading": "Chargement des avis...",
     "unavailable": "Les avis sont temporairement indisponibles.",
     "seeOnGoogle": "Voir nos avis sur Google"
+  },
+  "thingsToDo": {
+    "badge": "Au-delà des Vagues",
+    "title": "Que Faire à Taghazout Outre le Surf",
+    "description": "Taghazout est célèbre pour ses vagues — mais il y a bien plus à découvrir. Des cours de cuisine berbère authentiques dans l'Atlas aux événements musicaux amazigh hebdomadaires, en passant par le pain au four à argile et les expériences culturelles en village, découvrez le vrai Maroc à 15 minutes au-dessus de la côte.",
+    "learnMore": "En savoir plus",
+    "ctaDescription": "Envie d'une pause entre deux sessions de surf ? Rejoignez Rabab pour l'activité non-surf la plus authentique de Taghazout — un cours de cuisine berbère d'une demi-journée avec prise en charge incluse.",
+    "bookCookingClass": "Réserver un Cours de Cuisine Taghazout",
+    "viewAllExperiences": "Voir Toutes les Expériences",
+    "activities": [
+      {
+        "id": "cooking-class",
+        "emoji": "👩‍🍳",
+        "title": "Cours de Cuisine Marocaine Taghazout",
+        "description": "Réservez une demi-journée d'expérience culinaire berbère — tajine, pain au four à argile, amlou et festin familial dans l'Atlas.",
+        "imageAlt": "Cours de cuisine marocaine Taghazout — expérience village berbère dans l'Atlas"
+      },
+      {
+        "id": "tajine",
+        "emoji": "🍲",
+        "title": "Masterclass Tajine Taghazout",
+        "description": "Apprenez les secrets du tajine marocain mijoté avec des épices aromatiques dans un pot en argile traditionnel.",
+        "imageAlt": "Masterclass tajine Taghazout — cours de cuisine tajine marocain traditionnel"
+      },
+      {
+        "id": "bread",
+        "emoji": "🫓",
+        "title": "Pain au Four à Argile Taghazout",
+        "description": "Pétrissez la pâte à la main et cuisez du pain de montagne authentique dans un four à argile au feu de bois.",
+        "imageAlt": "Pain au four à argile Taghazout — cuisson du pain berbère au feu de bois Maroc"
+      },
+      {
+        "id": "music",
+        "emoji": "🎵",
+        "title": "Événement Musical Amazigh Hebdomadaire",
+        "description": "Chaque jeudi — spectacles Ahwach traditionnels, musiciens berbères et récits culturels dans l'Atlas.",
+        "imageAlt": "Événement musical amazigh Taghazout — activités hors surf Maroc"
+      },
+      {
+        "id": "atlas",
+        "emoji": "🏔️",
+        "title": "Excursion Atlas depuis Taghazout",
+        "description": "Trajet panoramique de 15 minutes à travers les forêts d'arganiers vers un village berbère traditionnel — prise en charge incluse.",
+        "imageAlt": "Excursion Atlas depuis Taghazout — expérience culinaire village berbère"
+      },
+      {
+        "id": "rabab",
+        "emoji": "🤝",
+        "title": "Rencontrer Rabab — Guide Culturelle",
+        "description": "Visitez une maison amazigh de 300 ans et apprenez des recettes séculaires d'une hôte locale soutenant les femmes du village.",
+        "imageAlt": "Cours de cuisine Rabab Taghazout — guide culturelle berbère authentique Maroc"
+      }
+    ]
   }
 }

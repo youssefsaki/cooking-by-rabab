@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import Hero from '@/components/Hero';
 import HeroSection from '@/components/HeroSectionV3';
 import PackagesSection from '@/components/PackagesV3';
+import ThingsToDoSection from '@/components/ThingsToDoSection';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { getStaticHeroData, getStaticHeroSectionData } from '@/lib/static-data';
 
@@ -52,6 +53,10 @@ export default function HomePage() {
         <section id="supporting-children">
           <SupportingChildren />
         </section>
+      </ErrorBoundary>
+
+      <ErrorBoundary name="ThingsToDo">
+        <ThingsToDoSection />
       </ErrorBoundary>
 
       <ErrorBoundary name="GoogleReviews">

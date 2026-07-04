@@ -8,6 +8,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 const Hero: React.FC<HeroProps> = ({ heroData }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
+  const heroImageAlt = heroData.backgroundImage.alt;
 
   useEffect(() => {
     let active = true;
@@ -55,7 +56,7 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
       {/* Background Image - Desktop */}
       <Image
         src="/hero/desktop/bg.jpg"
-        alt="Taghazout cooking class — authentic Berber cooking experience in Atlas Mountains Morocco"
+        alt={heroImageAlt}
         fill
         priority
         quality={75}
@@ -70,7 +71,7 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
       {/* Background Image - Mobile */}
       <Image
         src="/hero/mobile/bg.jpg"
-        alt="Taghazout cooking class — authentic Berber cooking experience in Atlas Mountains Morocco"
+        alt={heroImageAlt}
         fill
         priority
         quality={60}

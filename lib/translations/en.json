@@ -515,5 +515,58 @@
     "loading": "Loading reviews...",
     "unavailable": "Reviews are temporarily unavailable.",
     "seeOnGoogle": "See our reviews on Google"
+  },
+  "thingsToDo": {
+    "badge": "Beyond the Waves",
+    "title": "Things to Do in Taghazout Besides Surfing",
+    "description": "Taghazout is famous for its waves — but there is so much more. From authentic Berber cooking classes in the Atlas Mountains to weekly Amazigh music, clay oven bread making, and village cultural experiences, discover the real Morocco just 15 minutes above the coast.",
+    "learnMore": "Learn more",
+    "ctaDescription": "Ready for a break from the surf? Join Rabab for the most authentic non-surf activity in Taghazout — a half-day Berber cooking class with pickup included.",
+    "bookCookingClass": "Book Taghazout Cooking Class",
+    "viewAllExperiences": "View All Experiences",
+    "activities": [
+      {
+        "id": "cooking-class",
+        "emoji": "👩‍🍳",
+        "title": "Moroccan Cooking Class Taghazout",
+        "description": "Book a half-day Berber village cooking experience — tagine, clay oven bread, amlou, and a family feast in the Atlas Mountains.",
+        "imageAlt": "Moroccan cooking class Taghazout — Berber village experience in Atlas Mountains"
+      },
+      {
+        "id": "tajine",
+        "emoji": "🍲",
+        "title": "Tajine Masterclass Taghazout",
+        "description": "Learn the secrets of slow-cooked Moroccan tagine with aromatic spices in a traditional clay pot — Morocco's most iconic dish.",
+        "imageAlt": "Tajine masterclass Taghazout — traditional Moroccan tagine cooking class"
+      },
+      {
+        "id": "bread",
+        "emoji": "🫓",
+        "title": "Clay Oven Bread Making Taghazout",
+        "description": "Knead dough by hand and bake authentic mountain bread in a wood-fired clay oven — an ancient Amazigh tradition.",
+        "imageAlt": "Clay oven bread making Taghazout — wood-fired Berber bread baking Morocco"
+      },
+      {
+        "id": "music",
+        "emoji": "🎵",
+        "title": "Weekly Amazigh Music Event",
+        "description": "Every Thursday — experience traditional Ahwach performances, Berber musicians, and cultural storytelling in the Atlas Mountains.",
+        "imageAlt": "Amazigh music event Taghazout — things to do besides surfing Morocco"
+      },
+      {
+        "id": "atlas",
+        "emoji": "🏔️",
+        "title": "Atlas Mountains Day Trip from Taghazout",
+        "description": "Scenic 15-minute drive through argan forests to a traditional Berber village — pickup from Taghazout Mosque included.",
+        "imageAlt": "Atlas Mountains day trip from Taghazout — Berber village cooking experience"
+      },
+      {
+        "id": "rabab",
+        "emoji": "🤝",
+        "title": "Meet Rabab — Cultural Guide",
+        "description": "Visit a 300-year-old Amazigh house and learn centuries-old recipes from a local host supporting village women.",
+        "imageAlt": "Rabab cooking class Taghazout — authentic Berber cultural guide Morocco"
+      }
+    ]
   }
 }
