@@ -94,9 +94,9 @@ export default function ExperiencesPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-4 leading-tight">
-              {t.experiences.title.split(' ').slice(0, 1).join(' ')}{' '}
+              {t.experiences.title}{' '}
               <span className="bg-gradient-to-r from-orange-600 via-amber-600 to-orange-500 bg-clip-text text-transparent">
-                {t.experiences.title.split(' ').slice(1).join(' ')}
+                {t.experiences.titleHighlight}
               </span>
             </h1>
             

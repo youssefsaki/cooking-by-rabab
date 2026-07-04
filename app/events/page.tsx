@@ -45,6 +45,9 @@ export default function EventsPage() {
                   <br />
                   {t.events.title3}
                 </h1>
+                <p className="text-sm sm:text-base font-semibold text-white/95 leading-relaxed max-w-lg mb-3">
+                  {t.events.seoSubtitle}
+                </p>
                 <p className="text-base text-white/90 leading-relaxed max-w-lg">
                   {t.events.description}
                 </p>

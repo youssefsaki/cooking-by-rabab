@@ -18,8 +18,8 @@
   },
   "packages": {
     "badge": "CHOISISSEZ VOTRE EXPÉRIENCE",
-    "title": "Forfaits de Cours de Cuisine",
-    "description": "Plongez dans la culture amazigh authentique avec nos expériences culinaires de montagne",
+    "title": "Forfaits Cours de Cuisine Taghazout",
+    "description": "Choisissez votre expérience culinaire traditionnelle à Taghazout — demi-journée dans un village berbère des Atlas, à 15 minutes de la côte.",
     "mostPopular": "Le Plus Populaire",
     "basic": {
       "title": "Forfait de Base",
@@ -42,43 +42,44 @@
     "bookNow": "Réserver"
   },
   "experiences": {
-    "title": "Découvrez le Maroc Authentique",
-    "description": "Cinq expériences culinaires uniques, chacune racontant une histoire de la culture marocaine, de la tradition et de la chaleur de l'hospitalité berbère.",
+    "title": "Expériences Culinaires",
+    "titleHighlight": "Marocaines à Taghazout",
+    "description": "Cinq expériences culinaires marocaines à Taghazout — du Masterclass Tajine au pain au four à argile, en passant par l'atelier Amlou et l'immersion berbère.",
     "bookExperience": "Réserver une Expérience",
     "ctaTitle": "Prêt à Commencer Votre",
     "ctaTitleHighlight": "Voyage Culinaire ?",
     "ctaDescription": "Réservez dès aujourd'hui votre expérience de cuisine marocaine authentique et créez des souvenirs inoubliables dans les montagnes de l'Atlas.",
     "viewPackages": "Voir les Forfaits",
     "tajine": {
-      "title": "Masterclass Tajine",
+      "title": "Masterclass Tajine Taghazout",
       "subtitle": "Le Plat Emblématique du Maroc",
       "description": "Maîtrisez l'art du plat le plus emblématique du Maroc dans ce cours complet.",
       "longDescription": "Maîtrisez l'art du plat le plus emblématique du Maroc dans ce cours complet. Apprenez à préparer des tajines mijotés avec des épices aromatiques, des viandes tendres et des légumes dans des plats en argile traditionnels, en atteignant l'équilibre parfait de saveurs qui a rendu le tajine marocain célèbre dans le monde entier.",
       "highlights": ["Techniques de cuisson en pot d'argile", "Superposition et mélange d'épices", "Tajines de viande et de légumes", "Préparation des citrons confits", "Méthodes de service traditionnelles"]
     },
     "amazigh": {
-      "title": "Héritage Amazigh",
+      "title": "Expérience Culinaire Village Berbère",
       "subtitle": "Traditions Berbères Anciennes",
       "description": "Plongez dans la culture amazigh authentique et les traditions culinaires.",
       "longDescription": "Plongez dans la culture amazigh authentique et les traditions culinaires. Apprenez les méthodes de cuisson ancestrales, les recettes traditionnelles et les riches histoires culturelles derrière la cuisine amazigh transmises de génération en génération dans les montagnes de l'Atlas.",
       "highlights": ["Méthodes de cuisson traditionnelles", "Récits culturels", "Recettes berbères authentiques", "Histoire et coutumes amazigh", "Repas en famille"]
     },
     "tea": {
-      "title": "Cérémonie du Thé",
+      "title": "Cérémonie du Thé à la Menthe Marocaine",
       "subtitle": "L'Art du Thé à la Menthe Marocain",
       "description": "Découvrez l'élégance de la cérémonie du thé marocain traditionnel.",
       "longDescription": "Découvrez l'élégance de la cérémonie du thé marocain traditionnel. Apprenez les techniques appropriées pour préparer un thé à la menthe parfait, maîtrisez la méthode emblématique du versement en hauteur et comprenez la signification culturelle du thé dans l'hospitalité marocaine.",
       "highlights": ["Sélection et qualité du thé", "Maîtrise de la technique du versement en hauteur", "Préparation de la menthe fraîche", "Signification culturelle", "Verrerie traditionnelle"]
     },
     "bread": {
-      "title": "Pain au Four en Argile",
+      "title": "Pain au Four à Argile Taghazout",
       "subtitle": "Tradition au Feu de Bois",
       "description": "Découvrez l'art ancien de la cuisson du pain marocain traditionnel.",
       "longDescription": "Découvrez l'art ancien de la cuisson du pain marocain traditionnel dans un four en argile au feu de bois. Du pétrissage de la pâte à la main jusqu'à l'obtention d'une croûte dorée parfaite, apprenez les techniques authentiques de fabrication du pain amazigh restées inchangées depuis des siècles.",
       "highlights": ["Préparation de la pâte de A à Z", "Techniques de pétrissage à la main", "Cuisson au four en argile", "Variétés de pain multiples", "Gestion du feu de bois"]
     },
     "amlou": {
-      "title": "Atelier Amlou",
+      "title": "Atelier Amlou Maroc",
       "subtitle": "L'Or Liquide du Maroc",
       "description": "Découvrez les secrets de la fabrication de l'amlou marocain traditionnel.",
       "longDescription": "Découvrez les secrets de la fabrication de l'amlou marocain traditionnel — un délicieux mélange d'huile d'argan, d'amandes grillées et de miel. Apprenez les techniques de broyage traditionnelles à l'aide de meules ancestrales et obtenez la consistance parfaite pour cette pâte à tartiner berbère tant appréciée.",
@@ -86,8 +87,8 @@
     }
   },
   "booking": {
-    "title": "Commencez Votre Voyage Culinaire",
-    "description": "Remplissez le formulaire ci-dessous et nous vous contacterons pour confirmer votre réservation.",
+    "title": "Réserver Votre Cours de Cuisine Taghazout",
+    "description": "Réservez un cours de cuisine près de Taghazout — remplissez le formulaire et nous confirmerons votre expérience dans les 24 heures.",
     "fullName": "Nom Complet",
     "fullNamePlaceholder": "Entrez votre nom complet",
     "phone": "Numéro de Téléphone",
@@ -152,8 +153,8 @@
   "heroSection": {
     "rating": "invités",
     "learnToCook": "Apprenez à cuisiner Amazigh",
-    "learnToCookPart1": "Apprenez à cuisiner",
-    "learnToCookPart2": "Amazigh",
+    "learnToCookPart1": "Cours de Cuisine Marocaine",
+    "learnToCookPart2": "à Taghazout",
     "description": "Allez au-delà des restaurants et apprenez à cuisiner comme un local. Notre cours de cuisine berbère authentique vous emmène dans une maison de village traditionnelle à seulement 15 minutes au-dessus de la côte de Taghazout. Vous maîtriserez l'art du tajine en pot d'argile, apprendrez à cuire le pain traditionnel de montagne et découvrirez les mélanges d'épices secrets des montagnes de l'Atlas. Cette expérience immersive d'une demi-journée est le moyen idéal pour découvrir la culture amazigh et berbère à travers ses saveurs les plus célèbres.",
     "bookClass": "RÉSERVEZ VOTRE COURS",
     "duration": "DURÉE",
@@ -173,8 +174,8 @@
   },
   "experience": {
     "title": "LE VOYAGE",
-    "subtitle": "Une Expérience Marocaine Immersive",
-    "description": "Vivez un séjour marocain authentique dans un atelier traditionnel conçu pour vous faire vivre exactement comme un local.",
+    "subtitle": "Expérience Culinaire Traditionnelle à Taghazout",
+    "description": "Vivez un voyage culinaire authentique dans un village berbère — prise en charge à Taghazout, tajine et pain faits main, et festin familial dans l'Atlas.",
     "step1": {
       "title": "Prise en Charge & Voyage",
       "subtitle": "Votre Aventure Commence",
@@ -225,8 +226,8 @@
   "location": {
     "badge": "VENEZ NOUS RENDRE VISITE",
     "title": "Votre Voyage vers la Cuisine de Rabab",
-    "titlePart1": "Votre Voyage vers ",
-    "titlePart2": "la Cuisine de Rabab",
+    "titlePart1": "Cuisine Village Berbère — ",
+    "titlePart2": "Atlas au-dessus de Taghazout",
     "description": "Dès votre arrivée, nous prenons tout en charge. Voici à quoi ressemble votre voyage.",
     "journeyTitle": "Votre Voyage",
     "getDirections": "Itinéraire",
@@ -253,11 +254,12 @@
     ]
   },
   "events": {
-    "badge": "Événement Culturel Hebdomadaire",
+    "badge": "Que Faire à Taghazout Outre le Surf",
+    "seoSubtitle": "Événement Musical Amazigh Hebdomadaire — Chaque Jeudi au-dessus de Taghazout",
     "title1": "VIVEZ LA",
     "title2": "Amazigh",
     "title3": "MUSIQUE",
-    "description": "Plongez dans le riche patrimoine musical de la région Souss-Massa. Assistez à des spectacles traditionnels Ahwach, des récits culturels et de la musique amazigh authentique chaque jeudi soir.",
+    "description": "Vous cherchez que faire à Taghazout outre le surf ? Rejoignez notre événement musical et culturel amazigh chaque jeudi dans l'Atlas — spectacles Ahwach, musiciens berbères, récits et thé à la menthe.",
     "everyThursday": "Chaque Jeudi",
     "time": "17:00 - 18:00",
     "atlasLocation": "Montagnes de l'Atlas",
@@ -289,9 +291,9 @@
   },
   "packagesPage": {
     "badge": "Expériences Authentiques",
-    "title": "Cours de Cuisine",
+    "title": "Cours de Cuisine Taghazout",
     "titleHighlight": "Forfaits",
-    "description": "Plongez dans la culture berbère authentique. Vivez la vie de village traditionnelle et un voyage culinaire ancestral. Situé à seulement 15 min de la côte de Taghazout.",
+    "description": "Choisissez votre expérience culinaire traditionnelle à Taghazout — demi-journée dans un village berbère avec prise en charge à la Mosquée de Taghazout. Base 60€, Événement Hebdo 80€, Privé 100€.",
     "mostPopular": "Le Plus Populaire",
     "perPerson": "par personne",
     "viewFullDetails": "Voir Tous les Détails",
@@ -393,8 +395,8 @@
   "ourStory": {
     "meetTheChef": {
       "badge": "Rencontrez Rabab",
-      "title": "Votre Hôte &",
-      "titleHighlight": "Guide Culturelle",
+      "title": "Rabab — Taghazout",
+      "titleHighlight": "Hôte du Cours de Cuisine",
       "hello": "Bonjour, je suis Rabab",
       "paragraph1": "Je m'appelle Rabab, je suis née et j'ai grandi dans les montagnes de l'Atlas. Diplômée en Gestion des Entreprises, j'ai décidé en 2024 de lancer mon propre projet : un cours de cuisine authentique et une expérience culturelle.",
       "paragraph2": "En tant que femme amazigh, ma mission est de partager ma culture avec le monde et les voyageurs qui viennent dans la région de Taghazout.",
@@ -408,14 +410,14 @@
       "viewPackages": "Voir les Forfaits"
     },
     "kitchen": {
-      "heroTitle": "Notre Cuisine",
-      "heroSubtitle": "Où 10 000 Ans de Tradition Prennent Vie",
+      "heroTitle": "Cuisine Berbère Traditionnelle",
+      "heroSubtitle": "Pain au Four à Argile & Cuisson au Feu de Bois dans l'Atlas",
       "badge": "Authentique & Traditionnel",
       "introTitle": "Une Cuisine Enracinée dans le",
       "introTitleHighlight": "Patrimoine",
       "introP1": "Entrez dans une cuisine amazigh authentique où les traditions ancestrales rencontrent la chaleur de l'hospitalité marocaine. Chaque outil, chaque technique et chaque recette raconte une histoire transmise de génération en génération.",
       "introP2": "Notre cuisine est équipée de fours à bois traditionnels, de tajines artisanaux et des mêmes outils utilisés depuis des milliers d'années. Ce n'est pas un studio de cuisine moderne — c'est ici que naît la vraie cuisine marocaine.",
-      "featuresTitle": "Outils & Techniques Traditionnels",
+      "featuresTitle": "Pain au Four à Argile & Outils Berbères Traditionnels",
       "featuresSubtitle": "Découvrez la cuisine telle qu'elle se pratique depuis des millénaires",
       "features": [
         { "title": "Four à Bois", "description": "Four en argile traditionnel pour la cuisson du pain marocain authentique et des tajines" },
@@ -434,8 +436,8 @@
       "viewPackages": "Voir les Forfaits"
     },
     "location": {
-      "heroTitle": "Notre Emplacement",
-      "heroSubtitle": "À 15 Minutes au-dessus de Taghazout dans les Montagnes de l'Atlas",
+      "heroTitle": "Expérience Culinaire Village Berbère",
+      "heroSubtitle": "Atlas — 15 Minutes au-dessus de Taghazout",
       "badge": "Montagnes de l'Atlas",
       "introTitle": "Niché au",
       "introTitleHighlight": "Cœur de la Nature",
@@ -471,13 +473,13 @@
   "faqContact": {
     "backToHome": "Retour à l'Accueil",
     "badge": "AIDE & SUPPORT",
-    "title": "FAQ &",
-    "titleHighlight": "Contact",
-    "subtitle": "Trouvez les réponses aux questions fréquentes ou contactez notre équipe d'assistance",
+    "title": "Cours de Cuisine Taghazout",
+    "titleHighlight": "FAQ & Contact",
+    "subtitle": "Réponses sur la réservation de votre cours de cuisine marocain à Taghazout — tarifs, prise en charge depuis Agadir, options végétariennes et activités hors surf.",
     "support247": "Support 24h/24",
     "quickResponse": "Réponse Rapide",
     "friendlyTeam": "Équipe Amicale",
-    "faqTitle": "Questions Fréquemment Posées",
+    "faqTitle": "Cours de Cuisine Taghazout — Questions Fréquentes",
     "noFaqs": "Aucune FAQ disponible pour cette catégorie."
   },
   "notFound": {

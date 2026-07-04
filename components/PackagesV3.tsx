@@ -97,7 +97,7 @@ const PackagesV3: React.FC = memo(() => {
           </h2>
           
           <p className="text-sm sm:text-base lg:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
-            Immerse yourself in authentic Berber culture. Experience traditional village life and an ancestral cooking journey. Located just 15 mins from the Taghazout coast.
+            {t.packages.description}
           </p>
         </div>
 
