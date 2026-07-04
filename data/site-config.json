@@ -1,16 +1,30 @@
 {
   "site": {
-    "name": "Rabab's Cooking Class",
+    "name": "Taghazout Cooking Class",
     "tagline": "Authentic Amazigh Cuisine",
-    "description": "Experience traditional Moroccan cooking with Rabab in Tamraght. Learn to make authentic tagines, fresh bread, and discover the rich flavors of Amazigh cuisine passed down through generations.",
-    "location": "Tamraght, Morocco",
+    "description": "Book your Taghazout cooking class — an authentic Berber village cooking experience in the Atlas Mountains. Learn tagine, clay oven bread, and amlou with Rabab. Pickup from Taghazout included.",
+    "location": "Taghazout, Morocco",
     "url": "https://www.taghazout-cooking-class.com"
   },
   "metadata": {
-    "title": "Rabab's Cooking Class - Authentic Moroccan Cooking Experience",
-    "description": "Experience traditional Moroccan cooking with Rabab in Tamraght. Learn to make authentic tagines, fresh bread, and discover the rich flavors of Amazigh cuisine passed down through generations.",
-    "keywords": ["moroccan cooking class", "tagine cooking", "amazigh cuisine", "berber cooking", "tamraght", "morocco cooking experience", "traditional moroccan food", "cooking workshop morocco"],
-    "author": "Rabab's Cooking Class",
+    "title": "Taghazout Cooking Class - Authentic Moroccan & Amazigh Cooking Experience",
+    "description": "Book your Taghazout cooking class — half-day Berber village experience with pickup included. Learn traditional tagine, clay oven bread, and amlou in the Atlas Mountains above Taghazout.",
+    "keywords": [
+      "taghazout cooking class",
+      "moroccan cooking class taghazout",
+      "authentic berber cooking class morocco",
+      "traditional cooking experience taghazout",
+      "book cooking class near taghazout",
+      "cooking class agadir",
+      "cooking class tamraght",
+      "berber village cooking experience",
+      "tajine masterclass taghazout",
+      "clay oven bread making taghazout",
+      "amlou workshop morocco",
+      "amazigh cuisine",
+      "atlas mountains cooking class"
+    ],
+    "author": "Rabab - Taghazout Cooking Class",
     "language": "en",
     "locale": "en_US"
   },
@@ -22,9 +36,9 @@
     "primary-light": "#fbbf24"
   },
   "contact": {
-    "email": "rabab@rababscooking.com",
-    "phone": "+212 661 736 563",
-    "whatsapp": "212661736563",
-    "address": "Tamraght, Morocco"
+    "email": "rababouhadda5@gmail.com",
+    "phone": "+212 726 671 746",
+    "whatsapp": "212726671746",
+    "address": "Taghazout, Morocco"
   }
 }

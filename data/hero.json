@@ -1,15 +1,15 @@
 {
   "subheading": "TRADITIONAL AMAZIGH CUISINE",
-  "heading": "AUTHENTIC MOROCCAN COOKING",
-  "description": "Join Rabab in her traditional home and discover the secrets of authentic Amazigh cuisine. From handmade bread to aromatic tagines, experience cooking the way it's been done for generations.",
+  "heading": "TAGHAZOUT COOKING CLASS",
+  "description": "Book a traditional cooking experience in Taghazout. Join Rabab in her Berber village home in the Atlas Mountains and discover authentic Amazigh cuisine — from clay oven bread to aromatic tagines.",
   "backgroundImage": {
     "url": "/gallery/cooking-class.jpg",
-    "alt": "Traditional Moroccan cooking experience"
+    "alt": "Taghazout cooking class — authentic Berber cooking experience in Atlas Mountains Morocco"
   },
   "ctaButtons": [
     {
       "text": "BOOK YOUR EXPERIENCE",
-      "href": "https://wa.me/212661736563",
+      "href": "/book",
       "variant": "primary",
       "priority": true
     }

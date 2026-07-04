@@ -1,26 +1,20 @@
 {
   "phone": {
-    "number": "+212 6 12 34 56 78",
+    "number": "+212 726 671 746",
     "availability": "Available 24/7"
   },
   "email": {
-    "address": "hello@playasurfhouse.com",
-    "responseTime": "Response within 2 hours"
+    "address": "rababouhadda5@gmail.com",
+    "responseTime": "Response within 24 hours"
   },
   "whatsapp": {
-    "number": "+212 6 98 76 54 32",
+    "number": "+212 726 671 746",
     "note": "Instant messaging"
   },
   "officeHours": {
-    "weekdays": "9:00 AM - 6:00 PM",
-    "saturday": "10:00 AM - 4:00 PM",
-    "sunday": "Emergency Only"
+    "weekdays": "9:00 AM - 8:00 PM",
+    "saturday": "9:00 AM - 8:00 PM",
+    "sunday": "9:00 AM - 8:00 PM"
   },
-  "emergencyNote": "Emergency support available 24/7 via phone"
+  "emergencyNote": "WhatsApp support available 24/7"
 }
-
-
-
-
-
-

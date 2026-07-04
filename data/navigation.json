@@ -1,11 +1,11 @@
 {
   "logo": {
-    "text": "PLAYA",
-    "subtext": "SURF HOUSE",
+    "text": "TAGHAZOUT",
+    "subtext": "COOKING CLASS",
     "href": "/",
     "image": {
       "src": "/rabab-logo.png",
-      "alt": "Playa Surf House Logo",
+      "alt": "Taghazout Cooking Class - Rabab's Authentic Moroccan Cooking",
       "width": 240,
       "height": 100
     }
@@ -55,13 +55,13 @@
   "socialLinks": [
     {
       "platform": "instagram",
-      "url": "#",
+      "url": "https://www.instagram.com/taghazout_cooking_class/",
       "icon": "Instagram",
       "ariaLabel": "Visit our Instagram page"
     },
     {
       "platform": "tiktok",
-      "url": "#",
+      "url": "https://www.tiktok.com/@rabab_cooking_class",
       "icon": "TikTok",
       "ariaLabel": "Visit our TikTok page"
     },

@@ -25,10 +25,10 @@ export interface PagesConfig {
   /** Individual page configurations */
   pages: {
     home: PageConfig;
-    rooms: PageConfig;
     packages: PageConfig;
-    activities: PageConfig;
-    team: PageConfig;
+    experiences: PageConfig;
+    book: PageConfig;
+    events: PageConfig;
     contact: PageConfig;
   };
 }

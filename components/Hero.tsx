@@ -55,7 +55,7 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
       {/* Background Image - Desktop */}
       <Image
         src="/hero/desktop/bg.jpg"
-        alt="Moroccan Cooking Class"
+        alt="Taghazout cooking class — authentic Berber cooking experience in Atlas Mountains Morocco"
         fill
         priority
         quality={75}
@@ -70,7 +70,7 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
       {/* Background Image - Mobile */}
       <Image
         src="/hero/mobile/bg.jpg"
-        alt="Moroccan Cooking Class"
+        alt="Taghazout cooking class — authentic Berber cooking experience in Atlas Mountains Morocco"
         fill
         priority
         quality={60}

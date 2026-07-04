@@ -1,69 +1,53 @@
 {
-  "categories": ["All", "Booking", "Packages", "Payment", "Cancellation"],
+  "categories": ["All", "Booking", "Packages", "Experience", "Getting Here"],
   "faqs": [
     {
       "id": "faq-1",
-      "question": "How do I book a package?",
-      "answer": "Booking a package is simple! Navigate to our 'Packages' page, select your desired experience, and follow the prompts to customize your trip. Our secure booking system will guide you through the payment process.",
+      "question": "How do I book a cooking class near Taghazout?",
+      "answer": "Booking is easy! Visit our Book page, choose your package (Basic, Weekly Event, or Private), fill in your details, and submit. We will contact you within 24 hours to confirm. You can also message us directly on WhatsApp at +212 726 671 746.",
       "category": "Booking"
     },
     {
       "id": "faq-2",
-      "question": "What's included in the packages?",
-      "answer": "Our packages typically include accommodation, daily meals, specific activity lessons (surf, skate, yoga), and often additional excursions or cultural experiences. Please refer to the individual package details for a comprehensive list of inclusions.",
+      "question": "How much does a Moroccan cooking class in Taghazout cost?",
+      "answer": "Our Basic Package is €60 per person (500 MAD), our Weekly Event is €80, and our Private Package is €100 per person (800 MAD). All packages include pickup from Taghazout, hands-on cooking, a family-style feast, and return transport.",
       "category": "Packages"
     },
     {
       "id": "faq-3",
-      "question": "Can I cancel my booking?",
-      "answer": "Yes, you can cancel your booking. Our cancellation policy varies depending on the package and the timing of your request. Please review the terms and conditions provided at the time of booking or contact our support team for assistance.",
-      "category": "Cancellation"
+      "question": "What is included in the cooking class packages?",
+      "answer": "Every package includes pickup from Taghazout Mosque, a scenic drive to our Berber village in the Atlas Mountains, a tour of our 300-year-old Amazigh house, mint tea ceremony, bread baking in a clay oven, tagine cooking workshop, amlou making, a family-style feast with sunset views, and return transport to Taghazout or Tamraght.",
+      "category": "Packages"
     },
     {
       "id": "faq-4",
-      "question": "What payment methods do you accept?",
-      "answer": "We accept a variety of payment methods including major credit cards (Visa, MasterCard, American Express), PayPal, and bank transfers. All transactions are processed securely to ensure your financial safety.",
-      "category": "Payment"
+      "question": "Is there a cooking class near Agadir with pickup included?",
+      "answer": "Yes! We pick up guests from Taghazout Mosque (15 minutes from Agadir). Our Private Package includes flexible hotel pickup from Taghazout, Tamraght, or nearby areas. The scenic mountain drive takes about 15–20 minutes from the coast.",
+      "category": "Getting Here"
     },
     {
       "id": "faq-5",
-      "question": "Do I need experience for the activities?",
-      "answer": "Many of our activities are suitable for all skill levels, from complete beginners to advanced participants. Specific experience requirements will be clearly stated in each package description. Our instructors are trained to cater to diverse abilities.",
-      "category": "Packages"
+      "question": "Do I need cooking experience to join the class?",
+      "answer": "No experience needed! Our Taghazout cooking class is designed for all skill levels — from complete beginners to experienced home cooks. Rabab guides you step by step through every technique, from kneading bread dough to layering spices in a traditional tagine.",
+      "category": "Experience"
     },
     {
       "id": "faq-6",
-      "question": "What should I bring?",
-      "answer": "We recommend bringing comfortable clothing, swimwear, sunscreen, a hat, and any personal toiletries. For specific activities like surfing or yoga, additional gear might be suggested, which will be detailed in your booking confirmation.",
-      "category": "Packages"
+      "question": "Do you offer vegetarian or vegan Moroccan cooking classes?",
+      "answer": "Yes! We accommodate vegetarian and vegan dietary preferences. When booking, select your dietary preference and note any allergies. Our tagine workshop can be prepared with fresh vegetables, and amlou is naturally vegetarian.",
+      "category": "Experience"
     },
     {
       "id": "faq-7",
-      "question": "Are meals included?",
-      "answer": "Most of our packages include daily breakfast and dinner, with some also featuring special meals like a BBQ night. Lunch options may vary. Please check your specific package details for full meal inclusions.",
-      "category": "Packages"
+      "question": "How far is the Berber village cooking experience from Taghazout?",
+      "answer": "Our traditional Amazigh home is just 15–20 minutes above Taghazout in the Atlas Mountains. The scenic drive through argan forests offers stunning ocean views from above. Return transport is included in all packages.",
+      "category": "Getting Here"
     },
     {
       "id": "faq-8",
-      "question": "How do I get to the location?",
-      "answer": "We offer airport transfers from Agadir Airport directly to our location. Detailed directions and transportation options will be provided in your booking confirmation email. Public transport and taxi services are also available.",
-      "category": "Booking"
+      "question": "What can I do in Taghazout besides surfing?",
+      "answer": "Taghazout has much more to offer beyond the waves! Join our authentic Berber cooking class in the Atlas Mountains, experience traditional Amazigh music every Thursday, explore argan cooperatives, visit Paradise Valley, or enjoy a mint tea ceremony in a 300-year-old village home.",
+      "category": "Experience"
     }
   ]
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

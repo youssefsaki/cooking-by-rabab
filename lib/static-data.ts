@@ -101,8 +101,13 @@ export function getPageMeta(slug: string) {
       return pages.home.meta;
     case '/packages':
       return pages.packages.meta;
-    case '/activities':
-      return pages.activities.meta;
+    case '/experiences':
+      return pages.experiences.meta;
+    case '/book':
+      return pages.book.meta;
+    case '/events':
+      return pages.events.meta;
+    case '/faq-contact':
     case '/contact':
       return pages.contact.meta;
     default:

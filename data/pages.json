@@ -4,59 +4,49 @@
       "title": "Home",
       "slug": "/",
       "meta": {
-        "title": "Playa Surf House - Surf & Skate in Morocco",
-        "description": "Centrally located in Tamraght we welcome you in our beautiful house with a rooftop terrace overlooking Taghazout Bay."
-      }
-    },
-    "rooms": {
-      "title": "House & Rooms",
-      "slug": "/rooms",
-      "meta": {
-        "title": "House & Rooms - Playa Surf House",
-        "description": "Discover our beautiful house with a rooftop terrace overlooking Taghazout Bay."
+        "title": "Taghazout Cooking Class - Authentic Moroccan & Amazigh Cooking Experience",
+        "description": "Book your Taghazout cooking class — half-day Berber village experience with pickup included. Learn tagine, clay oven bread, and amlou in the Atlas Mountains."
       }
     },
     "packages": {
       "title": "Packages",
       "slug": "/packages",
       "meta": {
-        "title": "Surf & Skate Packages - Playa Surf House",
-        "description": "Choose from our variety of surf and skate packages in Tamraght, Morocco."
+        "title": "Cooking Class Packages - Taghazout Cooking Class",
+        "description": "Choose from Basic (€60), Weekly Event (€80), or Private (€100) Moroccan cooking class packages in Taghazout. Half-day immersive Berber experience with pickup included."
       }
     },
-    "activities": {
-      "title": "Activities",
-      "slug": "/activities",
+    "experiences": {
+      "title": "Experiences",
+      "slug": "/experiences",
       "meta": {
-        "title": "Activities - Playa Surf House",
-        "description": "Experience surf sessions, skate sessions, rooftop parties, and more in Morocco."
+        "title": "Moroccan Cooking Experiences - Tajine, Bread, Tea & Amlou",
+        "description": "Discover 5 unique cooking experiences in Taghazout: Tajine Masterclass, Amazigh Heritage, Tea Ceremony, Clay Oven Bread, and Amlou Workshop."
       }
     },
-    "team": {
-      "title": "Our Team",
-      "slug": "/team",
+    "book": {
+      "title": "Book",
+      "slug": "/book",
       "meta": {
-        "title": "Our Team - Playa Surf House",
-        "description": "Meet our experienced team of surf and skate instructors in Tamraght."
+        "title": "Book Taghazout Cooking Class",
+        "description": "Book cooking class near Taghazout online. Pickup from Taghazout Mosque included. Basic, Private, and Weekly Event packages available."
+      }
+    },
+    "events": {
+      "title": "Events",
+      "slug": "/events",
+      "meta": {
+        "title": "Weekly Amazigh Music Event - Taghazout Cooking Class",
+        "description": "Join our weekly Amazigh music and cultural event every Thursday in the Atlas Mountains above Taghazout."
       }
     },
     "contact": {
       "title": "FAQ & Contact",
-      "slug": "/contact",
+      "slug": "/faq-contact",
       "meta": {
-        "title": "Contact Us - Playa Surf House",
-        "description": "Get in touch with us for bookings and questions about your stay in Tamraght."
+        "title": "FAQ & Contact - Taghazout Cooking Class",
+        "description": "Frequently asked questions about our Moroccan cooking classes in Taghazout. Contact us via WhatsApp, email, or phone."
       }
     }
   }
 }
-
-
-
-
-
-
-
-
-
-

@@ -1,68 +1,68 @@
 {
   "logo": {
     "src": "/rabab-logo.png",
-    "alt": "Playa Surf House Logo",
+    "alt": "Taghazout Cooking Class - Rabab's Authentic Moroccan Cooking",
     "width": 200,
     "height": 80
   },
   "sections": [
     {
-      "title": "ACCOMMODATION",
+      "title": "EXPERIENCES",
       "links": [
         {
-          "id": "private-rooms",
-          "label": "Private Rooms",
-          "href": "/rooms#private"
+          "id": "tajine",
+          "label": "Tajine Masterclass",
+          "href": "/experiences#tajine-masterclass"
         },
         {
-          "id": "shared-dorms",
-          "label": "Shared Dorms",
-          "href": "/rooms#dorms"
+          "id": "bread",
+          "label": "Clay Oven Bread",
+          "href": "/experiences#clay-oven-bread"
         },
         {
-          "id": "pricing",
-          "label": "Pricing",
-          "href": "/rooms#pricing"
+          "id": "amlou",
+          "label": "Amlou Workshop",
+          "href": "/experiences#amlou-workshop"
         }
       ]
     },
     {
-      "title": "SERVICES",
+      "title": "PACKAGES",
       "links": [
         {
-          "id": "surf-packages",
-          "label": "Surf Packages",
-          "href": "/packages#surf"
+          "id": "basic",
+          "label": "Basic Package",
+          "href": "/packages#basic"
         },
         {
-          "id": "activities",
-          "label": "Activities",
-          "href": "/activities"
+          "id": "private",
+          "label": "Private Package",
+          "href": "/packages#private"
         },
         {
-          "id": "transport",
-          "label": "Airport Transfer",
-          "href": "/services#transport"
+          "id": "weekly-event",
+          "label": "Weekly Event",
+          "href": "/packages#weekly-event"
         }
       ]
     },
     {
-      "title": "ABOUT",
+      "title": "OUR STORY",
       "links": [
         {
-          "id": "our-story",
-          "label": "Our Story",
-          "href": "/about#story"
+          "id": "meet-the-chef",
+          "label": "Meet Rabab",
+          "href": "/ourstory/meet-the-chef"
         },
         {
-          "id": "team",
-          "label": "Our Team",
-          "href": "/team"
+          "id": "kitchen",
+          "label": "Our Kitchen",
+          "href": "/ourstory/kitchen"
         },
         {
           "id": "location",
           "label": "Location",
-          "href": "/about#location"
+          "href": "/ourstory/location"
         }
       ]
     },
@@ -72,17 +72,17 @@
         {
           "id": "faq",
           "label": "FAQ",
-          "href": "/faq"
+          "href": "/faq-contact"
+        },
+        {
+          "id": "book",
+          "label": "Book Now",
+          "href": "/book"
         },
         {
           "id": "contact",
           "label": "Contact Us",
-          "href": "/contact"
-        },
-        {
-          "id": "booking",
-          "label": "Booking Policy",
-          "href": "/policies#booking"
+          "href": "/faq-contact"
         }
       ]
     }
@@ -90,36 +90,21 @@
   "socialLinks": [
     {
       "platform": "instagram",
-      "url": "https://instagram.com/playasurfhouse",
+      "url": "https://www.instagram.com/taghazout_cooking_class/",
       "icon": "Instagram",
       "ariaLabel": "Follow us on Instagram"
     },
     {
       "platform": "tiktok",
-      "url": "https://tiktok.com/@playasurfhouse",
+      "url": "https://www.tiktok.com/@rabab_cooking_class",
       "icon": "TikTok",
       "ariaLabel": "Follow us on TikTok"
-    },
-    {
-      "platform": "facebook",
-      "url": "https://facebook.com/playasurfhouse",
-      "icon": "Facebook",
-      "ariaLabel": "Follow us on Facebook"
     }
   ],
   "contactInfo": {
-    "address": "Taghazout, Agadir, Morocco",
-    "phone": "+212 6XX XXX XXX",
-    "email": "info@playasurfhouse.com"
+    "address": "Taghazout Village, Agadir-Ida-Ou-Tanane, Morocco",
+    "phone": "+212 726 671 746",
+    "email": "rababouhadda5@gmail.com"
   },
-  "copyright": "© 2024 Playa Surf House. All rights reserved."
+  "copyright": "© 2025 Taghazout Cooking Class. All rights reserved."
 }
-
-
-
-
-
-
-
-
-
