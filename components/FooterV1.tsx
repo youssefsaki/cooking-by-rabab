@@ -103,8 +103,33 @@ const FooterV1: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link href="/packages" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                  {t.footer.links.packages}
+                </Link>
+              </li>
+              <li>
                 <Link href="/book" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
                   {t.footer.links.bookNow}
+                </Link>
+              </li>
+              <li>
+                <Link href="/events" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                  {t.footer.links.events}
+                </Link>
+              </li>
+              <li>
+                <Link href="/#things-to-do-taghazout" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                  {t.footer.links.thingsToDo}
+                </Link>
+              </li>
+              <li>
+                <Link href="/ourstory/meet-the-chef" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                  {t.footer.links.meetTheChef}
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq-contact" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                  {t.footer.links.faqContact}
                 </Link>
               </li>
             </ul>

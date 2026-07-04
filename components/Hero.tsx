@@ -4,6 +4,7 @@ import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { HeroProps } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
+import InternalLinkRow from '@/components/InternalLinkRow';
 
 const Hero: React.FC<HeroProps> = ({ heroData }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -134,9 +135,11 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
           <div className="w-20 sm:w-20 lg:w-24 h-[2px] bg-amber-500 mx-auto mb-5 sm:mb-5 lg:mb-7"></div>
 
           {/* Description */}
-          <p className="text-white/90 text-base sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto mb-7 sm:mb-7 lg:mb-9 font-normal px-2 sm:px-6">
+          <p className="text-white/90 text-base sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto mb-4 sm:mb-4 lg:mb-5 font-normal px-2 sm:px-6">
             {t.hero.description}
           </p>
+
+          <InternalLinkRow variant="hero" className="text-white/80 max-w-2xl mx-auto mb-7 sm:mb-7 lg:mb-9 px-2 sm:px-6 [&_a]:text-amber-300 [&_a:hover]:text-amber-200" />
 
           {/* CTA Button */}
           <div>

@@ -136,19 +136,41 @@
     "inMorocco": "in Morocco",
     "rights": "All rights reserved",
     "links": {
-      "home": "Home",
-      "cookingClasses": "Cooking Classes",
+      "home": "Taghazout Cooking Class",
+      "cookingClasses": "Moroccan Cooking Experiences Taghazout",
+      "packages": "Cooking Class Packages Taghazout",
+      "events": "Things to Do Besides Surfing",
+      "thingsToDo": "Taghazout Activities Guide",
+      "meetTheChef": "Meet Rabab — Cooking Host",
+      "faqContact": "FAQ & Book Cooking Class",
       "aboutRabab": "About Rabab",
       "gallery": "Gallery",
-      "bookNow": "Book Now"
+      "bookNow": "Book Cooking Class Near Taghazout"
     },
     "experienceLinks": {
-      "tajine": "Tajine Masterclass",
-      "amazigh": "Amazigh Heritage",
-      "tea": "Tea Ceremony",
-      "bread": "Clay Oven Bread",
-      "amlou": "Amlou Workshop"
+      "tajine": "Tajine Masterclass Taghazout",
+      "amazigh": "Berber Village Cooking Experience",
+      "tea": "Moroccan Mint Tea Ceremony",
+      "bread": "Clay Oven Bread Making Taghazout",
+      "amlou": "Amlou Workshop Morocco"
     }
+  },
+  "internalLinks": {
+    "hero": [
+      { "href": "/book", "label": "Book Taghazout Cooking Class" },
+      { "href": "/packages", "label": "Cooking Class Packages Taghazout" },
+      { "href": "/experiences", "label": "Moroccan Cooking Experiences" }
+    ],
+    "packages": [
+      { "href": "/book", "label": "Book Cooking Class Near Taghazout" },
+      { "href": "/experiences#tajine-masterclass", "label": "Tajine Masterclass Taghazout" },
+      { "href": "/events", "label": "Things to Do Besides Surfing" }
+    ],
+    "experience": [
+      { "href": "/book", "label": "Book Taghazout Cooking Class" },
+      { "href": "/ourstory/meet-the-chef", "label": "Meet Your Cooking Host Rabab" },
+      { "href": "/ourstory/location", "label": "Atlas Mountains Day Trip from Taghazout" }
+    ]
   },
   "heroSection": {
     "rating": "guests",

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FiClock, FiUsers, FiMapPin } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
+import InternalLinkRow from '@/components/InternalLinkRow';
 
 const packagesData = [
   {
@@ -102,6 +103,7 @@ const PackagesV3: React.FC = memo(() => {
           <p className="text-sm sm:text-base lg:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
             {t.packages.description}
           </p>
+          <InternalLinkRow variant="packages" className="text-gray-600 max-w-3xl mx-auto mt-4 [&_a]:text-amber-700 [&_a:hover]:text-amber-800" />
         </div>
 
         {/* Packages Grid - Flexbox to maintain card width */}

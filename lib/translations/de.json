@@ -136,19 +136,41 @@
     "inMorocco": "in Marokko",
     "rights": "Alle Rechte vorbehalten",
     "links": {
-      "home": "Startseite",
-      "cookingClasses": "Kochkurse",
+      "home": "Taghazout Kochkurs",
+      "cookingClasses": "Marokkanische Kocherlebnisse Taghazout",
+      "packages": "Kochkurs-Pakete Taghazout",
+      "events": "Aktivitäten außer Surfen Taghazout",
+      "thingsToDo": "Taghazout Aktivitäten Guide",
+      "meetTheChef": "Rabab kennenlernen — Kochkurs-Gastgeberin",
+      "faqContact": "FAQ & Kochkurs buchen",
       "aboutRabab": "Über Rabab",
       "gallery": "Galerie",
-      "bookNow": "Jetzt Buchen"
+      "bookNow": "Kochkurs in der Nähe von Taghazout buchen"
     },
     "experienceLinks": {
-      "tajine": "Tajine Meisterklasse",
-      "amazigh": "Amazigh Erbe",
-      "tea": "Teezeremonie",
-      "bread": "Tonofenbrot",
-      "amlou": "Amlou Workshop"
+      "tajine": "Tajine-Meisterklasse Taghazout",
+      "amazigh": "Berberdorf-Kocherlebnis",
+      "tea": "Marokkanische Minztee-Zeremonie",
+      "bread": "Tonofenbrot Taghazout",
+      "amlou": "Amlou-Workshop Marokko"
     }
+  },
+  "internalLinks": {
+    "hero": [
+      { "href": "/book", "label": "Taghazout Kochkurs buchen" },
+      { "href": "/packages", "label": "Kochkurs-Pakete Taghazout" },
+      { "href": "/experiences", "label": "Marokkanische Kocherlebnisse" }
+    ],
+    "packages": [
+      { "href": "/book", "label": "Kochkurs in der Nähe von Taghazout buchen" },
+      { "href": "/experiences#tajine-masterclass", "label": "Tajine-Meisterklasse Taghazout" },
+      { "href": "/events", "label": "Aktivitäten außer Surfen Taghazout" }
+    ],
+    "experience": [
+      { "href": "/book", "label": "Taghazout Kochkurs buchen" },
+      { "href": "/ourstory/meet-the-chef", "label": "Rabab kennenlernen — Kochkurs-Gastgeberin" },
+      { "href": "/ourstory/location", "label": "Atlas-Tagesausflug ab Taghazout" }
+    ]
   },
   "heroSection": {
     "rating": "Gäste",

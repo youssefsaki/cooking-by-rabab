@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { HeroSectionData } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
+import InternalLinkRow from '@/components/InternalLinkRow';
 
 interface HeroSectionProps {
   data: HeroSectionData;
@@ -376,9 +377,10 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
 
             {/* Right: Description */}
             <div className="lg:max-w-sm lg:text-right">
-              <p className="text-[#6B6560] text-base sm:text-lg lg:text-xl leading-relaxed mb-6 font-normal">
+              <p className="text-[#6B6560] text-base sm:text-lg lg:text-xl leading-relaxed mb-4 font-normal">
                 {t.heroSection.description}
               </p>
+              <InternalLinkRow variant="hero" className="text-[#6B6560] mb-6 [&_a]:text-[#C75D3A] [&_a:hover]:text-[#a84d2f]" />
               <Link
                 href={data.cta.link}
                 className="inline-flex items-center gap-3 text-[#2D2A26] font-semibold group"

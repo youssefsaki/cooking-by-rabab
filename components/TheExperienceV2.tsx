@@ -4,6 +4,7 @@ import React, { memo } from 'react';
 import Image from 'next/image';
 import { FiArrowRight, FiMapPin, FiHome, FiActivity, FiHeart } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
+import InternalLinkRow from '@/components/InternalLinkRow';
 
 /**
  * THE COOKING CLASS EXPERIENCE SECTION - Design 2 of 3
@@ -64,6 +65,7 @@ const TheExperienceV2: React.FC = memo(() => {
           <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed px-4">
             {t.experience.description}
           </p>
+          <InternalLinkRow variant="experience" className="text-gray-500 max-w-2xl mx-auto mt-5 px-4 [&_a]:text-amber-700 [&_a:hover]:text-amber-800" />
         </div>
       </div>
 

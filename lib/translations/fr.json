@@ -136,19 +136,41 @@
     "inMorocco": "au Maroc",
     "rights": "Tous droits réservés",
     "links": {
-      "home": "Accueil",
-      "cookingClasses": "Cours de Cuisine",
+      "home": "Cours de Cuisine Taghazout",
+      "cookingClasses": "Expériences Culinaires Marocaines Taghazout",
+      "packages": "Forfaits Cours de Cuisine Taghazout",
+      "events": "Activités Hors Surf Taghazout",
+      "thingsToDo": "Guide Activités Taghazout",
+      "meetTheChef": "Rencontrer Rabab — Hôte Cuisinière",
+      "faqContact": "FAQ & Réserver un Cours",
       "aboutRabab": "À Propos de Rabab",
       "gallery": "Galerie",
-      "bookNow": "Réserver"
+      "bookNow": "Réserver un Cours près de Taghazout"
     },
     "experienceLinks": {
-      "tajine": "Masterclass Tajine",
-      "amazigh": "Héritage Amazigh",
-      "tea": "Cérémonie du Thé",
-      "bread": "Pain au Four en Argile",
-      "amlou": "Atelier Amlou"
+      "tajine": "Masterclass Tajine Taghazout",
+      "amazigh": "Expérience Cuisine Village Berbère",
+      "tea": "Cérémonie du Thé Marocain",
+      "bread": "Pain au Four à Argile Taghazout",
+      "amlou": "Atelier Amlou Maroc"
     }
+  },
+  "internalLinks": {
+    "hero": [
+      { "href": "/book", "label": "Réserver un Cours de Cuisine Taghazout" },
+      { "href": "/packages", "label": "Forfaits Cours de Cuisine Taghazout" },
+      { "href": "/experiences", "label": "Expériences Culinaires Marocaines" }
+    ],
+    "packages": [
+      { "href": "/book", "label": "Réserver un Cours près de Taghazout" },
+      { "href": "/experiences#tajine-masterclass", "label": "Masterclass Tajine Taghazout" },
+      { "href": "/events", "label": "Activités Hors Surf Taghazout" }
+    ],
+    "experience": [
+      { "href": "/book", "label": "Réserver un Cours de Cuisine Taghazout" },
+      { "href": "/ourstory/meet-the-chef", "label": "Rencontrer Rabab — Hôte Cuisinière" },
+      { "href": "/ourstory/location", "label": "Excursion Atlas depuis Taghazout" }
+    ]
   },
   "heroSection": {
     "rating": "invités",
