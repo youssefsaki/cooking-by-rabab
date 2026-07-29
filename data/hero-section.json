@@ -10,8 +10,8 @@
     },
     {
       "icon": "GiCookingPot",
-      "title": "Tagine Secrets",
-      "description": "Master the art of slow-cooked tagine"
+      "title": "Cooking Masterclass",
+      "description": "Cook Tagine, Msemen, Couscous, or Rfissa — your choice"
     },
     {
       "icon": "GiSpices",
@@ -34,7 +34,7 @@
     },
     "secondary": {
       "src": "/gallery/tagine-cooking.jpg",
-      "alt": "Traditional Moroccan tagine cooking"
+      "alt": "Traditional Moroccan cooking in a Berber village kitchen"
     },
     "tertiary": {
       "src": "/gallery/spices.jpg",

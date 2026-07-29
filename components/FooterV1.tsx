@@ -31,7 +31,7 @@ const footerData = {
     { label: "Book Now", href: "/book" }
   ],
   experiences: [
-    { label: "Tajine Masterclass", href: "/experiences#tajine-masterclass" },
+    { label: "Moroccan Cooking Masterclass", href: "/experiences#cooking-masterclass" },
     { label: "Amazigh Heritage", href: "/experiences#amazigh-heritage" },
     { label: "Tea Ceremony", href: "/experiences#tea-ceremony" },
     { label: "Clay Oven Bread", href: "/experiences#clay-oven-bread" },
@@ -140,7 +140,7 @@ const FooterV1: React.FC = () => {
             <h4 className="text-lg font-bold text-white mb-6">{t.footer.experiences}</h4>
             <ul className="space-y-3">
               <li>
-                <Link href="/experiences#tajine-masterclass" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                <Link href="/experiences#cooking-masterclass" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
                   {t.footer.experienceLinks.tajine}
                 </Link>
               </li>

@@ -21,7 +21,7 @@ const packagesData = [
     groupSize: "3-13 guests",
     startTime: "13:30",
     image: "/packages/basic.webp",
-    imageAlt: "Taghazout cooking class — half-day Berber village experience with tagine and clay oven bread in Atlas Mountains",
+    imageAlt: "Taghazout cooking class — half-day Berber village experience with traditional Moroccan dishes and clay oven bread in Atlas Mountains",
     popular: true,
     highlights: [
       "Pick up from Taghazout Mosque",

@@ -18,7 +18,7 @@ const activityImages = [
 
 const activityLinks = [
   '/book',
-  '/experiences#tajine-masterclass',
+  '/experiences#cooking-masterclass',
   '/experiences#clay-oven-bread',
   '/events',
   '/ourstory/location',

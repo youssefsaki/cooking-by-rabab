@@ -40,7 +40,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
     { src: '/hero/desktop/learn-to-cook-amazigh/2.jpg', alt: 'Moroccan cooking class Taghazout — hands-on Amazigh cooking in Berber village kitchen' },
     { src: '/hero/desktop/learn-to-cook-amazigh/5.jpg', alt: 'Traditional Moroccan cuisine Taghazout — authentic Berber dishes prepared in Atlas Mountains' },
     { src: '/hero/desktop/learn-to-cook-amazigh/7.jpg', alt: 'Amazigh cooking experience Taghazout — traditional village cooking class near Agadir coast' },
-    { src: '/hero/desktop/learn-to-cook-amazigh/3.jpg', alt: 'Tajine masterclass Taghazout — slow-cooked Moroccan tagine in traditional clay pot' },
+    { src: '/hero/desktop/learn-to-cook-amazigh/3.jpg', alt: 'Moroccan cooking masterclass Taghazout — traditional dishes cooked in Berber village kitchen' },
     { src: '/hero/desktop/learn-to-cook-amazigh/6.jpg', alt: 'Clay oven bread making Taghazout — wood-fired Berber bread baking in Atlas Mountains' },
     { src: '/hero/desktop/learn-to-cook-amazigh/4.jpg', alt: 'Moroccan mint tea ceremony Taghazout — traditional Amazigh hospitality after cooking class' },
   ];
@@ -59,7 +59,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
           </span>
-          <span className="text-[#C75D3A] text-xs font-medium">4.9 • 500+ {t.heroSection.rating}</span>
+          <span className="text-[#C75D3A] text-xs font-medium">5.0 • 500+ {t.heroSection.rating}</span>
         </div>
 
         {/* Title */}
@@ -281,7 +281,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
             <svg className="w-5 h-5 text-[#C75D3A]" fill="currentColor" viewBox="0 0 20 20">
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
-            <span className="text-lg font-bold text-[#2D2A26]">4.9</span>
+            <span className="text-lg font-bold text-[#2D2A26]">5.0</span>
           </div>
         </div>
 
