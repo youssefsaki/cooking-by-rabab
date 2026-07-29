@@ -12,9 +12,47 @@
   "hero": {
     "badge": "TRADITIONAL AMAZIGH CUISINE",
     "title": "Taghazout Cooking Class",
-    "titleHighlight": "AUTHENTIC MOROCCAN",
-    "description": "Book a traditional cooking experience in Taghazout. Leave the coast for a half-day in the Atlas Mountains — discover Amazigh culture, clay oven bread, and aromatic tagines in a 300-year-old Berber village home.",
+    "titleHighlight": "AUTHENTIC BERBER and MOROCCAN CUISINE",
+    "description": "Looking for the best things to do in Taghazout? Leave the coast for an authentic half-day Atlas Mountains day trip! Step inside a 300-year-old village home to discover Berber culture, then join our hands-on workshop to master traditional Moroccan food - choose your dish when you book.",
+    "descriptionSegments": [
+      { "type": "text", "value": "Looking for the best " },
+      { "type": "link", "value": "things to do in Taghazout?", "href": "/#things-to-do-taghazout" },
+      { "type": "text", "value": " Leave the coast for an authentic half-day " },
+      { "type": "link", "value": "Atlas Mountains day trip!", "href": "/ourstory/location" },
+      { "type": "text", "value": " Step inside a 300-year-old village home to discover Berber culture, then join our hands-on workshop to master " },
+      { "type": "link", "value": "traditional Moroccan food - choose your dish when you book.", "href": "/experiences" }
+    ],
     "bookButton": "BOOK YOUR EXPERIENCE"
+  },
+  "heroIntro": {
+    "badge": "FROM TAGHAZOUT TO THE ATLAS",
+    "title": "Looking for the best things to do in Taghazout?",
+    "cta": "BOOK YOUR EXPERIENCE",
+    "descriptionSegments": [
+      { "type": "text", "value": "Leave the coast for an authentic half-day " },
+      { "type": "link", "value": "Atlas Mountains day trip!", "href": "/ourstory/location" },
+      { "type": "text", "value": " Step inside a 300-year-old village home to discover Berber culture, then join our hands-on workshop to master " },
+      { "type": "link", "value": "traditional Moroccan food - choose your dish when you book.", "href": "/experiences" }
+    ],
+    "includedTitle": "What's Included",
+    "included": [
+      {
+        "title": "Your Choice of Dish:",
+        "description": "Tagine, Msemen, Couscous, or Rfissa — you choose when you book"
+      },
+      {
+        "title": "Hands-On Experience:",
+        "description": "Bake traditional clay-oven bread & make your own stone-ground Amlou"
+      },
+      {
+        "title": "Full Feast:",
+        "description": "Enjoy a multi-course meal with scenic mountain views"
+      },
+      {
+        "title": "Free Transport:",
+        "description": "Round-trip transfer included from Taghazout Mosque"
+      }
+    ]
   },
   "packages": {
     "badge": "CHOOSE YOUR EXPERIENCE",

@@ -12,9 +12,47 @@
   "hero": {
     "badge": "CUISINE TRADITIONNELLE AMAZIGH",
     "title": "Cours de Cuisine Taghazout",
-    "titleHighlight": "MAROCAIN AUTHENTIQUE",
-    "description": "Réservez une expérience culinaire traditionnelle à Taghazout. Quittez la côte pour une demi-journée dans l'Atlas — découvrez la culture amazigh, le pain au four à argile et les tajines dans une maison berbère de 300 ans.",
+    "titleHighlight": "CUISINE BERBÈRE et MAROCAINE AUTHENTIQUE",
+    "description": "Vous cherchez les meilleures choses à faire à Taghazout ? Quittez la côte pour une authentique demi-journée en excursion dans l'Atlas ! Entrez dans une maison de village de 300 ans pour découvrir la culture berbère, puis rejoignez notre atelier pratique pour maîtriser la cuisine marocaine traditionnelle — choisissez votre plat à la réservation.",
+    "descriptionSegments": [
+      { "type": "text", "value": "Vous cherchez les meilleures " },
+      { "type": "link", "value": "choses à faire à Taghazout ?", "href": "/#things-to-do-taghazout" },
+      { "type": "text", "value": " Quittez la côte pour une authentique demi-journée en " },
+      { "type": "link", "value": "excursion dans l'Atlas !", "href": "/ourstory/location" },
+      { "type": "text", "value": " Entrez dans une maison de village de 300 ans pour découvrir la culture berbère, puis rejoignez notre atelier pratique pour maîtriser " },
+      { "type": "link", "value": "la cuisine marocaine traditionnelle — choisissez votre plat à la réservation.", "href": "/experiences" }
+    ],
     "bookButton": "RÉSERVEZ VOTRE EXPÉRIENCE"
+  },
+  "heroIntro": {
+    "badge": "DE TAGHAZOUT À L'ATLAS",
+    "title": "Vous cherchez les meilleures choses à faire à Taghazout ?",
+    "cta": "RÉSERVEZ VOTRE EXPÉRIENCE",
+    "descriptionSegments": [
+      { "type": "text", "value": "Quittez la côte pour une authentique demi-journée en " },
+      { "type": "link", "value": "excursion dans l'Atlas !", "href": "/ourstory/location" },
+      { "type": "text", "value": " Entrez dans une maison de village de 300 ans pour découvrir la culture berbère, puis rejoignez notre atelier pratique pour maîtriser " },
+      { "type": "link", "value": "la cuisine marocaine traditionnelle — choisissez votre plat à la réservation.", "href": "/experiences" }
+    ],
+    "includedTitle": "Ce Qui Est Inclus",
+    "included": [
+      {
+        "title": "Votre Choix de Plat :",
+        "description": "Tajine, Msemen, Couscous ou Rfissa — vous choisissez à la réservation"
+      },
+      {
+        "title": "Expérience Pratique :",
+        "description": "Cuisez le pain traditionnel au four à argile et préparez votre propre Amlou à la meule"
+      },
+      {
+        "title": "Grand Festin :",
+        "description": "Savourez un repas multi-plats avec vue sur les montagnes"
+      },
+      {
+        "title": "Transport Gratuit :",
+        "description": "Transfert aller-retour inclus depuis la Mosquée de Taghazout"
+      }
+    ]
   },
   "packages": {
     "badge": "CHOISISSEZ VOTRE EXPÉRIENCE",

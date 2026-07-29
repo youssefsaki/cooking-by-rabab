@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic';
 import Hero from '@/components/Hero';
+import HeroIntroSection from '@/components/HeroIntroSection';
 import HeroSection from '@/components/HeroSectionV3';
 import PackagesSection from '@/components/PackagesV3';
 import ThingsToDoSection from '@/components/ThingsToDoSection';
@@ -33,6 +34,16 @@ export default function HomePage() {
         <Hero heroData={heroData} />
       </ErrorBoundary>
 
+      <ErrorBoundary name="HeroIntro">
+        <HeroIntroSection />
+      </ErrorBoundary>
+
+      <ErrorBoundary name="GoogleReviews">
+        <section id="reviews">
+          <GoogleReviewsSection />
+        </section>
+      </ErrorBoundary>
+
       <ErrorBoundary name="Packages">
         <section id="packages">
           <PackagesSection />
@@ -57,12 +68,6 @@ export default function HomePage() {
 
       <ErrorBoundary name="ThingsToDo">
         <ThingsToDoSection />
-      </ErrorBoundary>
-
-      <ErrorBoundary name="GoogleReviews">
-        <section id="reviews">
-          <GoogleReviewsSection />
-        </section>
       </ErrorBoundary>
 
       <ErrorBoundary name="LocationMap">

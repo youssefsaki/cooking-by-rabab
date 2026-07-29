@@ -24,14 +24,12 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguageState] = useState<Language>('EN');
-  const [t, setT] = useState<Translations>(translations.EN);
 
   useEffect(() => {
     try {
       const saved = localStorage.getItem('language') as Language;
       if (saved && translations[saved]) {
         setLanguageState(saved);
-        setT(translations[saved]);
       }
     } catch (error) {
       console.error('Could not access localStorage:', error);
@@ -40,13 +38,14 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang);
-    setT(translations[lang]);
     try {
       localStorage.setItem('language', lang);
     } catch (error) {
       console.error('Could not save to localStorage:', error);
     }
   }, []);
+
+  const t = translations[language];
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t }}>

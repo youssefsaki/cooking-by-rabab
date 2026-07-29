@@ -12,9 +12,47 @@
   "hero": {
     "badge": "TRADITIONELLE AMAZIGH-KÜCHE",
     "title": "Taghazout Kochkurs",
-    "titleHighlight": "AUTHENTISCH MAROKKANISCH",
-    "description": "Buchen Sie ein traditionelles Kocherlebnis in Taghazout. Verlassen Sie die Küste für einen halben Tag im Atlas — entdecken Sie Amazigh-Kultur, Lehmofenbrot und Tagines in einem 300 Jahre alten Berberdorf.",
+    "titleHighlight": "AUTHENTISCHE BERBER- und MAROKKANISCHE KÜCHE",
+    "description": "Auf der Suche nach den besten Dingen, die man in Taghazout unternehmen kann? Verlassen Sie die Küste für einen authentischen halbtägigen Atlas-Gebirge-Tagesausflug! Betreten Sie ein 300 Jahre altes Dorfhaus, entdecken Sie die Berberkultur und meistern Sie in unserem Hands-on-Workshop traditionelle marokkanische Küche — wählen Sie Ihr Gericht bei der Buchung.",
+    "descriptionSegments": [
+      { "type": "text", "value": "Auf der Suche nach den besten " },
+      { "type": "link", "value": "Dingen, die man in Taghazout unternehmen kann?", "href": "/#things-to-do-taghazout" },
+      { "type": "text", "value": " Verlassen Sie die Küste für einen authentischen halbtägigen " },
+      { "type": "link", "value": "Atlas-Gebirge-Tagesausflug!", "href": "/ourstory/location" },
+      { "type": "text", "value": " Betreten Sie ein 300 Jahre altes Dorfhaus, entdecken Sie die Berberkultur und meistern Sie in unserem Hands-on-Workshop " },
+      { "type": "link", "value": "traditionelle marokkanische Küche — wählen Sie Ihr Gericht bei der Buchung.", "href": "/experiences" }
+    ],
     "bookButton": "BUCHEN SIE IHR ERLEBNIS"
+  },
+  "heroIntro": {
+    "badge": "VON TAGHAZOUT IN DEN ATLAS",
+    "title": "Auf der Suche nach den besten Dingen in Taghazout?",
+    "cta": "BUCHEN SIE IHR ERLEBNIS",
+    "descriptionSegments": [
+      { "type": "text", "value": "Verlassen Sie die Küste für einen authentischen halbtägigen " },
+      { "type": "link", "value": "Atlas-Gebirge-Tagesausflug!", "href": "/ourstory/location" },
+      { "type": "text", "value": " Betreten Sie ein 300 Jahre altes Dorfhaus, entdecken Sie die Berberkultur und meistern Sie in unserem Hands-on-Workshop " },
+      { "type": "link", "value": "traditionelle marokkanische Küche — wählen Sie Ihr Gericht bei der Buchung.", "href": "/experiences" }
+    ],
+    "includedTitle": "Was Inbegriffen Ist",
+    "included": [
+      {
+        "title": "Ihre Gerichtswahl:",
+        "description": "Tagine, Msemen, Couscous oder Rfissa — Sie wählen bei der Buchung"
+      },
+      {
+        "title": "Hands-On-Erlebnis:",
+        "description": "Backen Sie traditionelles Lehmofenbrot & machen Sie Ihr eigenes steingemahlenes Amlou"
+      },
+      {
+        "title": "Volles Festmahl:",
+        "description": "Genießen Sie ein Menü mit mehreren Gängen und Bergblick"
+      },
+      {
+        "title": "Kostenloser Transport:",
+        "description": "Hin- und Rücktransfer von der Taghazout-Moschee inklusive"
+      }
+    ]
   },
   "packages": {
     "badge": "WÄHLEN SIE IHR ERLEBNIS",
