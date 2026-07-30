@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, Suspense } from 'react';
+import React, { useMemo, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useFormik } from 'formik';
@@ -10,8 +10,12 @@ import 'react-phone-input-2/lib/style.css';
 import Select from 'react-select';
 import { FiCheck, FiMail, FiPhone, FiUser, FiMapPin } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
+import WorkshopCalendar from '@/components/booking/WorkshopCalendar';
+import type { CalendarSlot } from '@/lib/booking/schedule';
+import { BASIC_MIN_ADULTS, BASIC_ADULT_PRICE_EUR } from '@/lib/booking/schedule';
+import { calculateBookingTotal, type ChildGuest } from '@/lib/booking/pricing';
+import { SLOT_CONFLICT_MESSAGE } from '@/lib/booking/conflicts';
 
-// Country options for dropdown
 const countryOptions = [
   { value: 'Morocco', label: '🇲🇦 Morocco', flag: '🇲🇦' },
   { value: 'France', label: '🇫🇷 France', flag: '🇫🇷' },
@@ -39,31 +43,29 @@ const countryOptions = [
   { value: 'Other', label: '🌍 Other', flag: '🌍' },
 ];
 
-// Expected phone number lengths per country dial code (total digits including code)
-// Some countries accept a range of lengths
 const PHONE_LENGTHS: Record<string, number[]> = {
-  '212': [12],        // Morocco: +212 XXXXXXXXX
-  '33': [11],         // France: +33 XXXXXXXXX
-  '34': [11],         // Spain: +34 XXXXXXXXX
-  '49': [12, 13],     // Germany: +49 XXXXXXXXXX(X)
-  '44': [12],         // UK: +44 XXXXXXXXXX
-  '1': [11],          // US/Canada: +1 XXXXXXXXXX
-  '31': [11],         // Netherlands: +31 XXXXXXXXX
-  '32': [11],         // Belgium: +32 XXXXXXXXX
-  '39': [12, 13],     // Italy: +39 XXXXXXXXXX(X)
-  '351': [12],        // Portugal: +351 XXXXXXXXX
-  '41': [11],         // Switzerland: +41 XXXXXXXXX
-  '61': [11],         // Australia: +61 XXXXXXXXX
-  '55': [12, 13],     // Brazil: +55 XXXXXXXXXX(X)
-  '52': [12],         // Mexico: +52 XXXXXXXXXX
-  '54': [12, 13],     // Argentina: +54 XXXXXXXXXX(X)
-  '81': [12, 13],     // Japan: +81 XXXXXXXXXX(X)
-  '82': [12, 13],     // South Korea: +82 XXXXXXXXXX(X)
-  '86': [13],         // China: +86 XXXXXXXXXXX
-  '91': [12],         // India: +91 XXXXXXXXXX
-  '971': [12, 13],    // UAE: +971 XXXXXXXXX(X)
-  '966': [12],        // Saudi Arabia: +966 XXXXXXXXX
-  '27': [11],         // South Africa: +27 XXXXXXXXX
+  '212': [12],
+  '33': [11],
+  '34': [11],
+  '49': [12, 13],
+  '44': [12],
+  '1': [11],
+  '31': [11],
+  '32': [11],
+  '39': [12, 13],
+  '351': [12],
+  '41': [11],
+  '61': [11],
+  '55': [12, 13],
+  '52': [12],
+  '54': [12, 13],
+  '81': [12, 13],
+  '82': [12, 13],
+  '86': [13],
+  '91': [12],
+  '971': [12, 13],
+  '966': [12],
+  '27': [11],
 };
 
 function validatePhoneForCountry(phone: string, dialCode: string): boolean {
@@ -75,40 +77,56 @@ function validatePhoneForCountry(phone: string, dialCode: string): boolean {
   return expectedLengths.includes(digitsOnly.length);
 }
 
-// Yup validation schema (phone validated separately via custom logic)
-const validationSchema = Yup.object({
+function resolvePackageType(packageParam: string | null): string {
+  if (packageParam === 'private-at-location') return 'private-at-location';
+  if (packageParam === 'private') return 'private';
+  if (packageParam === 'weekly-event') return 'weekly-event';
+  return 'basic';
+}
+
+function packageLabel(packageType: string): string {
+  if (packageType === 'basic') return 'The Authentic Mountain & Culinary Escape (65 EUR)';
+  if (packageType === 'weekly-event') return 'Weekly Event (80 EUR)';
+  if (packageType === 'private-at-location') return 'Rabab Comes to You (100 EUR)';
+  return 'Private Workshop Experience (80 EUR)';
+}
+
+const baseValidationSchema = Yup.object({
   fullName: Yup.string()
     .min(2, 'Name must be at least 2 characters')
     .max(100, 'Name must be less than 100 characters')
     .required('Full name is required'),
-  phone: Yup.string()
-    .required('Phone number is required'),
+  phone: Yup.string().required('Phone number is required'),
   country: Yup.string()
     .min(2, 'Country must be at least 2 characters')
     .max(100, 'Country must be less than 100 characters')
     .required('Country is required'),
-  email: Yup.string()
-    .email('Invalid email address')
-    .required('Email is required'),
+  email: Yup.string().email('Invalid email address').required('Email is required'),
   packageType: Yup.string()
-    .oneOf(['basic', 'weekly-event', 'private'], 'Please select a valid package')
+    .oneOf(['basic', 'weekly-event', 'private', 'private-at-location'], 'Please select a valid package')
     .required('Package selection is required'),
   dietaryPreference: Yup.string()
     .oneOf(['none', 'vegetarian', 'vegan'], 'Please select a valid dietary preference')
     .required('Dietary preference is required'),
-  allergies: Yup.string()
-    .max(500, 'Allergies description must be less than 500 characters')
+  allergies: Yup.string().max(500, 'Allergies description must be less than 500 characters'),
+  adults: Yup.number().min(1).required(),
 });
 
-// BookingForm component that uses searchParams
 function BookingForm() {
   const searchParams = useSearchParams();
   const packageParam = searchParams.get('package');
   const { t } = useLanguage();
-  
+  const initialPackage = resolvePackageType(packageParam);
+  const isBasicFlow = initialPackage === 'basic';
+
+  const [step, setStep] = useState<'calendar' | 'form'>(isBasicFlow ? 'calendar' : 'form');
+  const [selectedSlot, setSelectedSlot] = useState<CalendarSlot | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [phoneDialCode, setPhoneDialCode] = useState('212');
   const [phoneError, setPhoneError] = useState('');
+  const [submitError, setSubmitError] = useState('');
+  const [bringingChildren, setBringingChildren] = useState(false);
+  const [children, setChildren] = useState<ChildGuest[]>([]);
 
   const formik = useFormik({
     initialValues: {
@@ -116,23 +134,92 @@ function BookingForm() {
       phone: '',
       country: '',
       email: '',
-      packageType: packageParam === 'private' ? 'private' : packageParam === 'weekly-event' ? 'weekly-event' : 'basic',
+      packageType: initialPackage,
       dietaryPreference: 'none',
       allergies: '',
+      adults: BASIC_MIN_ADULTS,
     },
-    validationSchema: validationSchema,
+    validationSchema: baseValidationSchema,
     onSubmit: async (values, { setSubmitting }) => {
+      setSubmitError('');
       if (!validatePhoneForCountry(values.phone, phoneDialCode)) {
         setPhoneError(`Phone number must match the format for +${phoneDialCode}`);
         setSubmitting(false);
         return;
       }
+
       try {
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzQ3JkKD71-giIoQLQDLF1yaN7rJ1cxTCbFU4JBnRxGaWgk6w0iE-na2prwPZe7mfjomg/exec';
+        if (values.packageType === 'basic') {
+          if (!selectedSlot) {
+            setSubmitError('Please select a workshop slot first.');
+            setStep('calendar');
+            setSubmitting(false);
+            return;
+          }
+
+          if (values.adults < BASIC_MIN_ADULTS) {
+            setSubmitError(`Basic package requires at least ${BASIC_MIN_ADULTS} adults.`);
+            setSubmitting(false);
+            return;
+          }
+
+          const childPayload = bringingChildren ? children.filter((c) => Number.isFinite(c.age)) : [];
+
+          const res = await fetch('/api/bookings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              fullName: values.fullName,
+              phone: values.phone,
+              country: values.country,
+              email: values.email,
+              packageType: 'basic',
+              slotDate: selectedSlot.date,
+              slotPeriod: selectedSlot.period,
+              dish: selectedSlot.dish,
+              adults: values.adults,
+              children: childPayload,
+              location: `Pick-up ${selectedSlot.pickup.time} at ${selectedSlot.pickup.meetingPoint}`,
+              allergies: [
+                values.allergies,
+                values.dietaryPreference !== 'none' ? `Dietary: ${values.dietaryPreference}` : '',
+              ]
+                .filter(Boolean)
+                .join(' | '),
+            }),
+          });
+
+          const data = (await res.json()) as { error?: string; booking?: { totalPrice: number } };
+          if (!res.ok) {
+            setSubmitError(data.error || SLOT_CONFLICT_MESSAGE);
+            if (res.status === 409) {
+              setStep('calendar');
+            }
+            setSubmitting(false);
+            return;
+          }
+
+          setSubmitted(true);
+          openWhatsApp({
+            ...values,
+            dish: selectedSlot.dish,
+            slotDate: selectedSlot.date,
+            slotPeriod: selectedSlot.period,
+            pickup: `${selectedSlot.pickup.time} · ${selectedSlot.pickup.meetingPoint}`,
+            adults: values.adults,
+            children: childPayload,
+            totalPrice: data.booking?.totalPrice,
+          });
+          return;
+        }
+
+        // Legacy path for non-Basic packages (calendar UI deferred)
+        const GOOGLE_SCRIPT_URL =
+          process.env.NEXT_PUBLIC_BOOKING_SCRIPT_URL ||
+          'https://script.google.com/macros/s/AKfycbzQ3JkKD71-giIoQLQDLF1yaN7rJ1cxTCbFU4JBnRxGaWgk6w0iE-na2prwPZe7mfjomg/exec';
 
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000);
-
         try {
           await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
@@ -146,45 +233,99 @@ function BookingForm() {
         } finally {
           clearTimeout(timeoutId);
         }
-        
-        // Show success message
+
         setSubmitted(true);
-        
-        // Prepare WhatsApp message
-        const whatsappPhone = '212726671746'; // Your WhatsApp number
-        const packageName = values.packageType === 'basic' ? 'Basic Package (60 EUR)' : values.packageType === 'weekly-event' ? 'Weekly Event (80 EUR)' : 'Private Package (100 EUR)';
-        const dietaryText = values.dietaryPreference === 'none' ? 'No restrictions' : values.dietaryPreference.charAt(0).toUpperCase() + values.dietaryPreference.slice(1);
-        const allergiesText = values.allergies || 'None';
-        
-        const whatsappMessage = `🍽️ *New Booking Request*
-
-👤 *Name:* ${values.fullName}
-📞 *Phone:* ${values.phone}
-🌍 *Country:* ${values.country}
-📧 *Email:* ${values.email}
-
-📦 *Package:* ${packageName}
-🥗 *Dietary:* ${dietaryText}
-⚠️ *Allergies:* ${allergiesText}
-
-Looking forward to cooking with you! 🇲🇦`;
-        
-        setTimeout(() => {
-          const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`;
-          const newWindow = window.open(whatsappUrl, '_blank');
-          if (!newWindow || newWindow.closed) {
-            window.location.href = whatsappUrl;
-          }
-        }, 1500);
+        openWhatsApp(values);
       } catch (error) {
         console.error('Error submitting form:', error);
-        // Still show success even if there's an error
-        setSubmitted(true);
+        setSubmitError('Something went wrong. Please try again.');
       } finally {
         setSubmitting(false);
       }
     },
   });
+
+  const priceSummary = useMemo(() => {
+    const childPayload = bringingChildren ? children : [];
+    return calculateBookingTotal({
+      adults: formik.values.adults,
+      children: childPayload,
+      adultPriceEur: BASIC_ADULT_PRICE_EUR,
+    });
+  }, [bringingChildren, children, formik.values.adults]);
+
+  function openWhatsApp(payload: Record<string, unknown>) {
+    const whatsappPhone = '212726671746';
+    const dietaryText =
+      payload.dietaryPreference === 'none'
+        ? 'No restrictions'
+        : String(payload.dietaryPreference || '')
+            .charAt(0)
+            .toUpperCase() + String(payload.dietaryPreference || '').slice(1);
+    const allergiesText = (payload.allergies as string) || 'None';
+    const childrenList = Array.isArray(payload.children)
+      ? (payload.children as ChildGuest[]).map((c) => `${c.age}y`).join(', ') || 'None'
+      : 'None';
+
+    const lines = [
+      '🍽️ *New Booking Request*',
+      '',
+      `👤 *Name:* ${payload.fullName}`,
+      `📞 *Phone:* ${payload.phone}`,
+      `🌍 *Country:* ${payload.country}`,
+      `📧 *Email:* ${payload.email}`,
+      '',
+      `📦 *Package:* ${packageLabel(String(payload.packageType))}`,
+    ];
+
+    if (payload.slotDate) {
+      lines.push(
+        `📅 *Slot:* ${payload.slotDate} · ${payload.slotPeriod}`,
+        `🍲 *Dish:* ${payload.dish}`,
+        `🚌 *Pick-up:* ${payload.pickup}`,
+        `👥 *Adults:* ${payload.adults}`,
+        `👶 *Children:* ${childrenList}`,
+        payload.totalPrice != null ? `💶 *Total:* ${payload.totalPrice} EUR` : ''
+      );
+    }
+
+    lines.push(
+      `🥗 *Dietary:* ${dietaryText}`,
+      `⚠️ *Allergies:* ${allergiesText}`,
+      '',
+      'Looking forward to cooking with you! 🇲🇦'
+    );
+
+    const whatsappMessage = lines.filter(Boolean).join('\n');
+    setTimeout(() => {
+      const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`;
+      const newWindow = window.open(whatsappUrl, '_blank');
+      if (!newWindow || newWindow.closed) {
+        window.location.href = whatsappUrl;
+      }
+    }, 1200);
+  }
+
+  const resetAll = () => {
+    setSubmitted(false);
+    setSubmitError('');
+    setSelectedSlot(null);
+    setBringingChildren(false);
+    setChildren([]);
+    setStep(isBasicFlow ? 'calendar' : 'form');
+    formik.resetForm({
+      values: {
+        fullName: '',
+        phone: '',
+        country: '',
+        email: '',
+        packageType: initialPackage,
+        dietaryPreference: 'none',
+        allergies: '',
+        adults: BASIC_MIN_ADULTS,
+      },
+    });
+  };
 
   if (submitted) {
     return (
@@ -194,32 +335,15 @@ Looking forward to cooking with you! 🇲🇦`;
             <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
               <FiCheck className="w-12 h-12 text-white" />
             </div>
-            <h1 className="text-4xl font-black text-gray-900 mb-4">
-              {t.booking.success}
-            </h1>
-            <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              {t.booking.successMessage}
-            </p>
+            <h1 className="text-4xl font-black text-gray-900 mb-4">{t.booking.success}</h1>
+            <p className="text-lg text-gray-600 mb-6 leading-relaxed">{t.booking.successMessage}</p>
             <div className="bg-green-50 border-2 border-green-200 rounded-xl p-6 mb-8">
               <p className="text-sm text-green-800 font-semibold mb-2">✓ Your booking details have been saved</p>
               <p className="text-sm text-green-700">✓ We&apos;ll reach out within 24 hours</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
-                onClick={() => {
-                  setSubmitted(false);
-                  formik.resetForm({
-                    values: {
-                      fullName: '',
-                      phone: '',
-                      country: '',
-                      email: '',
-                      packageType: packageParam === 'private' ? 'private' : packageParam === 'weekly-event' ? 'weekly-event' : 'basic',
-                      dietaryPreference: 'none',
-                      allergies: '',
-                    }
-                  });
-                }}
+                onClick={resetAll}
                 className="inline-block bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-8 py-4 rounded-full hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-lg hover:scale-105"
               >
                 {t.booking.bookAnother}
@@ -237,27 +361,79 @@ Looking forward to cooking with you! 🇲🇦`;
     );
   }
 
+  if (isBasicFlow && step === 'calendar') {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-[#FBF7F0] via-white to-amber-50">
+        <section className="pt-32 sm:pt-40 pb-16 px-4 sm:px-6">
+          <div className="max-w-7xl mx-auto">
+            <WorkshopCalendar
+              selectedSlotId={selectedSlot?.id}
+              onSelectSlot={(slot) => {
+                setSelectedSlot(slot);
+                setSubmitError('');
+                setStep('form');
+              }}
+            />
+          </div>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
-      {/* Header */}
       <section className="pt-40 pb-12 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl sm:text-6xl font-black text-gray-900 mb-6 leading-tight">
             {t.booking.title}
           </h1>
-          
-          <p className="text-xl text-gray-600 leading-relaxed">
-            {t.booking.description}
-          </p>
+          <p className="text-xl text-gray-600 leading-relaxed">{t.booking.description}</p>
         </div>
       </section>
 
-      {/* Form */}
       <section className="pb-20 px-6">
         <div className="max-w-2xl mx-auto">
-          <form onSubmit={formik.handleSubmit} className="bg-white rounded-3xl shadow-2xl p-8 sm:p-12 border-2 border-amber-100">
-            
-            {/* Full Name */}
+          {isBasicFlow && selectedSlot && (
+            <div className="mb-6 rounded-3xl border border-amber-200 bg-white p-5 sm:p-6 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700 mb-2">
+                    {t.booking.selectedSlot}
+                  </p>
+                  <p className="text-lg font-black text-gray-900">
+                    {selectedSlot.weekday} {selectedSlot.dayNumber} {selectedSlot.month}
+                  </p>
+                  <p className="text-sm text-gray-600 mt-1 capitalize">
+                    {selectedSlot.period} · {selectedSlot.startTime} – {selectedSlot.endTime}
+                  </p>
+                  <p className="text-sm font-semibold text-gray-800 mt-2">{selectedSlot.dish}</p>
+                  <p className="text-sm text-gray-600 mt-2">
+                    <span className="font-semibold">{t.booking.pickupLabel}:</span>{' '}
+                    {selectedSlot.pickup.time} · {selectedSlot.pickup.meetingPoint}
+                  </p>
+                  <p className="text-sm text-gray-500 mt-1">Package: Basic · From {BASIC_ADULT_PRICE_EUR} €</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setStep('calendar')}
+                  className="text-sm font-bold text-amber-700 underline underline-offset-2 shrink-0"
+                >
+                  {t.booking.changeSlot}
+                </button>
+              </div>
+            </div>
+          )}
+
+          <form
+            onSubmit={formik.handleSubmit}
+            className="bg-white rounded-3xl shadow-2xl p-8 sm:p-12 border-2 border-amber-100"
+          >
+            {submitError && (
+              <div className="mb-6 rounded-xl border-2 border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 font-medium">
+                {submitError}
+              </div>
+            )}
+
             <div className="mb-6">
               <label htmlFor="fullName" className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
                 <FiUser className="w-4 h-4 text-amber-600" />
@@ -275,22 +451,16 @@ Looking forward to cooking with you! 🇲🇦`;
                 placeholder={t.booking.fullNamePlaceholder}
               />
               {formik.touched.fullName && formik.errors.fullName && (
-                <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
-                  <span>⚠</span> {formik.errors.fullName}
-                </p>
+                <p className="text-red-500 text-sm mt-1">⚠ {formik.errors.fullName}</p>
               )}
             </div>
 
-            {/* Phone Number with Country Code */}
             <div className="mb-6">
               <label htmlFor="phone" className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
                 <FiPhone className="w-4 h-4 text-amber-600" />
                 {t.booking.phone} *
               </label>
               <style jsx global>{`
-                .phone-input-container .react-tel-input {
-                  font-family: inherit;
-                }
                 .phone-input-container .react-tel-input .form-control {
                   width: 100%;
                   height: 50px;
@@ -298,95 +468,35 @@ Looking forward to cooking with you! 🇲🇦`;
                   border-radius: 0.75rem;
                   font-size: 1rem;
                   padding-left: 52px;
-                  transition: all 0.2s;
                 }
                 .phone-input-container .react-tel-input .form-control:focus {
                   border-color: ${formik.touched.phone && formik.errors.phone ? '#ef4444' : '#f59e0b'};
                   box-shadow: none;
                   outline: none;
                 }
-                .phone-input-container .react-tel-input .form-control:hover {
-                  border-color: ${formik.touched.phone && formik.errors.phone ? '#ef4444' : '#f59e0b'};
-                }
                 .phone-input-container .react-tel-input .flag-dropdown {
                   border: none;
                   background: transparent;
                   border-radius: 0.75rem 0 0 0.75rem;
                 }
-                .phone-input-container .react-tel-input .flag-dropdown:hover,
-                .phone-input-container .react-tel-input .flag-dropdown.open {
-                  background: #fef3c7;
-                }
                 .phone-input-container .react-tel-input .selected-flag {
                   width: 45px;
                   padding: 0 0 0 12px;
                   border-radius: 0.75rem 0 0 0.75rem;
-                  transition: all 0.2s;
-                }
-                .phone-input-container .react-tel-input .selected-flag:hover {
-                  background: #fef3c7;
                 }
                 .phone-input-container .react-tel-input .country-list {
                   border-radius: 0.75rem;
                   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
                   border: 1px solid #e5e7eb;
-                  margin-top: 4px;
                   max-height: 250px;
                   width: 300px;
-                }
-                .phone-input-container .react-tel-input .country-list .country {
-                  padding: 10px 12px;
-                  font-size: 0.95rem;
-                  transition: all 0.15s;
-                }
-                .phone-input-container .react-tel-input .country-list .country:hover {
-                  background: #fef3c7;
-                }
-                .phone-input-container .react-tel-input .country-list .country.highlight {
-                  background: #f59e0b;
-                  color: white;
-                }
-                .phone-input-container .react-tel-input .country-list .search {
-                  padding: 10px 12px;
-                  background: #fef3c7;
-                  border-bottom: 2px solid #f59e0b;
-                  position: sticky;
-                  top: 0;
-                  z-index: 10;
-                }
-                .phone-input-container .react-tel-input .country-list .search-box {
-                  border: 2px solid #e5e7eb;
-                  border-radius: 0.5rem;
-                  padding: 8px 12px;
-                  font-size: 0.95rem;
-                  width: 100%;
-                  background: white;
-                  color: #111827;
-                }
-                .phone-input-container .react-tel-input .country-list .search-box:focus {
-                  border-color: #f59e0b;
-                  outline: none;
-                  background: white;
-                }
-                .phone-input-container .react-tel-input .country-list .country .flag {
-                  margin-right: 8px;
-                  transform: scale(1.2);
-                }
-                .phone-input-container .react-tel-input .country-list .country .country-name {
-                  color: inherit;
-                  font-weight: 500;
-                }
-                .phone-input-container .react-tel-input .country-list .country .dial-code {
-                  color: inherit;
-                  opacity: 0.7;
-                  font-weight: 600;
                 }
               `}</style>
               <div className="phone-input-container">
                 <PhoneInput
                   country={'ma'}
                   value={formik.values.phone}
-                  onChange={(value: string, countryData: any) => {
+                  onChange={(value: string, countryData: { dialCode?: string }) => {
                     formik.setFieldValue('phone', value);
                     const dialCode = countryData?.dialCode || '212';
                     setPhoneDialCode(dialCode);
@@ -401,31 +511,22 @@ Looking forward to cooking with you! 🇲🇦`;
                     formik.setFieldTouched('phone', true);
                     if (formik.values.phone) {
                       const isValid = validatePhoneForCountry(formik.values.phone, phoneDialCode);
-                      setPhoneError(isValid ? '' : `Phone number must match the format for +${phoneDialCode}`);
+                      setPhoneError(
+                        isValid ? '' : `Phone number must match the format for +${phoneDialCode}`
+                      );
                     }
                   }}
-                  inputProps={{
-                    name: 'phone',
-                    required: true,
-                    id: 'phone'
-                  }}
-                  enableSearch={true}
+                  inputProps={{ name: 'phone', required: true, id: 'phone' }}
+                  enableSearch
                   searchPlaceholder="Search country..."
                   preferredCountries={['ma', 'fr', 'es', 'de', 'gb', 'us']}
-                  searchStyle={{
-                    width: '100%',
-                    padding: '8px 12px',
-                  }}
                 />
               </div>
               {formik.touched.phone && (formik.errors.phone || phoneError) && (
-                <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
-                  <span>⚠</span> {formik.errors.phone || phoneError}
-                </p>
+                <p className="text-red-500 text-sm mt-1">⚠ {formik.errors.phone || phoneError}</p>
               )}
             </div>
 
-            {/* Country */}
             <div className="mb-6">
               <label htmlFor="country" className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
                 <FiMapPin className="w-4 h-4 text-amber-600" />
@@ -435,10 +536,8 @@ Looking forward to cooking with you! 🇲🇦`;
                 instanceId="country-select"
                 id="country"
                 options={countryOptions}
-                value={countryOptions.find(option => option.value === formik.values.country) || null}
-                onChange={(option) => {
-                  formik.setFieldValue('country', option?.value || '');
-                }}
+                value={countryOptions.find((option) => option.value === formik.values.country) || null}
+                onChange={(option) => formik.setFieldValue('country', option?.value || '')}
                 onBlur={() => formik.setFieldTouched('country', true)}
                 placeholder={t.booking.countryPlaceholder}
                 isClearable
@@ -450,103 +549,41 @@ Looking forward to cooking with you! 🇲🇦`;
                     minHeight: '50px',
                     borderRadius: '0.75rem',
                     borderWidth: '2px',
-                    borderColor: formik.touched.country && formik.errors.country 
-                      ? '#ef4444' 
-                      : state.isFocused 
-                        ? '#f59e0b' 
-                        : '#e5e7eb',
+                    borderColor:
+                      formik.touched.country && formik.errors.country
+                        ? '#ef4444'
+                        : state.isFocused
+                          ? '#f59e0b'
+                          : '#e5e7eb',
                     boxShadow: 'none',
-                    backgroundColor: 'white',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
                     '&:hover': {
-                      borderColor: formik.touched.country && formik.errors.country ? '#ef4444' : '#f59e0b',
+                      borderColor:
+                        formik.touched.country && formik.errors.country ? '#ef4444' : '#f59e0b',
                     },
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    padding: '8px 12px',
-                  }),
-                  input: (base) => ({
-                    ...base,
-                    margin: '0',
-                    padding: '0',
-                    fontSize: '1rem',
-                    color: '#111827',
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    color: '#9ca3af',
-                    fontSize: '1rem',
-                  }),
-                  singleValue: (base) => ({
-                    ...base,
-                    color: '#111827',
-                    fontSize: '1rem',
-                    fontWeight: '500',
                   }),
                   menu: (base) => ({
                     ...base,
                     borderRadius: '0.75rem',
                     overflow: 'hidden',
                     boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
-                    border: '1px solid #e5e7eb',
-                    marginTop: '4px',
-                  }),
-                  menuList: (base) => ({
-                    ...base,
-                    padding: '4px',
-                    maxHeight: '250px',
                   }),
                   option: (base, state) => ({
                     ...base,
-                    backgroundColor: state.isSelected 
-                      ? '#f59e0b' 
-                      : state.isFocused 
-                        ? '#fef3c7' 
+                    backgroundColor: state.isSelected
+                      ? '#f59e0b'
+                      : state.isFocused
+                        ? '#fef3c7'
                         : 'white',
                     color: state.isSelected ? 'white' : '#111827',
-                    cursor: 'pointer',
-                    fontSize: '0.95rem',
-                    fontWeight: state.isSelected ? '600' : '500',
-                    padding: '10px 12px',
-                    borderRadius: '0.5rem',
-                    margin: '2px 0',
-                    transition: 'all 0.15s',
-                    '&:active': {
-                      backgroundColor: '#f59e0b',
-                    },
                   }),
-                  indicatorSeparator: (base) => ({
-                    ...base,
-                    display: 'none',
-                  }),
-                  dropdownIndicator: (base, state) => ({
-                    ...base,
-                    color: state.isFocused ? '#f59e0b' : '#9ca3af',
-                    transition: 'all 0.2s',
-                    '&:hover': {
-                      color: '#f59e0b',
-                    },
-                  }),
-                  clearIndicator: (base) => ({
-                    ...base,
-                    color: '#9ca3af',
-                    cursor: 'pointer',
-                    '&:hover': {
-                      color: '#ef4444',
-                    },
-                  }),
+                  indicatorSeparator: () => ({ display: 'none' }),
                 }}
               />
               {formik.touched.country && formik.errors.country && (
-                <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
-                  <span>⚠</span> {formik.errors.country}
-                </p>
+                <p className="text-red-500 text-sm mt-1">⚠ {formik.errors.country}</p>
               )}
             </div>
 
-            {/* Email */}
             <div className="mb-6">
               <label htmlFor="email" className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
                 <FiMail className="w-4 h-4 text-amber-600" />
@@ -564,98 +601,192 @@ Looking forward to cooking with you! 🇲🇦`;
                 placeholder={t.booking.emailPlaceholder}
               />
               {formik.touched.email && formik.errors.email && (
-                <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
-                  <span>⚠</span> {formik.errors.email}
-                </p>
+                <p className="text-red-500 text-sm mt-1">⚠ {formik.errors.email}</p>
               )}
             </div>
 
-            {/* Package Selection */}
-            <div className="mb-6">
-              <label htmlFor="packageType" className="text-sm font-bold text-gray-700 mb-3 block">
-                {t.booking.packageType} *
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <label className={`relative cursor-pointer ${formik.values.packageType === 'basic' ? 'ring-2 ring-amber-500' : ''}`}>
-                  <input
-                    type="radio"
-                    name="packageType"
-                    value="basic"
-                    checked={formik.values.packageType === 'basic'}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className="sr-only"
-                  />
-                  <div className="border-2 border-gray-200 rounded-xl p-4 hover:border-amber-300 transition-colors">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-bold text-gray-900">{t.packages.basic.title}</span>
-                      {formik.values.packageType === 'basic' && (
-                        <div className="w-6 h-6 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full flex items-center justify-center">
-                          <FiCheck className="w-4 h-4 text-white" />
-                        </div>
-                      )}
-                    </div>
-                    <p className="text-sm text-gray-600 mb-2">{t.packages.basic.subtitle}</p>
-                    <p className="text-2xl font-black text-amber-600">60 EUR</p>
-                  </div>
+            {!isBasicFlow && (
+              <div className="mb-6">
+                <label htmlFor="packageType" className="text-sm font-bold text-gray-700 mb-3 block">
+                  {t.booking.packageType} *
                 </label>
-
-                <label className={`relative cursor-pointer ${formik.values.packageType === 'weekly-event' ? 'ring-2 ring-amber-500' : ''}`}>
-                  <input
-                    type="radio"
-                    name="packageType"
-                    value="weekly-event"
-                    checked={formik.values.packageType === 'weekly-event'}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className="sr-only"
-                  />
-                  <div className="border-2 border-gray-200 rounded-xl p-4 hover:border-amber-300 transition-colors">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-bold text-gray-900">Weekly Event</span>
-                      {formik.values.packageType === 'weekly-event' && (
-                        <div className="w-6 h-6 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full flex items-center justify-center">
-                          <FiCheck className="w-4 h-4 text-white" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {(
+                    [
+                      {
+                        value: 'basic',
+                        title: t.packages.basic.title,
+                        subtitle: t.packages.basic.subtitle,
+                        price: 'From 65 EUR',
+                      },
+                      {
+                        value: 'weekly-event',
+                        title: 'Weekly Event',
+                        subtitle: 'Weekly Berber Music Event at Sunset',
+                        price: '80 EUR',
+                      },
+                      {
+                        value: 'private',
+                        title: t.packages.private.title,
+                        subtitle: t.packages.private.subtitle,
+                        price: '80 EUR',
+                      },
+                      {
+                        value: 'private-at-location',
+                        title: t.packages.privateAtLocation.title,
+                        subtitle: t.packages.privateAtLocation.subtitle,
+                        price: '100 EUR',
+                      },
+                    ] as const
+                  ).map((pkg) => (
+                    <label
+                      key={pkg.value}
+                      className={`relative cursor-pointer ${
+                        formik.values.packageType === pkg.value ? 'ring-2 ring-amber-500' : ''
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="packageType"
+                        value={pkg.value}
+                        checked={formik.values.packageType === pkg.value}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        className="sr-only"
+                      />
+                      <div className="border-2 border-gray-200 rounded-xl p-4 hover:border-amber-300 transition-colors h-full">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-bold text-gray-900">{pkg.title}</span>
+                          {formik.values.packageType === pkg.value && (
+                            <div className="w-6 h-6 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full flex items-center justify-center">
+                              <FiCheck className="w-4 h-4 text-white" />
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
-                    <p className="text-sm text-gray-600 mb-2">Weekly Berber Music Event at Sunset</p>
-                    <p className="text-2xl font-black text-amber-600">80 EUR</p>
-                  </div>
-                </label>
-
-                <label className={`relative cursor-pointer ${formik.values.packageType === 'private' ? 'ring-2 ring-amber-500' : ''}`}>
-                  <input
-                    type="radio"
-                    name="packageType"
-                    value="private"
-                    checked={formik.values.packageType === 'private'}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className="sr-only"
-                  />
-                  <div className="border-2 border-gray-200 rounded-xl p-4 hover:border-amber-300 transition-colors">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-bold text-gray-900">{t.packages.private.title}</span>
-                      {formik.values.packageType === 'private' && (
-                        <div className="w-6 h-6 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full flex items-center justify-center">
-                          <FiCheck className="w-4 h-4 text-white" />
-                        </div>
-                      )}
-                    </div>
-                    <p className="text-sm text-gray-600 mb-2">{t.packages.private.subtitle}</p>
-                    <p className="text-2xl font-black text-amber-600">100 EUR</p>
-                  </div>
-                </label>
+                        <p className="text-sm text-gray-600 mb-2">{pkg.subtitle}</p>
+                        <p className="text-2xl font-black text-amber-600">{pkg.price}</p>
+                      </div>
+                    </label>
+                  ))}
+                </div>
               </div>
-              {formik.touched.packageType && formik.errors.packageType && (
-                <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
-                  <span>⚠</span> {formik.errors.packageType}
-                </p>
-              )}
-            </div>
+            )}
 
-            {/* Dietary Preference */}
+            {isBasicFlow && (
+              <>
+                <div className="mb-6">
+                  <label htmlFor="adults" className="text-sm font-bold text-gray-700 mb-2 block">
+                    {t.booking.adults} *
+                  </label>
+                  <input
+                    type="number"
+                    id="adults"
+                    min={BASIC_MIN_ADULTS}
+                    max={13}
+                    {...formik.getFieldProps('adults')}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">{t.booking.adultsHint}</p>
+                </div>
+
+                <div className="mb-6">
+                  <p className="text-sm font-bold text-gray-700 mb-3">{t.booking.childrenQuestion}</p>
+                  <div className="flex gap-3 mb-4">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setBringingChildren(true);
+                        if (children.length === 0) setChildren([{ age: 5 }]);
+                      }}
+                      className={`px-4 py-2 rounded-full text-sm font-bold border-2 ${
+                        bringingChildren
+                          ? 'border-amber-500 bg-amber-50 text-amber-800'
+                          : 'border-gray-200 text-gray-600'
+                      }`}
+                    >
+                      {t.booking.childrenYes}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setBringingChildren(false);
+                        setChildren([]);
+                      }}
+                      className={`px-4 py-2 rounded-full text-sm font-bold border-2 ${
+                        !bringingChildren
+                          ? 'border-amber-500 bg-amber-50 text-amber-800'
+                          : 'border-gray-200 text-gray-600'
+                      }`}
+                    >
+                      {t.booking.childrenNo}
+                    </button>
+                  </div>
+                  <p className="text-xs text-gray-500 mb-3">{t.booking.childrenPricingNote}</p>
+                  {bringingChildren && (
+                    <div className="space-y-3">
+                      {children.map((child, index) => (
+                        <div key={index} className="flex items-center gap-3">
+                          <label className="text-sm text-gray-600 w-28 shrink-0">
+                            {t.booking.childAge} {index + 1}
+                          </label>
+                          <input
+                            type="number"
+                            min={0}
+                            max={17}
+                            value={child.age}
+                            onChange={(e) => {
+                              const next = [...children];
+                              next[index] = { age: Number(e.target.value) };
+                              setChildren(next);
+                            }}
+                            className="flex-1 px-3 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500"
+                          />
+                          {children.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => setChildren(children.filter((_, i) => i !== index))}
+                              className="text-xs font-bold text-red-600"
+                            >
+                              {t.booking.removeChild}
+                            </button>
+                          )}
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={() => setChildren([...children, { age: 5 }])}
+                        className="text-sm font-bold text-amber-700 underline underline-offset-2"
+                      >
+                        {t.booking.addChild}
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                <div className="mb-8 rounded-2xl bg-[#F7F2EA] border border-amber-100 p-5">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-800 mb-3">
+                    {t.booking.priceSummary}
+                  </p>
+                  <div className="space-y-2 text-sm text-gray-700">
+                    <div className="flex justify-between">
+                      <span>
+                        {t.booking.adultsSubtotal} ({formik.values.adults} × {BASIC_ADULT_PRICE_EUR} €)
+                      </span>
+                      <span className="font-semibold">{priceSummary.adultSubtotal} €</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>{t.booking.childrenSubtotal}</span>
+                      <span className="font-semibold">{priceSummary.childrenSubtotal} €</span>
+                    </div>
+                    <div className="flex justify-between pt-2 border-t border-amber-200 text-base font-black text-gray-900">
+                      <span>{t.booking.total}</span>
+                      <span>{priceSummary.total} €</span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
             <div className="mb-6">
               <label htmlFor="dietaryPreference" className="text-sm font-bold text-gray-700 mb-2 block">
                 {t.booking.dietary}
@@ -663,24 +794,14 @@ Looking forward to cooking with you! 🇲🇦`;
               <select
                 id="dietaryPreference"
                 {...formik.getFieldProps('dietaryPreference')}
-                className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none transition-colors ${
-                  formik.touched.dietaryPreference && formik.errors.dietaryPreference
-                    ? 'border-red-500 focus:border-red-500'
-                    : 'border-gray-200 focus:border-amber-500'
-                }`}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500"
               >
                 <option value="none">{t.booking.dietaryNone}</option>
                 <option value="vegetarian">{t.booking.dietaryVegetarian}</option>
                 <option value="vegan">{t.booking.dietaryVegan}</option>
               </select>
-              {formik.touched.dietaryPreference && formik.errors.dietaryPreference && (
-                <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
-                  <span>⚠</span> {formik.errors.dietaryPreference}
-                </p>
-              )}
             </div>
 
-            {/* Allergies */}
             <div className="mb-8">
               <label htmlFor="allergies" className="text-sm font-bold text-gray-700 mb-2 block">
                 {t.booking.allergies}
@@ -689,21 +810,11 @@ Looking forward to cooking with you! 🇲🇦`;
                 id="allergies"
                 {...formik.getFieldProps('allergies')}
                 rows={3}
-                className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none transition-colors resize-none ${
-                  formik.touched.allergies && formik.errors.allergies
-                    ? 'border-red-500 focus:border-red-500'
-                    : 'border-gray-200 focus:border-amber-500'
-                }`}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500 resize-none"
                 placeholder={t.booking.allergiesPlaceholder}
               />
-              {formik.touched.allergies && formik.errors.allergies && (
-                <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
-                  <span>⚠</span> {formik.errors.allergies}
-                </p>
-              )}
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={formik.isSubmitting}
@@ -712,24 +823,21 @@ Looking forward to cooking with you! 🇲🇦`;
               {formik.isSubmitting ? (
                 <>
                   <svg className="animate-spin h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
                   </svg>
                   <span className="text-lg">{t.booking.submitting}</span>
                 </>
               ) : (
-                <>
-                  <span className="text-lg">{t.booking.submit}</span>
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </>
+                <span className="text-lg">{t.booking.submit}</span>
               )}
             </button>
 
-            <p className="text-sm text-gray-500 text-center mt-4">
-              {t.booking.disclaimer}
-            </p>
+            <p className="text-sm text-gray-500 text-center mt-4">{t.booking.disclaimer}</p>
           </form>
         </div>
       </section>
@@ -737,10 +845,15 @@ Looking forward to cooking with you! 🇲🇦`;
   );
 }
 
-// Main page component with Suspense boundary
 export default function BookPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500"></div></div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500" />
+        </div>
+      }
+    >
       <BookingForm />
     </Suspense>
   );

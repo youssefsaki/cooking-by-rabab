@@ -19,6 +19,7 @@ const packagesData = [
     priceLocal: "700 MAD",
     duration: "4 hours",
     groupSize: "3-13 guests",
+    locationLabel: "Amazigh Village",
     startTime: "13:30",
     image: "/packages/basic.webp",
     imageAlt: "Taghazout cooking class — half-day Berber village experience with traditional Moroccan dishes and clay oven bread in Atlas Mountains",
@@ -43,6 +44,7 @@ const packagesData = [
     priceLocal: "",
     duration: "4 hours",
     groupSize: "6-13 guests",
+    locationLabel: "Amazigh Village",
     startTime: "15:00",
     image: "/packages/weekly.jpeg",
     imageAlt: "Weekly Amazigh music event Taghazout — Berber village sunset celebration and cooking experience Morocco",
@@ -57,25 +59,53 @@ const packagesData = [
   },
   {
     id: "private",
-    name: "Private Package",
-    tagline: "Exclusive Mountain Experience",
-    subtitle: "Personalized culinary journey designed exclusively for your group",
+    name: "Private Workshop Experience",
+    tagline: "Private at Our Village Workshop",
+    subtitle: "A private cooking experience just for your group at our traditional village workshop — perfect for couples and small celebrations.",
+    price: "80",
+    pricePrefix: "",
+    currency: "EUR",
+    priceLocal: "",
+    duration: "Flexible",
+    groupSize: "2+ guests",
+    locationLabel: "Village Workshop",
+    startTime: "Flexible",
+    image: "/packages/private.webp",
+    imageAlt: "Private Workshop Experience Taghazout — private Moroccan cooking class at Amazigh village workshop in Atlas Mountains",
+    popular: false,
+    highlights: [
+      "Round-trip transport from Taghazout Mosque",
+      "Minimum 2 guests required",
+      "Moroccan Tea Masterclass",
+      "Amlou Making workshop",
+      "Shared meal with a local family",
+      "Customizable menu (Tagine, Msemen, Couscous, or Rfissa)",
+      "Recipe of your dish to take home"
+    ]
+  },
+  {
+    id: "private-at-location",
+    name: "Rabab Comes to You",
+    tagline: "Private At Your Location",
+    subtitle: "We bring the full cooking experience to your villa or riad — ideal for family gatherings and larger celebrations.",
     price: "100",
     pricePrefix: "",
     currency: "EUR",
     priceLocal: "",
-    duration: "5 hours",
-    groupSize: "Private group",
+    duration: "Flexible",
+    groupSize: "6+ guests",
+    locationLabel: "Your Location",
     startTime: "Flexible",
-    image: "/packages/private-chef.jpg",
-    imageAlt: "Private Moroccan cooking class Taghazout — exclusive Berber village culinary experience in Atlas Mountains",
+    image: "/packages/pv-at-ur-location.webp",
+    imageAlt: "Rabab Comes to You — private Moroccan cooking class at your villa or riad in Taghazout area",
+    popular: false,
     highlights: [
-      "Completely private experience",
-      "Flexible scheduling & timing",
-      "Customizable menu options",
-      "Your choice of location",
-      "Personalized cooking instruction",
-      "Private family-style feast"
+      "Minimum 6 guests required",
+      "Rabab and the team come to your location",
+      "Cook together — kitchen cleaned afterwards",
+      "Choose your meal (Tagine, Msemen, Couscous, or Rfissa)",
+      "All ingredients shopped and brought for you",
+      "Gift of local Moroccan terroir products"
     ]
   }
 ];
@@ -269,7 +299,7 @@ const PackagesV3: React.FC = memo(() => {
                       <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-white/15 backdrop-blur-sm rounded-full border border-white/20">
                         <FiMapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-300" />
                         <span className="text-white text-[11px] sm:text-sm font-medium">
-                          {pkg.id === 'private' ? 'Your Location' : 'Amazigh Village'}
+                          {pkg.locationLabel}
                         </span>
                       </div>
                     </div>

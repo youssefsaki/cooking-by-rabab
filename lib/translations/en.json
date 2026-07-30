@@ -69,12 +69,20 @@
       "pickup": "Taghazout Mosque Pickup"
     },
     "private": {
-      "title": "Private Package",
-      "subtitle": "Your Exclusive Mountain Experience",
-      "description": "A personalized full-day cultural journey",
-      "price": "800 MAD/person",
+      "title": "Private Workshop Experience",
+      "subtitle": "Private cooking at our village workshop",
+      "description": "A private cooking experience just for your group at our traditional village workshop — perfect for couples and small celebrations.",
+      "price": "80 EUR/person",
       "startTime": "Flexible Start Time",
-      "pickup": "Hotel Pickup Included"
+      "pickup": "Taghazout Mosque Pickup"
+    },
+    "privateAtLocation": {
+      "title": "Rabab Comes to You",
+      "subtitle": "Private cooking at your villa or riad",
+      "description": "We bring the full cooking experience to your villa or riad — ideal for family gatherings and larger celebrations.",
+      "price": "100 EUR/person",
+      "startTime": "Flexible Start Time",
+      "pickup": "At your location"
     },
     "viewDetails": "View Full Details",
     "bookNow": "Book Now"
@@ -137,7 +145,8 @@
     "emailPlaceholder": "Enter your email address",
     "packageType": "Select Package",
     "basicPackage": "Basic Package - 500 MAD",
-    "privatePackage": "Private Package - 800 MAD",
+    "privatePackage": "Private Workshop Experience - 80 EUR",
+    "privateAtLocationPackage": "Rabab Comes to You - 100 EUR",
     "dietary": "Dietary Preferences",
     "dietaryNone": "No restrictions",
     "dietaryVegetarian": "Vegetarian",
@@ -150,7 +159,26 @@
     "successMessage": "Thank you for your booking request! We'll contact you shortly to confirm your experience.",
     "bookAnother": "Book Another Experience",
     "backHome": "Back to Home",
-    "disclaimer": "By submitting this form, your booking request will be saved and we'll contact you shortly to confirm."
+    "disclaimer": "By submitting this form, your booking request will be saved and we'll contact you shortly to confirm.",
+    "calendarTitle": "Choose Your Day",
+    "calendarSubtitle": "Pick an available morning or afternoon workshop. Complimentary pick-up from Taghazout Mosque is included.",
+    "changeSlot": "Change date / time",
+    "selectedSlot": "Selected workshop",
+    "pickupLabel": "Pick-up",
+    "adults": "Number of adults",
+    "adultsHint": "Minimum 3 adults for the Basic package",
+    "childrenQuestion": "Are children joining?",
+    "childrenYes": "Yes",
+    "childrenNo": "No",
+    "childAge": "Child age",
+    "addChild": "Add another child",
+    "removeChild": "Remove",
+    "priceSummary": "Price summary",
+    "adultsSubtotal": "Adults",
+    "childrenSubtotal": "Children",
+    "total": "Total",
+    "slotConflict": "This time slot is already booked. Please choose another available slot.",
+    "childrenPricingNote": "Ages 0–3 free · 4–9 half price · 10+ full price"
   },
   "common": {
     "readMore": "Read More",
@@ -327,10 +355,10 @@
       "Your choice of dish (Tagine, Msemen, Couscous, or Rfissa)"
     ],
     "private": [
-      "Completely private experience",
-      "Flexible scheduling & timing",
-      "Customizable menu options",
-      "Exclusive Amazigh house access"
+      "Round-trip transport from Taghazout Mosque",
+      "Moroccan Tea Masterclass",
+      "Amlou Making",
+      "Customizable menu (Tagine, Msemen, Couscous, or Rfissa)"
     ]
   },
   "events": {
@@ -444,31 +472,48 @@
       ]
     },
     "private": {
-      "name": "Private Package",
-      "tagline": "Exclusive Mountain Experience",
-      "subtitle": "Personalized journey for you and your group",
-      "duration": "5 hours",
-      "groupSize": "Private group (2-8 guests)",
+      "name": "Private Workshop Experience",
+      "tagline": "Private at Our Village Workshop",
+      "subtitle": "A private cooking experience just for your group at our traditional village workshop — perfect for couples and small celebrations.",
+      "duration": "Flexible",
+      "groupSize": "Minimum 2 guests",
       "itinerary": [
-        { "time": "Flexible", "title": "Private Pickup", "description": "We'll pick you up from your accommodation at your preferred time. Enjoy a comfortable private drive through the Argan forest with stunning ocean views from the mountains." },
-        { "time": "Start", "title": "Exclusive House Welcome", "description": "Private tour of our ancient 300-year-old Amazigh house. Take your time exploring and learning about our ancestral way of life with personalized attention." },
-        { "time": "+30 min", "title": "Personalized Tea Ceremony", "description": "Private tea ceremony in our garden. Pick your own fresh herbs and learn the authentic Moroccan tea ritual at your own pace." },
-        { "time": "+1 hour", "title": "Bread Making Workshop", "description": "Exclusive bread-making session. Knead your dough and bake it in our traditional stone oven with Argan wood, creating that signature smoky flavor." },
-        { "time": "+1.5 hours", "title": "Custom Dish Creation", "description": "Choose your preferred dish — Tagine, Msemen, Couscous, or Rfissa — and create it with individual attention. We'll accommodate dietary preferences and teach you the authentic techniques." },
-        { "time": "+2.5 hours", "title": "Amlou Making Experience", "description": "Private session using our ancient millstone. Grind toasted almonds by hand and blend with pure Argan oil and honey to create authentic Amlou." },
-        { "time": "+3.5 hours", "title": "Private Family Feast", "description": "Enjoy your meal in an intimate setting with your group. Share stories and experience genuine Moroccan hospitality while watching the sunset over the Atlas Mountains." },
-        { "time": "End", "title": "Private Return Journey", "description": "Comfortable private transport back to your accommodation at your preferred time." }
+        { "time": "Flexible", "title": "Round-Trip Transport", "description": "Round-trip transport from Taghazout Mosque to our traditional village workshop in the Atlas Mountains above Taghazout." },
+        { "time": "Start", "title": "Moroccan Tea Masterclass", "description": "Learn how to make traditional mint tea in a relaxing workshop setting reserved just for your group." },
+        { "time": "+1 hour", "title": "Amlou Making", "description": "Learn how to make traditional Moroccan almond and argan oil spread with hands-on guidance." },
+        { "time": "+2 hours", "title": "Your Chosen Dish", "description": "Cook the dish you choose — Tagine, Msemen, Couscous, or Rfissa — in our traditional village workshop." },
+        { "time": "+3 hours", "title": "Shared Family Meal", "description": "Enjoy a shared meal, eating together with a local family, then take home the recipe of the dish you cooked." }
       ],
       "includes": [
-        "Completely private experience",
-        "Flexible scheduling & timing",
-        "Your choice of location",
-        "Custom menu options",
-        "300-year-old Amazigh house tour",
-        "Complete cooking workshop",
-        "All ingredients & materials",
-        "Private family-style feast",
-        "Dietary accommodations available"
+        "Round-trip transport from Taghazout Mosque to the workshop in the mountains",
+        "Moroccan Tea Masterclass — learn how to make traditional mint tea",
+        "Amlou Making — traditional Moroccan almond and argan oil spread",
+        "Shared meal, eating together with a local family",
+        "Traditional, relaxing workshop setting",
+        "The recipe of the dish you choose to cook, to take home",
+        "Customizable menu (Tagine, Msemen, Couscous, or Rfissa)",
+        "Minimum 2 guests"
+      ]
+    },
+    "privateAtLocation": {
+      "name": "Rabab Comes to You",
+      "tagline": "Private At Your Location",
+      "subtitle": "We bring the full cooking experience to your villa or riad — ideal for family gatherings and larger celebrations.",
+      "duration": "Flexible",
+      "groupSize": "Minimum 6 guests",
+      "itinerary": [
+        { "time": "Flexible", "title": "We Come to You", "description": "Rabab and the team come directly to your hotel, villa, or riad anywhere in the Taghazout area." },
+        { "time": "Start", "title": "Ingredients Ready", "description": "Rabab and the team shop for and bring all the ingredients needed for your chosen meal." },
+        { "time": "+1 hour", "title": "Cook Together", "description": "The team cooks together with you — choose Tagine, Msemen, Couscous, or Rfissa — and cleans the kitchen afterwards." },
+        { "time": "End", "title": "A Gift to Take Home", "description": "Receive a gift of local Moroccan terroir products to take home after your private celebration." }
+      ],
+      "includes": [
+        "Rabab and the team come directly to your location",
+        "The team cooks together with you, and cleans the kitchen afterwards",
+        "You choose your meal (Tagine, Msemen, Couscous, or Rfissa)",
+        "Rabab and the team shop for and bring all the ingredients needed",
+        "A gift of local Moroccan terroir products to take home",
+        "Minimum 6 guests"
       ]
     }
   },

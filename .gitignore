@@ -61,3 +61,6 @@ logs
 tmp/
 temp/
 *.tmp
+
+# Local booking fallback store
+/data/bookings-store.json

@@ -11,7 +11,7 @@ export default function PackagesPage() {
 
   useEffect(() => {
     const hash = window.location.hash.replace('#', '');
-    if (hash && ['basic', 'weekly-event', 'private'].includes(hash)) {
+    if (hash && ['basic', 'weekly-event', 'private', 'private-at-location'].includes(hash)) {
       setSelectedPackage(hash);
       setTimeout(() => {
         const el = document.getElementById('selected-package-details');
@@ -27,7 +27,7 @@ export default function PackagesPage() {
       name: t.packagesPage.basic.name,
       tagline: t.packagesPage.basic.tagline,
       subtitle: t.packagesPage.basic.subtitle,
-      price: "60",
+      price: "65",
       currency: "EUR",
       duration: t.packagesPage.basic.duration,
       groupSize: t.packagesPage.basic.groupSize,
@@ -35,8 +35,8 @@ export default function PackagesPage() {
       endTime: "19:30-20:00",
       pickup: "Taghazout Mosque",
       dropoff: "Taghazout or Tamraght",
-      image: "/packages/basic.jpg",
-      alt: "Taghazout cooking class — half-day Berber village experience with tagine and clay oven bread in Atlas Mountains",
+      image: "/packages/basic.webp",
+      alt: "Taghazout cooking class — half-day Berber village experience with traditional Moroccan dishes and clay oven bread in Atlas Mountains",
       popular: true,
       itinerary: t.packagesPage.basic.itinerary,
       includes: t.packagesPage.basic.includes,
@@ -64,18 +64,36 @@ export default function PackagesPage() {
       name: t.packagesPage.private.name,
       tagline: t.packagesPage.private.tagline,
       subtitle: t.packagesPage.private.subtitle,
-      price: "100",
+      price: "80",
       currency: "EUR",
       duration: t.packagesPage.private.duration,
       groupSize: t.packagesPage.private.groupSize,
       startTime: "Flexible",
       endTime: "Flexible",
-      pickup: "Custom pickup available",
-      dropoff: "Your accommodation",
-      image: "/packages/private-chef.jpg",
-      alt: "Private Moroccan cooking class Taghazout — exclusive Berber village culinary journey in Atlas Mountains",
+      pickup: "Taghazout Mosque",
+      dropoff: "Taghazout or Tamraght",
+      image: "/packages/private.webp",
+      alt: "Private Workshop Experience Taghazout — private Moroccan cooking class at Amazigh village workshop",
       itinerary: t.packagesPage.private.itinerary,
       includes: t.packagesPage.private.includes,
+    },
+    {
+      id: "private-at-location",
+      name: t.packagesPage.privateAtLocation.name,
+      tagline: t.packagesPage.privateAtLocation.tagline,
+      subtitle: t.packagesPage.privateAtLocation.subtitle,
+      price: "100",
+      currency: "EUR",
+      duration: t.packagesPage.privateAtLocation.duration,
+      groupSize: t.packagesPage.privateAtLocation.groupSize,
+      startTime: "Flexible",
+      endTime: "Flexible",
+      pickup: "At your location",
+      dropoff: "At your location",
+      image: "/packages/pv-at-ur-location.webp",
+      alt: "Rabab Comes to You — private Moroccan cooking class at your villa or riad in Taghazout",
+      itinerary: t.packagesPage.privateAtLocation.itinerary,
+      includes: t.packagesPage.privateAtLocation.includes,
     }
   ];
 
