@@ -95,12 +95,12 @@
     "description": "Choisissez votre expérience culinaire traditionnelle à Taghazout — demi-journée dans un village berbère des Atlas, à 15 minutes de la côte.",
     "mostPopular": "Le Plus Populaire",
     "basic": {
-      "title": "Forfait de Base",
+      "title": "L'Évasion Montagne & Culinaire Authentique",
       "subtitle": "Votre Voyage dans les Montagnes",
-      "description": "Une expérience culturelle immersive d'une demi-journée",
-      "price": "500 MAD/personne",
-      "duration": "6 heures",
-      "startTime": "Début à 13h30",
+      "description": "Quittez la côte pour une demi-journée dans l'Atlas. Visitez une maison de village historique, préparez de l'Amlou et cuisinez le plat traditionnel de votre choix.",
+      "price": "À partir de 65 EUR/personne",
+      "duration": "4 heures",
+      "startTime": "Horaire flexible",
       "pickup": "Prise en charge à la Mosquée de Taghazout"
     },
     "private": {
@@ -243,7 +243,11 @@
     "childrenSubtotal": "Enfants",
     "total": "Total",
     "slotConflict": "Ce créneau est déjà réservé. Veuillez en choisir un autre.",
-    "childrenPricingNote": "0–3 ans gratuit · 4–9 ans demi-tarif · 10+ plein tarif"
+    "childrenPricingNote": "0–3 ans gratuit · 4–9 ans demi-tarif · 10+ plein tarif",
+    "chooseDish": "Choisissez un plat pour votre groupe",
+    "chooseDishHint": "Tout le monde cuisine et mange le même plat. Un seul choix pour la réservation — pas par personne.",
+    "dietaryNotes": "Notes alimentaires / allergies",
+    "dietaryNotesPlaceholder": "ex. un invité sans viande, allergie aux noix — notes pour l'hôte, pas un autre plat"
   },
   "common": {
     "readMore": "Lire Plus",
@@ -555,7 +559,7 @@
     "readyDescription": "Réservez votre {name} dès aujourd'hui et créez des souvenirs inoubliables",
     "bookPackage": "Réserver {name}",
     "basic": {
-      "name": "Forfait de Base",
+      "name": "L'Évasion Montagne & Culinaire Authentique",
       "tagline": "Votre Voyage dans les Montagnes",
       "subtitle": "Expérience Culturelle Berbère Authentique d'une Demi-Journée au-dessus de Taghazout",
       "duration": "4 heures",

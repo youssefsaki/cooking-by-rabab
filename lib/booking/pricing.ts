@@ -12,32 +12,43 @@ export function childPriceMultiplier(age: number): number {
   return 1;
 }
 
-export function childPriceEur(age: number, adultPrice = BASIC_ADULT_PRICE_EUR): number {
-  return adultPrice * childPriceMultiplier(age);
+export function childPriceEur(age: number, dishPrice = BASIC_ADULT_PRICE_EUR): number {
+  return dishPrice * childPriceMultiplier(age);
 }
 
+/**
+ * Order-level pricing: (selected dish price) × guests.
+ * Children apply age multipliers against the same dish price.
+ */
 export function calculateBookingTotal(params: {
   adults: number;
   children: ChildGuest[];
+  /** Per-guest price of the shared dish chosen for the booking */
+  dishPriceEur?: number;
+  /** @deprecated use dishPriceEur */
   adultPriceEur?: number;
 }): {
   adultSubtotal: number;
   childrenSubtotal: number;
   total: number;
   adultPrice: number;
+  dishPrice: number;
+  guestCount: number;
 } {
-  const adultPrice = params.adultPriceEur ?? BASIC_ADULT_PRICE_EUR;
+  const dishPrice = params.dishPriceEur ?? params.adultPriceEur ?? BASIC_ADULT_PRICE_EUR;
   const adults = Math.max(0, params.adults);
-  const adultSubtotal = adults * adultPrice;
+  const adultSubtotal = adults * dishPrice;
   const childrenSubtotal = params.children.reduce(
-    (sum, child) => sum + childPriceEur(child.age, adultPrice),
+    (sum, child) => sum + childPriceEur(child.age, dishPrice),
     0
   );
 
   return {
-    adultPrice,
+    adultPrice: dishPrice,
+    dishPrice,
     adultSubtotal,
     childrenSubtotal,
+    guestCount: adults + params.children.length,
     total: adultSubtotal + childrenSubtotal,
   };
 }

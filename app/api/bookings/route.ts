@@ -6,6 +6,7 @@ import {
   type StoredBooking,
 } from '@/lib/booking/conflicts';
 import { calculateBookingTotal, type ChildGuest } from '@/lib/booking/pricing';
+import { getDishById } from '@/lib/booking/menu';
 import {
   BASIC_MIN_ADULTS,
   getSlotById,
@@ -24,11 +25,14 @@ interface BookingPayload {
   packageType: PackageType;
   slotDate: string;
   slotPeriod: SlotPeriod;
+  /** Shared dish for the whole group (order-level) */
+  dishId?: string;
   dish?: string;
   adults: number;
   children?: ChildGuest[];
   location?: string;
   allergies?: string;
+  dietaryNotes?: string;
   dietaryPreference?: string;
 }
 
@@ -114,7 +118,36 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: conflict.message }, { status: 409 });
     }
 
-    const pricing = calculateBookingTotal({ adults, children });
+    const menuDish = getDishById(body.dishId);
+    if (packageType === 'basic' && !menuDish) {
+      return NextResponse.json(
+        { error: 'Please select one shared dish for your group' },
+        { status: 400 }
+      );
+    }
+
+    if (
+      packageType === 'basic' &&
+      menuDish &&
+      slot.menuCategory &&
+      menuDish.category !== slot.menuCategory
+    ) {
+      return NextResponse.json(
+        { error: 'Selected dish is not available for this workshop day' },
+        { status: 400 }
+      );
+    }
+
+    const dishName = menuDish?.name || body.dish?.trim() || slot.dish;
+    const dishPrice = menuDish?.priceEur;
+    const pricing = calculateBookingTotal({
+      adults,
+      children,
+      dishPriceEur: dishPrice,
+    });
+
+    const dietaryNotes = (body.dietaryNotes || body.allergies || '').trim();
+
     const booking: StoredBooking = {
       id: randomUUID(),
       createdAt: new Date().toISOString(),
@@ -125,11 +158,11 @@ export async function POST(request: NextRequest) {
       packageType,
       slotDate: body.slotDate,
       slotPeriod: body.slotPeriod,
-      dish: body.dish?.trim() || slot.dish,
+      dish: dishName,
       adults,
       children,
       location: body.location?.trim() || 'Taghazout Mosque pickup → Village workshop',
-      allergies: body.allergies?.trim() || '',
+      allergies: dietaryNotes,
       totalPrice: pricing.total,
       status: 'confirmed',
     };

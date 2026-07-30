@@ -95,12 +95,12 @@
     "description": "Wählen Sie Ihr traditionelles Kocherlebnis in Taghazout — halbtägige Berberdorf-Reise im Atlas, nur 15 Minuten von der Küste.",
     "mostPopular": "Am Beliebtesten",
     "basic": {
-      "title": "Basis-Paket",
+      "title": "Die Authentische Berg- & Kulinarik-Flucht",
       "subtitle": "Ihre Reise in die Berge",
-      "description": "Ein halbtägiges immersives Kulturerlebnis",
-      "price": "500 MAD/Person",
-      "duration": "6 Stunden",
-      "startTime": "Beginn um 13:30 Uhr",
+      "description": "Verlassen Sie die Küste für einen halben Tag im Atlas. Besichtigen Sie ein historisches Dorfhaus, mahlen Sie frisches Amlou und kochen Sie das traditionelle Gericht Ihrer Wahl.",
+      "price": "Ab 65 EUR/Person",
+      "duration": "4 Stunden",
+      "startTime": "Flexibler Start",
       "pickup": "Abholung an der Taghazout-Moschee"
     },
     "private": {
@@ -243,7 +243,11 @@
     "childrenSubtotal": "Kinder",
     "total": "Gesamt",
     "slotConflict": "Dieser Zeitslot ist bereits gebucht. Bitte wählen Sie einen anderen verfügbaren Slot.",
-    "childrenPricingNote": "0–3 Jahre gratis · 4–9 halb · 10+ voll"
+    "childrenPricingNote": "0–3 Jahre gratis · 4–9 halb · 10+ voll",
+    "chooseDish": "Wählen Sie ein Gericht für Ihre Gruppe",
+    "chooseDishHint": "Alle kochen und essen dasselbe Gericht. Eine gemeinsame Wahl für die Buchung — nicht pro Person.",
+    "dietaryNotes": "Ernährungshinweise / Allergien",
+    "dietaryNotesPlaceholder": "z. B. ein Gast ohne Fleisch, Nussallergie — Hinweis für den Gastgeber, keine zweite Gerichtswahl"
   },
   "common": {
     "readMore": "Mehr Lesen",
@@ -555,7 +559,7 @@
     "readyDescription": "Buchen Sie noch heute Ihr {name} und schaffen Sie unvergessliche Erinnerungen",
     "bookPackage": "{name} Buchen",
     "basic": {
-      "name": "Basis-Paket",
+      "name": "Die Authentische Berg- & Kulinarik-Flucht",
       "tagline": "Ihre Reise in die Berge",
       "subtitle": "Halbtägiges Authentisches Berber-Kulturerlebnis Oberhalb von Taghazout",
       "duration": "4 Stunden",

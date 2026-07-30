@@ -60,12 +60,12 @@
     "description": "Choose your traditional cooking experience in Taghazout — half-day Berber village journey in the Atlas Mountains, just 15 minutes from the coast.",
     "mostPopular": "Most Popular",
     "basic": {
-      "title": "Basic Package",
+      "title": "The Authentic Mountain & Culinary Escape",
       "subtitle": "Your Journey into the Mountains",
-      "description": "A half-day immersive cultural experience",
-      "price": "500 MAD/person",
-      "duration": "6 hours",
-      "startTime": "13:30 Start Time",
+      "description": "Escape the coast for a half-day in the Atlas Mountains. Tour a historic village home, grind fresh Amlou, and cook the traditional dish of your choice.",
+      "price": "From 65 EUR/person",
+      "duration": "4 hours",
+      "startTime": "Flexible Start Time",
       "pickup": "Taghazout Mosque Pickup"
     },
     "private": {
@@ -144,7 +144,7 @@
     "email": "Email Address",
     "emailPlaceholder": "Enter your email address",
     "packageType": "Select Package",
-    "basicPackage": "Basic Package - 500 MAD",
+    "basicPackage": "The Authentic Mountain & Culinary Escape - From 65 EUR",
     "privatePackage": "Private Workshop Experience - 80 EUR",
     "privateAtLocationPackage": "Rabab Comes to You - 100 EUR",
     "dietary": "Dietary Preferences",
@@ -178,7 +178,11 @@
     "childrenSubtotal": "Children",
     "total": "Total",
     "slotConflict": "This time slot is already booked. Please choose another available slot.",
-    "childrenPricingNote": "Ages 0–3 free · 4–9 half price · 10+ full price"
+    "childrenPricingNote": "Ages 0–3 free · 4–9 half price · 10+ full price",
+    "chooseDish": "Choose one dish for your group",
+    "chooseDishHint": "Everyone cooks and eats the same dish. One shared choice for the whole booking — not per guest.",
+    "dietaryNotes": "Dietary notes / allergies",
+    "dietaryNotesPlaceholder": "e.g. one guest no meat, nut allergy — notes for the host, not a separate dish choice"
   },
   "common": {
     "readMore": "Read More",
@@ -426,7 +430,7 @@
     "readyDescription": "Book your {name} today and create unforgettable memories",
     "bookPackage": "Book {name}",
     "basic": {
-      "name": "Basic Package",
+      "name": "The Authentic Mountain & Culinary Escape",
       "tagline": "Your Journey into the Mountains",
       "subtitle": "Half-Day Authentic Berber Cultural Experience Above Taghazout",
       "duration": "4 hours",

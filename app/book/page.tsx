@@ -11,10 +11,17 @@ import Select from 'react-select';
 import { FiCheck, FiMail, FiPhone, FiUser, FiMapPin } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
 import WorkshopCalendar from '@/components/booking/WorkshopCalendar';
+import DishSelectionStep from '@/components/booking/DishSelectionStep';
 import type { CalendarSlot } from '@/lib/booking/schedule';
-import { BASIC_MIN_ADULTS, BASIC_ADULT_PRICE_EUR } from '@/lib/booking/schedule';
+import { BASIC_MIN_ADULTS } from '@/lib/booking/schedule';
 import { calculateBookingTotal, type ChildGuest } from '@/lib/booking/pricing';
+import {
+  BOOKING_MENU_IDS,
+  getDishById,
+  getDishesForSlotCategory,
+} from '@/lib/booking/menu';
 import { SLOT_CONFLICT_MESSAGE } from '@/lib/booking/conflicts';
+import Image from 'next/image';
 
 const countryOptions = [
   { value: 'Morocco', label: '🇲🇦 Morocco', flag: '🇲🇦' },
@@ -109,7 +116,16 @@ const baseValidationSchema = Yup.object({
     .oneOf(['none', 'vegetarian', 'vegan'], 'Please select a valid dietary preference')
     .required('Dietary preference is required'),
   allergies: Yup.string().max(500, 'Allergies description must be less than 500 characters'),
+  dietaryNotes: Yup.string().max(500, 'Dietary notes must be less than 500 characters'),
   adults: Yup.number().min(1).required(),
+  dishId: Yup.string().when('packageType', {
+    is: 'basic',
+    then: (schema) =>
+      schema
+        .oneOf(BOOKING_MENU_IDS, 'Please select one dish for your group')
+        .required('Please select one dish for your group'),
+    otherwise: (schema) => schema.notRequired(),
+  }),
 });
 
 function BookingForm() {
@@ -119,8 +135,11 @@ function BookingForm() {
   const initialPackage = resolvePackageType(packageParam);
   const isBasicFlow = initialPackage === 'basic';
 
-  const [step, setStep] = useState<'calendar' | 'form'>(isBasicFlow ? 'calendar' : 'form');
+  const [step, setStep] = useState<'calendar' | 'dish' | 'form'>(
+    isBasicFlow ? 'calendar' : 'form'
+  );
   const [selectedSlot, setSelectedSlot] = useState<CalendarSlot | null>(null);
+  const [dishStepError, setDishStepError] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [phoneDialCode, setPhoneDialCode] = useState('212');
   const [phoneError, setPhoneError] = useState('');
@@ -137,7 +156,9 @@ function BookingForm() {
       packageType: initialPackage,
       dietaryPreference: 'none',
       allergies: '',
+      dietaryNotes: '',
       adults: BASIC_MIN_ADULTS,
+      dishId: '',
     },
     validationSchema: baseValidationSchema,
     onSubmit: async (values, { setSubmitting }) => {
@@ -163,6 +184,14 @@ function BookingForm() {
             return;
           }
 
+          const selectedDish = getDishById(values.dishId);
+          if (!selectedDish) {
+            setSubmitError('Please select one shared dish for your group.');
+            setStep('dish');
+            setSubmitting(false);
+            return;
+          }
+
           const childPayload = bringingChildren ? children.filter((c) => Number.isFinite(c.age)) : [];
 
           const res = await fetch('/api/bookings', {
@@ -176,16 +205,13 @@ function BookingForm() {
               packageType: 'basic',
               slotDate: selectedSlot.date,
               slotPeriod: selectedSlot.period,
-              dish: selectedSlot.dish,
+              dishId: selectedDish.id,
+              dish: selectedDish.name,
               adults: values.adults,
               children: childPayload,
               location: `Pick-up ${selectedSlot.pickup.time} at ${selectedSlot.pickup.meetingPoint}`,
-              allergies: [
-                values.allergies,
-                values.dietaryPreference !== 'none' ? `Dietary: ${values.dietaryPreference}` : '',
-              ]
-                .filter(Boolean)
-                .join(' | '),
+              dietaryNotes: values.dietaryNotes,
+              allergies: values.dietaryNotes,
             }),
           });
 
@@ -202,13 +228,15 @@ function BookingForm() {
           setSubmitted(true);
           openWhatsApp({
             ...values,
-            dish: selectedSlot.dish,
+            dish: selectedDish.name,
+            dishPrice: selectedDish.priceEur,
             slotDate: selectedSlot.date,
             slotPeriod: selectedSlot.period,
             pickup: `${selectedSlot.pickup.time} · ${selectedSlot.pickup.meetingPoint}`,
             adults: values.adults,
             children: childPayload,
             totalPrice: data.booking?.totalPrice,
+            dietaryNotes: values.dietaryNotes,
           });
           return;
         }
@@ -245,24 +273,24 @@ function BookingForm() {
     },
   });
 
+  const availableDishes = useMemo(
+    () => getDishesForSlotCategory(selectedSlot?.menuCategory),
+    [selectedSlot?.menuCategory]
+  );
+
+  const selectedDish = getDishById(formik.values.dishId);
+
   const priceSummary = useMemo(() => {
     const childPayload = bringingChildren ? children : [];
     return calculateBookingTotal({
       adults: formik.values.adults,
       children: childPayload,
-      adultPriceEur: BASIC_ADULT_PRICE_EUR,
+      dishPriceEur: selectedDish?.priceEur,
     });
-  }, [bringingChildren, children, formik.values.adults]);
+  }, [bringingChildren, children, formik.values.adults, selectedDish?.priceEur]);
 
   function openWhatsApp(payload: Record<string, unknown>) {
     const whatsappPhone = '212726671746';
-    const dietaryText =
-      payload.dietaryPreference === 'none'
-        ? 'No restrictions'
-        : String(payload.dietaryPreference || '')
-            .charAt(0)
-            .toUpperCase() + String(payload.dietaryPreference || '').slice(1);
-    const allergiesText = (payload.allergies as string) || 'None';
     const childrenList = Array.isArray(payload.children)
       ? (payload.children as ChildGuest[]).map((c) => `${c.age}y`).join(', ') || 'None'
       : 'None';
@@ -281,7 +309,9 @@ function BookingForm() {
     if (payload.slotDate) {
       lines.push(
         `📅 *Slot:* ${payload.slotDate} · ${payload.slotPeriod}`,
-        `🍲 *Dish:* ${payload.dish}`,
+        `🍲 *Shared dish (whole group):* ${payload.dish}${
+          payload.dishPrice != null ? ` (${payload.dishPrice} EUR/guest)` : ''
+        }`,
         `🚌 *Pick-up:* ${payload.pickup}`,
         `👥 *Adults:* ${payload.adults}`,
         `👶 *Children:* ${childrenList}`,
@@ -289,9 +319,16 @@ function BookingForm() {
       );
     }
 
+    const dietaryNotes =
+      (payload.dietaryNotes as string) ||
+      (payload.allergies as string) ||
+      (payload.dietaryPreference && payload.dietaryPreference !== 'none'
+        ? String(payload.dietaryPreference)
+        : '') ||
+      'None';
+
     lines.push(
-      `🥗 *Dietary:* ${dietaryText}`,
-      `⚠️ *Allergies:* ${allergiesText}`,
+      `🥗 *Dietary notes / allergies:* ${dietaryNotes}`,
       '',
       'Looking forward to cooking with you! 🇲🇦'
     );
@@ -309,6 +346,7 @@ function BookingForm() {
   const resetAll = () => {
     setSubmitted(false);
     setSubmitError('');
+    setDishStepError('');
     setSelectedSlot(null);
     setBringingChildren(false);
     setChildren([]);
@@ -322,7 +360,9 @@ function BookingForm() {
         packageType: initialPackage,
         dietaryPreference: 'none',
         allergies: '',
+        dietaryNotes: '',
         adults: BASIC_MIN_ADULTS,
+        dishId: '',
       },
     });
   };
@@ -371,10 +411,49 @@ function BookingForm() {
               onSelectSlot={(slot) => {
                 setSelectedSlot(slot);
                 setSubmitError('');
-                setStep('form');
+                setDishStepError('');
+                const options = getDishesForSlotCategory(slot.menuCategory);
+                if (options.length === 1) {
+                  formik.setFieldValue('dishId', options[0].id);
+                } else {
+                  formik.setFieldValue('dishId', '');
+                }
+                setStep('dish');
               }}
             />
           </div>
+        </section>
+      </main>
+    );
+  }
+
+  if (isBasicFlow && step === 'dish' && selectedSlot) {
+    const slotLabel = `${selectedSlot.weekday} ${selectedSlot.dayNumber} ${selectedSlot.month} · ${selectedSlot.period}`;
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-[#FBF7F0] via-white to-amber-50">
+        <section className="pt-32 sm:pt-40 pb-16 px-4 sm:px-6">
+          <DishSelectionStep
+            dishes={availableDishes}
+            value={formik.values.dishId}
+            onChange={(dishId) => {
+              formik.setFieldValue('dishId', dishId);
+              setDishStepError('');
+            }}
+            onBack={() => {
+              setDishStepError('');
+              setStep('calendar');
+            }}
+            onContinue={() => {
+              if (!formik.values.dishId) {
+                setDishStepError('Please select one dish for your group.');
+                return;
+              }
+              setDishStepError('');
+              setStep('form');
+            }}
+            slotLabel={slotLabel}
+            error={dishStepError}
+          />
         </section>
       </main>
     );
@@ -384,6 +463,11 @@ function BookingForm() {
     <main className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
       <section className="pt-40 pb-12 px-6">
         <div className="max-w-4xl mx-auto text-center">
+          {isBasicFlow && (
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-700 mb-3">
+              Step 3 of 3
+            </p>
+          )}
           <h1 className="text-5xl sm:text-6xl font-black text-gray-900 mb-6 leading-tight">
             {t.booking.title}
           </h1>
@@ -394,7 +478,7 @@ function BookingForm() {
       <section className="pb-20 px-6">
         <div className="max-w-2xl mx-auto">
           {isBasicFlow && selectedSlot && (
-            <div className="mb-6 rounded-3xl border border-amber-200 bg-white p-5 sm:p-6 shadow-sm">
+            <div className="mb-6 rounded-3xl border border-amber-200 bg-white p-5 sm:p-6 shadow-sm space-y-5">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700 mb-2">
@@ -406,12 +490,10 @@ function BookingForm() {
                   <p className="text-sm text-gray-600 mt-1 capitalize">
                     {selectedSlot.period} · {selectedSlot.startTime} – {selectedSlot.endTime}
                   </p>
-                  <p className="text-sm font-semibold text-gray-800 mt-2">{selectedSlot.dish}</p>
                   <p className="text-sm text-gray-600 mt-2">
                     <span className="font-semibold">{t.booking.pickupLabel}:</span>{' '}
                     {selectedSlot.pickup.time} · {selectedSlot.pickup.meetingPoint}
                   </p>
-                  <p className="text-sm text-gray-500 mt-1">Package: Basic · From {BASIC_ADULT_PRICE_EUR} €</p>
                 </div>
                 <button
                   type="button"
@@ -421,6 +503,36 @@ function BookingForm() {
                   {t.booking.changeSlot}
                 </button>
               </div>
+
+              {selectedDish && (
+                <div className="flex gap-3 sm:gap-4 items-center border-t border-amber-100 pt-5">
+                  <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 bg-gray-100">
+                    <Image
+                      src={selectedDish.image}
+                      alt={selectedDish.name}
+                      fill
+                      className="object-cover"
+                      sizes="80px"
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-gray-400 mb-1">
+                      Shared dish
+                    </p>
+                    <p className="font-bold text-gray-900 leading-snug">{selectedDish.name}</p>
+                    <p className="text-sm text-amber-700 font-semibold mt-1">
+                      {selectedDish.priceEur} € / person · {selectedDish.priceMad} MAD
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setStep('dish')}
+                    className="text-sm font-bold text-amber-700 underline underline-offset-2 shrink-0"
+                  >
+                    Change dish
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
@@ -606,69 +718,29 @@ function BookingForm() {
             </div>
 
             {!isBasicFlow && (
-              <div className="mb-6">
-                <label htmlFor="packageType" className="text-sm font-bold text-gray-700 mb-3 block">
-                  {t.booking.packageType} *
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {(
-                    [
-                      {
-                        value: 'basic',
-                        title: t.packages.basic.title,
-                        subtitle: t.packages.basic.subtitle,
-                        price: 'From 65 EUR',
-                      },
-                      {
-                        value: 'weekly-event',
-                        title: 'Weekly Event',
-                        subtitle: 'Weekly Berber Music Event at Sunset',
-                        price: '80 EUR',
-                      },
-                      {
-                        value: 'private',
-                        title: t.packages.private.title,
-                        subtitle: t.packages.private.subtitle,
-                        price: '80 EUR',
-                      },
-                      {
-                        value: 'private-at-location',
-                        title: t.packages.privateAtLocation.title,
-                        subtitle: t.packages.privateAtLocation.subtitle,
-                        price: '100 EUR',
-                      },
-                    ] as const
-                  ).map((pkg) => (
-                    <label
-                      key={pkg.value}
-                      className={`relative cursor-pointer ${
-                        formik.values.packageType === pkg.value ? 'ring-2 ring-amber-500' : ''
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="packageType"
-                        value={pkg.value}
-                        checked={formik.values.packageType === pkg.value}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        className="sr-only"
-                      />
-                      <div className="border-2 border-gray-200 rounded-xl p-4 hover:border-amber-300 transition-colors h-full">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="font-bold text-gray-900">{pkg.title}</span>
-                          {formik.values.packageType === pkg.value && (
-                            <div className="w-6 h-6 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full flex items-center justify-center">
-                              <FiCheck className="w-4 h-4 text-white" />
-                            </div>
-                          )}
-                        </div>
-                        <p className="text-sm text-gray-600 mb-2">{pkg.subtitle}</p>
-                        <p className="text-2xl font-black text-amber-600">{pkg.price}</p>
-                      </div>
-                    </label>
-                  ))}
-                </div>
+              <div className="mb-6 rounded-2xl border-2 border-amber-100 bg-amber-50/50 p-4 sm:p-5">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700 mb-2">
+                  Selected package
+                </p>
+                <p className="font-black text-gray-900 text-lg leading-snug">
+                  {formik.values.packageType === 'weekly-event' && 'Weekly Event'}
+                  {formik.values.packageType === 'private' && t.packages.private.title}
+                  {formik.values.packageType === 'private-at-location' &&
+                    t.packages.privateAtLocation.title}
+                </p>
+                <p className="text-sm text-gray-600 mt-1">
+                  {formik.values.packageType === 'weekly-event' &&
+                    'Weekly Berber Music Event at Sunset'}
+                  {formik.values.packageType === 'private' && t.packages.private.subtitle}
+                  {formik.values.packageType === 'private-at-location' &&
+                    t.packages.privateAtLocation.subtitle}
+                </p>
+                <p className="text-2xl font-black text-amber-600 mt-3">
+                  {formik.values.packageType === 'weekly-event' && '80 EUR'}
+                  {formik.values.packageType === 'private' && '80 EUR'}
+                  {formik.values.packageType === 'private-at-location' && '100 EUR'}
+                </p>
+                <input type="hidden" name="packageType" value={formik.values.packageType} />
               </div>
             )}
 
@@ -767,53 +839,86 @@ function BookingForm() {
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-800 mb-3">
                     {t.booking.priceSummary}
                   </p>
-                  <div className="space-y-2 text-sm text-gray-700">
-                    <div className="flex justify-between">
-                      <span>
-                        {t.booking.adultsSubtotal} ({formik.values.adults} × {BASIC_ADULT_PRICE_EUR} €)
-                      </span>
-                      <span className="font-semibold">{priceSummary.adultSubtotal} €</span>
+                  {!selectedDish ? (
+                    <p className="text-sm text-gray-600">Select a dish to see your total.</p>
+                  ) : (
+                    <div className="space-y-2 text-sm text-gray-700">
+                      <p className="font-semibold text-gray-900">{selectedDish.name}</p>
+                      <p className="text-xs text-gray-500 mb-2">
+                        {selectedDish.priceEur} € / person · {selectedDish.priceMad} MAD
+                      </p>
+                      <div className="flex justify-between">
+                        <span>
+                          {t.booking.adultsSubtotal} ({formik.values.adults} × {selectedDish.priceEur} €)
+                        </span>
+                        <span className="font-semibold">{priceSummary.adultSubtotal} €</span>
+                      </div>
+                      {bringingChildren && (
+                        <div className="flex justify-between">
+                          <span>{t.booking.childrenSubtotal}</span>
+                          <span className="font-semibold">{priceSummary.childrenSubtotal} €</span>
+                        </div>
+                      )}
+                      <div className="flex justify-between pt-2 border-t border-amber-200 text-base font-black text-gray-900">
+                        <span>{t.booking.total}</span>
+                        <span>{priceSummary.total} €</span>
+                      </div>
                     </div>
-                    <div className="flex justify-between">
-                      <span>{t.booking.childrenSubtotal}</span>
-                      <span className="font-semibold">{priceSummary.childrenSubtotal} €</span>
-                    </div>
-                    <div className="flex justify-between pt-2 border-t border-amber-200 text-base font-black text-gray-900">
-                      <span>{t.booking.total}</span>
-                      <span>{priceSummary.total} €</span>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </>
             )}
 
-            <div className="mb-6">
-              <label htmlFor="dietaryPreference" className="text-sm font-bold text-gray-700 mb-2 block">
-                {t.booking.dietary}
-              </label>
-              <select
-                id="dietaryPreference"
-                {...formik.getFieldProps('dietaryPreference')}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500"
-              >
-                <option value="none">{t.booking.dietaryNone}</option>
-                <option value="vegetarian">{t.booking.dietaryVegetarian}</option>
-                <option value="vegan">{t.booking.dietaryVegan}</option>
-              </select>
-            </div>
+            {isBasicFlow ? (
+              <div className="mb-8">
+                <label htmlFor="dietaryNotes" className="text-sm font-bold text-gray-700 mb-2 block">
+                  {t.booking.dietaryNotes || 'Dietary notes / allergies'}
+                </label>
+                <textarea
+                  id="dietaryNotes"
+                  {...formik.getFieldProps('dietaryNotes')}
+                  rows={3}
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500 resize-none"
+                  placeholder={
+                    t.booking.dietaryNotesPlaceholder ||
+                    'e.g. one guest no meat, nut allergy — notes for the host, not a separate dish choice'
+                  }
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Individual restrictions within the group (not a second dish selection).
+                </p>
+              </div>
+            ) : (
+              <>
+                <div className="mb-6">
+                  <label htmlFor="dietaryPreference" className="text-sm font-bold text-gray-700 mb-2 block">
+                    {t.booking.dietary}
+                  </label>
+                  <select
+                    id="dietaryPreference"
+                    {...formik.getFieldProps('dietaryPreference')}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500"
+                  >
+                    <option value="none">{t.booking.dietaryNone}</option>
+                    <option value="vegetarian">{t.booking.dietaryVegetarian}</option>
+                    <option value="vegan">{t.booking.dietaryVegan}</option>
+                  </select>
+                </div>
 
-            <div className="mb-8">
-              <label htmlFor="allergies" className="text-sm font-bold text-gray-700 mb-2 block">
-                {t.booking.allergies}
-              </label>
-              <textarea
-                id="allergies"
-                {...formik.getFieldProps('allergies')}
-                rows={3}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500 resize-none"
-                placeholder={t.booking.allergiesPlaceholder}
-              />
-            </div>
+                <div className="mb-8">
+                  <label htmlFor="allergies" className="text-sm font-bold text-gray-700 mb-2 block">
+                    {t.booking.allergies}
+                  </label>
+                  <textarea
+                    id="allergies"
+                    {...formik.getFieldProps('allergies')}
+                    rows={3}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500 resize-none"
+                    placeholder={t.booking.allergiesPlaceholder}
+                  />
+                </div>
+              </>
+            )}
 
             <button
               type="submit"

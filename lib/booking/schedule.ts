@@ -2,12 +2,16 @@ export type SlotPeriod = 'morning' | 'afternoon';
 
 export type PackageType = 'basic' | 'weekly-event' | 'private' | 'private-at-location';
 
+export type MenuCategory = 'tagine' | 'msemen' | 'couscous' | 'rfissa';
+
 export interface WorkshopSlotTemplate {
   period: SlotPeriod;
   startTime: string;
   endTime: string;
   dish: string;
   feastNote: string;
+  /** Which booking menu to show after selecting this slot */
+  menuCategory: MenuCategory | null;
   packageAllowed: PackageType[];
   accent: 'amber' | 'green' | 'blue' | 'purple';
 }
@@ -44,8 +48,9 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
       period: 'morning',
       startTime: '10:00',
       endTime: '14:00',
-      dish: 'Wood-Fired Tagines and Clay Oven Bread',
+      dish: 'Choose Your Tagine',
       feastNote: 'Includes Full Lunch Feast',
+      menuCategory: 'tagine',
       packageAllowed: ['basic', 'private', 'private-at-location'],
       accent: 'amber',
     },
@@ -55,8 +60,9 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
       period: 'morning',
       startTime: '10:00',
       endTime: '14:00',
-      dish: 'Wood-Fired Tagines and Clay Oven Bread',
+      dish: 'Choose Your Tagine',
       feastNote: 'Includes Full Lunch Feast',
+      menuCategory: 'tagine',
       packageAllowed: ['basic', 'private', 'private-at-location'],
       accent: 'amber',
     },
@@ -66,8 +72,9 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
       period: 'afternoon',
       startTime: '14:00',
       endTime: '18:00',
-      dish: 'Wood-Fired Tagines and Clay Oven Bread',
+      dish: 'Choose Your Tagine',
       feastNote: 'Includes Full Dinner Feast',
+      menuCategory: 'tagine',
       packageAllowed: ['basic', 'private', 'private-at-location'],
       accent: 'green',
     },
@@ -77,8 +84,9 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
       period: 'morning',
       startTime: '10:00',
       endTime: '14:00',
-      dish: 'Artisan Msemmen Street Food',
+      dish: 'Msemen Wrap Experience',
       feastNote: 'Includes Full Lunch Feast',
+      menuCategory: 'msemen',
       packageAllowed: ['basic', 'private', 'private-at-location'],
       accent: 'blue',
     },
@@ -88,8 +96,9 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
       period: 'morning',
       startTime: '10:00',
       endTime: '14:00',
-      dish: 'The Grand Friday Couscous Tradition',
+      dish: 'Holy Day Couscous Feast',
       feastNote: 'Includes Traditional Friday Lunch',
+      menuCategory: 'couscous',
       packageAllowed: ['basic', 'private', 'private-at-location'],
       accent: 'amber',
     },
@@ -97,8 +106,9 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
       period: 'afternoon',
       startTime: '14:00',
       endTime: '18:00',
-      dish: 'The Grand Friday Couscous Feast',
+      dish: 'Holy Day Couscous Feast',
       feastNote: 'Includes Full Dinner Feast',
+      menuCategory: 'couscous',
       packageAllowed: ['basic', 'private', 'private-at-location'],
       accent: 'green',
     },
@@ -110,6 +120,7 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
       endTime: '19:30',
       dish: 'Traditional BBQ Grilled in the Clay Oven & Freshly Baked Traditional Bread',
       feastNote: 'Includes Live Performance & Feast',
+      menuCategory: null,
       packageAllowed: ['weekly-event'],
       accent: 'purple',
     },
@@ -119,8 +130,9 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
       period: 'morning',
       startTime: '10:00',
       endTime: '14:00',
-      dish: 'Royal Chicken Rfissa Celebration',
+      dish: 'Rfissa Celebration',
       feastNote: 'Includes Special Morning Feast',
+      menuCategory: 'rfissa',
       packageAllowed: ['basic', 'private', 'private-at-location'],
       accent: 'amber',
     },
@@ -128,8 +140,9 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
       period: 'afternoon',
       startTime: '14:00',
       endTime: '18:00',
-      dish: 'Wood-Fired Tagines and Clay Oven Bread',
+      dish: 'Choose Your Tagine',
       feastNote: 'Includes Full Dinner Feast',
+      menuCategory: 'tagine',
       packageAllowed: ['basic', 'private', 'private-at-location'],
       accent: 'green',
     },
