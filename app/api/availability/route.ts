@@ -8,14 +8,13 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const days = getUpcomingCalendarDays(21);
+    const days = getUpcomingCalendarDays(28);
     const from = searchParams.get('from') || days[0]?.date;
     const to = searchParams.get('to') || days[days.length - 1]?.date;
 
     const bookings = await listBookings(from || undefined, to || undefined);
     const occupancyMap = buildOccupancyMap(bookings);
 
-    // Ensure every scheduled slot in range appears in the response
     const occupancy = days
       .filter((day) => (!from || day.date >= from) && (!to || day.date <= to))
       .flatMap((day) =>
@@ -27,6 +26,7 @@ export async function GET(request: NextRequest) {
               date: slot.date,
               period: slot.period,
               hasPrivate: false,
+              hasWeekly: false,
               basicGuestCount: 0,
               locked: false,
               remainingBasicCapacity: BASIC_MAX_GUESTS,
@@ -34,6 +34,13 @@ export async function GET(request: NextRequest) {
           );
         })
       );
+
+    // Include Private-only holds that may not match a Basic schedule slot
+    occupancyMap.forEach((value, slotId) => {
+      if (!occupancy.some((o) => o.slotId === slotId)) {
+        occupancy.push(value);
+      }
+    });
 
     return NextResponse.json({ occupancy, from, to });
   } catch (error) {

@@ -36,7 +36,7 @@ const stepMeta = [
   { image: "/journey/journey-1.jpeg", alt: "Taghazout Morocco pickup location - Scenic coastal village starting point for authentic Moroccan cooking class journey to Atlas Mountains", duration: "20 min", icon: FiMapPin },
   { image: "/journey/journey-2.jpg", alt: "Traditional Moroccan kitchen tour - Authentic Amazigh cooking space with wood-fired oven and traditional tagines in Atlas Mountains home", duration: "20 min", icon: FiHome },
   { image: "/journey/journey-3.webp", alt: "Hands-on Moroccan cooking class - Learning traditional dishes and bread baking techniques in authentic village kitchen", duration: "90 min", icon: FiActivity },
-  { image: "/journey/journey-4.jpg", alt: "Moroccan feast and hospitality - Traditional home-cooked meal experience with mint tea ceremony in Atlas Mountains Amazigh home", duration: "60 min", icon: FiHeart },
+  { image: "/journey/journey-4.webp", alt: "Moroccan feast and hospitality - Traditional home-cooked meal experience with mint tea ceremony in Atlas Mountains Amazigh home", duration: "60 min", icon: FiHeart },
 ] as const;
 
 const TheExperienceV2: React.FC = memo(() => {

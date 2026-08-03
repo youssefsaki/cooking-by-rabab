@@ -13,6 +13,10 @@ interface DishSelectionStepProps {
   onBack: () => void;
   slotLabel?: string;
   error?: string;
+  /** Remaining Basic workshop capacity for this slot (omit for private) */
+  remainingSpots?: number | null;
+  maxGuests?: number;
+  minAdults?: number;
 }
 
 function shortBlurb(dish: MenuDish): string {
@@ -29,6 +33,9 @@ const DishSelectionStep: React.FC<DishSelectionStepProps> = ({
   onBack,
   slotLabel,
   error,
+  remainingSpots,
+  maxGuests = 13,
+  minAdults = 3,
 }) => {
   const [detailsDish, setDetailsDish] = useState<MenuDish | null>(null);
 
@@ -47,6 +54,10 @@ const DishSelectionStep: React.FC<DishSelectionStepProps> = ({
   }, [detailsDish]);
 
   const isTagineMenu = dishes.length > 1 && dishes.every((d) => d.category === 'tagine');
+  const slotTooFull =
+    remainingSpots != null && remainingSpots > 0 && remainingSpots < minAdults;
+  const slotFullyBooked = remainingSpots === 0;
+  const cannotContinue = slotTooFull || slotFullyBooked;
 
   return (
     <div className="w-full max-w-5xl mx-auto">
@@ -61,13 +72,44 @@ const DishSelectionStep: React.FC<DishSelectionStepProps> = ({
           Everyone cooks and eats the same dish. Pick one shared option for your group
           {slotLabel ? ` · ${slotLabel}` : ''}.
         </p>
-        <button
-          type="button"
-          onClick={onBack}
-          className="mt-4 text-sm font-bold text-amber-700 underline underline-offset-2"
-        >
-          ← Change date / time
-        </button>
+        {remainingSpots != null && (
+          <div
+            className={`mt-4 mx-auto max-w-lg rounded-2xl border px-4 py-3 text-sm font-semibold ${
+              cannotContinue
+                ? 'bg-red-50 border-red-200 text-red-700'
+                : remainingSpots <= 3
+                  ? 'bg-amber-50 border-amber-200 text-amber-800'
+                  : 'bg-emerald-50 border-emerald-200 text-emerald-800'
+            }`}
+          >
+            {slotFullyBooked || slotTooFull ? (
+              <p>This workshop is fully booked. Please choose another day.</p>
+            ) : (
+              <p>
+                {remainingSpots} of {maxGuests} spots available
+                {remainingSpots <= 3 ? ' — limited availability' : ''}
+              </p>
+            )}
+            {cannotContinue && (
+              <button
+                type="button"
+                onClick={onBack}
+                className="mt-2 text-sm font-bold underline underline-offset-2"
+              >
+                Choose another day →
+              </button>
+            )}
+          </div>
+        )}
+        {!cannotContinue && (
+          <button
+            type="button"
+            onClick={onBack}
+            className="mt-4 text-sm font-bold text-amber-700 underline underline-offset-2"
+          >
+            ← Change date / time
+          </button>
+        )}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5" role="radiogroup" aria-label="Shared dish">
@@ -82,12 +124,12 @@ const DishSelectionStep: React.FC<DishSelectionStepProps> = ({
                   : 'border-gray-100 hover:border-amber-300 hover:shadow-md shadow-sm'
               }`}
             >
-              <div className="relative aspect-[16/10] bg-gray-100">
+              <div className="relative aspect-[2/3] sm:aspect-[16/10] bg-gray-50">
                 <Image
                   src={dish.image}
                   alt={dish.name}
                   fill
-                  className="object-cover"
+                  className="object-contain sm:object-cover"
                   sizes="(max-width: 640px) 100vw, 50vw"
                 />
                 <div
@@ -180,19 +222,23 @@ const DishSelectionStep: React.FC<DishSelectionStepProps> = ({
             onClick={onBack}
             className="px-6 py-3.5 rounded-xl border-2 border-gray-200 font-bold text-gray-700 hover:border-amber-300 transition-colors"
           >
-            Back
+            {cannotContinue ? 'Choose another day' : 'Back'}
           </button>
           <button
             type="button"
             onClick={onContinue}
-            disabled={!value}
+            disabled={!value || cannotContinue}
             className={`flex-1 rounded-xl py-3.5 font-bold transition-all duration-300 ${
-              value
+              value && !cannotContinue
                 ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-200 hover:from-amber-600 hover:to-orange-600'
                 : 'bg-gray-200 text-gray-500 cursor-not-allowed'
             }`}
           >
-            {value ? 'Continue to booking details →' : 'Select a dish to continue'}
+            {cannotContinue
+              ? 'Fully booked — choose another day'
+              : value
+                ? 'Continue to booking details →'
+                : 'Select a dish to continue'}
           </button>
         </div>
       </div>
@@ -211,12 +257,12 @@ const DishSelectionStep: React.FC<DishSelectionStepProps> = ({
             onClick={() => setDetailsDish(null)}
           />
           <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl bg-white shadow-2xl">
-            <div className="relative aspect-[16/9] bg-gray-100">
+            <div className="relative aspect-[2/3] sm:aspect-[16/9] bg-gray-50">
               <Image
                 src={detailsDish.image}
                 alt={detailsDish.name}
                 fill
-                className="object-cover"
+                className="object-contain sm:object-cover"
                 sizes="672px"
               />
               <button

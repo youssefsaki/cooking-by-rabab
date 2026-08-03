@@ -152,6 +152,63 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
 export const BASIC_ADULT_PRICE_EUR = 65;
 export const BASIC_MAX_GUESTS = 13;
 export const BASIC_MIN_ADULTS = 3;
+export const PRIVATE_WORKSHOP_PRICE_EUR = 80;
+export const PRIVATE_WORKSHOP_MIN_ADULTS = 2;
+export const PRIVATE_AT_LOCATION_PRICE_EUR = 100;
+export const PRIVATE_AT_LOCATION_MIN_ADULTS = 6;
+export const WEEKLY_EVENT_PRICE_EUR = 80;
+export const WEEKLY_EVENT_MIN_ADULTS = 6;
+
+export function minAdultsForPackage(packageType: PackageType): number {
+  if (packageType === 'basic') return BASIC_MIN_ADULTS;
+  if (packageType === 'private') return PRIVATE_WORKSHOP_MIN_ADULTS;
+  if (packageType === 'private-at-location') return PRIVATE_AT_LOCATION_MIN_ADULTS;
+  if (packageType === 'weekly-event') return WEEKLY_EVENT_MIN_ADULTS;
+  return 1;
+}
+
+/** Human-readable package name for Google Sheets / admin views */
+export function packageTypeSheetLabel(packageType: PackageType): string {
+  if (packageType === 'basic') return 'Basic';
+  if (packageType === 'weekly-event') return 'Weekly Event';
+  if (packageType === 'private') return 'Private at workshop';
+  if (packageType === 'private-at-location') return 'Private at your location';
+  return packageType;
+}
+
+/** Normalize sheet labels or raw codes back to PackageType */
+export function parsePackageType(value: string): PackageType {
+  const raw = value.trim().toLowerCase();
+  if (raw === 'basic') return 'basic';
+  if (raw === 'weekly-event' || raw === 'weekly event') return 'weekly-event';
+  if (
+    raw === 'private-at-location' ||
+    raw === 'private at your location' ||
+    raw.includes('at your location') ||
+    raw.includes('comes to you')
+  ) {
+    return 'private-at-location';
+  }
+  if (
+    raw === 'private' ||
+    raw === 'private at workshop' ||
+    raw.includes('at workshop') ||
+    raw.includes('at our workshop')
+  ) {
+    return 'private';
+  }
+  // Fallback: treat unknown private-like values as workshop private
+  if (raw.includes('private')) return 'private';
+  return 'basic';
+}
+
+export function unitPriceForPackage(packageType: PackageType, dishPriceEur?: number): number {
+  if (packageType === 'basic') return dishPriceEur ?? BASIC_ADULT_PRICE_EUR;
+  if (packageType === 'private') return PRIVATE_WORKSHOP_PRICE_EUR;
+  if (packageType === 'private-at-location') return PRIVATE_AT_LOCATION_PRICE_EUR;
+  if (packageType === 'weekly-event') return WEEKLY_EVENT_PRICE_EUR;
+  return BASIC_ADULT_PRICE_EUR;
+}
 
 export function formatDateISO(date: Date): string {
   const y = date.getFullYear();

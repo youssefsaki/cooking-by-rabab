@@ -3,11 +3,28 @@ import 'server-only';
 import { promises as fs } from 'fs';
 import path from 'path';
 import type { StoredBooking } from './conflicts';
+import { packageTypeSheetLabel, parsePackageType } from './schedule';
 
 const LOCAL_STORE_PATH = path.join(process.cwd(), 'data', 'bookings-store.json');
 
+function normalizeBooking(booking: StoredBooking): StoredBooking {
+  let packageType = parsePackageType(String(booking.packageType || ''));
+  // Legacy rows stored only "private" — infer at-location from the Location column
+  if (
+    packageType === 'private' &&
+    /villa|riad|comes to you|at your/i.test(String(booking.location || ''))
+  ) {
+    packageType = 'private-at-location';
+  }
+  return {
+    ...booking,
+    packageType,
+  };
+}
+
 function getScriptUrl(): string | undefined {
-  return process.env.BOOKING_SCRIPT_URL;
+  const url = process.env.BOOKING_SCRIPT_URL?.trim();
+  return url || undefined;
 }
 
 async function readLocalStore(): Promise<StoredBooking[]> {
@@ -22,11 +39,7 @@ async function readLocalStore(): Promise<StoredBooking[]> {
 
 async function writeLocalStore(bookings: StoredBooking[]): Promise<void> {
   await fs.mkdir(path.dirname(LOCAL_STORE_PATH), { recursive: true });
-  await fs.writeFile(
-    LOCAL_STORE_PATH,
-    JSON.stringify({ bookings }, null, 2),
-    'utf8'
-  );
+  await fs.writeFile(LOCAL_STORE_PATH, JSON.stringify({ bookings }, null, 2), 'utf8');
 }
 
 async function fetchFromScript<T>(
@@ -49,6 +62,7 @@ async function fetchFromScript<T>(
     headers: { 'Content-Type': 'application/json' },
     body: method === 'POST' ? JSON.stringify(body) : undefined,
     cache: 'no-store',
+    redirect: 'follow',
   });
 
   if (!response.ok) {
@@ -62,30 +76,33 @@ export async function listBookings(from?: string, to?: string): Promise<StoredBo
   const scriptUrl = getScriptUrl();
 
   if (scriptUrl) {
-    try {
-      const data = await fetchFromScript<{ success: boolean; bookings: StoredBooking[] }>(
-        'GET',
-        undefined,
-        {
-          action: 'list',
-          ...(from ? { from } : {}),
-          ...(to ? { to } : {}),
-        }
-      );
-      if (data.success && Array.isArray(data.bookings)) {
-        return data.bookings.filter((b) => {
-          if (from && b.slotDate < from) return false;
-          if (to && b.slotDate > to) return false;
-          return true;
-        });
+    // When Sheets is configured, never fall back to an empty local store —
+    // that would show slots as free while Private bookings exist in the sheet.
+    const data = await fetchFromScript<{ success: boolean; bookings: StoredBooking[]; error?: string }>(
+      'GET',
+      undefined,
+      {
+        action: 'list',
+        ...(from ? { from } : {}),
+        ...(to ? { to } : {}),
       }
-    } catch (error) {
-      console.error('Failed to list bookings from script, falling back to local store:', error);
+    );
+
+    if (!data.success || !Array.isArray(data.bookings)) {
+      throw new Error(data.error || 'Failed to list bookings from Google Sheets');
     }
+
+    return data.bookings
+      .map(normalizeBooking)
+      .filter((b) => {
+        if (from && b.slotDate < from) return false;
+        if (to && b.slotDate > to) return false;
+        return true;
+      });
   }
 
   const local = await readLocalStore();
-  return local.filter((b) => {
+  return local.map(normalizeBooking).filter((b) => {
     if (from && b.slotDate < from) return false;
     if (to && b.slotDate > to) return false;
     return true;
@@ -96,37 +113,34 @@ export async function appendBooking(booking: StoredBooking): Promise<StoredBooki
   const scriptUrl = getScriptUrl();
 
   if (scriptUrl) {
-    try {
-      const data = await fetchFromScript<{
-        success: boolean;
-        booking?: StoredBooking;
-        error?: string;
-        message?: string;
-      }>('POST', {
-        action: 'create',
-        booking,
-      });
+    // Send both code (for conflict logic) and a clear sheet label
+    const data = await fetchFromScript<{
+      success: boolean;
+      booking?: StoredBooking;
+      error?: string;
+      message?: string;
+    }>('POST', {
+      action: 'create',
+      booking: {
+        ...booking,
+        // Apps Script writes this into the Package column (clear Private variants)
+        packageLabel: packageTypeSheetLabel(booking.packageType),
+      },
+    });
 
-      if (!data.success) {
-        const err = new Error(data.message || data.error || 'Booking failed') as Error & {
-          status?: number;
-        };
-        err.status =
-          data.message?.includes('already booked') || data.error === 'conflict' ? 409 : 400;
-        throw err;
-      }
-
-      return data.booking ?? booking;
-    } catch (error) {
-      // If script is old/unreachable, fall through to local for resilience in dev
-      if ((error as Error & { status?: number }).status === 409) {
-        throw error;
-      }
-      console.error('Script create failed, using local store:', error);
+    if (!data.success) {
+      const err = new Error(data.message || data.error || 'Booking failed') as Error & {
+        status?: number;
+      };
+      err.status =
+        data.message?.includes('already booked') || data.error === 'conflict' ? 409 : 400;
+      throw err;
     }
+
+    return data.booking ?? booking;
   }
 
-  // Local store path: re-check conflicts under a best-effort atomic rewrite
+  // Local-only mode (dev without BOOKING_SCRIPT_URL)
   const existing = await readLocalStore();
   const { evaluateSlotBooking, SLOT_CONFLICT_MESSAGE } = await import('./conflicts');
   const conflict = evaluateSlotBooking({

@@ -9,10 +9,17 @@ import {
   type CalendarSlot,
 } from '@/lib/booking/schedule';
 import type { SlotOccupancy } from '@/lib/booking/conflicts';
+import {
+  isPeriodLockedForPrivate,
+  isSlotLockedForBasic,
+  isSlotLockedForWeekly,
+} from '@/lib/booking/conflicts';
 
 interface WorkshopCalendarProps {
   onSelectSlot: (slot: CalendarSlot) => void;
   selectedSlotId?: string | null;
+  /** Which package is booking — controls selectable slots + lock rules */
+  mode?: 'basic' | 'private' | 'weekly';
 }
 
 const PERIOD_STYLES: Record<
@@ -44,6 +51,7 @@ const PERIOD_STYLES: Record<
 const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
   onSelectSlot,
   selectedSlotId = null,
+  mode = 'basic',
 }) => {
   const weeks = useMemo(() => getUpcomingCalendarWeeks(4), []);
   const [weekIndex, setWeekIndex] = useState(0);
@@ -92,24 +100,50 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
     };
   }, [rangeFrom, rangeTo]);
 
+  const isSlotBookableForMode = (slot: CalendarSlot): boolean => {
+    if (mode === 'weekly') return isWeeklyEventSlot(slot);
+    if (mode === 'private') {
+      return slot.packageAllowed.includes('private') || slot.packageAllowed.includes('private-at-location');
+    }
+    return isBasicSelectable(slot);
+  };
+
   const isSlotAvailable = (slot: CalendarSlot): boolean => {
-    if (!isBasicSelectable(slot)) return false;
+    if (!isSlotBookableForMode(slot)) return false;
     const info = occupancy[slot.id];
-    if (!info) return true;
-    if (info.locked || info.hasPrivate) return false;
-    return info.remainingBasicCapacity > 0;
+    if (mode === 'weekly') return !isSlotLockedForWeekly(info);
+    if (mode === 'private') {
+      return !isPeriodLockedForPrivate(info);
+    }
+    // Basic: lock when Private holds it, or fewer than 3 spots remain
+    if (isSlotLockedForBasic(info)) return false;
+    const spots = info?.remainingBasicCapacity ?? 13;
+    return spots >= 3;
   };
 
   return (
     <div className="w-full">
       <div className="text-center mb-8 sm:mb-10">
         <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-700 mb-3">
-          Weekly Workshop Schedule
+          {mode === 'weekly'
+            ? 'Saturday Weekly Event'
+            : mode === 'private'
+              ? 'Private Workshop Availability'
+              : 'Weekly Workshop Schedule'}
         </p>
-        <h1 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3">Choose Your Day</h1>
+        <h1 className="text-3xl sm:text-4xl font-black text-gray-900 mb-3">
+          {mode === 'weekly'
+            ? 'Choose Your Saturday'
+            : mode === 'private'
+              ? 'Choose Your Private Slot'
+              : 'Choose Your Day'}
+        </h1>
         <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          Browse upcoming weeks, pick a morning or afternoon workshop, or join Saturday&apos;s Weekly
-          Event. Pick-up from Taghazout Mosque is included.
+          {mode === 'weekly'
+            ? 'Only Saturdays are bookable for the Weekly Event. Other days are shown for context but cannot be selected.'
+            : mode === 'private'
+              ? 'Pick an open morning or afternoon. Fully booked Basic workshops and other Private holds are locked — choose another day.'
+              : 'Browse upcoming weeks and book a morning or afternoon workshop. Pick-up from Taghazout Mosque is included.'}
         </p>
       </div>
 
@@ -154,16 +188,19 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
         {(activeWeek?.days ?? []).map((day) => {
           const daySelected = day.slots.some((s) => s.id === selectedSlotId);
           const hasWeekly = day.slots.some(isWeeklyEventSlot);
+          const saturdayOnlyLocked = mode === 'weekly' && !hasWeekly;
 
           return (
             <article
               key={day.date}
               className={`flex flex-col rounded-3xl bg-white p-4 sm:p-5 shadow-sm border transition-all ${
-                daySelected
-                  ? 'border-amber-500 ring-2 ring-amber-200'
-                  : hasWeekly
-                    ? 'border-violet-200'
-                    : 'border-gray-100'
+                saturdayOnlyLocked
+                  ? 'border-gray-100 opacity-45 pointer-events-none'
+                  : daySelected
+                    ? 'border-amber-500 ring-2 ring-amber-200'
+                    : hasWeekly
+                      ? 'border-violet-200'
+                      : 'border-gray-100'
               }`}
             >
               <header className="mb-4 pb-3 border-b border-gray-100">
@@ -182,6 +219,11 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                       Weekly Event
                     </span>
                   )}
+                  {saturdayOnlyLocked && (
+                    <span className="shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full bg-gray-100 text-gray-500">
+                      Not available
+                    </span>
+                  )}
                 </div>
               </header>
 
@@ -195,10 +237,59 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                   const spots = info?.remainingBasicCapacity ?? 13;
 
                   if (weeklyOnly) {
+                    if (mode === 'weekly') {
+                      const weeklyOpen = isSlotAvailable(slot);
+                      return (
+                        <div
+                          key={slot.id}
+                          className={`rounded-2xl border overflow-hidden transition-all ${
+                            selected
+                              ? 'border-violet-400 ring-2 ring-violet-200'
+                              : 'border-violet-100'
+                          } ${weeklyOpen ? styles.soft : 'bg-gray-50 opacity-60'}`}
+                        >
+                          <div className={`h-1 w-full ${weeklyOpen ? styles.bar : 'bg-gray-300'}`} />
+                          <div className="p-3.5">
+                            <span
+                              className={`inline-block text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${styles.badge}`}
+                            >
+                              Weekly Event
+                            </span>
+                            <p className="text-xs text-gray-600 mt-2 font-medium">
+                              {slot.startTime} – {slot.endTime}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">{slot.feastNote}</p>
+                            <p className="text-sm font-semibold text-gray-900 mt-2 leading-snug">
+                              {slot.dish}
+                            </p>
+                            <p
+                              className={`text-[11px] mt-2 font-semibold ${
+                                weeklyOpen ? 'text-violet-700' : 'text-gray-500'
+                              }`}
+                            >
+                              {weeklyOpen ? 'Fixed time · 80 € / person' : 'Unavailable — private booking holds this slot'}
+                            </p>
+                            <button
+                              type="button"
+                              disabled={!weeklyOpen}
+                              onClick={() => onSelectSlot(slot)}
+                              className={`mt-3.5 w-full rounded-xl text-sm font-bold py-2.5 transition-colors ${
+                                weeklyOpen
+                                  ? 'bg-violet-600 hover:bg-violet-700 text-white'
+                                  : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                              }`}
+                            >
+                              {weeklyOpen ? 'Book' : 'Unavailable'}
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    }
+
                     return (
                       <div
                         key={slot.id}
-                        className={`rounded-2xl border border-violet-100 overflow-hidden ${styles.soft}`}
+                        className={`rounded-2xl border border-violet-100 overflow-hidden ${styles.soft} opacity-90`}
                       >
                         <div className={`h-1 w-full ${styles.bar}`} />
                         <div className="p-3.5">
@@ -218,9 +309,23 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                             href="/book?package=weekly-event"
                             className="mt-3.5 inline-flex w-full items-center justify-center rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-sm font-bold py-2.5 transition-colors"
                           >
-                            Book
+                            Book Weekly Event
                           </Link>
                         </div>
+                      </div>
+                    );
+                  }
+
+                  // Non-weekly slots: hide Book CTA when this calendar is weekly-only mode
+                  if (mode === 'weekly') {
+                    return (
+                      <div
+                        key={slot.id}
+                        className="rounded-2xl border border-gray-100 overflow-hidden bg-gray-50 opacity-50 p-3.5"
+                      >
+                        <p className="text-xs font-semibold text-gray-500 capitalize">{slot.period}</p>
+                        <p className="text-sm text-gray-600 mt-1">{slot.dish}</p>
+                        <p className="text-[11px] text-gray-400 mt-2">Not a Weekly Event slot</p>
                       </div>
                     );
                   }
@@ -257,7 +362,11 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                             available ? 'text-amber-700' : 'text-gray-500'
                           }`}
                         >
-                          {available ? `${spots} spots left · From 65 €` : 'Fully booked'}
+                          {available
+                            ? mode === 'private'
+                              ? 'Available for private · Exclusive'
+                              : `${spots} spots left · From 65 €`
+                            : 'Fully booked'}
                         </p>
                         <button
                           type="button"
@@ -269,7 +378,7 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                               : 'bg-gray-200 text-gray-500 cursor-not-allowed'
                           }`}
                         >
-                          {available ? 'Book' : 'Unavailable'}
+                          {available ? 'Book' : 'Fully booked'}
                         </button>
                       </div>
                     </div>

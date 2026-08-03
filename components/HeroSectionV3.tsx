@@ -35,15 +35,32 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
     t.experiences.amlou.title,
     t.experiences.tea.title,
   ];
-  
-  const allImages = [
-    { src: '/hero/desktop/learn-to-cook-amazigh/2.jpg', alt: 'Moroccan cooking class Taghazout — hands-on Amazigh cooking in Berber village kitchen' },
-    { src: '/hero/desktop/learn-to-cook-amazigh/5.jpg', alt: 'Traditional Moroccan cuisine Taghazout — authentic Berber dishes prepared in Atlas Mountains' },
-    { src: '/hero/desktop/learn-to-cook-amazigh/7.jpg', alt: 'Amazigh cooking experience Taghazout — traditional village cooking class near Agadir coast' },
-    { src: '/hero/desktop/learn-to-cook-amazigh/3.jpg', alt: 'Moroccan cooking masterclass Taghazout — traditional dishes cooked in Berber village kitchen' },
-    { src: '/hero/desktop/learn-to-cook-amazigh/6.jpg', alt: 'Clay oven bread making Taghazout — wood-fired Berber bread baking in Atlas Mountains' },
-    { src: '/hero/desktop/learn-to-cook-amazigh/4.jpg', alt: 'Moroccan mint tea ceremony Taghazout — traditional Amazigh hospitality after cooking class' },
-  ];
+
+  const imageAlts = [
+    'Moroccan cooking class Taghazout — hands-on Amazigh cooking in Berber village kitchen',
+    'Traditional Moroccan cuisine Taghazout — authentic Berber dishes prepared in Atlas Mountains',
+    'Amazigh cooking experience Taghazout — traditional village cooking class near Agadir coast',
+    'Moroccan cooking masterclass Taghazout — traditional dishes cooked in Berber village kitchen',
+    'Clay oven bread making Taghazout — wood-fired Berber bread baking in Atlas Mountains',
+    'Moroccan mint tea ceremony Taghazout — traditional Amazigh hospitality after cooking class',
+    'Taghazout cooking class feast — shared Amazigh meal after hands-on Berber cooking experience',
+  ] as const;
+
+  // Same gallery order for desktop + mobile; desktop & mobile use webp assets
+  const imageKeys = ['1', '2', '3', '4', '5', '6', '7'] as const;
+
+  const desktopImages = imageKeys.map((key, i) => ({
+    src: `/hero/desktop/learn-to-cook-amazigh/${key}.webp`,
+    alt: imageAlts[i],
+  }));
+
+  const mobileImages = imageKeys.map((key, i) => ({
+    src: `/hero/desktop/learn-to-cook-amazigh/mobile/${key}.webp`,
+    alt: imageAlts[i],
+  }));
+
+  const allImages = desktopImages; // desktop gallery (DesktopVersion)
+  const mobileGallery = mobileImages;
 
   // ============================================
   // MOBILE VARIANT A: Card Stack Design
@@ -89,8 +106,8 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
       <div className="px-5 mb-4">
         <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-xl">
           <Image
-            src={allImages[activeImage].src}
-            alt={allImages[activeImage].alt}
+            src={mobileGallery[activeImage].src}
+            alt={mobileGallery[activeImage].alt}
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 50vw"
@@ -116,7 +133,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
       {/* Thumbnail Strip */}
       <div className="px-5 pb-6">
         <div className="flex gap-2 overflow-x-auto scrollbar-hide py-2">
-          {allImages.map((img, index) => (
+          {mobileGallery.map((img, index) => (
             <button
               key={index}
               onClick={() => setActiveImage(index)}
@@ -136,7 +153,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
       <div className="grid grid-cols-4 border-t border-[#E5E0DA]">
         {[
           { number: '3h', label: t.heroSection.duration },
-          { number: '6', label: t.heroSection.group },
+          { number: '2 - 13', label: t.heroSection.group },
           { number: '4+', label: t.heroSection.dishes },
           { number: '100%', label: t.heroSection.handsOn },
         ].map((stat, i) => (
@@ -157,8 +174,8 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
       {/* Full-bleed background image */}
       <div className="relative min-h-[85vh]">
         <Image
-          src={allImages[activeImage].src}
-          alt={allImages[activeImage].alt}
+          src={mobileGallery[activeImage].src}
+          alt={mobileGallery[activeImage].alt}
           fill
           className="object-cover"
           sizes="100vw"
@@ -211,7 +228,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
           <div className="flex justify-between mt-6 pt-4 border-t border-white/20">
             {[
               { number: '3h', label: t.heroSection.duration },
-              { number: '6 max', label: t.heroSection.group },
+              { number: '2 - 13', label: t.heroSection.group },
               { number: '4+', label: t.heroSection.dishes },
             ].map((stat, i) => (
               <div key={i} className="text-center">
@@ -224,7 +241,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
 
         {/* Image selector dots */}
         <div className="absolute top-6 left-0 right-0 flex justify-center gap-2">
-          {allImages.map((_, index) => (
+          {mobileGallery.map((_, index) => (
             <button
               key={index}
               onClick={() => setActiveImage(index)}
@@ -304,8 +321,8 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
         {/* Main Image */}
         <div className="relative aspect-square mx-6 rounded-3xl overflow-hidden shadow-2xl">
           <Image
-            src={allImages[activeImage].src}
-            alt={allImages[activeImage].alt}
+            src={mobileGallery[activeImage].src}
+            alt={mobileGallery[activeImage].alt}
             fill
             className="object-cover"
             sizes="100vw"
@@ -327,7 +344,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
 
       {/* Thumbnail dots */}
       <div className="flex justify-center gap-2 pt-10 pb-8">
-        {allImages.map((_, index) => (
+        {mobileGallery.map((_, index) => (
           <button
             key={index}
             onClick={() => setActiveImage(index)}
@@ -476,7 +493,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
           <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-[#E5E0DA]">
             {[
               { number: '4h', label: t.heroSection.duration },
-              { number: '13', label: t.heroSection.group },
+              { number: '2 - 13', label: t.heroSection.group },
               { number: '4+', label: t.heroSection.dishes },
               { number: '100%', label: t.heroSection.handsOn },
             ].map((stat, i) => (

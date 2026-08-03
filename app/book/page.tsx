@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState, Suspense } from 'react';
+import React, { useEffect, useMemo, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useFormik } from 'formik';
@@ -12,15 +12,24 @@ import { FiCheck, FiMail, FiPhone, FiUser, FiMapPin } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
 import WorkshopCalendar from '@/components/booking/WorkshopCalendar';
 import DishSelectionStep from '@/components/booking/DishSelectionStep';
-import type { CalendarSlot } from '@/lib/booking/schedule';
-import { BASIC_MIN_ADULTS } from '@/lib/booking/schedule';
-import { calculateBookingTotal, type ChildGuest } from '@/lib/booking/pricing';
+import type { CalendarSlot, PackageType } from '@/lib/booking/schedule';
+import {
+  BASIC_MAX_GUESTS,
+  BASIC_MIN_ADULTS,
+  minAdultsForPackage,
+  unitPriceForPackage,
+} from '@/lib/booking/schedule';
+import { calculateBookingTotal, countGuestsTowardCapacity, type ChildGuest } from '@/lib/booking/pricing';
 import {
   BOOKING_MENU_IDS,
   getDishById,
   getDishesForSlotCategory,
 } from '@/lib/booking/menu';
-import { SLOT_CONFLICT_MESSAGE } from '@/lib/booking/conflicts';
+import {
+  isPeriodLockedForPrivate,
+  SLOT_CONFLICT_MESSAGE,
+  type SlotOccupancy,
+} from '@/lib/booking/conflicts';
 import Image from 'next/image';
 
 const countryOptions = [
@@ -84,15 +93,34 @@ function validatePhoneForCountry(phone: string, dialCode: string): boolean {
   return expectedLengths.includes(digitsOnly.length);
 }
 
-function resolvePackageType(packageParam: string | null): string {
+function resolvePackageType(packageParam: string | null): PackageType {
   if (packageParam === 'private-at-location') return 'private-at-location';
   if (packageParam === 'private') return 'private';
   if (packageParam === 'weekly-event') return 'weekly-event';
   return 'basic';
 }
 
-function packageLabel(packageType: string): string {
-  if (packageType === 'basic') return 'The Authentic Mountain & Culinary Escape (65 EUR)';
+function isPrivatePackage(pkg: PackageType): boolean {
+  return pkg === 'private' || pkg === 'private-at-location';
+}
+
+function usesCalendar(pkg: PackageType): boolean {
+  return (
+    pkg === 'basic' ||
+    pkg === 'weekly-event' ||
+    pkg === 'private' ||
+    pkg === 'private-at-location'
+  );
+}
+
+function calendarModeForPackage(pkg: PackageType): 'basic' | 'weekly' | 'private' {
+  if (pkg === 'weekly-event') return 'weekly';
+  if (pkg === 'private' || pkg === 'private-at-location') return 'private';
+  return 'basic';
+}
+
+function packageLabel(packageType: PackageType): string {
+  if (packageType === 'basic') return 'The Authentic Mountain & Culinary Escape';
   if (packageType === 'weekly-event') return 'Weekly Event (80 EUR)';
   if (packageType === 'private-at-location') return 'Rabab Comes to You (100 EUR)';
   return 'Private Workshop Experience (80 EUR)';
@@ -118,8 +146,12 @@ const baseValidationSchema = Yup.object({
   allergies: Yup.string().max(500, 'Allergies description must be less than 500 characters'),
   dietaryNotes: Yup.string().max(500, 'Dietary notes must be less than 500 characters'),
   adults: Yup.number().min(1).required(),
+  preferredDate: Yup.string().notRequired(),
+  preferredPeriod: Yup.string()
+    .oneOf(['morning', 'afternoon'])
+    .notRequired(),
   dishId: Yup.string().when('packageType', {
-    is: 'basic',
+    is: (pkg: string) => pkg === 'basic',
     then: (schema) =>
       schema
         .oneOf(BOOKING_MENU_IDS, 'Please select one dish for your group')
@@ -133,10 +165,10 @@ function BookingForm() {
   const packageParam = searchParams.get('package');
   const { t } = useLanguage();
   const initialPackage = resolvePackageType(packageParam);
-  const isBasicFlow = initialPackage === 'basic';
+  const calendarFlow = usesCalendar(initialPackage);
 
   const [step, setStep] = useState<'calendar' | 'dish' | 'form'>(
-    isBasicFlow ? 'calendar' : 'form'
+    calendarFlow ? 'calendar' : 'form'
   );
   const [selectedSlot, setSelectedSlot] = useState<CalendarSlot | null>(null);
   const [dishStepError, setDishStepError] = useState('');
@@ -146,6 +178,8 @@ function BookingForm() {
   const [submitError, setSubmitError] = useState('');
   const [bringingChildren, setBringingChildren] = useState(false);
   const [children, setChildren] = useState<ChildGuest[]>([]);
+  const [slotOccupancy, setSlotOccupancy] = useState<SlotOccupancy | null>(null);
+  const [slotOccupancyLoading, setSlotOccupancyLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -153,12 +187,14 @@ function BookingForm() {
       phone: '',
       country: '',
       email: '',
-      packageType: initialPackage,
+      packageType: initialPackage as PackageType,
       dietaryPreference: 'none',
       allergies: '',
       dietaryNotes: '',
-      adults: BASIC_MIN_ADULTS,
+      adults: minAdultsForPackage(initialPackage),
       dishId: '',
+      preferredDate: '',
+      preferredPeriod: 'morning',
     },
     validationSchema: baseValidationSchema,
     onSubmit: async (values, { setSubmitting }) => {
@@ -170,100 +206,139 @@ function BookingForm() {
       }
 
       try {
-        if (values.packageType === 'basic') {
-          if (!selectedSlot) {
-            setSubmitError('Please select a workshop slot first.');
-            setStep('calendar');
-            setSubmitting(false);
-            return;
-          }
-
-          if (values.adults < BASIC_MIN_ADULTS) {
-            setSubmitError(`Basic package requires at least ${BASIC_MIN_ADULTS} adults.`);
-            setSubmitting(false);
-            return;
-          }
-
-          const selectedDish = getDishById(values.dishId);
-          if (!selectedDish) {
-            setSubmitError('Please select one shared dish for your group.');
-            setStep('dish');
-            setSubmitting(false);
-            return;
-          }
-
-          const childPayload = bringingChildren ? children.filter((c) => Number.isFinite(c.age)) : [];
-
-          const res = await fetch('/api/bookings', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              fullName: values.fullName,
-              phone: values.phone,
-              country: values.country,
-              email: values.email,
-              packageType: 'basic',
-              slotDate: selectedSlot.date,
-              slotPeriod: selectedSlot.period,
-              dishId: selectedDish.id,
-              dish: selectedDish.name,
-              adults: values.adults,
-              children: childPayload,
-              location: `Pick-up ${selectedSlot.pickup.time} at ${selectedSlot.pickup.meetingPoint}`,
-              dietaryNotes: values.dietaryNotes,
-              allergies: values.dietaryNotes,
-            }),
-          });
-
-          const data = (await res.json()) as { error?: string; booking?: { totalPrice: number } };
-          if (!res.ok) {
-            setSubmitError(data.error || SLOT_CONFLICT_MESSAGE);
-            if (res.status === 409) {
-              setStep('calendar');
-            }
-            setSubmitting(false);
-            return;
-          }
-
-          setSubmitted(true);
-          openWhatsApp({
-            ...values,
-            dish: selectedDish.name,
-            dishPrice: selectedDish.priceEur,
-            slotDate: selectedSlot.date,
-            slotPeriod: selectedSlot.period,
-            pickup: `${selectedSlot.pickup.time} · ${selectedSlot.pickup.meetingPoint}`,
-            adults: values.adults,
-            children: childPayload,
-            totalPrice: data.booking?.totalPrice,
-            dietaryNotes: values.dietaryNotes,
-          });
+        const pkg = values.packageType as PackageType;
+        const minAdults = minAdultsForPackage(pkg);
+        if (values.adults < minAdults) {
+          setSubmitError(`This package requires at least ${minAdults} adults.`);
+          setSubmitting(false);
           return;
         }
 
-        // Legacy path for non-Basic packages (calendar UI deferred)
-        const GOOGLE_SCRIPT_URL =
-          process.env.NEXT_PUBLIC_BOOKING_SCRIPT_URL ||
-          'https://script.google.com/macros/s/AKfycbzQ3JkKD71-giIoQLQDLF1yaN7rJ1cxTCbFU4JBnRxGaWgk6w0iE-na2prwPZe7mfjomg/exec';
+        const isBasic = pkg === 'basic';
+        const isWeekly = pkg === 'weekly-event';
+        const isPrivate = isPrivatePackage(pkg);
 
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
-        try {
-          await fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(values),
-            signal: controller.signal,
-          });
-        } catch (fetchError) {
-          console.error('Fetch error (non-blocking):', fetchError);
-        } finally {
-          clearTimeout(timeoutId);
+        if ((isBasic || isWeekly || isPrivate) && !selectedSlot) {
+          setSubmitError('Please select a workshop slot first.');
+          setStep('calendar');
+          setSubmitting(false);
+          return;
+        }
+
+        if (isBasic) {
+          const childPayload = bringingChildren ? children : [];
+          const partySize = countGuestsTowardCapacity(values.adults, childPayload);
+          const remaining = slotOccupancy?.remainingBasicCapacity ?? BASIC_MAX_GUESTS;
+          const minForPackage = minAdultsForPackage(pkg);
+          if (remaining < minForPackage) {
+            setSubmitError(
+              'This workshop is fully booked. Please choose another day.'
+            );
+            setSubmitting(false);
+            return;
+          }
+          if (partySize > remaining) {
+            setSubmitError(
+              remaining <= 0
+                ? 'This workshop is fully booked. Please choose another day.'
+                : `Only ${remaining} spot${remaining === 1 ? '' : 's'} left on this workshop, but your group needs ${partySize}. Please choose another day, or reduce your group size (ages 0–3 do not count).`
+            );
+            setSubmitting(false);
+            return;
+          }
+        }
+
+        if (isPrivate && selectedSlot) {
+          // Re-check live locks before submit
+          try {
+            const res = await fetch(
+              `/api/availability?from=${selectedSlot.date}&to=${selectedSlot.date}`,
+              { cache: 'no-store' }
+            );
+            if (res.ok) {
+              const data = (await res.json()) as { occupancy?: SlotOccupancy[] };
+              const hold = data.occupancy?.find((o) => o.slotId === selectedSlot.id);
+              if (isPeriodLockedForPrivate(hold)) {
+                setSubmitError(SLOT_CONFLICT_MESSAGE);
+                setStep('calendar');
+                setSubmitting(false);
+                return;
+              }
+            }
+          } catch {
+            // Server will still enforce conflicts
+          }
+        }
+
+        const selectedDish = getDishById(values.dishId);
+        if (isBasic && !selectedDish) {
+          setSubmitError('Please select one shared dish for your group.');
+          setStep('dish');
+          setSubmitting(false);
+          return;
+        }
+
+        const slotDate = selectedSlot!.date;
+        const slotPeriod = selectedSlot!.period;
+
+        const childPayload = bringingChildren ? children.filter((c) => Number.isFinite(c.age)) : [];
+        const locationLabel =
+          pkg === 'private-at-location'
+            ? 'At your villa / riad (Rabab comes to you)'
+            : pkg === 'weekly-event'
+              ? `Weekly Event · ${selectedSlot!.startTime}–${selectedSlot!.endTime}`
+              : pkg === 'private'
+                ? `Private workshop — ${selectedSlot!.startTime}–${selectedSlot!.endTime}`
+                : `Pick-up ${selectedSlot!.pickup.time} at ${selectedSlot!.pickup.meetingPoint}`;
+
+        const dishName = isBasic
+          ? selectedDish!.name
+          : isWeekly
+            ? selectedSlot!.dish
+            : 'Private cooking experience (to confirm)';
+
+        const res = await fetch('/api/bookings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fullName: values.fullName,
+            phone: values.phone,
+            country: values.country,
+            email: values.email,
+            packageType: pkg,
+            slotDate,
+            slotPeriod,
+            dishId: selectedDish?.id,
+            dish: dishName,
+            adults: values.adults,
+            children: childPayload,
+            location: locationLabel,
+            dietaryNotes: values.dietaryNotes,
+            allergies: values.dietaryNotes,
+          }),
+        });
+
+        const data = (await res.json()) as { error?: string; booking?: { totalPrice: number } };
+        if (!res.ok) {
+          setSubmitError(data.error || SLOT_CONFLICT_MESSAGE);
+          if (res.status === 409 && isBasic) setStep('calendar');
+          setSubmitting(false);
+          return;
         }
 
         setSubmitted(true);
-        openWhatsApp(values);
+        openWhatsApp({
+          ...values,
+          dish: dishName,
+          dishPrice: unitPriceForPackage(pkg, selectedDish?.priceEur),
+          slotDate,
+          slotPeriod,
+          pickup: locationLabel,
+          adults: values.adults,
+          children: childPayload,
+          totalPrice: data.booking?.totalPrice,
+          dietaryNotes: values.dietaryNotes,
+        });
       } catch (error) {
         console.error('Error submitting form:', error);
         setSubmitError('Something went wrong. Please try again.');
@@ -279,18 +354,75 @@ function BookingForm() {
   );
 
   const selectedDish = getDishById(formik.values.dishId);
+  const activePackage = formik.values.packageType as PackageType;
+  const unitPrice = unitPriceForPackage(activePackage, selectedDish?.priceEur);
+  const minAdults = minAdultsForPackage(activePackage);
+
+  // Live remaining capacity for Basic workshop form (not Private)
+  useEffect(() => {
+    if (initialPackage !== 'basic' || !selectedSlot) {
+      setSlotOccupancy(null);
+      return;
+    }
+
+    let cancelled = false;
+    (async () => {
+      setSlotOccupancyLoading(true);
+      try {
+        const date = selectedSlot.date;
+        const res = await fetch(`/api/availability?from=${date}&to=${date}`, { cache: 'no-store' });
+        if (!res.ok) throw new Error('availability failed');
+        const data = (await res.json()) as { occupancy?: SlotOccupancy[] };
+        const hold = data.occupancy?.find((o) => o.slotId === selectedSlot.id) ?? null;
+        if (!cancelled) setSlotOccupancy(hold);
+      } catch {
+        if (!cancelled) setSlotOccupancy(null);
+      } finally {
+        if (!cancelled) setSlotOccupancyLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [initialPackage, selectedSlot]);
+
+  const remainingSpots = useMemo(() => {
+    if (initialPackage !== 'basic') return null;
+    if (slotOccupancyLoading) return null;
+    return slotOccupancy?.remainingBasicCapacity ?? BASIC_MAX_GUESTS;
+  }, [initialPackage, slotOccupancy, slotOccupancyLoading]);
+
+  const partyCapacityCount = useMemo(() => {
+    const childPayload = bringingChildren ? children : [];
+    return countGuestsTowardCapacity(formik.values.adults, childPayload);
+  }, [bringingChildren, children, formik.values.adults]);
+
+  /** True when this Basic slot cannot fit the package minimum (e.g. only 2 left, min is 3) */
+  const slotTooFullForPackage =
+    initialPackage === 'basic' &&
+    remainingSpots !== null &&
+    remainingSpots < minAdults;
+
+  /** True when the guest party exceeds remaining capacity */
+  const partyExceedsCapacity =
+    initialPackage === 'basic' &&
+    remainingSpots !== null &&
+    partyCapacityCount > remainingSpots;
+
+  const cannotBookThisSlot = slotTooFullForPackage || partyExceedsCapacity;
 
   const priceSummary = useMemo(() => {
     const childPayload = bringingChildren ? children : [];
     return calculateBookingTotal({
       adults: formik.values.adults,
       children: childPayload,
-      dishPriceEur: selectedDish?.priceEur,
+      dishPriceEur: unitPrice,
     });
-  }, [bringingChildren, children, formik.values.adults, selectedDish?.priceEur]);
+  }, [bringingChildren, children, formik.values.adults, unitPrice]);
 
   function openWhatsApp(payload: Record<string, unknown>) {
-    const whatsappPhone = '212726671746';
+    const whatsappPhone = '212772527475';
     const childrenList = Array.isArray(payload.children)
       ? (payload.children as ChildGuest[]).map((c) => `${c.age}y`).join(', ') || 'None'
       : 'None';
@@ -303,16 +435,18 @@ function BookingForm() {
       `🌍 *Country:* ${payload.country}`,
       `📧 *Email:* ${payload.email}`,
       '',
-      `📦 *Package:* ${packageLabel(String(payload.packageType))}`,
+      `📦 *Package:* ${packageLabel(payload.packageType as PackageType)}`,
     ];
 
     if (payload.slotDate) {
       lines.push(
-        `📅 *Slot:* ${payload.slotDate} · ${payload.slotPeriod}`,
-        `🍲 *Shared dish (whole group):* ${payload.dish}${
-          payload.dishPrice != null ? ` (${payload.dishPrice} EUR/guest)` : ''
-        }`,
-        `🚌 *Pick-up:* ${payload.pickup}`,
+        `📅 *Preferred date:* ${payload.slotDate} · ${payload.slotPeriod}`,
+        payload.dish ? `🍲 *Dish:* ${payload.dish}${
+          payload.dishPrice != null && (payload.packageType as PackageType) === 'basic'
+            ? ` (${payload.dishPrice} EUR/guest)`
+            : ''
+        }` : '',
+        `📍 *Location:* ${payload.pickup}`,
         `👥 *Adults:* ${payload.adults}`,
         `👶 *Children:* ${childrenList}`,
         payload.totalPrice != null ? `💶 *Total:* ${payload.totalPrice} EUR` : ''
@@ -350,7 +484,7 @@ function BookingForm() {
     setSelectedSlot(null);
     setBringingChildren(false);
     setChildren([]);
-    setStep(isBasicFlow ? 'calendar' : 'form');
+    setStep(calendarFlow ? 'calendar' : 'form');
     formik.resetForm({
       values: {
         fullName: '',
@@ -361,8 +495,10 @@ function BookingForm() {
         dietaryPreference: 'none',
         allergies: '',
         dietaryNotes: '',
-        adults: BASIC_MIN_ADULTS,
+        adults: minAdultsForPackage(initialPackage),
         dishId: '',
+        preferredDate: '',
+        preferredPeriod: 'morning',
       },
     });
   };
@@ -401,24 +537,32 @@ function BookingForm() {
     );
   }
 
-  if (isBasicFlow && step === 'calendar') {
+  if (calendarFlow && step === 'calendar') {
     return (
       <main className="min-h-screen bg-gradient-to-b from-[#FBF7F0] via-white to-amber-50">
         <section className="pt-32 sm:pt-40 pb-16 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto">
             <WorkshopCalendar
+              mode={calendarModeForPackage(initialPackage)}
               selectedSlotId={selectedSlot?.id}
               onSelectSlot={(slot) => {
                 setSelectedSlot(slot);
                 setSubmitError('');
                 setDishStepError('');
-                const options = getDishesForSlotCategory(slot.menuCategory);
-                if (options.length === 1) {
-                  formik.setFieldValue('dishId', options[0].id);
+                formik.setFieldValue('preferredDate', slot.date);
+                formik.setFieldValue('preferredPeriod', slot.period);
+                if (initialPackage === 'basic') {
+                  const options = getDishesForSlotCategory(slot.menuCategory);
+                  if (options.length === 1) {
+                    formik.setFieldValue('dishId', options[0].id);
+                  } else {
+                    formik.setFieldValue('dishId', '');
+                  }
+                  setStep('dish');
                 } else {
                   formik.setFieldValue('dishId', '');
+                  setStep('form');
                 }
-                setStep('dish');
               }}
             />
           </div>
@@ -427,7 +571,7 @@ function BookingForm() {
     );
   }
 
-  if (isBasicFlow && step === 'dish' && selectedSlot) {
+  if (initialPackage === 'basic' && step === 'dish' && selectedSlot) {
     const slotLabel = `${selectedSlot.weekday} ${selectedSlot.dayNumber} ${selectedSlot.month} · ${selectedSlot.period}`;
     return (
       <main className="min-h-screen bg-gradient-to-b from-[#FBF7F0] via-white to-amber-50">
@@ -453,6 +597,9 @@ function BookingForm() {
             }}
             slotLabel={slotLabel}
             error={dishStepError}
+            remainingSpots={remainingSpots}
+            maxGuests={BASIC_MAX_GUESTS}
+            minAdults={BASIC_MIN_ADULTS}
           />
         </section>
       </main>
@@ -463,9 +610,9 @@ function BookingForm() {
     <main className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
       <section className="pt-40 pb-12 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          {isBasicFlow && (
+          {calendarFlow && (
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-700 mb-3">
-              Step 3 of 3
+              {initialPackage === 'basic' ? 'Step 3 of 3' : 'Step 2 of 2'}
             </p>
           )}
           <h1 className="text-5xl sm:text-6xl font-black text-gray-900 mb-6 leading-tight">
@@ -477,7 +624,7 @@ function BookingForm() {
 
       <section className="pb-20 px-6">
         <div className="max-w-2xl mx-auto">
-          {isBasicFlow && selectedSlot && (
+          {calendarFlow && selectedSlot && (
             <div className="mb-6 rounded-3xl border border-amber-200 bg-white p-5 sm:p-6 shadow-sm space-y-5">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div>
@@ -491,20 +638,52 @@ function BookingForm() {
                     {selectedSlot.period} · {selectedSlot.startTime} – {selectedSlot.endTime}
                   </p>
                   <p className="text-sm text-gray-600 mt-2">
-                    <span className="font-semibold">{t.booking.pickupLabel}:</span>{' '}
-                    {selectedSlot.pickup.time} · {selectedSlot.pickup.meetingPoint}
+                    {isPrivatePackage(activePackage) ? (
+                      <>
+                        <span className="font-semibold">Exclusive private slot</span>
+                        {' · '}
+                        {selectedSlot.startTime} – {selectedSlot.endTime}
+                      </>
+                    ) : (
+                      <>
+                        <span className="font-semibold">{t.booking.pickupLabel}:</span>{' '}
+                        {selectedSlot.pickup.time} · {selectedSlot.pickup.meetingPoint}
+                      </>
+                    )}
                   </p>
+                  <p className="text-sm font-semibold text-gray-800 mt-2">
+                    {packageLabel(activePackage)}
+                  </p>
+                  {initialPackage === 'basic' && (
+                    <p
+                      className={`text-sm font-bold mt-3 ${
+                        remainingSpots === null
+                          ? 'text-gray-500'
+                          : remainingSpots === 0 || slotTooFullForPackage
+                            ? 'text-red-600'
+                            : remainingSpots <= 3
+                              ? 'text-amber-700'
+                              : 'text-emerald-700'
+                      }`}
+                    >
+                      {remainingSpots === null
+                        ? 'Checking availability…'
+                        : remainingSpots === 0 || slotTooFullForPackage
+                          ? 'Fully booked — please choose another day'
+                          : `${remainingSpots} of ${BASIC_MAX_GUESTS} spots available`}
+                    </p>
+                  )}
                 </div>
                 <button
                   type="button"
                   onClick={() => setStep('calendar')}
                   className="text-sm font-bold text-amber-700 underline underline-offset-2 shrink-0"
                 >
-                  {t.booking.changeSlot}
+                  {cannotBookThisSlot ? 'Choose another day' : t.booking.changeSlot}
                 </button>
               </div>
 
-              {selectedDish && (
+              {selectedDish && initialPackage === 'basic' && (
                 <div className="flex gap-3 sm:gap-4 items-center border-t border-amber-100 pt-5">
                   <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 bg-gray-100">
                     <Image
@@ -533,6 +712,25 @@ function BookingForm() {
                   </button>
                 </div>
               )}
+
+              {initialPackage === 'weekly-event' && (
+                <div className="border-t border-amber-100 pt-5">
+                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-gray-400 mb-1">
+                    Event
+                  </p>
+                  <p className="font-bold text-gray-900 leading-snug">{selectedSlot.dish}</p>
+                  <p className="text-sm text-violet-700 font-semibold mt-1">80 € / person</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {!calendarFlow && (
+            <div className="mb-6 rounded-3xl border border-amber-200 bg-white p-5 sm:p-6 shadow-sm">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700 mb-2">
+                Package
+              </p>
+              <p className="text-lg font-black text-gray-900">{packageLabel(activePackage)}</p>
             </div>
           )}
 
@@ -545,6 +743,206 @@ function BookingForm() {
                 {submitError}
               </div>
             )}
+
+            {/* 1. Guests */}
+            <div className="mb-6">
+              <label htmlFor="adults" className="text-sm font-bold text-gray-700 mb-2 block">
+                {t.booking.adults} *
+              </label>
+              {initialPackage === 'basic' && remainingSpots !== null && (
+                <div
+                  className={`mb-3 text-sm font-semibold rounded-xl px-3 py-2.5 border ${
+                    remainingSpots === 0 || slotTooFullForPackage || partyExceedsCapacity
+                      ? 'bg-red-50 border-red-200 text-red-700'
+                      : remainingSpots <= 3
+                        ? 'bg-amber-50 border-amber-200 text-amber-800'
+                        : 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                  }`}
+                >
+                  {remainingSpots === 0 || slotTooFullForPackage ? (
+                    <p>This workshop is fully booked. Please choose another day.</p>
+                  ) : partyExceedsCapacity ? (
+                    <p>
+                      Your group needs {partyCapacityCount} spots, but only {remainingSpots}{' '}
+                      {remainingSpots === 1 ? 'is' : 'are'} left. Please choose another day, or
+                      reduce your group (ages 0–3 do not count).
+                    </p>
+                  ) : (
+                    <p>
+                      {remainingSpots} spot{remainingSpots === 1 ? '' : 's'} available on this
+                      workshop (max {BASIC_MAX_GUESTS})
+                    </p>
+                  )}
+                  {cannotBookThisSlot && (
+                    <button
+                      type="button"
+                      onClick={() => setStep('calendar')}
+                      className="mt-2 text-sm font-bold underline underline-offset-2"
+                    >
+                      Choose another day →
+                    </button>
+                  )}
+                </div>
+              )}
+              <input
+                type="number"
+                id="adults"
+                min={minAdults}
+                max={
+                  initialPackage === 'basic' && remainingSpots !== null
+                    ? Math.max(minAdults, remainingSpots)
+                    : BASIC_MAX_GUESTS
+                }
+                {...formik.getFieldProps('adults')}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Minimum {minAdults} adults for this package
+                {initialPackage === 'basic' && remainingSpots !== null
+                  ? ` · ${remainingSpots} spot${remainingSpots === 1 ? '' : 's'} left`
+                  : ''}
+              </p>
+            </div>
+
+            {/* 2. Children */}
+            <div className="mb-6">
+              <p className="text-sm font-bold text-gray-700 mb-3">{t.booking.childrenQuestion}</p>
+              <div className="flex gap-3 mb-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBringingChildren(true);
+                    if (children.length === 0) setChildren([{ age: 5 }]);
+                  }}
+                  className={`px-4 py-2 rounded-full text-sm font-bold border-2 ${
+                    bringingChildren
+                      ? 'border-amber-500 bg-amber-50 text-amber-800'
+                      : 'border-gray-200 text-gray-600'
+                  }`}
+                >
+                  {t.booking.childrenYes}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBringingChildren(false);
+                    setChildren([]);
+                  }}
+                  className={`px-4 py-2 rounded-full text-sm font-bold border-2 ${
+                    !bringingChildren
+                      ? 'border-amber-500 bg-amber-50 text-amber-800'
+                      : 'border-gray-200 text-gray-600'
+                  }`}
+                >
+                  {t.booking.childrenNo}
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 mb-3">{t.booking.childrenPricingNote}</p>
+              {bringingChildren && (
+                <div className="space-y-3">
+                  {children.map((child, index) => (
+                    <div key={index} className="flex items-center gap-3">
+                      <label className="text-sm text-gray-600 w-28 shrink-0">
+                        {t.booking.childAge} {index + 1}
+                      </label>
+                      <input
+                        type="number"
+                        min={0}
+                        max={17}
+                        value={child.age}
+                        onChange={(e) => {
+                          const next = [...children];
+                          next[index] = { age: Number(e.target.value) };
+                          setChildren(next);
+                        }}
+                        className="flex-1 px-3 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500"
+                      />
+                      {children.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => setChildren(children.filter((_, i) => i !== index))}
+                          className="text-xs font-bold text-red-600"
+                        >
+                          {t.booking.removeChild}
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => setChildren([...children, { age: 5 }])}
+                    className="text-sm font-bold text-amber-700 underline underline-offset-2"
+                  >
+                    {t.booking.addChild}
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Preferred date — removed: Private now picks a slot on the calendar first */}
+
+            {/* Location — Private only */}
+            {isPrivatePackage(activePackage) && (
+              <div className="mb-6">
+                <p className="text-sm font-bold text-gray-700 mb-3">Location *</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      formik.setFieldValue('packageType', 'private');
+                      if (formik.values.adults < 2) formik.setFieldValue('adults', 2);
+                    }}
+                    className={`text-left rounded-2xl border-2 p-4 transition-all ${
+                      activePackage === 'private'
+                        ? 'border-amber-500 bg-amber-50 ring-2 ring-amber-200'
+                        : 'border-gray-200 hover:border-amber-300'
+                    }`}
+                  >
+                    <p className="font-bold text-gray-900">At our workshop</p>
+                    <p className="text-sm text-gray-600 mt-1">80 € / person · min 2 guests</p>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      formik.setFieldValue('packageType', 'private-at-location');
+                      if (formik.values.adults < 6) formik.setFieldValue('adults', 6);
+                    }}
+                    className={`text-left rounded-2xl border-2 p-4 transition-all ${
+                      activePackage === 'private-at-location'
+                        ? 'border-amber-500 bg-amber-50 ring-2 ring-amber-200'
+                        : 'border-gray-200 hover:border-amber-300'
+                    }`}
+                  >
+                    <p className="font-bold text-gray-900">At your location</p>
+                    <p className="text-sm text-gray-600 mt-1">100 € / person · min 6 guests</p>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* 7. Allergies */}
+            <div className="mb-8">
+              <label htmlFor="dietaryNotes" className="text-sm font-bold text-gray-700 mb-2 block">
+                {t.booking.dietaryNotes || 'Allergies or dietary restrictions'}
+              </label>
+              <textarea
+                id="dietaryNotes"
+                {...formik.getFieldProps('dietaryNotes')}
+                rows={3}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500 resize-none"
+                placeholder={
+                  t.booking.dietaryNotesPlaceholder ||
+                  'e.g. one guest no meat, nut allergy — notes for the host'
+                }
+              />
+            </div>
+
+            {/* 8. Personal information (last) */}
+            <div className="mb-2">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700 mb-4">
+                Personal information
+              </p>
+            </div>
 
             <div className="mb-6">
               <label htmlFor="fullName" className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
@@ -696,7 +1094,7 @@ function BookingForm() {
               )}
             </div>
 
-            <div className="mb-6">
+            <div className="mb-8">
               <label htmlFor="email" className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
                 <FiMail className="w-4 h-4 text-amber-600" />
                 {t.booking.email} *
@@ -717,212 +1115,37 @@ function BookingForm() {
               )}
             </div>
 
-            {!isBasicFlow && (
-              <div className="mb-6 rounded-2xl border-2 border-amber-100 bg-amber-50/50 p-4 sm:p-5">
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700 mb-2">
-                  Selected package
-                </p>
-                <p className="font-black text-gray-900 text-lg leading-snug">
-                  {formik.values.packageType === 'weekly-event' && 'Weekly Event'}
-                  {formik.values.packageType === 'private' && t.packages.private.title}
-                  {formik.values.packageType === 'private-at-location' &&
-                    t.packages.privateAtLocation.title}
-                </p>
-                <p className="text-sm text-gray-600 mt-1">
-                  {formik.values.packageType === 'weekly-event' &&
-                    'Weekly Berber Music Event at Sunset'}
-                  {formik.values.packageType === 'private' && t.packages.private.subtitle}
-                  {formik.values.packageType === 'private-at-location' &&
-                    t.packages.privateAtLocation.subtitle}
-                </p>
-                <p className="text-2xl font-black text-amber-600 mt-3">
-                  {formik.values.packageType === 'weekly-event' && '80 EUR'}
-                  {formik.values.packageType === 'private' && '80 EUR'}
-                  {formik.values.packageType === 'private-at-location' && '100 EUR'}
-                </p>
-                <input type="hidden" name="packageType" value={formik.values.packageType} />
-              </div>
-            )}
-
-            {isBasicFlow && (
-              <>
-                <div className="mb-6">
-                  <label htmlFor="adults" className="text-sm font-bold text-gray-700 mb-2 block">
-                    {t.booking.adults} *
-                  </label>
-                  <input
-                    type="number"
-                    id="adults"
-                    min={BASIC_MIN_ADULTS}
-                    max={13}
-                    {...formik.getFieldProps('adults')}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">{t.booking.adultsHint}</p>
+            {/* 9. Price summary */}
+            <div className="mb-8 rounded-2xl bg-[#F7F2EA] border border-amber-100 p-5">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-800 mb-3">
+                {t.booking.priceSummary}
+              </p>
+              <div className="space-y-2 text-sm text-gray-700">
+                {selectedDish && (
+                  <p className="font-semibold text-gray-900">{selectedDish.name}</p>
+                )}
+                <div className="flex justify-between">
+                  <span>
+                    {t.booking.adultsSubtotal} ({formik.values.adults} × {unitPrice} €)
+                  </span>
+                  <span className="font-semibold">{priceSummary.adultSubtotal} €</span>
                 </div>
-
-                <div className="mb-6">
-                  <p className="text-sm font-bold text-gray-700 mb-3">{t.booking.childrenQuestion}</p>
-                  <div className="flex gap-3 mb-4">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setBringingChildren(true);
-                        if (children.length === 0) setChildren([{ age: 5 }]);
-                      }}
-                      className={`px-4 py-2 rounded-full text-sm font-bold border-2 ${
-                        bringingChildren
-                          ? 'border-amber-500 bg-amber-50 text-amber-800'
-                          : 'border-gray-200 text-gray-600'
-                      }`}
-                    >
-                      {t.booking.childrenYes}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setBringingChildren(false);
-                        setChildren([]);
-                      }}
-                      className={`px-4 py-2 rounded-full text-sm font-bold border-2 ${
-                        !bringingChildren
-                          ? 'border-amber-500 bg-amber-50 text-amber-800'
-                          : 'border-gray-200 text-gray-600'
-                      }`}
-                    >
-                      {t.booking.childrenNo}
-                    </button>
+                {bringingChildren && (
+                  <div className="flex justify-between">
+                    <span>{t.booking.childrenSubtotal}</span>
+                    <span className="font-semibold">{priceSummary.childrenSubtotal} €</span>
                   </div>
-                  <p className="text-xs text-gray-500 mb-3">{t.booking.childrenPricingNote}</p>
-                  {bringingChildren && (
-                    <div className="space-y-3">
-                      {children.map((child, index) => (
-                        <div key={index} className="flex items-center gap-3">
-                          <label className="text-sm text-gray-600 w-28 shrink-0">
-                            {t.booking.childAge} {index + 1}
-                          </label>
-                          <input
-                            type="number"
-                            min={0}
-                            max={17}
-                            value={child.age}
-                            onChange={(e) => {
-                              const next = [...children];
-                              next[index] = { age: Number(e.target.value) };
-                              setChildren(next);
-                            }}
-                            className="flex-1 px-3 py-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500"
-                          />
-                          {children.length > 1 && (
-                            <button
-                              type="button"
-                              onClick={() => setChildren(children.filter((_, i) => i !== index))}
-                              className="text-xs font-bold text-red-600"
-                            >
-                              {t.booking.removeChild}
-                            </button>
-                          )}
-                        </div>
-                      ))}
-                      <button
-                        type="button"
-                        onClick={() => setChildren([...children, { age: 5 }])}
-                        className="text-sm font-bold text-amber-700 underline underline-offset-2"
-                      >
-                        {t.booking.addChild}
-                      </button>
-                    </div>
-                  )}
+                )}
+                <div className="flex justify-between pt-2 border-t border-amber-200 text-base font-black text-gray-900">
+                  <span>{t.booking.total}</span>
+                  <span>{priceSummary.total} €</span>
                 </div>
-
-                <div className="mb-8 rounded-2xl bg-[#F7F2EA] border border-amber-100 p-5">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-800 mb-3">
-                    {t.booking.priceSummary}
-                  </p>
-                  {!selectedDish ? (
-                    <p className="text-sm text-gray-600">Select a dish to see your total.</p>
-                  ) : (
-                    <div className="space-y-2 text-sm text-gray-700">
-                      <p className="font-semibold text-gray-900">{selectedDish.name}</p>
-                      <p className="text-xs text-gray-500 mb-2">
-                        {selectedDish.priceEur} € / person · {selectedDish.priceMad} MAD
-                      </p>
-                      <div className="flex justify-between">
-                        <span>
-                          {t.booking.adultsSubtotal} ({formik.values.adults} × {selectedDish.priceEur} €)
-                        </span>
-                        <span className="font-semibold">{priceSummary.adultSubtotal} €</span>
-                      </div>
-                      {bringingChildren && (
-                        <div className="flex justify-between">
-                          <span>{t.booking.childrenSubtotal}</span>
-                          <span className="font-semibold">{priceSummary.childrenSubtotal} €</span>
-                        </div>
-                      )}
-                      <div className="flex justify-between pt-2 border-t border-amber-200 text-base font-black text-gray-900">
-                        <span>{t.booking.total}</span>
-                        <span>{priceSummary.total} €</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </>
-            )}
-
-            {isBasicFlow ? (
-              <div className="mb-8">
-                <label htmlFor="dietaryNotes" className="text-sm font-bold text-gray-700 mb-2 block">
-                  {t.booking.dietaryNotes || 'Dietary notes / allergies'}
-                </label>
-                <textarea
-                  id="dietaryNotes"
-                  {...formik.getFieldProps('dietaryNotes')}
-                  rows={3}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500 resize-none"
-                  placeholder={
-                    t.booking.dietaryNotesPlaceholder ||
-                    'e.g. one guest no meat, nut allergy — notes for the host, not a separate dish choice'
-                  }
-                />
-                <p className="text-xs text-gray-500 mt-1">
-                  Individual restrictions within the group (not a second dish selection).
-                </p>
               </div>
-            ) : (
-              <>
-                <div className="mb-6">
-                  <label htmlFor="dietaryPreference" className="text-sm font-bold text-gray-700 mb-2 block">
-                    {t.booking.dietary}
-                  </label>
-                  <select
-                    id="dietaryPreference"
-                    {...formik.getFieldProps('dietaryPreference')}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500"
-                  >
-                    <option value="none">{t.booking.dietaryNone}</option>
-                    <option value="vegetarian">{t.booking.dietaryVegetarian}</option>
-                    <option value="vegan">{t.booking.dietaryVegan}</option>
-                  </select>
-                </div>
-
-                <div className="mb-8">
-                  <label htmlFor="allergies" className="text-sm font-bold text-gray-700 mb-2 block">
-                    {t.booking.allergies}
-                  </label>
-                  <textarea
-                    id="allergies"
-                    {...formik.getFieldProps('allergies')}
-                    rows={3}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500 resize-none"
-                    placeholder={t.booking.allergiesPlaceholder}
-                  />
-                </div>
-              </>
-            )}
+            </div>
 
             <button
               type="submit"
-              disabled={formik.isSubmitting}
+              disabled={formik.isSubmitting || cannotBookThisSlot}
               className="w-full bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-8 py-5 rounded-xl hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-lg hover:scale-105 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
               {formik.isSubmitting ? (

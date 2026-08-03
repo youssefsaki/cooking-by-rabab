@@ -8,8 +8,9 @@ import {
 import { calculateBookingTotal, type ChildGuest } from '@/lib/booking/pricing';
 import { getDishById } from '@/lib/booking/menu';
 import {
-  BASIC_MIN_ADULTS,
   getSlotById,
+  minAdultsForPackage,
+  unitPriceForPackage,
   type PackageType,
   type SlotPeriod,
 } from '@/lib/booking/schedule';
@@ -25,7 +26,6 @@ interface BookingPayload {
   packageType: PackageType;
   slotDate: string;
   slotPeriod: SlotPeriod;
-  /** Shared dish for the whole group (order-level) */
   dishId?: string;
   dish?: string;
   adults: number;
@@ -33,11 +33,18 @@ interface BookingPayload {
   location?: string;
   allergies?: string;
   dietaryNotes?: string;
-  dietaryPreference?: string;
 }
 
 function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function isIsoDate(value: string): boolean {
+  return /^\d{4}-\d{2}-\d{2}$/.test(value);
+}
+
+function isCalendarPackage(pkg: PackageType): boolean {
+  return pkg === 'basic' || pkg === 'weekly-event';
 }
 
 export async function POST(request: NextRequest) {
@@ -58,42 +65,24 @@ export async function POST(request: NextRequest) {
     }
 
     if (!body.slotDate || !body.slotPeriod) {
-      return NextResponse.json({ error: 'Slot date and period are required' }, { status: 400 });
+      return NextResponse.json({ error: 'Preferred date and time are required' }, { status: 400 });
     }
 
-    const slot = getSlotById(`${body.slotDate}|${body.slotPeriod}`);
-    if (!slot) {
-      return NextResponse.json({ error: 'Invalid workshop slot' }, { status: 400 });
+    if (!isIsoDate(body.slotDate)) {
+      return NextResponse.json({ error: 'Invalid date format' }, { status: 400 });
     }
 
-    if (!slot.packageAllowed.includes(packageType)) {
-      return NextResponse.json(
-        { error: 'This package cannot be booked for the selected slot' },
-        { status: 400 }
-      );
+    if (body.slotPeriod !== 'morning' && body.slotPeriod !== 'afternoon') {
+      return NextResponse.json({ error: 'Invalid time period' }, { status: 400 });
     }
 
     const adults = Number(body.adults);
     const children = Array.isArray(body.children) ? body.children : [];
+    const minAdults = minAdultsForPackage(packageType);
 
-    if (!Number.isFinite(adults) || adults < 1) {
-      return NextResponse.json({ error: 'At least one adult guest is required' }, { status: 400 });
-    }
-
-    if (packageType === 'basic' && adults < BASIC_MIN_ADULTS) {
+    if (!Number.isFinite(adults) || adults < minAdults) {
       return NextResponse.json(
-        { error: `Basic package requires at least ${BASIC_MIN_ADULTS} adults` },
-        { status: 400 }
-      );
-    }
-
-    if (packageType === 'private' && adults < 2) {
-      return NextResponse.json({ error: 'Private workshop requires at least 2 guests' }, { status: 400 });
-    }
-
-    if (packageType === 'private-at-location' && adults < 6) {
-      return NextResponse.json(
-        { error: 'Private at your location requires at least 6 guests' },
+        { error: `This package requires at least ${minAdults} adults` },
         { status: 400 }
       );
     }
@@ -104,49 +93,109 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const existing = await listBookings(body.slotDate, body.slotDate);
-    const conflict = evaluateSlotBooking({
-      packageType,
-      slotDate: body.slotDate,
-      slotPeriod: body.slotPeriod,
-      adults,
-      children,
-      existingBookings: existing,
-    });
+    let dishName = '';
+    let unitPrice = unitPriceForPackage(packageType);
 
-    if (!conflict.ok) {
-      return NextResponse.json({ error: conflict.message }, { status: 409 });
+    if (isCalendarPackage(packageType)) {
+      const slot = getSlotById(`${body.slotDate}|${body.slotPeriod}`);
+      if (!slot) {
+        return NextResponse.json({ error: 'Invalid workshop slot' }, { status: 400 });
+      }
+
+      if (!slot.packageAllowed.includes(packageType)) {
+        return NextResponse.json(
+          { error: 'This package cannot be booked for the selected slot' },
+          { status: 400 }
+        );
+      }
+
+      if (packageType === 'basic') {
+        const existing = await listBookings(body.slotDate, body.slotDate);
+        const conflict = evaluateSlotBooking({
+          packageType,
+          slotDate: body.slotDate,
+          slotPeriod: body.slotPeriod,
+          adults,
+          children,
+          existingBookings: existing,
+        });
+
+        if (!conflict.ok) {
+          return NextResponse.json({ error: conflict.message }, { status: 409 });
+        }
+
+        const menuDish = getDishById(body.dishId);
+        if (!menuDish) {
+          return NextResponse.json(
+            { error: 'Please select one shared dish for your group' },
+            { status: 400 }
+          );
+        }
+
+        if (slot.menuCategory && menuDish.category !== slot.menuCategory) {
+          return NextResponse.json(
+            { error: 'Selected dish is not available for this workshop day' },
+            { status: 400 }
+          );
+        }
+
+        dishName = menuDish.name;
+        unitPrice = unitPriceForPackage(packageType, menuDish.priceEur);
+      } else {
+        // Weekly Event — blocked if Private already holds that Saturday afternoon
+        const existing = await listBookings(body.slotDate, body.slotDate);
+        const conflict = evaluateSlotBooking({
+          packageType,
+          slotDate: body.slotDate,
+          slotPeriod: body.slotPeriod,
+          adults,
+          children,
+          existingBookings: existing,
+        });
+
+        if (!conflict.ok) {
+          return NextResponse.json({ error: conflict.message }, { status: 409 });
+        }
+
+        dishName = slot.dish;
+        unitPrice = unitPriceForPackage(packageType);
+      }
+    } else {
+      // Private form request — locks matching Basic date + period only
+      const existing = await listBookings(body.slotDate, body.slotDate);
+      const conflict = evaluateSlotBooking({
+        packageType,
+        slotDate: body.slotDate,
+        slotPeriod: body.slotPeriod,
+        adults,
+        children,
+        existingBookings: existing,
+      });
+
+      if (!conflict.ok) {
+        return NextResponse.json({ error: conflict.message }, { status: 409 });
+      }
+
+      dishName = body.dish?.trim() || 'Private cooking experience (to confirm)';
+      unitPrice = unitPriceForPackage(packageType);
     }
 
-    const menuDish = getDishById(body.dishId);
-    if (packageType === 'basic' && !menuDish) {
-      return NextResponse.json(
-        { error: 'Please select one shared dish for your group' },
-        { status: 400 }
-      );
-    }
-
-    if (
-      packageType === 'basic' &&
-      menuDish &&
-      slot.menuCategory &&
-      menuDish.category !== slot.menuCategory
-    ) {
-      return NextResponse.json(
-        { error: 'Selected dish is not available for this workshop day' },
-        { status: 400 }
-      );
-    }
-
-    const dishName = menuDish?.name || body.dish?.trim() || slot.dish;
-    const dishPrice = menuDish?.priceEur;
     const pricing = calculateBookingTotal({
       adults,
       children,
-      dishPriceEur: dishPrice,
+      dishPriceEur: unitPrice,
     });
 
     const dietaryNotes = (body.dietaryNotes || body.allergies || '').trim();
+
+    const defaultLocation =
+      packageType === 'private-at-location'
+        ? 'At your villa / riad (Rabab comes to you)'
+        : packageType === 'weekly-event'
+          ? 'Weekly Event — Taghazout village'
+          : packageType === 'private'
+            ? 'Private workshop — Taghazout village'
+            : 'Pick-up Taghazout Mosque → Village workshop';
 
     const booking: StoredBooking = {
       id: randomUUID(),
@@ -161,7 +210,7 @@ export async function POST(request: NextRequest) {
       dish: dishName,
       adults,
       children,
-      location: body.location?.trim() || 'Taghazout Mosque pickup → Village workshop',
+      location: body.location?.trim() || defaultLocation,
       allergies: dietaryNotes,
       totalPrice: pricing.total,
       status: 'confirmed',

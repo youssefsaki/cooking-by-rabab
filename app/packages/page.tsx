@@ -54,7 +54,7 @@ export default function PackagesPage() {
       endTime: "TBD",
       pickup: "Taghazout Mosque",
       dropoff: "Taghazout or Tamraght",
-      image: "/packages/weekly.jpeg",
+      image: "/packages/weekly.webp",
       alt: "Weekly Amazigh music event Taghazout — Berber village sunset celebration and traditional cooking experience Morocco",
       itinerary: t.packagesPage.weeklyEvent.itinerary,
       includes: t.packagesPage.weeklyEvent.includes,

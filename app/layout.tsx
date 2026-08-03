@@ -99,7 +99,7 @@ export default function RootLayout({
               name: 'Taghazout Cooking Class',
               description: 'Authentic Moroccan & Amazigh cooking experience in the Atlas Mountains above Taghazout. Half-day immersive cultural experience in a 300-year-old Berber village home.',
               url: 'https://www.taghazout-cooking-class.com',
-              telephone: '+212726671746',
+              telephone: '+212772527475',
               email: 'rababouhadda5@gmail.com',
               address: {
                 '@type': 'PostalAddress',

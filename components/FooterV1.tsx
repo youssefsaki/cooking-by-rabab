@@ -39,9 +39,9 @@ const footerData = {
   ],
   contact: {
     address: "Taghazout Village, Agadir-Ida-Ou-Tanane, Morocco",
-    phone: "+212 726 671 746",
+    phone: "+212 772 527 475",
     email: "rababouhadda5@gmail.com",
-    whatsapp: "212726671746"
+    whatsapp: "212772527475"
   },
   social: [
     { platform: "Instagram", url: "https://www.instagram.com/_cookingwithrabab/", icon: FiInstagram },

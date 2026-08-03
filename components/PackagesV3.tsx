@@ -46,7 +46,7 @@ const packagesData = [
     groupSize: "6-13 guests",
     locationLabel: "Amazigh Village",
     startTime: "15:00",
-    image: "/packages/weekly.jpeg",
+    image: "/packages/weekly.webp",
     imageAlt: "Weekly Amazigh music event Taghazout — Berber village sunset celebration and cooking experience Morocco",
     highlights: [
       "Every Thursday at 15:00",
