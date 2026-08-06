@@ -27,8 +27,24 @@ Package column values:
 
 ## Step 2: Apps Script (locked writes + availability)
 
-1. In the sheet: **Extensions → Apps Script**
-2. Replace all code with:
+> **If Extensions → Apps Script shows “Unable to open file”:** you are signed into multiple Google accounts. Use the standalone method below instead (it works the same).
+
+### Option A — From the sheet (single Google account only)
+
+1. Open an **Incognito / Private** window
+2. Sign in **only** as `rababouhadda5@gmail.com`
+3. Open [Cooking Class Bookings New](https://docs.google.com/spreadsheets/d/1GJquhrJUSTcmfFMFLD-P0zqoVXbCDjOiXtTR52yxjKE/edit)
+4. **Extensions → Apps Script**
+
+### Option B — Standalone (recommended if Option A fails)
+
+1. Open [script.google.com](https://script.google.com/home) while signed in as `rababouhadda5@gmail.com`
+2. **New project** → name it **Booking Form Handler**
+3. Paste the code below (it opens the sheet by ID, so it does not need Extensions)
+
+Then continue with the same script either way:
+
+1. Replace all code with:
 
 ```javascript
 var CONFLICT_MESSAGE =
@@ -36,6 +52,12 @@ var CONFLICT_MESSAGE =
 var BASIC_MAX_GUESTS = 13;
 var BASIC_MIN_ADULTS = 3;
 var SHEET_TZ = 'Africa/Casablanca';
+/** Cooking Class Bookings New (rababouhadda5@gmail.com) */
+var SPREADSHEET_ID = '1GJquhrJUSTcmfFMFLD-P0zqoVXbCDjOiXtTR52yxjKE';
+
+function getSheet_() {
+  return SpreadsheetApp.openById(SPREADSHEET_ID).getSheets()[0];
+}
 
 function doGet(e) {
   try {
@@ -79,7 +101,7 @@ function doPost(e) {
       });
     }
 
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var sheet = getSheet_();
     // Keep SlotDate as plain text (yyyy-MM-dd) so Sheets does not
     // auto-convert it and shift the day by timezone.
     var slotDateText = String(booking.slotDate || '').slice(0, 10);
@@ -125,7 +147,7 @@ function doPost(e) {
 }
 
 function readBookings_() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var sheet = getSheet_();
   var values = sheet.getDataRange().getValues();
   if (values.length < 2) return [];
 
@@ -347,7 +369,7 @@ Inside `doPost`, after a successful `appendRow`, you can send:
 
 ```javascript
 MailApp.sendEmail({
-  to: 'YOUR_EMAIL@example.com',
+  to: 'rababouhadda5@gmail.com',
   subject: 'New Cooking Class Booking',
   body:
     'Name: ' +

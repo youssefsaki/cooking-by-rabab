@@ -498,7 +498,7 @@ function BookingForm() {
   }, [bringingChildren, children, formik.values.adults, unitPrice]);
 
   function openWhatsApp(payload: Record<string, unknown>) {
-    const whatsappPhone = '212772527475';
+    const whatsappPhone = '212726671746';
     const childrenList = Array.isArray(payload.children)
       ? (payload.children as ChildGuest[]).map((c) => `${c.age}y`).join(', ') || 'None'
       : 'None';
