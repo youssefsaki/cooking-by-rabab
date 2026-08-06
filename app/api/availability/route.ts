@@ -3,7 +3,8 @@ import { listBookings } from '@/lib/booking/sheets';
 import { buildOccupancyMap } from '@/lib/booking/conflicts';
 import { getUpcomingCalendarDays, buildSlotId, BASIC_MAX_GUESTS } from '@/lib/booking/schedule';
 
-export const dynamic = 'force-dynamic';
+/** Allow short CDN/browser cache so the calendar feels instant on repeat views */
+export const revalidate = 20;
 
 export async function GET(request: NextRequest) {
   try {
@@ -42,7 +43,15 @@ export async function GET(request: NextRequest) {
       }
     });
 
-    return NextResponse.json({ occupancy, from, to });
+    return NextResponse.json(
+      { occupancy, from, to },
+      {
+        headers: {
+          // Browser: ~10s. Edge/CDN: ~20s. Stale OK while revalidating.
+          'Cache-Control': 'public, max-age=10, s-maxage=20, stale-while-revalidate=60',
+        },
+      }
+    );
   } catch (error) {
     console.error('availability error', error);
     return NextResponse.json({ error: 'Failed to load availability' }, { status: 500 });

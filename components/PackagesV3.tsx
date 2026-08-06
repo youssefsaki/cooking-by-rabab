@@ -49,7 +49,7 @@ const packagesData = [
     image: "/packages/weekly.webp",
     imageAlt: "Weekly Amazigh music event Taghazout — Berber village sunset celebration and cooking experience Morocco",
     highlights: [
-      "Every Thursday at 15:00",
+      "Every Saturday at 15:00",
       "Minimum 6 guests required",
       "Pickup from Taghazout Mosque",
       "Mint tea ceremony",

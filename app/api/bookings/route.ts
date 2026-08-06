@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 import {
   evaluateSlotBooking,
+  buildOccupancyMap,
+  isSharedSlotForPrivate,
   SLOT_CONFLICT_MESSAGE,
   type StoredBooking,
 } from '@/lib/booking/conflicts';
@@ -9,6 +11,7 @@ import { calculateBookingTotal, type ChildGuest } from '@/lib/booking/pricing';
 import { getDishById } from '@/lib/booking/menu';
 import {
   getSlotById,
+  effectiveMinAdultsForPrivate,
   minAdultsForPackage,
   unitPriceForPackage,
   type PackageType,
@@ -78,7 +81,22 @@ export async function POST(request: NextRequest) {
 
     const adults = Number(body.adults);
     const children = Array.isArray(body.children) ? body.children : [];
-    const minAdults = minAdultsForPackage(packageType);
+    let minAdults = minAdultsForPackage(packageType);
+
+    // Private joining a shared workshop with leftover spots can book below the usual min
+    if (packageType === 'private' || packageType === 'private-at-location') {
+      const existingForMin = await listBookings(body.slotDate, body.slotDate);
+      const occupancy = buildOccupancyMap(existingForMin).get(
+        `${body.slotDate}|${body.slotPeriod}`
+      );
+      if (isSharedSlotForPrivate(occupancy)) {
+        minAdults = effectiveMinAdultsForPrivate(
+          packageType,
+          occupancy!.remainingBasicCapacity,
+          true
+        );
+      }
+    }
 
     if (!Number.isFinite(adults) || adults < minAdults) {
       return NextResponse.json(

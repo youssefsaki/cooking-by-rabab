@@ -7,6 +7,22 @@ import { packageTypeSheetLabel, parsePackageType } from './schedule';
 
 const LOCAL_STORE_PATH = path.join(process.cwd(), 'data', 'bookings-store.json');
 
+/** Keep Sheets reads hot so the calendar spinner clears quickly */
+const BOOKINGS_CACHE_TTL_MS = 25_000;
+
+type BookingsCacheEntry = {
+  at: number;
+  data: StoredBooking[];
+};
+
+let bookingsCache: BookingsCacheEntry | null = null;
+let bookingsInflight: Promise<StoredBooking[]> | null = null;
+
+export function invalidateBookingsCache(): void {
+  bookingsCache = null;
+  bookingsInflight = null;
+}
+
 function normalizeBooking(booking: StoredBooking): StoredBooking {
   let packageType = parsePackageType(String(booking.packageType || ''));
   // Legacy rows stored only "private" — infer at-location from the Location column
@@ -72,37 +88,55 @@ async function fetchFromScript<T>(
   return (await response.json()) as T;
 }
 
-export async function listBookings(from?: string, to?: string): Promise<StoredBooking[]> {
+async function fetchAllBookingsUncached(): Promise<StoredBooking[]> {
   const scriptUrl = getScriptUrl();
 
   if (scriptUrl) {
-    // When Sheets is configured, never fall back to an empty local store —
-    // that would show slots as free while Private bookings exist in the sheet.
+    // Fetch the full sheet once; date filtering happens in memory (faster calendar loads)
     const data = await fetchFromScript<{ success: boolean; bookings: StoredBooking[]; error?: string }>(
       'GET',
       undefined,
-      {
-        action: 'list',
-        ...(from ? { from } : {}),
-        ...(to ? { to } : {}),
-      }
+      { action: 'list' }
     );
 
     if (!data.success || !Array.isArray(data.bookings)) {
       throw new Error(data.error || 'Failed to list bookings from Google Sheets');
     }
 
-    return data.bookings
-      .map(normalizeBooking)
-      .filter((b) => {
-        if (from && b.slotDate < from) return false;
-        if (to && b.slotDate > to) return false;
-        return true;
-      });
+    return data.bookings.map(normalizeBooking);
   }
 
   const local = await readLocalStore();
-  return local.map(normalizeBooking).filter((b) => {
+  return local.map(normalizeBooking);
+}
+
+async function getCachedBookings(): Promise<StoredBooking[]> {
+  const now = Date.now();
+  if (bookingsCache && now - bookingsCache.at < BOOKINGS_CACHE_TTL_MS) {
+    return bookingsCache.data;
+  }
+
+  if (bookingsInflight) {
+    return bookingsInflight;
+  }
+
+  bookingsInflight = fetchAllBookingsUncached()
+    .then((data) => {
+      bookingsCache = { at: Date.now(), data };
+      return data;
+    })
+    .finally(() => {
+      bookingsInflight = null;
+    });
+
+  return bookingsInflight;
+}
+
+export async function listBookings(from?: string, to?: string): Promise<StoredBooking[]> {
+  const all = await getCachedBookings();
+  if (!from && !to) return all;
+
+  return all.filter((b) => {
     if (from && b.slotDate < from) return false;
     if (to && b.slotDate > to) return false;
     return true;
@@ -137,6 +171,7 @@ export async function appendBooking(booking: StoredBooking): Promise<StoredBooki
       throw err;
     }
 
+    invalidateBookingsCache();
     return data.booking ?? booking;
   }
 
@@ -159,5 +194,6 @@ export async function appendBooking(booking: StoredBooking): Promise<StoredBooki
 
   existing.push(booking);
   await writeLocalStore(existing);
+  invalidateBookingsCache();
   return booking;
 }

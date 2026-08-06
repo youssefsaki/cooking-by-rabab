@@ -496,39 +496,49 @@
   },
   "events": {
     "badge": "Que Faire à Taghazout Outre le Surf",
-    "seoSubtitle": "Événement Musical Amazigh Hebdomadaire — Chaque Jeudi au-dessus de Taghazout",
+    "seoSubtitle": "Événement Musical Berbère au Coucher du Soleil — Chaque Samedi au-dessus de Taghazout",
     "title1": "VIVEZ LA",
     "title2": "Amazigh",
     "title3": "MUSIQUE",
-    "description": "Vous cherchez que faire à Taghazout outre le surf ? Rejoignez notre événement musical et culturel amazigh chaque jeudi dans l'Atlas — spectacles Ahwach, musiciens berbères, récits et thé à la menthe.",
-    "everyThursday": "Chaque Jeudi",
-    "time": "17:00 - 18:00",
-    "atlasLocation": "Montagnes de l'Atlas",
-    "amazighMusicians": "Musiciens Amazigh",
+    "description": "Rejoignez notre événement musical berbère hebdomadaire au coucher du soleil dans un village amazigh traditionnel — musique, barbecue au four d'argile, thé à la menthe et célébration. Prise en charge à la Mosquée de Taghazout incluse.",
+    "everySaturday": "Chaque Samedi",
+    "time": "15:00 · 4 heures",
+    "groupSize": "6–13 personnes",
+    "price": "80 € / personne",
+    "atlasLocation": "Village Amazigh",
+    "amazighMusicians": "Gala Musical Village Amazigh",
     "photoComingSoon": "Photo à Venir",
     "liveTheMusic": "Vivez",
     "theMusic": "la Musique",
     "whatToExpect": "À QUOI S'ATTENDRE",
+    "highlights": [
+      "Chaque samedi à 15:00",
+      "Minimum 6 personnes",
+      "Prise en charge à la Mosquée de Taghazout",
+      "Cérémonie du thé à la menthe",
+      "Préparez votre barbecue",
+      "Musique amazigh traditionnelle & célébration"
+    ],
     "ahwach": {
-      "title": "Spectacle Ahwach",
-      "description": "Assistez à une danse et musique Ahwach authentique exécutée en cercles traditionnels, mêlant chant, danse et poésie dirigés par des artistes amazigh locaux."
+      "title": "Musique Amazigh Traditionnelle",
+      "description": "Vivez la musique berbère en direct et la célébration dans un village traditionnel — le cœur de notre événement hebdomadaire au coucher du soleil."
     },
-    "storytelling": {
-      "title": "Récits Culturels",
-      "description": "Découvrez la poésie et les histoires traditionnelles transmises de génération en génération, célébrant l'héritage amazigh et le lien à la terre."
+    "bbq": {
+      "title": "Barbecue au Four d'Argile",
+      "description": "Préparez votre barbecue grillé au four d'argile avec du pain traditionnel fraîchement cuit — un festin partagé avec le groupe."
     },
     "musicians": {
-      "title": "Musiciens en Direct",
-      "description": "Profitez de spectacles en direct avec des instruments traditionnels dont le tambour Bendir, l'instrument à cordes Ribab et la flûte Talâouwadt."
+      "title": "Spectacle en Direct",
+      "description": "Profitez de spectacles en direct et de la célébration villageoise avec des instruments et rythmes amazigh traditionnels."
     },
     "teaRefreshments": {
-      "title": "Thé & Rafraîchissements",
-      "description": "Savourez un thé à la menthe marocain traditionnel et des pâtisseries locales dans l'atmosphère authentique d'un rassemblement culturel amazigh."
+      "title": "Cérémonie du Thé à la Menthe",
+      "description": "Commencez par un thé à la menthe marocain dans l'atmosphère authentique d'un rassemblement villageois amazigh."
     },
     "ctaTitle": "Rejoignez-nous ce",
-    "ctaTitleHighlight": "Jeudi",
-    "ctaDescription": "Vivez l'âme de la culture amazigh à travers la musique et les récits.",
-    "bookNow": "RÉSERVER"
+    "ctaTitleHighlight": "Samedi",
+    "ctaDescription": "Réservez l'Événement Hebdomadaire — 80 € par personne, 4 heures, 6–13 personnes. Prise en charge à la Mosquée de Taghazout.",
+    "bookNow": "RÉSERVER L'ÉVÉNEMENT"
   },
   "packagesPage": {
     "badge": "Expériences Authentiques",
@@ -632,7 +642,7 @@
         }
       ],
       "includes": [
-        "Chaque jeudi à 15:00",
+        "Chaque samedi à 15:00",
         "Minimum 6 invités requis",
         "Prise en charge à la Mosquée de Taghazout",
         "Cérémonie du thé à la menthe",
@@ -935,7 +945,7 @@
         "id": "music",
         "emoji": "🎵",
         "title": "Événement Musical Amazigh Hebdomadaire",
-        "description": "Chaque jeudi — spectacles Ahwach traditionnels, musiciens berbères et récits culturels dans l'Atlas.",
+        "description": "Chaque samedi — musique amazigh traditionnelle, barbecue au four d'argile et célébration villageoise dans l'Atlas.",
         "imageAlt": "Événement musical amazigh Taghazout — activités hors surf Maroc"
       },
       {

@@ -57,7 +57,7 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
     >
       {/* Background Image - Desktop */}
       <Image
-        src="/hero/desktop/bg.jpg"
+        src="/hero/desktop/bg.webp"
         alt={heroImageAlt}
         fill
         priority

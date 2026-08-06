@@ -167,6 +167,20 @@ export function minAdultsForPackage(packageType: PackageType): number {
   return 1;
 }
 
+/**
+ * When Private joins a shared workshop with only 1–2 spots left, allow a party
+ * up to those remaining spots (even below the package’s usual minimum).
+ */
+export function effectiveMinAdultsForPrivate(
+  packageType: PackageType,
+  remainingSpots: number,
+  isJoining: boolean
+): number {
+  const base = minAdultsForPackage(packageType);
+  if (!isJoining) return base;
+  return Math.min(base, Math.max(1, remainingSpots));
+}
+
 /** Human-readable package name for Google Sheets / admin views */
 export function packageTypeSheetLabel(packageType: PackageType): string {
   if (packageType === 'basic') return 'Basic';

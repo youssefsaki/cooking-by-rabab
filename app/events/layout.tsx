@@ -1,31 +1,21 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Weekly Amazigh Music Event Taghazout — Every Thursday in the Atlas Mountains',
+  title: 'Weekly Amazigh Music Event Taghazout — Every Saturday in the Atlas Mountains',
   description:
-    'Things to do in Taghazout besides surfing — join our weekly Amazigh music and cultural event every Thursday. Traditional Ahwach performances, live Berber musicians, storytelling, and Moroccan mint tea in the Atlas Mountains.',
-  keywords: [
-    'things to do in taghazout besides surfing',
-    'amazigh music event taghazout',
-    'berber cultural event taghazout',
-    'cultural activities near taghazout',
-    'ahwach performance morocco',
-    'moroccan music night taghazout',
-    'non-surf activities taghazout',
-    'traditional moroccan event',
-  ],
-  alternates: { canonical: 'https://www.taghazout-cooking-class.com/events' },
+    'Things to do in Taghazout besides surfing — join our Weekly Berber Music Event every Saturday at sunset. Traditional Amazigh music, clay-oven barbecue, mint tea, and village celebration. 80 € / person · 4 hours · 6–13 guests. Pickup from Taghazout Mosque.',
   openGraph: {
-    title: 'Weekly Amazigh Cultural Event | Taghazout Cooking Class',
+    title: 'Weekly Amazigh Music Event Taghazout — Every Saturday',
     description:
-      'Experience traditional Amazigh music, Ahwach dance, and cultural storytelling every Thursday above Taghazout.',
-    url: 'https://www.taghazout-cooking-class.com/events',
-    type: 'website',
+      'Weekly Berber Music Event at sunset — music, barbecue, and celebration in a traditional Amazigh village. 80 € / person.',
+    images: ['/packages/weekly.webp'],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Weekly Amazigh Music Event — Taghazout',
-    description: 'Traditional Berber music and culture every Thursday in the Atlas Mountains.',
+    title: 'Weekly Amazigh Music Event — Every Saturday',
+    description:
+      'Traditional Berber music, BBQ, and village celebration every Saturday above Taghazout. 80 € / person.',
+    images: ['/packages/weekly.webp'],
   },
 };
 

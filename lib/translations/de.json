@@ -496,39 +496,49 @@
   },
   "events": {
     "badge": "Aktivitäten in Taghazout außer Surfen",
-    "seoSubtitle": "Wöchentliches Amazigh-Musik-Event — Jeden Donnerstag oberhalb von Taghazout",
+    "seoSubtitle": "Wöchentliches Berber-Musik-Event bei Sonnenuntergang — Jeden Samstag oberhalb von Taghazout",
     "title1": "ERLEBEN SIE DIE",
     "title2": "Amazigh",
     "title3": "MUSIK",
-    "description": "Suchen Sie Aktivitäten in Taghazout außer Surfen? Nehmen Sie an unserem wöchentlichen Amazigh-Musik- und Kultur-Event teil — Ahwach-Aufführungen, Berber-Musiker, Geschichten und Minztee jeden Donnerstag im Atlas.",
-    "everyThursday": "Jeden Donnerstag",
-    "time": "17:00 - 18:00",
-    "atlasLocation": "Atlas-Gebirge",
-    "amazighMusicians": "Amazigh-Musiker",
+    "description": "Nehmen Sie an unserem wöchentlichen Berber-Musik-Event bei Sonnenuntergang in einem traditionellen Amazigh-Dorf teil — Musik, Grill im Lehmofen, Minztee und Feier. Abholung an der Taghazout-Moschee inklusive.",
+    "everySaturday": "Jeden Samstag",
+    "time": "15:00 · 4 Stunden",
+    "groupSize": "6–13 Gäste",
+    "price": "80 € / Person",
+    "atlasLocation": "Amazigh-Dorf",
+    "amazighMusicians": "Amazigh Dorf Musik-Gala",
     "photoComingSoon": "Foto Kommt Bald",
     "liveTheMusic": "Erleben",
     "theMusic": "die Musik",
     "whatToExpect": "WAS SIE ERWARTET",
+    "highlights": [
+      "Jeden Samstag um 15:00",
+      "Mindestens 6 Gäste",
+      "Abholung an der Taghazout-Moschee",
+      "Minztee-Zeremonie",
+      "Bereiten Sie Ihren Grill zu",
+      "Traditionelle Amazigh-Musik & Feier"
+    ],
     "ahwach": {
-      "title": "Ahwach-Aufführung",
-      "description": "Erleben Sie authentischen Ahwach-Tanz und Musik in traditionellen Kreisen, die Gesang, Tanz und Poesie verbinden, geleitet von lokalen Amazigh-Künstlern."
+      "title": "Traditionelle Amazigh-Musik",
+      "description": "Erleben Sie live Berber-Musik und Feier in einem traditionellen Dorf — das Herzstück unseres wöchentlichen Events bei Sonnenuntergang."
     },
-    "storytelling": {
-      "title": "Kulturelles Geschichtenerzählen",
-      "description": "Erleben Sie traditionelle Poesie und Geschichten, die über Generationen weitergegeben wurden und das Amazigh-Erbe und die Verbundenheit mit dem Land feiern."
+    "bbq": {
+      "title": "Grill im Lehmofen",
+      "description": "Bereiten Sie Ihren Grill im Lehmofen mit frisch gebackenem traditionellem Brot zu — ein Festmahl für die Gruppe."
     },
     "musicians": {
-      "title": "Live-Musiker",
-      "description": "Genießen Sie Live-Auftritte mit traditionellen Instrumenten wie der Bendir-Trommel, dem Ribab-Saiteninstrument und der Talâouwadt-Flöte."
+      "title": "Live-Aufführung",
+      "description": "Genießen Sie Live-Auftritte und Dorffeier mit traditionellen Amazigh-Instrumenten und Rhythmen."
     },
     "teaRefreshments": {
-      "title": "Tee & Erfrischungen",
-      "description": "Genießen Sie traditionellen marokkanischen Minztee und lokale Süßigkeiten in der authentischen Atmosphäre einer Amazigh-Kulturveranstaltung."
+      "title": "Minztee-Zeremonie",
+      "description": "Beginnen Sie mit marokkanischem Minztee in der authentischen Atmosphäre einer Amazigh-Dorffestlichkeit."
     },
     "ctaTitle": "Begleiten Sie Uns Diesen",
-    "ctaTitleHighlight": "Donnerstag",
-    "ctaDescription": "Erleben Sie die Seele der Amazigh-Kultur durch Musik und Geschichtenerzählen.",
-    "bookNow": "JETZT BUCHEN"
+    "ctaTitleHighlight": "Samstag",
+    "ctaDescription": "Buchen Sie das Wochenevent — 80 € pro Person, 4 Stunden, 6–13 Gäste. Abholung an der Taghazout-Moschee.",
+    "bookNow": "WOCHENEVENT BUCHEN"
   },
   "packagesPage": {
     "badge": "Authentische Erlebnisse",
@@ -632,7 +642,7 @@
         }
       ],
       "includes": [
-        "Jeden Donnerstag um 15:00",
+        "Jeden Samstag um 15:00",
         "Mindestens 6 Gäste erforderlich",
         "Abholung an der Taghazout-Moschee",
         "Minztee-Zeremonie",
@@ -935,7 +945,7 @@
         "id": "music",
         "emoji": "🎵",
         "title": "Wöchentliches Amazigh-Musik-Event",
-        "description": "Jeden Donnerstag — traditionelle Ahwach-Aufführungen, Berber-Musiker und kulturelles Geschichtenerzählen im Atlas.",
+        "description": "Jeden Samstag — traditionelle Amazigh-Musik, Grill im Lehmofen und Dorffeier im Atlas.",
         "imageAlt": "Amazigh-Musik-Event Taghazout — Aktivitäten außer Surfen Marokko"
       },
       {

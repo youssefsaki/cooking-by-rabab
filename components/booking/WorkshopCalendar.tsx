@@ -11,8 +11,10 @@ import {
 import type { SlotOccupancy } from '@/lib/booking/conflicts';
 import {
   isPeriodLockedForPrivate,
+  isSharedSlotForPrivate,
   isSlotLockedForBasic,
   isSlotLockedForWeekly,
+  leftoverSpotsForPrivateJoin,
 } from '@/lib/booking/conflicts';
 
 interface WorkshopCalendarProps {
@@ -48,6 +50,44 @@ const PERIOD_STYLES: Record<
   },
 };
 
+const AVAILABILITY_CACHE_PREFIX = 'cbr-availability-v1:';
+const AVAILABILITY_CACHE_TTL_MS = 60_000;
+
+function occupancyCacheKey(from: string, to: string): string {
+  return `${AVAILABILITY_CACHE_PREFIX}${from}:${to}`;
+}
+
+function readOccupancyCache(from: string, to: string): Record<string, SlotOccupancy> | null {
+  try {
+    const raw = sessionStorage.getItem(occupancyCacheKey(from, to));
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as { at: number; map: Record<string, SlotOccupancy> };
+    if (!parsed?.map || Date.now() - parsed.at > AVAILABILITY_CACHE_TTL_MS) return null;
+    return parsed.map;
+  } catch {
+    return null;
+  }
+}
+
+function writeOccupancyCache(from: string, to: string, map: Record<string, SlotOccupancy>): void {
+  try {
+    sessionStorage.setItem(
+      occupancyCacheKey(from, to),
+      JSON.stringify({ at: Date.now(), map })
+    );
+  } catch {
+    // Ignore quota / private mode
+  }
+}
+
+function toOccupancyMap(items: SlotOccupancy[]): Record<string, SlotOccupancy> {
+  const map: Record<string, SlotOccupancy> = {};
+  items.forEach((item) => {
+    map[item.slotId] = item;
+  });
+  return map;
+}
+
 const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
   onSelectSlot,
   selectedSlotId = null,
@@ -55,43 +95,50 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
 }) => {
   const weeks = useMemo(() => getUpcomingCalendarWeeks(4), []);
   const [weekIndex, setWeekIndex] = useState(0);
-  const [occupancy, setOccupancy] = useState<Record<string, SlotOccupancy>>({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-
-  const activeWeek = weeks[weekIndex] ?? weeks[0];
   const allDates = useMemo(() => weeks.flatMap((w) => w.days.map((d) => d.date)), [weeks]);
   const rangeFrom = allDates[0];
   const rangeTo = allDates[allDates.length - 1];
 
+  const [occupancy, setOccupancy] = useState<Record<string, SlotOccupancy>>({});
+  const [hasOccupancyData, setHasOccupancyData] = useState(false);
+  const [refreshing, setRefreshing] = useState(true);
+  const [error, setError] = useState('');
+
+  const activeWeek = weeks[weekIndex] ?? weeks[0];
+
   useEffect(() => {
     if (!rangeFrom || !rangeTo) {
-      setLoading(false);
+      setRefreshing(false);
       return;
     }
 
     let cancelled = false;
+    const cached = readOccupancyCache(rangeFrom, rangeTo);
+    if (cached) {
+      setOccupancy(cached);
+      setHasOccupancyData(true);
+    }
+    setRefreshing(true);
 
     (async () => {
       try {
-        const res = await fetch(`/api/availability?from=${rangeFrom}&to=${rangeTo}`, {
-          cache: 'no-store',
-        });
+        // Respect API Cache-Control so warm browser/CDN hits return instantly
+        const res = await fetch(`/api/availability?from=${rangeFrom}&to=${rangeTo}`);
         if (!res.ok) throw new Error('Failed to load availability');
         const data = (await res.json()) as { occupancy: SlotOccupancy[] };
         if (cancelled) return;
-        const map: Record<string, SlotOccupancy> = {};
-        data.occupancy.forEach((item) => {
-          map[item.slotId] = item;
-        });
+        const map = toOccupancyMap(data.occupancy);
         setOccupancy(map);
+        setHasOccupancyData(true);
+        writeOccupancyCache(rangeFrom, rangeTo, map);
+        setError('');
       } catch (err) {
         console.error(err);
-        if (!cancelled) {
+        if (!cancelled && !cached) {
           setError('Could not load slot availability. You can still browse the schedule.');
         }
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) setRefreshing(false);
       }
     })();
 
@@ -99,6 +146,8 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
       cancelled = true;
     };
   }, [rangeFrom, rangeTo]);
+
+  const ready = hasOccupancyData || !!error;
 
   const isSlotBookableForMode = (slot: CalendarSlot): boolean => {
     if (mode === 'weekly') return isWeeklyEventSlot(slot);
@@ -109,13 +158,13 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
   };
 
   const isSlotAvailable = (slot: CalendarSlot): boolean => {
+    if (!ready) return false;
     if (!isSlotBookableForMode(slot)) return false;
     const info = occupancy[slot.id];
     if (mode === 'weekly') return !isSlotLockedForWeekly(info);
     if (mode === 'private') {
       return !isPeriodLockedForPrivate(info);
     }
-    // Basic: lock when Private holds it, or fewer than 3 spots remain
     if (isSlotLockedForBasic(info)) return false;
     const spots = info?.remainingBasicCapacity ?? 13;
     return spots >= 3;
@@ -142,12 +191,27 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
           {mode === 'weekly'
             ? 'Only Saturdays are bookable for the Weekly Event. Other days are shown for context but cannot be selected.'
             : mode === 'private'
-              ? 'Pick an open morning or afternoon. Fully booked Basic workshops and other Private holds are locked — choose another day.'
+              ? 'Empty days are exclusive to your group. Days with guests already booked show spots left — you join them.'
               : 'Browse upcoming weeks and book a morning or afternoon workshop. Pick-up from Taghazout Mosque is included.'}
         </p>
       </div>
 
-      {/* Week navigator — dynamic weeks always include Saturday Weekly Event */}
+      {/* Slim bar — calendar stays visible so people don’t bounce on a blank spinner */}
+      {refreshing && (
+        <div
+          className="mb-5 flex items-center justify-center gap-2 text-xs font-semibold text-amber-800"
+          role="status"
+          aria-live="polite"
+          aria-busy="true"
+        >
+          <span className="relative inline-flex h-3.5 w-3.5">
+            <span className="absolute inset-0 rounded-full border-2 border-amber-200" />
+            <span className="absolute inset-0 rounded-full border-2 border-transparent border-t-amber-600 animate-spin" />
+          </span>
+          {hasOccupancyData ? 'Updating availability…' : 'Loading availability…'}
+        </div>
+      )}
+
       {weeks.length > 0 && (
         <div className="flex items-center justify-between gap-3 max-w-3xl mx-auto mb-8 rounded-2xl bg-white border border-gray-100 px-3 py-2.5 shadow-sm">
           <button
@@ -179,12 +243,13 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
         </div>
       )}
 
-      {loading && (
-        <p className="text-center text-sm text-gray-500 mb-6">Checking availability…</p>
-      )}
       {error && <p className="text-center text-sm text-amber-700 mb-6">{error}</p>}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+      <div
+        className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 transition-opacity duration-200 ${
+          !ready && refreshing ? 'opacity-70' : 'opacity-100'
+        }`}
+      >
         {(activeWeek?.days ?? []).map((day) => {
           const daySelected = day.slots.some((s) => s.id === selectedSlotId);
           const hasWeekly = day.slots.some(isWeeklyEventSlot);
@@ -235,6 +300,9 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                   const selected = selectedSlotId === slot.id;
                   const info = occupancy[slot.id];
                   const spots = info?.remainingBasicCapacity ?? 13;
+                  const bookedCount = info?.basicGuestCount ?? 0;
+                  const leftover = ready ? leftoverSpotsForPrivateJoin(info) : 0;
+                  const joining = ready && mode === 'private' && isSharedSlotForPrivate(info);
 
                   if (weeklyOnly) {
                     if (mode === 'weekly') {
@@ -264,22 +332,30 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                             </p>
                             <p
                               className={`text-[11px] mt-2 font-semibold ${
-                                weeklyOpen ? 'text-violet-700' : 'text-gray-500'
+                                !ready
+                                  ? 'text-gray-400'
+                                  : weeklyOpen
+                                    ? 'text-violet-700'
+                                    : 'text-gray-500'
                               }`}
                             >
-                              {weeklyOpen ? 'Fixed time · 80 € / person' : 'Unavailable — private booking holds this slot'}
+                              {!ready
+                                ? 'Checking…'
+                                : weeklyOpen
+                                  ? 'Fixed time · 80 € / person'
+                                  : 'Unavailable — private booking holds this slot'}
                             </p>
                             <button
                               type="button"
-                              disabled={!weeklyOpen}
+                              disabled={!ready || !weeklyOpen}
                               onClick={() => onSelectSlot(slot)}
                               className={`mt-3.5 w-full rounded-xl text-sm font-bold py-2.5 transition-colors ${
-                                weeklyOpen
+                                ready && weeklyOpen
                                   ? 'bg-violet-600 hover:bg-violet-700 text-white'
                                   : 'bg-gray-200 text-gray-500 cursor-not-allowed'
                               }`}
                             >
-                              {weeklyOpen ? 'Book' : 'Unavailable'}
+                              {!ready ? 'Checking…' : weeklyOpen ? 'Book' : 'Unavailable'}
                             </button>
                           </div>
                         </div>
@@ -316,7 +392,6 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                     );
                   }
 
-                  // Non-weekly slots: hide Book CTA when this calendar is weekly-only mode
                   if (mode === 'weekly') {
                     return (
                       <div
@@ -330,21 +405,87 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                     );
                   }
 
+                  if (mode === 'basic' && leftover > 0) {
+                    return (
+                      <div
+                        key={slot.id}
+                        className="rounded-2xl border border-amber-200 overflow-hidden bg-gradient-to-b from-amber-50 to-white"
+                      >
+                        <div className="h-1 w-full bg-amber-400" />
+                        <div className="p-3.5">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="inline-block text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full capitalize bg-amber-100 text-amber-800">
+                              {slot.period}
+                            </span>
+                            <span className="text-[11px] font-semibold text-gray-500">
+                              {slot.startTime}–{slot.endTime}
+                            </span>
+                          </div>
+                          <p className="text-xs text-gray-500 mt-2">{slot.feastNote}</p>
+                          <p className="text-sm font-semibold text-gray-900 mt-1.5 leading-snug">
+                            {slot.dish}
+                          </p>
+                          <div className="mt-3 rounded-xl bg-white border border-amber-200 px-3 py-2.5">
+                            <p className="text-sm font-bold text-amber-900 leading-snug">
+                              {leftover} spot{leftover === 1 ? '' : 's'} left
+                            </p>
+                            <p className="text-[11px] text-amber-800/80 mt-1 leading-relaxed">
+                              Basic needs at least 3 guests. Join this workshop with the Private
+                              package.
+                            </p>
+                          </div>
+                          <Link
+                            href="/book?package=private"
+                            className="mt-3.5 inline-flex w-full items-center justify-center rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold py-2.5 transition-colors shadow-sm"
+                          >
+                            Join via Private
+                          </Link>
+                        </div>
+                      </div>
+                    );
+                  }
+
                   return (
                     <div
                       key={slot.id}
                       className={`rounded-2xl border overflow-hidden transition-all ${
                         selected
                           ? 'border-amber-400 ring-2 ring-amber-200'
-                          : 'border-gray-100'
-                      } ${available ? styles.soft : 'bg-gray-50 opacity-60'}`}
+                          : joining
+                            ? 'border-emerald-200'
+                            : 'border-gray-100'
+                      } ${
+                        !ready
+                          ? styles.soft
+                          : available
+                            ? joining
+                              ? 'bg-emerald-50/70'
+                              : styles.soft
+                            : 'bg-gray-50 opacity-60'
+                      }`}
                     >
-                      <div className={`h-1 w-full ${available ? styles.bar : 'bg-gray-300'}`} />
+                      <div
+                        className={`h-1 w-full ${
+                          !ready
+                            ? 'bg-amber-300 animate-pulse'
+                            : available
+                              ? joining
+                                ? 'bg-emerald-500'
+                                : styles.bar
+                              : 'bg-gray-300'
+                        }`}
+                      />
                       <div className="p-3.5">
                         <div className="flex items-center justify-between gap-2">
                           <span
                             className={`inline-block text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full capitalize ${
-                              available ? styles.badge : 'bg-gray-200 text-gray-600'
+                              !ready
+                                ? styles.badge
+                                : available
+                                  ? joining
+                                    ? 'bg-emerald-100 text-emerald-800'
+                                    : styles.badge
+                                  : 'bg-gray-200 text-gray-600'
                             }`}
                           >
                             {slot.period}
@@ -357,28 +498,53 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                         <p className="text-sm font-semibold text-gray-900 mt-1.5 leading-snug">
                           {slot.dish}
                         </p>
-                        <p
-                          className={`text-[11px] mt-2 font-semibold ${
-                            available ? 'text-amber-700' : 'text-gray-500'
-                          }`}
-                        >
-                          {available
-                            ? mode === 'private'
-                              ? 'Available for private · Exclusive'
-                              : `${spots} spots left · From 65 €`
-                            : 'Fully booked'}
-                        </p>
+
+                        {!ready ? (
+                          <p className="text-[11px] mt-2 font-semibold text-gray-400">Checking spots…</p>
+                        ) : mode === 'private' && available && joining ? (
+                          <div className="mt-3 rounded-xl bg-white/90 border border-emerald-200 px-3 py-2.5 space-y-1">
+                            <p className="text-sm font-bold text-emerald-900 leading-snug">
+                              {bookedCount} already booked
+                            </p>
+                            <p className="text-[11px] font-semibold text-emerald-800">
+                              {spots} spot{spots === 1 ? '' : 's'} left · you’ll join them
+                            </p>
+                          </div>
+                        ) : (
+                          <p
+                            className={`text-[11px] mt-2 font-semibold ${
+                              available ? 'text-amber-700' : 'text-gray-500'
+                            }`}
+                          >
+                            {available
+                              ? mode === 'private'
+                                ? 'Available · Exclusive private'
+                                : `${spots} spots left · From 65 €`
+                              : info?.hasPrivate
+                                ? 'Reserved — exclusive private'
+                                : 'Fully booked'}
+                          </p>
+                        )}
+
                         <button
                           type="button"
-                          disabled={!available}
+                          disabled={!ready || !available}
                           onClick={() => onSelectSlot(slot)}
                           className={`mt-3.5 w-full rounded-xl text-sm font-bold py-2.5 transition-all ${
-                            available
-                              ? 'bg-amber-500 hover:bg-amber-600 text-white shadow-sm hover:shadow'
+                            ready && available
+                              ? joining
+                                ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm'
+                                : 'bg-amber-500 hover:bg-amber-600 text-white shadow-sm hover:shadow'
                               : 'bg-gray-200 text-gray-500 cursor-not-allowed'
                           }`}
                         >
-                          {available ? 'Book' : 'Fully booked'}
+                          {!ready
+                            ? 'Checking…'
+                            : available
+                              ? joining
+                                ? 'Join this workshop'
+                                : 'Book'
+                              : 'Fully booked'}
                         </button>
                       </div>
                     </div>
@@ -390,7 +556,6 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
         })}
       </div>
 
-      {/* Week dots */}
       {weeks.length > 1 && (
         <div className="flex justify-center gap-2 mt-8">
           {weeks.map((week, i) => (

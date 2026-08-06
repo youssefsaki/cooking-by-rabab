@@ -367,39 +367,49 @@
   },
   "events": {
     "badge": "Things to Do in Taghazout Besides Surfing",
-    "seoSubtitle": "Weekly Amazigh Music & Cultural Event — Every Thursday Above Taghazout",
+    "seoSubtitle": "Weekly Berber Music Event at Sunset — Every Saturday Above Taghazout",
     "title1": "LIVE THE",
     "title2": "Amazigh",
     "title3": "MUSIC",
-    "description": "Looking for things to do in Taghazout besides surfing? Join our weekly Amazigh music and cultural event every Thursday in the Atlas Mountains — traditional Ahwach performances, live Berber musicians, storytelling, and Moroccan mint tea.",
-    "everyThursday": "Every Thursday",
-    "time": "17:00 - 18:00",
-    "atlasLocation": "Atlas Mountains",
-    "amazighMusicians": "Amazigh Musicians",
+    "description": "Join us for our Weekly Berber Music Event at sunset in a traditional Amazigh village — traditional music, barbecue grilled in the clay oven, mint tea, and a celebration with live performance. Pickup from Taghazout Mosque included.",
+    "everySaturday": "Every Saturday",
+    "time": "15:00 · 4 hours",
+    "groupSize": "6–13 guests",
+    "price": "80 € / person",
+    "atlasLocation": "Amazigh Village",
+    "amazighMusicians": "Amazigh Village Music Gala",
     "photoComingSoon": "Photo Coming Soon",
     "liveTheMusic": "Live",
     "theMusic": "the Music",
     "whatToExpect": "WHAT TO EXPECT",
+    "highlights": [
+      "Every Saturday at 15:00",
+      "Minimum 6 guests required",
+      "Pickup from Taghazout Mosque",
+      "Mint tea ceremony",
+      "Make your barbecue",
+      "Traditional Amazigh music & celebration"
+    ],
     "ahwach": {
-      "title": "Ahwach Performance",
-      "description": "Watch authentic Ahwach dance and music performed in traditional circles, combining singing, dancing, and poetry led by local Amazigh artists."
+      "title": "Traditional Amazigh Music",
+      "description": "Experience live Berber music and celebration in a traditional village — the heart of our Weekly Event at sunset."
     },
-    "storytelling": {
-      "title": "Cultural Storytelling",
-      "description": "Experience traditional poetry and stories that have been passed down through generations, celebrating Amazigh heritage and connection to the land."
+    "bbq": {
+      "title": "Clay Oven Barbecue",
+      "description": "Make your barbecue grilled in the clay oven with freshly baked traditional bread — a feast shared with the group."
     },
     "musicians": {
-      "title": "Live Musicians",
-      "description": "Enjoy live performances featuring traditional instruments including the Bendir drum, Ribab string instrument, and the Talâouwadt flute."
+      "title": "Live Performance",
+      "description": "Enjoy live performances and village celebration featuring traditional Amazigh instruments and rhythms."
     },
     "teaRefreshments": {
-      "title": "Tea & Refreshments",
-      "description": "Enjoy traditional Moroccan mint tea and local sweets in the authentic atmosphere of an Amazigh cultural gathering."
+      "title": "Mint Tea Ceremony",
+      "description": "Start with Moroccan mint tea in the authentic atmosphere of an Amazigh village gathering."
     },
     "ctaTitle": "Join Us This",
-    "ctaTitleHighlight": "Thursday",
-    "ctaDescription": "Experience the soul of Amazigh culture through music and storytelling.",
-    "bookNow": "BOOK NOW"
+    "ctaTitleHighlight": "Saturday",
+    "ctaDescription": "Book the Weekly Event — 80 € per person, 4 hours, 6–13 guests. Pickup from Taghazout Mosque.",
+    "bookNow": "BOOK WEEKLY EVENT"
   },
   "packagesPage": {
     "badge": "Authentic Experiences",
@@ -467,7 +477,7 @@
         { "time": "TBD", "title": "Event Details Coming Soon", "description": "Join us for our special weekly cooking event. More details will be announced soon. This is a unique opportunity to experience Moroccan cooking in a communal setting." }
       ],
       "includes": [
-        "Every Thursday at 15:00",
+        "Every Saturday at 15:00",
         "Minimum 6 guests required",
         "Pickup from Taghazout Mosque",
         "Mint tea ceremony",
@@ -679,7 +689,7 @@
         "id": "music",
         "emoji": "🎵",
         "title": "Weekly Amazigh Music Event",
-        "description": "Every Thursday — experience traditional Ahwach performances, Berber musicians, and cultural storytelling in the Atlas Mountains.",
+        "description": "Every Saturday — experience traditional Amazigh music, clay-oven barbecue, and village celebration in the Atlas Mountains.",
         "imageAlt": "Amazigh music event Taghazout — things to do besides surfing Morocco"
       },
       {
