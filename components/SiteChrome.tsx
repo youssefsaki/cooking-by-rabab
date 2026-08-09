@@ -1,10 +1,9 @@
-'use client';
+import { headers } from 'next/headers';
 
-import { usePathname } from 'next/navigation';
-
-/** Hides public site header/footer/WhatsApp on /admin routes. */
-export default function SiteChrome({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  if (pathname?.startsWith('/admin')) return null;
+/** Server-side hide of public chrome on /admin (no flash, no overlay). */
+export default async function SiteChrome({ children }: { children: React.ReactNode }) {
+  const headerList = await headers();
+  const pathname = headerList.get('x-pathname') || '';
+  if (pathname.startsWith('/admin')) return null;
   return <>{children}</>;
 }
