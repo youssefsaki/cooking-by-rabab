@@ -59,15 +59,15 @@ export default function AdminShell({
         </div>
       </aside>
 
-      <div className="flex-1 min-w-0 flex flex-col min-h-screen">
-        <header className="md:hidden sticky top-0 z-40 bg-[#1A1A1A] text-white px-3 py-2 flex gap-2 overflow-x-auto">
+      <div className={`flex-1 min-w-0 flex flex-col ${fullBleed ? 'h-[100dvh] md:h-screen overflow-hidden' : 'min-h-screen'}`}>
+        <header className={`md:hidden z-40 bg-[#1A1A1A] text-white px-3 py-2 flex gap-2 overflow-x-auto ${fullBleed ? 'shrink-0' : 'sticky top-0'}`}>
           {NAV.map((item) => (
             <Link key={item.href} href={item.href} className="whitespace-nowrap text-xs px-2 py-1 rounded bg-white/10">
               {item.label}
             </Link>
           ))}
         </header>
-        <div className={fullBleed ? 'flex-1 min-h-0' : 'flex-1'}>{children}</div>
+        <div className={fullBleed ? 'flex-1 min-h-0 overflow-hidden' : 'flex-1'}>{children}</div>
       </div>
     </div>
   );

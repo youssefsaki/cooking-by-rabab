@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   buildCmsFields,
   defaultSiteCopy,
@@ -19,6 +19,7 @@ export default function AdminContentPage() {
   const [locale, setLocale] = useState<Locale>('en');
   const [savedBag, setSavedBag] = useState<SiteCopyBag>(() => defaultSiteCopy('en'));
   const [draftBag, setDraftBag] = useState<SiteCopyBag>(() => defaultSiteCopy('en'));
+  const draftRef = useRef(draftBag);
   const [selectedId, setSelectedId] = useState('hero.title');
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState('');
@@ -28,6 +29,11 @@ export default function AdminContentPage() {
   const [dragOver, setDragOver] = useState(false);
   const [previewMode, setPreviewMode] = useState<'home' | 'packages'>('home');
   const [loading, setLoading] = useState(true);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    draftRef.current = draftBag;
+  }, [draftBag]);
 
   const dirty = useMemo(() => {
     const keys = Array.from(new Set([...Object.keys(savedBag), ...Object.keys(draftBag)]));
@@ -98,12 +104,16 @@ export default function AdminContentPage() {
   }, [selected?.group]);
 
   function setFieldValue(id: string, value: string) {
-    setDraftBag((prev) => ({ ...prev, [id]: value }));
+    setDraftBag((prev) => {
+      const next = { ...prev, [id]: value };
+      draftRef.current = next;
+      return next;
+    });
     setStatus('');
     setError('');
   }
 
-  async function saveAllEdits() {
+  async function saveBag(bag: SiteCopyBag, successMessage = 'Saved. Your website is updated.') {
     setSaving(true);
     setStatus('');
     setError('');
@@ -111,103 +121,134 @@ export default function AdminContentPage() {
       const res = await fetch('/api/admin', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ section: 'site_copy', locale, data: draftBag }),
+        body: JSON.stringify({ section: 'site_copy', locale, data: bag }),
       });
       const payload = await res.json();
       if (!res.ok || !payload.ok) {
         setError(payload.error || `Save failed (${res.status}). Try signing in again.`);
-        setSaving(false);
-        return;
+        return false;
       }
-      setSavedBag(draftBag);
-      setStatus('Published to the live Preview storefront.');
+      setSavedBag(bag);
+      setDraftBag(bag);
+      draftRef.current = bag;
+      setStatus(successMessage);
+      return true;
     } catch {
       setError('Network error while saving.');
+      return false;
     } finally {
       setSaving(false);
     }
   }
 
-  const uploadImage = useCallback(
-    async (file: File) => {
-      if (!selected || selected.type !== 'image') return;
-      if (!file.type.startsWith('image/')) {
-        setError('Please use a JPG, PNG, or WebP image.');
+  async function saveAllEdits() {
+    await saveBag(draftRef.current);
+  }
+
+  async function uploadImage(file: File) {
+    if (!selected || selected.type !== 'image') {
+      setError('Select a package photo field first (click a photo in the preview).');
+      return;
+    }
+    if (!file.type.startsWith('image/')) {
+      setError('Please use a JPG, PNG, or WebP image.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Image must be under 5MB.');
+      return;
+    }
+
+    setUploading(true);
+    setError('');
+    setStatus('Uploading photo…');
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('altText', selected.label);
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
+      const payload = await res.json();
+      if (!res.ok || !payload.ok) {
+        setError(payload.error || `Upload failed (${res.status})`);
+        setStatus('');
         return;
       }
-      if (file.size > 5 * 1024 * 1024) {
-        setError('Image must be under 5MB.');
-        return;
+
+      const url = String(payload.media.public_url);
+      const nextBag = { ...draftRef.current, [selected.id]: url };
+      draftRef.current = nextBag;
+      setDraftBag(nextBag);
+      setStatus('Photo uploaded. Saving…');
+
+      const ok = await saveBag(nextBag, 'Photo saved to your website.');
+      if (!ok) {
+        setStatus('Photo uploaded but not saved yet — click Save.');
       }
-      setUploading(true);
-      setError('');
+    } catch {
+      setError('Upload network error.');
       setStatus('');
-      try {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('altText', selected.label);
-        const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
-        const payload = await res.json();
-        if (!res.ok || !payload.ok) {
-          setError(payload.error || `Upload failed (${res.status})`);
-          return;
-        }
-        const url = payload.media.public_url as string;
-        setFieldValue(selected.id, url);
-        setStatus(`Photo attached to “${selected.label}”. Click Save to publish.`);
-      } catch {
-        setError('Upload network error.');
-      } finally {
-        setUploading(false);
-      }
-    },
-    [selected]
-  );
+    } finally {
+      setUploading(false);
+    }
+  }
 
   return (
-    <div className="h-[calc(100vh-0px)] md:h-screen flex flex-col bg-[#F1F1F1]">
-      <div className="shrink-0 bg-white border-b border-[#E1E3E5] px-4 py-3 flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-lg font-semibold text-[#202223]">Online store · Customize</h1>
-          <p className="text-xs text-[#6D7175]">
-            Edit text & photos on the left. Preview updates instantly. Save when ready.
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          {LOCALES.map((l) => (
+    <div className="h-full flex flex-col bg-[#F1F1F1] overflow-hidden">
+      {/* Always-visible action bar */}
+      <div className="shrink-0 sticky top-0 z-50 bg-white border-b border-[#E1E3E5] px-3 sm:px-4 py-3">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h1 className="text-base sm:text-lg font-semibold text-[#202223] truncate">
+              Online store · Customize
+            </h1>
+            <p className="text-xs text-[#6D7175] hidden sm:block">
+              Change text or photos, then click Save. Photos also save automatically after upload.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="hidden sm:flex gap-1">
+              {LOCALES.map((l) => (
+                <button
+                  key={l}
+                  type="button"
+                  onClick={() => {
+                    if (dirty && !confirm('Discard unsaved edits and switch language?')) return;
+                    setLocale(l);
+                  }}
+                  className={`px-2 py-1 rounded text-xs font-semibold uppercase ${
+                    locale === l ? 'bg-[#1A1A1A] text-white' : 'bg-[#E4E5E7] text-[#202223]'
+                  }`}
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
             <button
-              key={l}
               type="button"
+              disabled={!dirty || saving}
               onClick={() => {
-                if (dirty && !confirm('Discard unsaved edits and switch language?')) return;
-                setLocale(l);
+                setDraftBag(savedBag);
+                draftRef.current = savedBag;
+                setStatus('Draft discarded.');
               }}
-              className={`px-2.5 py-1 rounded text-xs font-semibold uppercase ${
-                locale === l ? 'bg-[#1A1A1A] text-white' : 'bg-[#E4E5E7] text-[#202223]'
-              }`}
+              className="rounded-lg border border-[#C9CCCF] bg-white px-3 py-2.5 text-sm font-semibold disabled:opacity-40"
             >
-              {l}
+              Discard
             </button>
-          ))}
-          <button
-            type="button"
-            disabled={!dirty || saving}
-            onClick={() => {
-              setDraftBag(savedBag);
-              setStatus('Draft discarded.');
-            }}
-            className="rounded-lg border border-[#C9CCCF] bg-white px-3 py-2 text-sm font-semibold disabled:opacity-40"
-          >
-            Discard
-          </button>
-          <button
-            type="button"
-            disabled={!dirty || saving || loading}
-            onClick={saveAllEdits}
-            className="rounded-lg bg-[#008060] hover:bg-[#006e52] text-white px-4 py-2 text-sm font-semibold disabled:opacity-40 shadow-sm"
-          >
-            {saving ? 'Saving…' : 'Save'}
-          </button>
+            <button
+              type="button"
+              data-testid="save-content"
+              disabled={saving || loading || (!dirty && !uploading)}
+              onClick={saveAllEdits}
+              className={`rounded-lg px-5 py-2.5 text-sm font-bold shadow-sm min-w-[96px] ${
+                dirty
+                  ? 'bg-[#008060] hover:bg-[#006e52] text-white'
+                  : 'bg-[#008060]/70 text-white'
+              } disabled:opacity-50`}
+            >
+              {saving ? 'Saving…' : dirty ? 'Save' : 'Saved'}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -221,8 +262,26 @@ export default function AdminContentPage() {
         </div>
       )}
 
-      <div className="flex-1 min-h-0 grid lg:grid-cols-[380px_1fr]">
-        <aside className="min-h-0 bg-white border-r border-[#E1E3E5] flex flex-col">
+      <div className="flex-1 min-h-0 grid lg:grid-cols-[400px_1fr]">
+        <aside className="min-h-0 bg-white border-r border-[#E1E3E5] flex flex-col order-2 lg:order-1">
+          <div className="p-3 border-b border-[#E1E3E5] flex gap-2 sm:hidden">
+            {LOCALES.map((l) => (
+              <button
+                key={l}
+                type="button"
+                onClick={() => {
+                  if (dirty && !confirm('Discard unsaved edits and switch language?')) return;
+                  setLocale(l);
+                }}
+                className={`px-2.5 py-1 rounded text-xs font-semibold uppercase ${
+                  locale === l ? 'bg-[#1A1A1A] text-white' : 'bg-[#E4E5E7] text-[#202223]'
+                }`}
+              >
+                {l}
+              </button>
+            ))}
+          </div>
+
           <div className="p-3 border-b border-[#E1E3E5]">
             <input
               value={query}
@@ -254,11 +313,12 @@ export default function AdminContentPage() {
                         }`}
                       >
                         <span className="font-medium flex items-center gap-2">
+                          {f.type === 'image' ? '🖼 ' : ''}
                           {f.label}
                           {changed && <span className="text-[10px] text-[#B98900] font-bold">EDITED</span>}
                         </span>
                         <span className="block truncate text-xs text-[#6D7175] mt-0.5">
-                          {f.type === 'image' ? 'Image' : draftBag[f.id] || '—'}
+                          {f.type === 'image' ? 'Photo — click to change' : draftBag[f.id] || '—'}
                         </span>
                       </button>
                     );
@@ -269,10 +329,21 @@ export default function AdminContentPage() {
           </div>
 
           {selected && !loading && (
-            <div className="shrink-0 border-t border-[#E1E3E5] p-4 bg-[#FAFBFB] space-y-3 max-h-[48%] overflow-y-auto">
-              <div>
-                <p className="text-[11px] font-semibold uppercase text-[#6D7175]">{selected.group}</p>
-                <h2 className="font-semibold text-[#202223]">{selected.label}</h2>
+            <div className="shrink-0 border-t-2 border-[#008060]/30 p-4 bg-[#FAFBFB] space-y-3 max-h-[55%] overflow-y-auto">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase text-[#6D7175]">{selected.group}</p>
+                  <h2 className="font-semibold text-[#202223]">{selected.label}</h2>
+                </div>
+                <button
+                  type="button"
+                  data-testid="save-content-panel"
+                  disabled={saving || loading || !dirty}
+                  onClick={saveAllEdits}
+                  className="rounded-lg bg-[#008060] text-white text-sm font-bold px-4 py-2 disabled:opacity-40 shrink-0"
+                >
+                  {saving ? 'Saving…' : 'Save'}
+                </button>
               </div>
 
               {selected.type === 'image' ? (
@@ -297,25 +368,36 @@ export default function AdminContentPage() {
                     key={draftBag[selected.id]}
                     src={draftBag[selected.id] || '/packages/basic.jpg'}
                     alt={selected.label}
-                    className="mx-auto mb-3 max-h-40 rounded-lg object-cover shadow-sm"
+                    className="mx-auto mb-3 max-h-44 w-full rounded-lg object-cover shadow-sm bg-stone-100"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = '/packages/basic.jpg';
+                    }}
                   />
-                  <p className="text-sm font-semibold">
-                    {uploading ? 'Uploading…' : 'Drag and drop to replace image'}
+                  <p className="text-sm font-semibold text-[#202223]">
+                    {uploading ? 'Uploading & saving…' : 'Drag a photo here'}
                   </p>
-                  <label className="inline-block mt-2 cursor-pointer rounded-lg bg-[#008060] text-white text-sm font-semibold px-3 py-1.5">
-                    Upload image
-                    <input
-                      type="file"
-                      accept="image/jpeg,image/png,image/webp,image/avif"
-                      className="hidden"
-                      disabled={uploading}
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) void uploadImage(file);
-                        e.target.value = '';
-                      }}
-                    />
-                  </label>
+                  <p className="text-xs text-[#6D7175] mt-1 mb-3">JPG, PNG or WebP · max 5MB</p>
+                  <button
+                    type="button"
+                    data-testid="upload-image"
+                    disabled={uploading}
+                    onClick={() => fileInputRef.current?.click()}
+                    className="inline-block cursor-pointer rounded-lg bg-[#008060] text-white text-sm font-bold px-4 py-2.5 disabled:opacity-50"
+                  >
+                    {uploading ? 'Working…' : 'Choose photo'}
+                  </button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,image/avif"
+                    className="hidden"
+                    disabled={uploading}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) void uploadImage(file);
+                      e.target.value = '';
+                    }}
+                  />
                 </div>
               ) : selected.type === 'textarea' ? (
                 <textarea
@@ -335,7 +417,7 @@ export default function AdminContentPage() {
           )}
         </aside>
 
-        <section className="min-h-0 flex flex-col">
+        <section className="min-h-0 flex flex-col order-1 lg:order-2 max-h-[40vh] lg:max-h-none">
           <div className="shrink-0 px-4 py-2 bg-white border-b border-[#E1E3E5] flex items-center gap-2">
             <span className="text-xs font-semibold text-[#6D7175] mr-1">Preview</span>
             {(['home', 'packages'] as const).map((m) => (
@@ -350,11 +432,11 @@ export default function AdminContentPage() {
                 {m === 'home' ? 'Homepage' : 'Packages'}
               </button>
             ))}
-            <span className="ml-auto text-[11px] text-[#6D7175]">
-              {dirty ? 'Unsaved draft · preview shows your edits' : 'In sync with saved content'}
+            <span className="ml-auto text-[11px] text-[#6D7175] hidden sm:inline">
+              {dirty ? 'Unsaved changes' : 'All changes saved'}
             </span>
           </div>
-          <div className="flex-1 min-h-0 p-3">
+          <div className="flex-1 min-h-0 p-2 sm:p-3">
             <div className="h-full rounded-xl overflow-hidden border border-[#C9CCCF] shadow-sm bg-white">
               <LiveCanvasPreview
                 bag={draftBag}
@@ -365,6 +447,19 @@ export default function AdminContentPage() {
             </div>
           </div>
         </section>
+      </div>
+
+      {/* Mobile floating Save — always visible */}
+      <div className="lg:hidden shrink-0 border-t border-[#E1E3E5] bg-white p-3 safe-area-pb">
+        <button
+          type="button"
+          data-testid="save-content-mobile"
+          disabled={saving || loading || !dirty}
+          onClick={saveAllEdits}
+          className="w-full rounded-xl bg-[#008060] text-white font-bold py-3.5 text-base disabled:opacity-40 shadow-md"
+        >
+          {saving ? 'Saving…' : dirty ? 'Save changes' : 'All saved'}
+        </button>
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import Footer from '@/components/FooterV1';
 import ErrorSuppressor from '@/components/ErrorSuppressor';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import SiteChrome from '@/components/SiteChrome';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 
 const robotoCondensed = Roboto_Condensed({
@@ -139,18 +140,20 @@ export default function RootLayout({
       <body className={`${robotoCondensed.variable} font-sans antialiased`} suppressHydrationWarning>
         <LanguageProvider>
           <ErrorSuppressor />
-          <ErrorBoundary name="Header">
-            <Header navigationData={navigationData} />
-          </ErrorBoundary>
-          <main>
-            {children}
-          </main>
-          <ErrorBoundary name="Footer">
-            <Footer />
-          </ErrorBoundary>
-          <ErrorBoundary name="WhatsApp">
-            <WhatsAppButton />
-          </ErrorBoundary>
+          <SiteChrome>
+            <ErrorBoundary name="Header">
+              <Header navigationData={navigationData} />
+            </ErrorBoundary>
+          </SiteChrome>
+          <main>{children}</main>
+          <SiteChrome>
+            <ErrorBoundary name="Footer">
+              <Footer />
+            </ErrorBoundary>
+            <ErrorBoundary name="WhatsApp">
+              <WhatsAppButton />
+            </ErrorBoundary>
+          </SiteChrome>
         </LanguageProvider>
       </body>
     </html>
