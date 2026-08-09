@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function AdminMediaPage() {
   const [altText, setAltText] = useState('');
@@ -31,19 +32,28 @@ export default function AdminMediaPage() {
   }
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-8 space-y-6">
+    <div className="max-w-xl mx-auto p-4 sm:p-6 space-y-5">
       <div>
-        <h1 className="text-3xl font-black text-amber-950">Media library</h1>
-        <p className="text-gray-600 text-sm mt-1">
-          Drag & drop photos here. Tip: for package photos, use <strong>Content</strong> and drop
-          directly onto the package photo field — it updates the site automatically.
+        <h1 className="text-2xl font-semibold text-[#202223]">Files</h1>
+        <p className="text-sm text-[#6D7175] mt-1">
+          Upload photos here, or drag them onto a package field in{' '}
+          <Link href="/admin/content" className="text-[#008060] font-semibold underline">
+            Online store
+          </Link>
+          .
         </p>
       </div>
 
-      <label className="block text-sm font-semibold">
+      {error && (
+        <div className="rounded-lg border border-[#FED3D1] bg-[#FFF4F4] px-4 py-3 text-sm text-[#D72C0D]">
+          {error}
+        </div>
+      )}
+
+      <label className="block text-sm font-semibold text-[#202223]">
         Alt text (optional)
         <input
-          className="mt-1 w-full rounded-lg border px-3 py-2"
+          className="mt-1 w-full rounded-lg border border-[#C9CCCF] px-3 py-2 text-sm font-normal"
           value={altText}
           onChange={(e) => setAltText(e.target.value)}
         />
@@ -61,13 +71,15 @@ export default function AdminMediaPage() {
           const file = e.dataTransfer.files?.[0];
           if (file) void upload(file);
         }}
-        className={`rounded-2xl border-2 border-dashed p-10 text-center transition ${
-          dragOver ? 'border-amber-500 bg-amber-50' : 'border-amber-200 bg-white'
+        className={`rounded-xl border-2 border-dashed p-10 text-center bg-white transition ${
+          dragOver ? 'border-[#008060] bg-[#F1F8F5]' : 'border-[#C9CCCF]'
         }`}
       >
-        <p className="font-bold text-amber-950">{uploading ? 'Uploading…' : 'Drag & drop a photo here'}</p>
-        <label className="inline-block mt-4 cursor-pointer rounded-lg bg-amber-600 text-white font-bold px-4 py-2">
-          Or choose file
+        <p className="font-semibold text-[#202223]">
+          {uploading ? 'Uploading…' : 'Drag and drop a photo here'}
+        </p>
+        <label className="inline-block mt-4 cursor-pointer rounded-lg bg-[#008060] text-white font-semibold px-4 py-2 text-sm">
+          Choose file
           <input
             type="file"
             accept="image/*"
@@ -81,13 +93,12 @@ export default function AdminMediaPage() {
         </label>
       </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
       {url && (
-        <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm break-all space-y-2">
-          <p className="font-semibold text-green-800">Uploaded — copy this URL if needed</p>
+        <div className="rounded-xl border border-[#AEE9D1] bg-[#F1F8F5] p-4 space-y-2">
+          <p className="text-sm font-semibold text-[#0D8050]">Uploaded</p>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={url} alt="" className="max-h-40 rounded-lg object-cover" />
-          <p className="text-green-900">{url}</p>
+          <img src={url} alt={altText || 'Uploaded'} className="max-h-48 rounded-lg object-cover" />
+          <p className="text-xs break-all text-[#6D7175]">{url}</p>
         </div>
       )}
     </div>

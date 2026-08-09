@@ -96,11 +96,29 @@ export async function PUT(request: Request) {
     return NextResponse.json({ ok: false, error: 'Missing section, locale, or data' }, { status: 400 });
   }
 
+  let payload: Record<string, unknown> = data;
+  if (section === 'site_copy') {
+    // Never replace the whole bag with a partial object — merge onto defaults + existing.
+    const { defaultSiteCopy, mergeCopy } = await import('@/lib/cms-fields');
+    const localeKey = locale === 'fr' || locale === 'de' ? locale : 'en';
+    const { data: existing } = await supabase
+      .from('content_entries')
+      .select('data')
+      .eq('section', 'site_copy')
+      .eq('locale', localeKey)
+      .maybeSingle();
+    const base = mergeCopy(
+      defaultSiteCopy(localeKey),
+      (existing?.data as Record<string, string>) || {}
+    );
+    payload = mergeCopy(base, data as Record<string, string>);
+  }
+
   const { error } = await supabase.from('content_entries').upsert(
     {
       section,
       locale,
-      data,
+      data: payload,
       updated_at: new Date().toISOString(),
     },
     { onConflict: 'section,locale' }

@@ -35,26 +35,33 @@ export default function AdminMessagesPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
-      <h1 className="text-3xl font-black text-amber-950">Contact messages</h1>
-      {error && <p className="text-red-600 text-sm">{error}</p>}
+    <div className="max-w-6xl mx-auto p-4 sm:p-6 space-y-5">
+      <div>
+        <h1 className="text-2xl font-semibold text-[#202223]">Inbox</h1>
+        <p className="text-sm text-[#6D7175]">Messages from the contact form.</p>
+      </div>
+      {error && (
+        <div className="rounded-lg border border-[#FED3D1] bg-[#FFF4F4] px-4 py-3 text-sm text-[#D72C0D]">
+          {error}
+        </div>
+      )}
       {loading ? (
-        <p>Loading…</p>
+        <p className="text-sm text-[#6D7175]">Loading…</p>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {messages.map((m) => (
-            <article key={m.id} className="rounded-2xl border border-amber-100 bg-white p-5 shadow-sm">
+            <article key={m.id} className="rounded-xl border border-[#E1E3E5] bg-white p-5 shadow-sm">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <h2 className="font-bold text-lg">{m.subject}</h2>
-                  <p className="text-sm text-gray-600">
+                  <h2 className="font-semibold text-[#202223]">{m.subject}</h2>
+                  <p className="text-sm text-[#6D7175]">
                     {m.name} · {m.email} · {new Date(m.created_at).toLocaleString()}
                   </p>
                 </div>
                 <select
                   value={m.status}
                   onChange={(e) => updateStatus(m.id, e.target.value)}
-                  className="rounded border border-gray-300 px-2 py-1 text-sm"
+                  className="rounded-lg border border-[#C9CCCF] px-2 py-1.5 text-sm bg-white"
                 >
                   <option value="new">new</option>
                   <option value="read">read</option>
@@ -62,11 +69,11 @@ export default function AdminMessagesPage() {
                   <option value="archived">archived</option>
                 </select>
               </div>
-              <p className="mt-3 text-gray-800 whitespace-pre-wrap">{m.message}</p>
+              <p className="mt-3 text-[#202223] whitespace-pre-wrap text-sm leading-relaxed">{m.message}</p>
             </article>
           ))}
           {messages.length === 0 && (
-            <p className="text-gray-500 text-center py-8">No messages yet.</p>
+            <p className="text-[#6D7175] text-center py-10">No messages yet.</p>
           )}
         </div>
       )}

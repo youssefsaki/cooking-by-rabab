@@ -35,46 +35,53 @@ export default function AdminBookingsPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
-      <h1 className="text-3xl font-black text-amber-950">Bookings</h1>
-      {error && <p className="text-red-600 text-sm">{error}</p>}
+    <div className="max-w-6xl mx-auto p-4 sm:p-6 space-y-5">
+      <div>
+        <h1 className="text-2xl font-semibold text-[#202223]">Orders</h1>
+        <p className="text-sm text-[#6D7175]">Booking requests from your storefront.</p>
+      </div>
+      {error && (
+        <div className="rounded-lg border border-[#FED3D1] bg-[#FFF4F4] px-4 py-3 text-sm text-[#D72C0D]">
+          {error}
+        </div>
+      )}
       {loading ? (
-        <p>Loading…</p>
+        <p className="text-sm text-[#6D7175]">Loading…</p>
       ) : (
-        <div className="overflow-x-auto rounded-2xl border border-amber-100 bg-white shadow-sm">
+        <div className="overflow-x-auto rounded-xl border border-[#E1E3E5] bg-white shadow-sm">
           <table className="min-w-full text-sm">
-            <thead className="bg-amber-50 text-left">
+            <thead className="bg-[#F6F6F7] text-left text-[#6D7175]">
               <tr>
-                <th className="px-4 py-3">Date</th>
-                <th className="px-4 py-3">Name</th>
-                <th className="px-4 py-3">Contact</th>
-                <th className="px-4 py-3">Package</th>
-                <th className="px-4 py-3">Dietary</th>
-                <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3 font-semibold">Date</th>
+                <th className="px-4 py-3 font-semibold">Customer</th>
+                <th className="px-4 py-3 font-semibold">Contact</th>
+                <th className="px-4 py-3 font-semibold">Package</th>
+                <th className="px-4 py-3 font-semibold">Dietary</th>
+                <th className="px-4 py-3 font-semibold">Status</th>
               </tr>
             </thead>
             <tbody>
               {bookings.map((b) => (
-                <tr key={b.id} className="border-t border-amber-50 align-top">
-                  <td className="px-4 py-3 whitespace-nowrap">
+                <tr key={b.id} className="border-t border-[#E1E3E5] align-top hover:bg-[#FAFBFB]">
+                  <td className="px-4 py-3 whitespace-nowrap text-[#6D7175]">
                     {new Date(b.created_at).toLocaleString()}
                   </td>
-                  <td className="px-4 py-3 font-semibold">{b.full_name}</td>
+                  <td className="px-4 py-3 font-semibold text-[#202223]">{b.full_name}</td>
                   <td className="px-4 py-3">
                     <div>{b.email}</div>
-                    <div className="text-gray-500">{b.phone}</div>
-                    <div className="text-gray-500">{b.country}</div>
+                    <div className="text-[#6D7175]">{b.phone}</div>
+                    <div className="text-[#6D7175]">{b.country}</div>
                   </td>
-                  <td className="px-4 py-3">{b.package_type}</td>
+                  <td className="px-4 py-3 capitalize">{b.package_type}</td>
                   <td className="px-4 py-3">
                     {b.dietary_preference}
-                    {b.allergies ? <div className="text-gray-500">{b.allergies}</div> : null}
+                    {b.allergies ? <div className="text-[#6D7175]">{b.allergies}</div> : null}
                   </td>
                   <td className="px-4 py-3">
                     <select
                       value={b.status}
                       onChange={(e) => updateStatus(b.id, e.target.value)}
-                      className="rounded border border-gray-300 px-2 py-1"
+                      className="rounded-lg border border-[#C9CCCF] px-2 py-1.5 bg-white"
                     >
                       <option value="new">new</option>
                       <option value="contacted">contacted</option>
@@ -86,8 +93,8 @@ export default function AdminBookingsPage() {
               ))}
               {bookings.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
-                    No bookings yet.
+                  <td colSpan={6} className="px-4 py-10 text-center text-[#6D7175]">
+                    No orders yet.
                   </td>
                 </tr>
               )}
