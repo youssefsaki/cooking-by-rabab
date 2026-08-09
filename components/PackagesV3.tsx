@@ -97,6 +97,7 @@ const PackagesV3: React.FC<PackagesV3Props> = memo(({ initialItems }) => {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   loading="lazy"
                   quality={75}
+                  unoptimized={pkg.image.startsWith('http')}
                 />
               </div>
 

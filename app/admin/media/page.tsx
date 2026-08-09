@@ -31,7 +31,7 @@ export default function AdminMediaPage() {
   }
 
   return (
-    <div className="space-y-6 max-w-xl">
+    <div className="max-w-xl mx-auto px-4 py-8 space-y-6">
       <div>
         <h1 className="text-3xl font-black text-amber-950">Media library</h1>
         <p className="text-gray-600 text-sm mt-1">

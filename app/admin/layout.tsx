@@ -18,8 +18,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <div className="min-h-screen bg-[#F5EFE7] text-gray-900">
       {user && (
-        <header className="border-b border-amber-200 bg-white/90 backdrop-blur sticky top-0 z-40">
-          <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+        <header className="border-b border-amber-200 bg-white/90 backdrop-blur sticky top-0 z-50 h-[57px]">
+          <div className="max-w-[1600px] mx-auto px-4 h-full flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-4">
               <Link href="/admin" className="font-black text-lg text-amber-900">
                 Rabab CMS
@@ -35,7 +35,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                   Messages
                 </Link>
                 <Link href="/admin/content" className="hover:text-amber-600">
-                  Content
+                  Website editor
                 </Link>
                 <Link href="/admin/media" className="hover:text-amber-600">
                   Media
@@ -56,7 +56,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </div>
         </header>
       )}
-      <main className="max-w-6xl mx-auto px-4 py-8">{children}</main>
+      <main className="w-full">{children}</main>
     </div>
   );
 }

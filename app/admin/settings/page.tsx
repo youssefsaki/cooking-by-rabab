@@ -39,7 +39,7 @@ export default function AdminSettingsPage() {
   }
 
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
       <h1 className="text-3xl font-black text-amber-950">Contact settings</h1>
       {status && (
         <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm">{status}</div>

@@ -15,24 +15,54 @@ import faqsFallback from '@/data/faqs.json';
 
 const LOCALES: Locale[] = ['en', 'fr', 'de'];
 
+const PREVIEW_PAGES = [
+  { id: 'home', label: 'Homepage', path: '/' },
+  { id: 'packages', label: 'Packages', path: '/packages' },
+  { id: 'faq', label: 'FAQ & Contact', path: '/faq-contact' },
+  { id: 'book', label: 'Book', path: '/book' },
+] as const;
+
+type PreviewPageId = (typeof PREVIEW_PAGES)[number]['id'];
+
+function groupFields(fields: CmsField[]) {
+  const map = new Map<string, CmsField[]>();
+  for (const f of fields) {
+    const list = map.get(f.group) || [];
+    list.push(f);
+    map.set(f.group, list);
+  }
+  return Array.from(map.entries());
+}
+
 export default function AdminContentPage() {
   const [locale, setLocale] = useState<Locale>('en');
-  const [bag, setBag] = useState<SiteCopyBag>(() => defaultSiteCopy('en'));
-  const [selectedId, setSelectedId] = useState<string>('hero.title');
-  const [draft, setDraft] = useState('');
+  const [savedBag, setSavedBag] = useState<SiteCopyBag>(() => defaultSiteCopy('en'));
+  const [draftBag, setDraftBag] = useState<SiteCopyBag>(() => defaultSiteCopy('en'));
+  const [selectedId, setSelectedId] = useState('hero.title');
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState('');
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
+  const [previewPage, setPreviewPage] = useState<PreviewPageId>('home');
+  const [previewKey, setPreviewKey] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  const dirty = useMemo(() => {
+    const keys = Array.from(new Set([...Object.keys(savedBag), ...Object.keys(draftBag)]));
+    for (const k of keys) {
+      if ((savedBag[k] || '') !== (draftBag[k] || '')) return true;
+    }
+    return false;
+  }, [savedBag, draftBag]);
 
   const fields = useMemo(() => {
-    const packages = packagesFromCopy(bag, DEFAULT_PACKAGES);
-    const faqs = faqsFromCopy(bag, faqsFallback as never);
+    const packages = packagesFromCopy(draftBag, DEFAULT_PACKAGES);
+    const faqs = faqsFromCopy(draftBag, faqsFallback as never);
     return buildCmsFields(packages, faqs);
-  }, [bag]);
+  }, [draftBag]);
 
-  const selected: CmsField | undefined = fields.find((f) => f.id === selectedId) || fields[0];
+  const selected = fields.find((f) => f.id === selectedId) || fields[0];
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -41,70 +71,69 @@ export default function AdminContentPage() {
       (f) =>
         f.label.toLowerCase().includes(q) ||
         f.group.toLowerCase().includes(q) ||
-        (bag[f.id] || '').toLowerCase().includes(q)
+        (draftBag[f.id] || '').toLowerCase().includes(q)
     );
-  }, [fields, query, bag]);
+  }, [fields, query, draftBag]);
 
-  const grouped = useMemo(() => {
-    const map = new Map<string, CmsField[]>();
-    for (const f of filtered) {
-      const list = map.get(f.group) || [];
-      list.push(f);
-      map.set(f.group, list);
-    }
-    return Array.from(map.entries());
-  }, [filtered]);
+  const grouped = useMemo(() => groupFields(filtered), [filtered]);
 
   useEffect(() => {
     let cancelled = false;
+    setLoading(true);
     fetch(`/api/content?section=site_copy&locale=${locale}`)
       .then((r) => r.json())
       .then((payload) => {
         if (cancelled) return;
         const next = payload.ok && payload.data ? (payload.data as SiteCopyBag) : defaultSiteCopy(locale);
-        setBag(next);
-        setSelectedId((prev) => prev || 'hero.title');
+        setSavedBag(next);
+        setDraftBag(next);
+        setLoading(false);
       })
       .catch(() => {
-        if (!cancelled) setBag(defaultSiteCopy(locale));
+        if (cancelled) return;
+        const next = defaultSiteCopy(locale);
+        setSavedBag(next);
+        setDraftBag(next);
+        setLoading(false);
       });
     return () => {
       cancelled = true;
     };
   }, [locale]);
 
-  useEffect(() => {
-    if (!selected) return;
-    setDraft(bag[selected.id] ?? '');
-  }, [selected?.id, bag, selected]);
+  function setFieldValue(id: string, value: string) {
+    setDraftBag((prev) => ({ ...prev, [id]: value }));
+  }
 
-  async function saveField(nextValue?: string) {
-    if (!selected) return;
-    const value = nextValue ?? draft;
+  async function saveAllEdits() {
     setSaving(true);
     setStatus('');
-    const nextBag = { ...bag, [selected.id]: value };
     const res = await fetch('/api/admin', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ section: 'site_copy', locale, data: nextBag }),
+      body: JSON.stringify({ section: 'site_copy', locale, data: draftBag }),
     });
     const payload = await res.json();
     setSaving(false);
     if (!payload.ok) {
-      setStatus(payload.error || 'Save failed');
+      setStatus(payload.error || 'Save failed. Are you still logged in?');
       return;
     }
-    setBag(nextBag);
-    setDraft(value);
-    setStatus(`Saved “${selected.label}”. Guests will see it within about 30 seconds.`);
+    setSavedBag(draftBag);
+    setPreviewKey((k) => k + 1);
+    setStatus('Saved. Preview refreshed — changes are live on this Preview site.');
+  }
+
+  function discardEdits() {
+    setDraftBag(savedBag);
+    setStatus('Unsaved edits discarded.');
   }
 
   const uploadImage = useCallback(
     async (file: File) => {
       if (!selected || selected.type !== 'image') return;
       if (!file.type.startsWith('image/')) {
-        setStatus('Please drop an image file (JPG, PNG, WebP).');
+        setStatus('Please drop an image file (JPG, PNG, or WebP).');
         return;
       }
       setUploading(true);
@@ -114,125 +143,159 @@ export default function AdminContentPage() {
       formData.append('altText', selected.label);
       const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
       const payload = await res.json();
+      setUploading(false);
       if (!payload.ok) {
-        setUploading(false);
         setStatus(payload.error || 'Upload failed');
         return;
       }
       const url = payload.media.public_url as string;
-      const nextBag = { ...bag, [selected.id]: url };
-      const saveRes = await fetch('/api/admin', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ section: 'site_copy', locale, data: nextBag }),
-      });
-      const savePayload = await saveRes.json();
-      setUploading(false);
-      if (!savePayload.ok) {
-        setStatus(savePayload.error || 'Upload OK but save failed');
-        return;
-      }
-      setBag(nextBag);
-      setDraft(url);
-      setStatus(`Photo updated for “${selected.label}”.`);
+      setFieldValue(selected.id, url);
+      setStatus(`Photo ready for “${selected.label}”. Click Save edits to publish.`);
     },
-    [selected, bag, locale]
+    [selected]
   );
 
+  const previewPath = PREVIEW_PAGES.find((p) => p.id === previewPage)?.path || '/';
+  const previewSrc = `${previewPath}?cms_preview=${previewKey}&lang=${locale}`;
+
+  // Auto-focus preview page based on selected field group
+  useEffect(() => {
+    if (!selected) return;
+    if (selected.group.startsWith('Homepage') || selected.group.startsWith('Packages section')) {
+      setPreviewPage('home');
+    } else if (selected.group.startsWith('Package:')) {
+      setPreviewPage('packages');
+    } else if (selected.group.startsWith('FAQ')) {
+      setPreviewPage('faq');
+    }
+  }, [selected?.group]);
+
   return (
-    <div className="space-y-4">
-      <div className="flex flex-wrap items-end justify-between gap-3">
+    <div className="fixed inset-0 top-[57px] bg-[#F3EEE6] flex flex-col">
+      {/* Top bar */}
+      <div className="shrink-0 border-b border-amber-200/80 bg-white px-4 py-3 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-3xl font-black text-amber-950">Edit website text & photos</h1>
-          <p className="text-gray-600 text-sm mt-1 max-w-2xl">
-            1) Choose a language · 2) Select the text you want to change · 3) Type the new value and save.
-            For photos, drag and drop a new image onto the box.
+          <h1 className="text-xl font-black text-amber-950">Website editor</h1>
+          <p className="text-xs text-gray-500">
+            Edit on the left · live preview on the right · Save edits when ready
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {LOCALES.map((l) => (
             <button
               key={l}
               type="button"
-              onClick={() => setLocale(l)}
-              className={`px-3 py-1.5 rounded-full text-sm font-bold uppercase ${
-                locale === l ? 'bg-amber-600 text-white' : 'bg-white border border-amber-200 text-amber-900'
+              onClick={() => {
+                if (dirty && !confirm('You have unsaved edits. Switch language and discard them?')) return;
+                setLocale(l);
+              }}
+              className={`px-3 py-1.5 rounded-full text-xs font-bold uppercase ${
+                locale === l ? 'bg-amber-600 text-white' : 'bg-amber-50 text-amber-900 border border-amber-200'
               }`}
             >
               {l}
             </button>
           ))}
+          <button
+            type="button"
+            onClick={discardEdits}
+            disabled={!dirty || saving}
+            className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 disabled:opacity-40"
+          >
+            Discard
+          </button>
+          <button
+            type="button"
+            onClick={saveAllEdits}
+            disabled={!dirty || saving || loading}
+            className="rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold px-4 py-2 text-sm disabled:opacity-40 shadow-sm"
+          >
+            {saving ? 'Saving…' : dirty ? 'Save edits' : 'Saved'}
+          </button>
         </div>
       </div>
 
       {status && (
-        <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+        <div className="shrink-0 px-4 py-2 text-sm bg-amber-50 border-b border-amber-100 text-amber-950">
           {status}
         </div>
       )}
 
-      <div className="grid lg:grid-cols-[340px_1fr] gap-4 min-h-[70vh]">
-        {/* Left: select which text */}
-        <aside className="rounded-2xl border border-amber-100 bg-white shadow-sm overflow-hidden flex flex-col">
-          <div className="p-3 border-b border-amber-50">
+      <div className="flex-1 min-h-0 grid lg:grid-cols-[420px_1fr]">
+        {/* LEFT: editor */}
+        <aside className="min-h-0 border-r border-amber-200 bg-white flex flex-col">
+          <div className="p-3 border-b border-amber-50 space-y-2">
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search texts… e.g. price, hero, FAQ"
+              placeholder="Search text or photo…"
               className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm"
             />
-          </div>
-          <div className="overflow-y-auto flex-1 p-2 space-y-3 max-h-[70vh]">
-            {grouped.map(([group, list]) => (
-              <div key={group}>
-                <p className="px-2 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-800/80">
-                  {group}
-                </p>
-                <div className="space-y-1">
-                  {list.map((f) => {
-                    const active = f.id === selected?.id;
-                    return (
-                      <button
-                        key={f.id}
-                        type="button"
-                        onClick={() => setSelectedId(f.id)}
-                        className={`w-full text-left rounded-lg px-3 py-2 text-sm transition ${
-                          active
-                            ? 'bg-amber-600 text-white'
-                            : 'hover:bg-amber-50 text-gray-800'
-                        }`}
-                      >
-                        <span className="font-semibold block">{f.label}</span>
-                        <span className={`block truncate text-xs mt-0.5 ${active ? 'text-amber-100' : 'text-gray-500'}`}>
-                          {bag[f.id] || '— empty —'}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-            {grouped.length === 0 && (
-              <p className="text-sm text-gray-500 p-3">No texts match your search.</p>
+            {dirty && (
+              <p className="text-xs font-semibold text-orange-700">Unsaved changes — click Save edits</p>
             )}
           </div>
-        </aside>
 
-        {/* Right: edit selected */}
-        <section className="rounded-2xl border border-amber-100 bg-white shadow-sm p-5 sm:p-6 space-y-4">
-          {!selected ? (
-            <p className="text-gray-500">Select a text on the left to edit it.</p>
-          ) : (
-            <>
+          <div className="flex-1 min-h-0 overflow-y-auto p-2 space-y-3">
+            {loading ? (
+              <p className="p-4 text-sm text-gray-500">Loading content…</p>
+            ) : (
+              grouped.map(([group, list]) => (
+                <div key={group}>
+                  <p className="px-2 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-800/70">
+                    {group}
+                  </p>
+                  <div className="space-y-1">
+                    {list.map((f) => {
+                      const active = f.id === selected?.id;
+                      const changed = (draftBag[f.id] || '') !== (savedBag[f.id] || '');
+                      return (
+                        <button
+                          key={f.id}
+                          type="button"
+                          onClick={() => setSelectedId(f.id)}
+                          className={`w-full text-left rounded-xl px-3 py-2.5 text-sm transition border ${
+                            active
+                              ? 'bg-amber-600 text-white border-amber-600'
+                              : 'bg-white hover:bg-amber-50 text-gray-800 border-transparent'
+                          }`}
+                        >
+                          <span className="font-semibold flex items-center gap-2">
+                            {f.label}
+                            {changed && (
+                              <span
+                                className={`text-[10px] font-bold uppercase ${
+                                  active ? 'text-amber-100' : 'text-orange-600'
+                                }`}
+                              >
+                                edited
+                              </span>
+                            )}
+                          </span>
+                          <span
+                            className={`block truncate text-xs mt-0.5 ${
+                              active ? 'text-amber-100' : 'text-gray-500'
+                            }`}
+                          >
+                            {f.type === 'image' ? 'Photo' : draftBag[f.id] || '—'}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Selected field editor */}
+          {selected && !loading && (
+            <div className="shrink-0 border-t border-amber-100 bg-[#FCFAF7] p-4 space-y-3 max-h-[45%] overflow-y-auto">
               <div>
-                <p className="text-xs font-bold uppercase tracking-wide text-amber-700">{selected.group}</p>
-                <h2 className="text-2xl font-black text-amber-950 mt-1">{selected.label}</h2>
-                {selected.hint && <p className="text-sm text-gray-500 mt-1">{selected.hint}</p>}
-              </div>
-
-              <div className="rounded-xl bg-stone-50 border border-stone-100 px-4 py-3">
-                <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Current value on the website</p>
-                <p className="text-sm text-gray-800 whitespace-pre-wrap break-words">{bag[selected.id] || '—'}</p>
+                <p className="text-[11px] font-bold uppercase tracking-wide text-amber-700">
+                  {selected.group}
+                </p>
+                <h2 className="font-black text-amber-950 text-lg">{selected.label}</h2>
               </div>
 
               {selected.type === 'image' ? (
@@ -248,23 +311,23 @@ export default function AdminContentPage() {
                     const file = e.dataTransfer.files?.[0];
                     if (file) void uploadImage(file);
                   }}
-                  className={`relative rounded-2xl border-2 border-dashed p-8 text-center transition ${
-                    dragOver ? 'border-amber-500 bg-amber-50' : 'border-amber-200 bg-amber-50/40'
+                  className={`rounded-2xl border-2 border-dashed p-4 text-center transition ${
+                    dragOver ? 'border-amber-500 bg-amber-100' : 'border-amber-300 bg-white'
                   }`}
                 >
-                  {draft && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={draft}
-                      alt={selected.label}
-                      className="mx-auto mb-4 max-h-48 rounded-xl object-cover shadow"
-                    />
-                  )}
-                  <p className="font-bold text-amber-950">
-                    {uploading ? 'Uploading…' : 'Drag & drop a new photo here'}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={draftBag[selected.id] || '/packages/basic.jpg'}
+                    alt={selected.label}
+                    className="mx-auto mb-3 max-h-36 rounded-xl object-cover shadow"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
+                  />
+                  <p className="font-bold text-sm text-amber-950">
+                    {uploading ? 'Uploading…' : 'Drag & drop a new photo'}
                   </p>
-                  <p className="text-sm text-gray-600 mt-1">or</p>
-                  <label className="inline-block mt-3 cursor-pointer rounded-lg bg-amber-600 text-white font-bold px-4 py-2">
+                  <label className="inline-block mt-2 cursor-pointer rounded-lg bg-amber-600 text-white text-sm font-bold px-3 py-1.5">
                     Choose file
                     <input
                       type="file"
@@ -279,38 +342,61 @@ export default function AdminContentPage() {
                   </label>
                 </div>
               ) : selected.type === 'textarea' ? (
-                <label className="block text-sm font-semibold text-gray-800">
-                  New value
-                  <textarea
-                    value={draft}
-                    onChange={(e) => setDraft(e.target.value)}
-                    rows={6}
-                    className="mt-2 w-full rounded-xl border border-gray-300 px-3 py-2 text-base"
-                  />
-                </label>
+                <textarea
+                  value={draftBag[selected.id] || ''}
+                  onChange={(e) => setFieldValue(selected.id, e.target.value)}
+                  rows={5}
+                  className="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm bg-white"
+                />
               ) : (
-                <label className="block text-sm font-semibold text-gray-800">
-                  New value
-                  <input
-                    value={draft}
-                    onChange={(e) => setDraft(e.target.value)}
-                    className="mt-2 w-full rounded-xl border border-gray-300 px-3 py-2 text-base"
-                  />
-                </label>
+                <input
+                  value={draftBag[selected.id] || ''}
+                  onChange={(e) => setFieldValue(selected.id, e.target.value)}
+                  className="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm bg-white"
+                />
               )}
-
-              {selected.type !== 'image' && (
-                <button
-                  type="button"
-                  onClick={() => saveField()}
-                  disabled={saving || draft === (bag[selected.id] ?? '')}
-                  className="rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 py-3 disabled:opacity-50"
-                >
-                  {saving ? 'Saving…' : 'Save this change'}
-                </button>
-              )}
-            </>
+            </div>
           )}
+        </aside>
+
+        {/* RIGHT: live website preview */}
+        <section className="min-h-0 flex flex-col bg-[#E8E0D4]">
+          <div className="shrink-0 px-4 py-2 flex flex-wrap items-center gap-2 border-b border-amber-200/60 bg-white/70 backdrop-blur">
+            <span className="text-xs font-bold uppercase tracking-wide text-amber-900 mr-1">
+              Live preview
+            </span>
+            {PREVIEW_PAGES.map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => setPreviewPage(p.id)}
+                className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                  previewPage === p.id
+                    ? 'bg-amber-900 text-white'
+                    : 'bg-white text-amber-900 border border-amber-200'
+                }`}
+              >
+                {p.label}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => setPreviewKey((k) => k + 1)}
+              className="ml-auto text-xs font-semibold text-amber-800 underline"
+            >
+              Refresh preview
+            </button>
+          </div>
+          <div className="flex-1 min-h-0 p-3 sm:p-4">
+            <div className="h-full rounded-2xl overflow-hidden border border-amber-200 shadow-xl bg-white">
+              <iframe
+                key={`${previewSrc}-${previewKey}`}
+                title="Site preview"
+                src={previewSrc}
+                className="w-full h-full border-0"
+              />
+            </div>
+          </div>
         </section>
       </div>
     </div>

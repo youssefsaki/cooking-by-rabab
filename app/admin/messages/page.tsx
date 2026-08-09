@@ -35,7 +35,7 @@ export default function AdminMessagesPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
       <h1 className="text-3xl font-black text-amber-950">Contact messages</h1>
       {error && <p className="text-red-600 text-sm">{error}</p>}
       {loading ? (
