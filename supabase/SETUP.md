@@ -2,41 +2,40 @@
 
 Production (`main`) stays live. This branch uses Supabase as source of truth, mirrors to Google Sheets, keeps WhatsApp on booking success, and adds `/admin` CMS.
 
-## Why you may need a manual project step
+## Live project (created)
 
-Your Supabase org hit the **free project limit (2)**. Composio could not create `cooking-by-rabab`, and project listing returned empty for this OAuth token.
+| Field | Value |
+|-------|--------|
+| Org | `rabab` |
+| Project | `cooking-by-rabab` |
+| Ref | `sgjsxrznjhmaluhsgvks` |
+| Region | `eu-west-1` |
+| Dashboard | https://supabase.com/dashboard/project/sgjsxrznjhmaluhsgvks |
+| URL | `https://sgjsxrznjhmaluhsgvks.supabase.co` |
 
-### Do this once in the Supabase dashboard
+Schema applied: tables, RLS, `site-media` bucket, packages seed (en/fr/de), site settings.
 
-1. Open [https://supabase.com/dashboard](https://supabase.com/dashboard)
-2. Either **pause/delete** an unused free project, then create **cooking-by-rabab**, **or** reuse an existing project
-3. Copy:
-   - Project URL → `NEXT_PUBLIC_SUPABASE_URL`
-   - `anon` `public` key → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `service_role` `secret` key → `SUPABASE_SERVICE_ROLE_KEY`
-4. SQL Editor → run in order:
-   - `supabase/migrations/001_initial_schema.sql`
-   - `supabase/migrations/002_seed_content.sql`
-5. Authentication → Users → Add user (email/password) for the client CMS login
-6. Optional: set `SHEETS_WEBAPP_URL` to your Apps Script web app (see below)
+Local secrets are in **`.env.local`** (gitignored). Admin login email: `rababouhadda5@gmail.com` — temp password in **`.admin-credentials.local`** (gitignored). Change that password after first login.
 
-## Local / Vercel env
+## Vercel Preview env
+
+Add these in Vercel → Project → Settings → Environment Variables (**Preview**):
 
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=https://YOUR_REF.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-SUPABASE_SERVICE_ROLE_KEY=...
-SHEETS_WEBAPP_URL=https://script.google.com/macros/s/.../exec
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SUPABASE_URL=https://sgjsxrznjhmaluhsgvks.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<from .env.local>
+SUPABASE_SERVICE_ROLE_KEY=<from .env.local>
+SHEETS_WEBAPP_URL=<optional Apps Script URL>
+NEXT_PUBLIC_SITE_URL=<preview URL later>
 ```
 
-Add the same keys to Vercel → Project → Settings → Environment Variables for **Preview** (and later Production).
+Copy key values from your local `.env.local` — do not commit them.
 
 ## Google Sheets mirror (client view)
 
 Update your Apps Script `doPost` to route by `type`:
 
-- `type: "booking"` → Bookings sheet (same columns as before)
+- `type: "booking"` → Bookings sheet
 - `type: "contact"` → Contact sheet
 
 See `supabase/sheets-apps-script.js`.
@@ -45,9 +44,8 @@ Mirror is **non-blocking**: guest success depends only on Supabase.
 
 ## Validate on Preview
 
-1. Push `feature/supabase-bookings`
-2. Open Vercel Preview URL
-3. Submit `/book` → row in Supabase + Sheets + WhatsApp
-4. Submit contact form → Supabase + Sheets
-5. Sign in at `/admin` → edit package price → confirm site updates
-6. Merge to `main` only after you approve
+1. Open Vercel Preview for `feature/supabase-bookings`
+2. Submit `/book` → row in Supabase + Sheets + WhatsApp
+3. Submit contact form → Supabase + Sheets
+4. Sign in at `/admin` → edit package price → confirm site updates
+5. Merge to `main` only after you approve
