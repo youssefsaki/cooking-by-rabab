@@ -3,27 +3,26 @@
 import { useState } from 'react';
 
 export default function AdminMediaPage() {
-  const [file, setFile] = useState<File | null>(null);
   const [altText, setAltText] = useState('');
   const [url, setUrl] = useState('');
   const [error, setError] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
 
-  async function onUpload(e: React.FormEvent) {
-    e.preventDefault();
-    if (!file) return;
+  async function upload(file: File) {
+    if (!file.type.startsWith('image/')) {
+      setError('Please choose an image file.');
+      return;
+    }
     setUploading(true);
     setError('');
     setUrl('');
-
     const formData = new FormData();
     formData.append('file', file);
     formData.append('altText', altText);
-
     const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
     const payload = await res.json();
     setUploading(false);
-
     if (!payload.ok) {
       setError(payload.error || 'Upload failed');
       return;
@@ -33,43 +32,61 @@ export default function AdminMediaPage() {
 
   return (
     <div className="space-y-6 max-w-xl">
-      <h1 className="text-3xl font-black text-amber-950">Media</h1>
-      <p className="text-gray-600 text-sm">
-        Upload images to Supabase Storage, then paste the public URL into Content (package images).
-      </p>
+      <div>
+        <h1 className="text-3xl font-black text-amber-950">Media library</h1>
+        <p className="text-gray-600 text-sm mt-1">
+          Drag & drop photos here. Tip: for package photos, use <strong>Content</strong> and drop
+          directly onto the package photo field — it updates the site automatically.
+        </p>
+      </div>
 
-      <form onSubmit={onUpload} className="rounded-2xl bg-white border border-amber-100 p-5 space-y-4 shadow-sm">
-        <label className="block text-sm font-semibold">
-          Image file
+      <label className="block text-sm font-semibold">
+        Alt text (optional)
+        <input
+          className="mt-1 w-full rounded-lg border px-3 py-2"
+          value={altText}
+          onChange={(e) => setAltText(e.target.value)}
+        />
+      </label>
+
+      <div
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDragOver(true);
+        }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={(e) => {
+          e.preventDefault();
+          setDragOver(false);
+          const file = e.dataTransfer.files?.[0];
+          if (file) void upload(file);
+        }}
+        className={`rounded-2xl border-2 border-dashed p-10 text-center transition ${
+          dragOver ? 'border-amber-500 bg-amber-50' : 'border-amber-200 bg-white'
+        }`}
+      >
+        <p className="font-bold text-amber-950">{uploading ? 'Uploading…' : 'Drag & drop a photo here'}</p>
+        <label className="inline-block mt-4 cursor-pointer rounded-lg bg-amber-600 text-white font-bold px-4 py-2">
+          Or choose file
           <input
             type="file"
             accept="image/*"
-            required
-            className="mt-1 block w-full text-sm"
-            onChange={(e) => setFile(e.target.files?.[0] || null)}
+            className="hidden"
+            disabled={uploading}
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) void upload(file);
+            }}
           />
         </label>
-        <label className="block text-sm font-semibold">
-          Alt text
-          <input
-            className="mt-1 w-full rounded-lg border px-3 py-2"
-            value={altText}
-            onChange={(e) => setAltText(e.target.value)}
-          />
-        </label>
-        <button
-          type="submit"
-          disabled={uploading}
-          className="rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold px-5 py-2.5 disabled:opacity-50"
-        >
-          {uploading ? 'Uploading…' : 'Upload'}
-        </button>
-      </form>
+      </div>
 
       {error && <p className="text-sm text-red-600">{error}</p>}
       {url && (
-        <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm break-all">
-          <p className="font-semibold text-green-800 mb-1">Uploaded URL</p>
+        <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm break-all space-y-2">
+          <p className="font-semibold text-green-800">Uploaded — copy this URL if needed</p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={url} alt="" className="max-h-40 rounded-lg object-cover" />
           <p className="text-green-900">{url}</p>
         </div>
       )}

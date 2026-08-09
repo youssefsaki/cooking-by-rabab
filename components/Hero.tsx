@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { HeroProps } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -8,8 +8,34 @@ import InternalLinkRow from '@/components/InternalLinkRow';
 
 const Hero: React.FC<HeroProps> = ({ heroData }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const heroImageAlt = heroData.backgroundImage.alt;
+  const [cms, setCms] = useState<{
+    badge?: string;
+    title?: string;
+    titleHighlight?: string;
+    description?: string;
+    bookButton?: string;
+  } | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/content?section=hero&locale=${language.toLowerCase()}`)
+      .then((r) => r.json())
+      .then((payload) => {
+        if (!cancelled && payload.ok && payload.data) setCms(payload.data);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [language]);
+
+  const badge = cms?.badge || t.hero.badge;
+  const title = cms?.title || t.hero.title;
+  const titleHighlight = cms?.titleHighlight || t.hero.titleHighlight;
+  const description = cms?.description || t.hero.description;
+  const bookButton = cms?.bookButton || t.hero.bookButton;
 
   useEffect(() => {
     let active = true;
@@ -120,15 +146,15 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
           <div className="flex items-center justify-center gap-3 sm:gap-3 mb-5 sm:mb-5 lg:mb-6">
             <div className="w-10 sm:w-10 lg:w-12 h-[1px] bg-amber-500"></div>
             <span className="text-amber-500 text-[11px] sm:text-xs lg:text-sm font-medium tracking-[0.2em] sm:tracking-[0.25em] uppercase whitespace-nowrap px-2">
-              {t.hero.badge}
+              {badge}
             </span>
             <div className="w-10 sm:w-10 lg:w-12 h-[1px] bg-amber-500"></div>
           </div>
 
           {/* Main Heading */}
           <h1 className="text-white text-4xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light tracking-tight mb-5 sm:mb-5 lg:mb-7 leading-tight">
-            <span className="block font-extralight italic">{t.hero.title}</span>
-            <span className="block font-bold uppercase tracking-wider mt-3 sm:mt-3">{t.hero.titleHighlight}</span>
+            <span className="block font-extralight italic">{title}</span>
+            <span className="block font-bold uppercase tracking-wider mt-3 sm:mt-3">{titleHighlight}</span>
           </h1>
 
           {/* Thin Separator */}
@@ -136,7 +162,7 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
 
           {/* Description */}
           <p className="text-white/90 text-base sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto mb-4 sm:mb-4 lg:mb-5 font-normal px-2 sm:px-6">
-            {t.hero.description}
+            {description}
           </p>
 
           <InternalLinkRow variant="hero" className="text-white/80 max-w-2xl mx-auto mb-7 sm:mb-7 lg:mb-9 px-2 sm:px-6 [&_a]:text-amber-300 [&_a:hover]:text-amber-200" />
@@ -148,7 +174,7 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
               className="inline-block bg-amber-500 hover:bg-amber-600 text-white px-10 sm:px-10 lg:px-12 py-5 sm:py-4.5 lg:py-5 text-base sm:text-base lg:text-lg font-bold uppercase tracking-widest transition-all duration-300 hover:scale-105 hover:shadow-2xl rounded-lg"
               style={{ touchAction: 'manipulation' }}
             >
-              {t.hero.bookButton}
+              {bookButton}
             </a>
           </div>
         </div>

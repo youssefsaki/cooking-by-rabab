@@ -110,7 +110,13 @@ export async function PUT(request: Request) {
     return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
   }
 
-  revalidateTag('content');
+    revalidateTag('content');
   revalidateTag(section);
+  if (section === 'site_copy') {
+    revalidateTag('site_copy');
+    revalidateTag('packages');
+    revalidateTag('faqs');
+    revalidateTag('hero');
+  }
   return NextResponse.json({ ok: true });
 }

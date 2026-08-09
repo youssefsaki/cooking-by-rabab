@@ -16,6 +16,7 @@ type PackagesV3Props = {
 const PackagesV3: React.FC<PackagesV3Props> = memo(({ initialItems }) => {
   const { t, language } = useLanguage();
   const [items, setItems] = useState<PackageCmsItem[]>(initialItems || DEFAULT_PACKAGES.items);
+  const [sectionCopy, setSectionCopy] = useState({ badge: '', title: '', description: '' });
 
   useEffect(() => {
     let cancelled = false;
@@ -23,9 +24,13 @@ const PackagesV3: React.FC<PackagesV3Props> = memo(({ initialItems }) => {
     fetch(`/api/content?section=packages&locale=${locale}`)
       .then((r) => r.json())
       .then((payload) => {
-        if (!cancelled && payload.ok && payload.data?.items?.length) {
-          setItems(payload.data.items);
-        }
+        if (cancelled || !payload.ok || !payload.data) return;
+        if (payload.data.items?.length) setItems(payload.data.items);
+        setSectionCopy({
+          badge: payload.data.badge || '',
+          title: payload.data.title || '',
+          description: payload.data.description || '',
+        });
       })
       .catch(() => {
         /* keep fallback */
@@ -34,6 +39,10 @@ const PackagesV3: React.FC<PackagesV3Props> = memo(({ initialItems }) => {
       cancelled = true;
     };
   }, [language]);
+
+  const badge = sectionCopy.badge || t.packages.badge;
+  const title = sectionCopy.title || t.packages.title;
+  const description = sectionCopy.description || t.packages.description;
 
   return (
     <section className="relative py-12 sm:py-16 lg:py-20 bg-[#F5EFE7] overflow-hidden">
@@ -45,19 +54,19 @@ const PackagesV3: React.FC<PackagesV3Props> = memo(({ initialItems }) => {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-xl mb-4 border border-amber-100">
             <span className="text-lg">🍽️</span>
             <span className="text-xs font-bold text-amber-900 tracking-wider uppercase">
-              {t.packages.badge}
+              {badge}
             </span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black text-gray-900 mb-3 sm:mb-4 leading-tight">
-            {t.packages.title.split(' ')[0]}{' '}
+            {title.split(' ')[0]}{' '}
             <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-clip-text text-transparent">
-              {t.packages.title.split(' ').slice(1).join(' ')}
+              {title.split(' ').slice(1).join(' ')}
             </span>
           </h2>
 
           <p className="text-sm sm:text-base lg:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
-            {t.packages.description}
+            {description}
           </p>
           <InternalLinkRow
             variant="packages"

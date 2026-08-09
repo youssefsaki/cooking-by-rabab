@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getFaqsContent, getPackagesContent, getSiteSettings } from '@/lib/content';
+import { getFaqsContent, getHeroContent, getPackagesContent, getSiteCopy, getSiteSettings } from '@/lib/content';
 import type { Locale } from '@/lib/types/cms';
 
 function localeFrom(request: Request): Locale {
@@ -24,6 +24,14 @@ export async function GET(request: Request) {
   }
   if (section === 'settings') {
     const data = await getSiteSettings();
+    return NextResponse.json({ ok: true, data });
+  }
+  if (section === 'site_copy' || section === 'copy') {
+    const data = await getSiteCopy(locale);
+    return NextResponse.json({ ok: true, data });
+  }
+  if (section === 'hero') {
+    const data = await getHeroContent(locale);
     return NextResponse.json({ ok: true, data });
   }
 

@@ -2,6 +2,13 @@ import { unstable_cache } from 'next/cache';
 import { createServiceClient } from '@/lib/supabase/server';
 import type { FaqsContent, Locale, PackagesContent, SiteSettingsData } from '@/lib/types/cms';
 import { DEFAULT_PACKAGES } from '@/lib/content-defaults';
+import {
+  defaultSiteCopy,
+  faqsFromCopy,
+  mergeCopy,
+  packagesFromCopy,
+  type SiteCopyBag,
+} from '@/lib/cms-fields';
 import faqsFallback from '@/data/faqs.json';
 import contactFallback from '@/data/contact.json';
 
@@ -26,28 +33,44 @@ async function fetchContentEntry(section: string, locale: Locale) {
   }
 }
 
+export const getSiteCopy = unstable_cache(
+  async (locale: Locale = 'en'): Promise<SiteCopyBag> => {
+    const defaults = defaultSiteCopy(locale);
+    const data = await fetchContentEntry('site_copy', locale);
+    if (data && typeof data === 'object') {
+      return mergeCopy(defaults, data as SiteCopyBag);
+    }
+    return defaults;
+  },
+  ['content-site-copy'],
+  { tags: ['content', 'site_copy'], revalidate: 30 }
+);
+
 export const getPackagesContent = unstable_cache(
   async (locale: Locale = 'en'): Promise<PackagesContent> => {
+    const copy = await getSiteCopy(locale);
     const data = await fetchContentEntry('packages', locale);
     if (data && Array.isArray((data as PackagesContent).items)) {
-      return data as unknown as PackagesContent;
+      return packagesFromCopy(copy, data as unknown as PackagesContent);
     }
-    return DEFAULT_PACKAGES;
+    return packagesFromCopy(copy, DEFAULT_PACKAGES);
   },
   ['content-packages'],
-  { tags: ['content', 'packages'], revalidate: 60 }
+  { tags: ['content', 'packages', 'site_copy'], revalidate: 30 }
 );
 
 export const getFaqsContent = unstable_cache(
   async (locale: Locale = 'en'): Promise<FaqsContent> => {
+    const copy = await getSiteCopy(locale);
     const data = await fetchContentEntry('faqs', locale);
-    if (data && Array.isArray((data as FaqsContent).faqs)) {
-      return data as unknown as FaqsContent;
-    }
-    return faqsFallback as FaqsContent;
+    const base =
+      data && Array.isArray((data as FaqsContent).faqs)
+        ? (data as unknown as FaqsContent)
+        : (faqsFallback as FaqsContent);
+    return faqsFromCopy(copy, base);
   },
   ['content-faqs'],
-  { tags: ['content', 'faqs'], revalidate: 60 }
+  { tags: ['content', 'faqs', 'site_copy'], revalidate: 30 }
 );
 
 export const getSiteSettings = unstable_cache(
@@ -77,11 +100,17 @@ export const getSiteSettings = unstable_cache(
 
 export const getHeroContent = unstable_cache(
   async (locale: Locale = 'en') => {
-    const data = await fetchContentEntry('hero', locale);
-    return data;
+    const copy = await getSiteCopy(locale);
+    return {
+      badge: copy['hero.badge'],
+      title: copy['hero.title'],
+      titleHighlight: copy['hero.titleHighlight'],
+      description: copy['hero.description'],
+      bookButton: copy['hero.bookButton'],
+    };
   },
   ['content-hero'],
-  { tags: ['content', 'hero'], revalidate: 60 }
+  { tags: ['content', 'hero', 'site_copy'], revalidate: 30 }
 );
 
 export { DEFAULT_PACKAGES };
