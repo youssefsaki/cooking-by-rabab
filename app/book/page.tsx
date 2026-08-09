@@ -107,6 +107,7 @@ function BookingForm() {
   const { t } = useLanguage();
   
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [phoneDialCode, setPhoneDialCode] = useState('212');
   const [phoneError, setPhoneError] = useState('');
 
@@ -127,35 +128,36 @@ function BookingForm() {
         setSubmitting(false);
         return;
       }
+      setSubmitError('');
       try {
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzQ3JkKD71-giIoQLQDLF1yaN7rJ1cxTCbFU4JBnRxGaWgk6w0iE-na2prwPZe7mfjomg/exec';
+        const response = await fetch('/api/bookings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(values),
+        });
 
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
-
-        try {
-          await fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(values),
-            signal: controller.signal,
-          });
-        } catch (fetchError) {
-          console.error('Fetch error (non-blocking):', fetchError);
-        } finally {
-          clearTimeout(timeoutId);
+        const result = await response.json().catch(() => ({ ok: false }));
+        if (!response.ok || !result.ok) {
+          setSubmitError(result.error || 'Could not save your booking. Please try again.');
+          setSubmitting(false);
+          return;
         }
-        
-        // Show success message
+
         setSubmitted(true);
-        
-        // Prepare WhatsApp message
-        const whatsappPhone = '212726671746'; // Your WhatsApp number
-        const packageName = values.packageType === 'basic' ? 'Basic Package (60 EUR)' : values.packageType === 'weekly-event' ? 'Weekly Event (80 EUR)' : 'Private Package (100 EUR)';
-        const dietaryText = values.dietaryPreference === 'none' ? 'No restrictions' : values.dietaryPreference.charAt(0).toUpperCase() + values.dietaryPreference.slice(1);
+
+        const whatsappPhone = '212726671746';
+        const packageName =
+          values.packageType === 'basic'
+            ? 'Basic Package (60 EUR)'
+            : values.packageType === 'weekly-event'
+              ? 'Weekly Event (80 EUR)'
+              : 'Private Package (100 EUR)';
+        const dietaryText =
+          values.dietaryPreference === 'none'
+            ? 'No restrictions'
+            : values.dietaryPreference.charAt(0).toUpperCase() + values.dietaryPreference.slice(1);
         const allergiesText = values.allergies || 'None';
-        
+
         const whatsappMessage = `🍽️ *New Booking Request*
 
 👤 *Name:* ${values.fullName}
@@ -168,7 +170,7 @@ function BookingForm() {
 ⚠️ *Allergies:* ${allergiesText}
 
 Looking forward to cooking with you! 🇲🇦`;
-        
+
         setTimeout(() => {
           const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`;
           const newWindow = window.open(whatsappUrl, '_blank');
@@ -178,8 +180,7 @@ Looking forward to cooking with you! 🇲🇦`;
         }, 1500);
       } catch (error) {
         console.error('Error submitting form:', error);
-        // Still show success even if there's an error
-        setSubmitted(true);
+        setSubmitError('Could not save your booking. Please check your connection and try again.');
       } finally {
         setSubmitting(false);
       }
@@ -704,6 +705,11 @@ Looking forward to cooking with you! 🇲🇦`;
             </div>
 
             {/* Submit Button */}
+            {submitError && (
+              <div className="mb-4 rounded-xl border-2 border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {submitError}
+              </div>
+            )}
             <button
               type="submit"
               disabled={formik.isSubmitting}

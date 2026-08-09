@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Star, Clock, Zap, Heart, HelpCircle } from 'lucide-react';
 import TabNavigation from '@/components/faq-contact/TabNavigation';
@@ -13,11 +13,26 @@ import faqData from '@/data/faqs.json';
 import contactData from '@/data/contact.json';
 
 const FAQContactPage: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [activeTab, setActiveTab] = useState('All');
-  
-  const faqs: FAQData = faqData;
-  const contactInfo: ContactInfo = contactData;
+  const [faqs, setFaqs] = useState<FAQData>(faqData);
+  const [contactInfo, setContactInfo] = useState<ContactInfo>(contactData);
+
+  useEffect(() => {
+    const locale = language.toLowerCase();
+    fetch(`/api/content?section=faqs&locale=${locale}`)
+      .then((r) => r.json())
+      .then((payload) => {
+        if (payload.ok && payload.data?.faqs) setFaqs(payload.data);
+      })
+      .catch(() => undefined);
+    fetch('/api/content?section=settings')
+      .then((r) => r.json())
+      .then((payload) => {
+        if (payload.ok && payload.data) setContactInfo(payload.data);
+      })
+      .catch(() => undefined);
+  }, [language]);
 
   const filteredFAQs = useMemo(() => {
     if (activeTab === 'All') {

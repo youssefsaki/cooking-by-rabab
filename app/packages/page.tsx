@@ -19,7 +19,22 @@ export default function PackagesPage() {
       }, 400);
     }
   }, []);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const [cmsPrices, setCmsPrices] = useState<Record<string, { price: string; currency: string; image?: string }>>({});
+
+  useEffect(() => {
+    fetch(`/api/content?section=packages&locale=${language.toLowerCase()}`)
+      .then((r) => r.json())
+      .then((payload) => {
+        if (!payload.ok || !payload.data?.items) return;
+        const map: Record<string, { price: string; currency: string; image?: string }> = {};
+        for (const item of payload.data.items) {
+          map[item.id] = { price: item.price, currency: item.currency, image: item.image };
+        }
+        setCmsPrices(map);
+      })
+      .catch(() => undefined);
+  }, [language]);
 
   const packagesData = [
     {
@@ -27,15 +42,15 @@ export default function PackagesPage() {
       name: t.packagesPage.basic.name,
       tagline: t.packagesPage.basic.tagline,
       subtitle: t.packagesPage.basic.subtitle,
-      price: "60",
-      currency: "EUR",
+      price: cmsPrices.basic?.price || "60",
+      currency: cmsPrices.basic?.currency || "EUR",
       duration: t.packagesPage.basic.duration,
       groupSize: t.packagesPage.basic.groupSize,
       startTime: "13:30",
       endTime: "19:30-20:00",
       pickup: "Taghazout Mosque",
       dropoff: "Taghazout or Tamraght",
-      image: "/packages/basic.jpg",
+      image: cmsPrices.basic?.image || "/packages/basic.jpg",
       alt: "Taghazout cooking class — half-day Berber village experience with tagine and clay oven bread in Atlas Mountains",
       popular: true,
       itinerary: t.packagesPage.basic.itinerary,
@@ -46,15 +61,15 @@ export default function PackagesPage() {
       name: t.packagesPage.weeklyEvent.name,
       tagline: t.packagesPage.weeklyEvent.tagline,
       subtitle: t.packagesPage.weeklyEvent.subtitle,
-      price: "80",
-      currency: "EUR",
+      price: cmsPrices['weekly-event']?.price || "80",
+      currency: cmsPrices['weekly-event']?.currency || "EUR",
       duration: t.packagesPage.weeklyEvent.duration,
       groupSize: t.packagesPage.weeklyEvent.groupSize,
       startTime: "15:00",
       endTime: "TBD",
       pickup: "Taghazout Mosque",
       dropoff: "Taghazout or Tamraght",
-      image: "/packages/weekly.jpeg",
+      image: cmsPrices['weekly-event']?.image || "/packages/weekly.jpeg",
       alt: "Weekly Amazigh music event Taghazout — Berber village sunset celebration and traditional cooking experience Morocco",
       itinerary: t.packagesPage.weeklyEvent.itinerary,
       includes: t.packagesPage.weeklyEvent.includes,
@@ -64,15 +79,15 @@ export default function PackagesPage() {
       name: t.packagesPage.private.name,
       tagline: t.packagesPage.private.tagline,
       subtitle: t.packagesPage.private.subtitle,
-      price: "100",
-      currency: "EUR",
+      price: cmsPrices.private?.price || "100",
+      currency: cmsPrices.private?.currency || "EUR",
       duration: t.packagesPage.private.duration,
       groupSize: t.packagesPage.private.groupSize,
       startTime: "Flexible",
       endTime: "Flexible",
       pickup: "Custom pickup available",
       dropoff: "Your accommodation",
-      image: "/packages/private-chef.jpg",
+      image: cmsPrices.private?.image || "/packages/private-chef.jpg",
       alt: "Private Moroccan cooking class Taghazout — exclusive Berber village culinary journey in Atlas Mountains",
       itinerary: t.packagesPage.private.itinerary,
       includes: t.packagesPage.private.includes,

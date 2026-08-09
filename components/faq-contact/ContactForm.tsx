@@ -15,6 +15,7 @@ const ContactForm: React.FC = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const subjectOptions = [
     'General Inquiry',
@@ -52,30 +53,42 @@ const ContactForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
 
     setIsSubmitting(true);
+    setSubmitError('');
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const result = await response.json().catch(() => ({ ok: false }));
 
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
-    });
-    setErrors({});
+      if (!response.ok || !result.ok) {
+        setSubmitError(result.error || 'Could not send your message. Please try again.');
+        setIsSubmitting(false);
+        return;
+      }
 
-    // Reset success message after 3 seconds
-    setTimeout(() => setIsSubmitted(false), 3000);
+      setIsSubmitted(true);
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+      });
+      setErrors({});
+      setTimeout(() => setIsSubmitted(false), 3000);
+    } catch {
+      setSubmitError('Could not send your message. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -192,6 +205,11 @@ const ContactForm: React.FC = () => {
         </div>
 
         {/* Submit Button */}
+        {submitError && (
+          <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+            {submitError}
+          </p>
+        )}
         <button
           type="submit"
           disabled={isSubmitting}

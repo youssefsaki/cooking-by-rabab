@@ -1,22 +1,8 @@
 'use client';
 
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { FiPlus, FiMinus } from 'react-icons/fi';
 import faqsData from '@/data/faqs.json';
-
-/**
- * FAQ SECTION - Design 3 of 3
- * 
- * Design 3: Minimalist Fullwidth Accordion
- * 
- * Aesthetic: Clean, editorial, magazine-style
- * - Large numbers for each FAQ
- * - Full-width accordion items
- * - Hover animations
- * - No categories (all shown)
- * - Plus/minus toggle icons
- * - Large typography
- */
 
 interface FAQ {
   id: string;
@@ -27,8 +13,22 @@ interface FAQ {
 
 const FAQSectionV3: React.FC = memo(() => {
   const [expandedFAQ, setExpandedFAQ] = useState<string | null>(null);
+  const [faqs, setFaqs] = useState<FAQ[]>(faqsData.faqs as FAQ[]);
 
-  const faqs = faqsData.faqs as FAQ[];
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/content?section=faqs&locale=en')
+      .then((r) => r.json())
+      .then((payload) => {
+        if (!cancelled && payload.ok && payload.data?.faqs?.length) {
+          setFaqs(payload.data.faqs);
+        }
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <section className="relative py-20 lg:py-32 overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
