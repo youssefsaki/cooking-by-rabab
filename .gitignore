@@ -31,6 +31,8 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.env*
+.admin-credentials.local
 
 # vercel
 .vercel
@@ -61,5 +63,6 @@ logs
 tmp/
 temp/
 *.tmp
-.env*
-.admin-credentials.local
+
+# Local booking fallback store
+/data/bookings-store.json

@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { HeroProps } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
 import InternalLinkRow from '@/components/InternalLinkRow';
@@ -16,6 +17,8 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
     titleHighlight?: string;
     description?: string;
     bookButton?: string;
+    bgDesktop?: string;
+    bgMobile?: string;
   } | null>(null);
 
   useEffect(() => {
@@ -36,6 +39,8 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
   const titleHighlight = cms?.titleHighlight || t.hero.titleHighlight;
   const description = cms?.description || t.hero.description;
   const bookButton = cms?.bookButton || t.hero.bookButton;
+  const bgDesktop = cms?.bgDesktop || '/hero/desktop/bg.webp';
+  const bgMobile = cms?.bgMobile || '/hero/mobile/bg.webp';
 
   useEffect(() => {
     let active = true;
@@ -82,12 +87,12 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
     >
       {/* Background Image - Desktop */}
       <Image
-        src="/hero/desktop/bg.jpg"
+        src={bgDesktop}
         alt={heroImageAlt}
         fill
         priority
         quality={75}
-        sizes="100vw"
+        sizes="(max-width: 767px) 0px, 100vw"
         className="hidden md:block"
         style={{
           objectFit: 'cover',
@@ -97,12 +102,12 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
       
       {/* Background Image - Mobile */}
       <Image
-        src="/hero/mobile/bg.jpg"
+        src={bgMobile}
         alt={heroImageAlt}
         fill
         priority
         quality={60}
-        sizes="(max-width: 768px) 100vw, 50vw"
+        sizes="(max-width: 767px) 100vw, 0px"
         className="block md:hidden"
         style={{
           objectFit: 'cover',
@@ -136,42 +141,54 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
           alignItems: 'center',
           justifyContent: 'center',
           padding: '1rem',
-          paddingTop: '5rem',
+          paddingTop: '4.5rem',
           zIndex: 2,
         }}
       >
-        <div className="text-center max-w-4xl mx-auto px-6 sm:px-6">
+        <div className="text-center max-w-4xl mx-auto px-4 sm:px-6">
           
           {/* Decorative Line */}
-          <div className="flex items-center justify-center gap-3 sm:gap-3 mb-5 sm:mb-5 lg:mb-6">
-            <div className="w-10 sm:w-10 lg:w-12 h-[1px] bg-amber-500"></div>
-            <span className="text-amber-500 text-[11px] sm:text-xs lg:text-sm font-medium tracking-[0.2em] sm:tracking-[0.25em] uppercase whitespace-nowrap px-2">
+          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-5 lg:mb-6">
+            <div className="w-8 sm:w-10 lg:w-12 h-[1px] bg-amber-500"></div>
+            <span className="text-amber-500 text-[10px] sm:text-xs lg:text-sm font-medium tracking-[0.18em] sm:tracking-[0.25em] uppercase whitespace-nowrap px-1 sm:px-2">
               {badge}
             </span>
-            <div className="w-10 sm:w-10 lg:w-12 h-[1px] bg-amber-500"></div>
+            <div className="w-8 sm:w-10 lg:w-12 h-[1px] bg-amber-500"></div>
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-white text-4xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light tracking-tight mb-5 sm:mb-5 lg:mb-7 leading-tight">
+          <h1 className="text-white text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light tracking-tight mb-4 sm:mb-5 lg:mb-7 leading-tight">
             <span className="block font-extralight italic">{title}</span>
-            <span className="block font-bold uppercase tracking-wider mt-3 sm:mt-3">{titleHighlight}</span>
+            <span className="block font-bold tracking-wide mt-2 sm:mt-3 text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-snug px-1">
+              {titleHighlight}
+            </span>
           </h1>
 
           {/* Thin Separator */}
-          <div className="w-20 sm:w-20 lg:w-24 h-[2px] bg-amber-500 mx-auto mb-5 sm:mb-5 lg:mb-7"></div>
+          <div className="w-16 sm:w-20 lg:w-24 h-[2px] bg-amber-500 mx-auto mb-4 sm:mb-5 lg:mb-7"></div>
 
           {/* Description */}
-          <p className="text-white/90 text-base sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto mb-4 sm:mb-4 lg:mb-5 font-normal px-2 sm:px-6">
-            {description}
+          <p className="text-white/90 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto mb-6 sm:mb-7 lg:mb-9 font-normal px-1 sm:px-6 [&_a]:text-amber-300 [&_a]:underline [&_a]:underline-offset-2 [&_a]:decoration-amber-500/60 [&_a:hover]:text-amber-200 [&_a:hover]:decoration-amber-400">
+            {cms?.description
+              ? description
+              : t.hero.descriptionSegments?.map((segment, index) =>
+                  segment.type === 'link' && segment.href ? (
+                    <Link key={index} href={segment.href}>
+                      {segment.value}
+                    </Link>
+                  ) : (
+                    <React.Fragment key={index}>{segment.value}</React.Fragment>
+                  )
+                ) ?? description}
           </p>
 
-          <InternalLinkRow variant="hero" className="text-white/80 max-w-2xl mx-auto mb-7 sm:mb-7 lg:mb-9 px-2 sm:px-6 [&_a]:text-amber-300 [&_a:hover]:text-amber-200" />
+          <InternalLinkRow variant="hero" className="sr-only" />
 
           {/* CTA Button */}
           <div>
             <a
               href="/book"
-              className="inline-block bg-amber-500 hover:bg-amber-600 text-white px-10 sm:px-10 lg:px-12 py-5 sm:py-4.5 lg:py-5 text-base sm:text-base lg:text-lg font-bold uppercase tracking-widest transition-all duration-300 hover:scale-105 hover:shadow-2xl rounded-lg"
+              className="inline-block bg-amber-500 hover:bg-amber-600 text-white px-8 sm:px-10 lg:px-12 py-4 sm:py-4.5 lg:py-5 text-sm sm:text-base lg:text-lg font-bold uppercase tracking-widest transition-all duration-300 hover:scale-105 hover:shadow-2xl rounded-lg"
               style={{ touchAction: 'manipulation' }}
             >
               {bookButton}

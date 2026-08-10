@@ -12,9 +12,82 @@
   "hero": {
     "badge": "TRADITIONELLE AMAZIGH-KÜCHE",
     "title": "Taghazout Kochkurs",
-    "titleHighlight": "AUTHENTISCH MAROKKANISCH",
-    "description": "Buchen Sie ein traditionelles Kocherlebnis in Taghazout. Verlassen Sie die Küste für einen halben Tag im Atlas — entdecken Sie Amazigh-Kultur, Lehmofenbrot und Tagines in einem 300 Jahre alten Berberdorf.",
+    "titleHighlight": "AUTHENTISCHE BERBER- und MAROKKANISCHE KÜCHE",
+    "description": "Auf der Suche nach den besten Dingen, die man in Taghazout unternehmen kann? Verlassen Sie die Küste für einen authentischen halbtägigen Atlas-Gebirge-Tagesausflug! Betreten Sie ein 300 Jahre altes Dorfhaus, entdecken Sie die Berberkultur und meistern Sie in unserem Hands-on-Workshop traditionelle marokkanische Küche — wählen Sie Ihr Gericht bei der Buchung.",
+    "descriptionSegments": [
+      {
+        "type": "text",
+        "value": "Auf der Suche nach den besten "
+      },
+      {
+        "type": "link",
+        "value": "Dingen, die man in Taghazout unternehmen kann?",
+        "href": "/#things-to-do-taghazout"
+      },
+      {
+        "type": "text",
+        "value": " Verlassen Sie die Küste für einen authentischen halbtägigen "
+      },
+      {
+        "type": "link",
+        "value": "Atlas-Gebirge-Tagesausflug!",
+        "href": "/ourstory/location"
+      },
+      {
+        "type": "text",
+        "value": " Betreten Sie ein 300 Jahre altes Dorfhaus, entdecken Sie die Berberkultur und meistern Sie in unserem Hands-on-Workshop "
+      },
+      {
+        "type": "link",
+        "value": "traditionelle marokkanische Küche — wählen Sie Ihr Gericht bei der Buchung.",
+        "href": "/experiences"
+      }
+    ],
     "bookButton": "BUCHEN SIE IHR ERLEBNIS"
+  },
+  "heroIntro": {
+    "badge": "VON TAGHAZOUT IN DEN ATLAS",
+    "title": "Auf der Suche nach den besten Dingen in Taghazout?",
+    "cta": "BUCHEN SIE IHR ERLEBNIS",
+    "descriptionSegments": [
+      {
+        "type": "text",
+        "value": "Verlassen Sie die Küste für einen authentischen halbtägigen "
+      },
+      {
+        "type": "link",
+        "value": "Atlas-Gebirge-Tagesausflug!",
+        "href": "/ourstory/location"
+      },
+      {
+        "type": "text",
+        "value": " Betreten Sie ein 300 Jahre altes Dorfhaus, entdecken Sie die Berberkultur und meistern Sie in unserem Hands-on-Workshop "
+      },
+      {
+        "type": "link",
+        "value": "traditionelle marokkanische Küche — wählen Sie Ihr Gericht bei der Buchung.",
+        "href": "/experiences"
+      }
+    ],
+    "includedTitle": "Was Inbegriffen Ist",
+    "included": [
+      {
+        "title": "Ihre Gerichtswahl:",
+        "description": "Tagine, Msemen, Couscous oder Rfissa — Sie wählen bei der Buchung"
+      },
+      {
+        "title": "Hands-On-Erlebnis:",
+        "description": "Backen Sie traditionelles Lehmofenbrot & machen Sie Ihr eigenes steingemahlenes Amlou"
+      },
+      {
+        "title": "Volles Festmahl:",
+        "description": "Genießen Sie ein Menü mit mehreren Gängen und Bergblick"
+      },
+      {
+        "title": "Kostenloser Transport:",
+        "description": "Hin- und Rücktransfer von der Taghazout-Moschee inklusive"
+      }
+    ]
   },
   "packages": {
     "badge": "WÄHLEN SIE IHR ERLEBNIS",
@@ -22,68 +95,106 @@
     "description": "Wählen Sie Ihr traditionelles Kocherlebnis in Taghazout — halbtägige Berberdorf-Reise im Atlas, nur 15 Minuten von der Küste.",
     "mostPopular": "Am Beliebtesten",
     "basic": {
-      "title": "Basis-Paket",
+      "title": "Die Authentische Berg- & Kulinarik-Flucht",
       "subtitle": "Ihre Reise in die Berge",
-      "description": "Ein halbtägiges immersives Kulturerlebnis",
-      "price": "500 MAD/Person",
-      "duration": "6 Stunden",
-      "startTime": "Beginn um 13:30 Uhr",
+      "description": "Verlassen Sie die Küste für einen halben Tag im Atlas. Besichtigen Sie ein historisches Dorfhaus, mahlen Sie frisches Amlou und kochen Sie das traditionelle Gericht Ihrer Wahl.",
+      "price": "Ab 65 EUR/Person",
+      "duration": "4 Stunden",
+      "startTime": "Flexibler Start",
       "pickup": "Abholung an der Taghazout-Moschee"
     },
     "private": {
-      "title": "Privat-Paket",
-      "subtitle": "Ihr Exklusives Bergerlebnis",
-      "description": "Eine personalisierte ganztägige Kulturreise",
-      "price": "800 MAD/Person",
-      "startTime": "Flexible Startzeit",
-      "pickup": "Hotel-Abholung inklusive"
+      "title": "Privates Workshop-Erlebnis",
+      "subtitle": "Privates Kochen in unserem Dorf-Workshop",
+      "description": "Ein privates Kocherlebnis nur für Ihre Gruppe in unserem traditionellen Dorf-Workshop — perfekt für Paare und kleine Feiern.",
+      "price": "80 EUR/Person",
+      "startTime": "Flexibler Start",
+      "pickup": "Abholung an der Taghazout-Moschee"
     },
     "viewDetails": "Details Anzeigen",
-    "bookNow": "Jetzt Buchen"
+    "bookNow": "Jetzt Buchen",
+    "privateAtLocation": {
+      "title": "Rabab Kommt Zu Ihnen",
+      "subtitle": "Privates Kochen in Ihrer Villa oder Ihrem Riad",
+      "description": "Wir bringen das volle Kocherlebnis zu Ihrer Villa oder Ihrem Riad — ideal für Familientreffen und größere Feiern.",
+      "price": "100 EUR/Person",
+      "startTime": "Flexibler Start",
+      "pickup": "An Ihrem Standort"
+    }
   },
   "experiences": {
     "title": "Marokkanische Koch",
     "titleHighlight": "Erlebnisse in Taghazout",
-    "description": "Fünf marokkanische Kocherlebnisse in Taghazout — von der Tajine-Meisterklasse und Lehmofenbrot bis zum Amlou-Workshop und Berberdorf-Immersion.",
+    "description": "Fünf marokkanische Kocherlebnisse in Taghazout — von der Marokkanischen Koch-Meisterklasse und Lehmofenbrot bis zum Amlou-Workshop und Berberdorf-Immersion.",
     "bookExperience": "Ein Erlebnis Buchen",
     "ctaTitle": "Bereit für Ihre",
     "ctaTitleHighlight": "Kulinarische Reise?",
     "ctaDescription": "Buchen Sie noch heute Ihr authentisches marokkanisches Kocherlebnis und schaffen Sie unvergessliche Erinnerungen im Atlas-Gebirge.",
     "viewPackages": "Pakete Anzeigen",
     "tajine": {
-      "title": "Tajine-Meisterklasse Taghazout",
-      "subtitle": "Marokkos Ikonisches Gericht",
-      "description": "Meistern Sie die Kunst von Marokkos ikonischstem Gericht in diesem umfassenden Kurs.",
-      "longDescription": "Meistern Sie die Kunst von Marokkos ikonischstem Gericht in diesem umfassenden Kurs. Lernen Sie, langsam gegarte Tajines mit aromatischen Gewürzen, zartem Fleisch und Gemüse in traditionellen Tontöpfen zuzubereiten und die perfekte Balance der Aromen zu erreichen, die die marokkanische Tajine weltberühmt macht.",
-      "highlights": ["Tontopf-Kochtechniken", "Gewürzschichten & -mischungen", "Fleisch- & Gemüse-Tajines", "Eingelegte Zitronen zubereiten", "Traditionelle Serviermethoden"]
+      "title": "Marokkanische Koch-Meisterklasse (Tagine, Msemen, Couscous oder Rfissa)",
+      "subtitle": "Wählen Sie Ihr Traditionelles Gericht",
+      "description": "Kochen Sie das traditionelle marokkanische Gericht Ihrer Wahl.",
+      "longDescription": "Wählen Sie Ihr Gericht — Tagine, Msemen, Couscous oder Rfissa — und lernen Sie, es auf traditionelle Weise in einer authentischen Dorfküche zuzubereiten. Meistern Sie aromatische Gewürze, praktische Techniken und Familienrezepte, die über Generationen im Atlas weitergegeben wurden.",
+      "highlights": [
+        "Ihre Wahl: Tagine, Msemen, Couscous oder Rfissa",
+        "Traditionelle Kochtechniken",
+        "Aromatische Gewürzmischungen",
+        "Hands-on-Erlebnis in der Dorfküche",
+        "Vegetarische & vegane Optionen verfügbar"
+      ]
     },
     "amazigh": {
       "title": "Berberdorf-Kocherlebnis",
       "subtitle": "Alte Berber-Traditionen",
       "description": "Tauchen Sie ein in die authentische Amazigh-Kultur und kulinarische Traditionen.",
       "longDescription": "Tauchen Sie ein in die authentische Amazigh-Kultur und kulinarische Traditionen. Lernen Sie alte Kochmethoden, traditionelle Rezepte und die reichen kulturellen Geschichten hinter der Amazigh-Küche, die über Generationen in den Atlas-Bergen weitergegeben wurden.",
-      "highlights": ["Traditionelle Kochmethoden", "Kulturelles Geschichtenerzählen", "Authentische Berber-Rezepte", "Amazigh-Geschichte & Bräuche", "Familienessen"]
+      "highlights": [
+        "Traditionelle Kochmethoden",
+        "Kulturelles Geschichtenerzählen",
+        "Authentische Berber-Rezepte",
+        "Amazigh-Geschichte & Bräuche",
+        "Familienessen"
+      ]
     },
     "tea": {
       "title": "Marokkanische Minztee-Zeremonie",
       "subtitle": "Die Kunst des Marokkanischen Minztees",
       "description": "Erleben Sie die Eleganz der traditionellen marokkanischen Teezeremonie.",
       "longDescription": "Erleben Sie die Eleganz der traditionellen marokkanischen Teezeremonie. Lernen Sie die richtigen Techniken für die perfekte Minztee-Zubereitung, meistern Sie die ikonische Hochguss-Methode und verstehen Sie die kulturelle Bedeutung von Tee in der marokkanischen Gastfreundschaft.",
-      "highlights": ["Teeauswahl & Qualität", "Hochguss-Technik meistern", "Frische Minze zubereiten", "Kulturelle Bedeutung", "Traditionelle Gläser"]
+      "highlights": [
+        "Teeauswahl & Qualität",
+        "Hochguss-Technik meistern",
+        "Frische Minze zubereiten",
+        "Kulturelle Bedeutung",
+        "Traditionelle Gläser"
+      ]
     },
     "bread": {
       "title": "Lehmofenbrot Taghazout",
       "subtitle": "Holzfeuer-Tradition",
       "description": "Erleben Sie die alte Kunst des Backens von traditionellem marokkanischem Brot.",
       "longDescription": "Erleben Sie die alte Kunst des Backens von traditionellem marokkanischem Brot in einem holzbefeuerten Lehmofen. Vom Kneten des Teigs von Hand bis zum Erreichen der perfekten goldenen Kruste – lernen Sie authentische Amazigh-Brotbacktechniken, die seit Jahrhunderten unverändert geblieben sind.",
-      "highlights": ["Teigzubereitung von Grund auf", "Handknettechniken", "Lehmofen-Backen", "Verschiedene Brotsorten", "Holzfeuer-Management"]
+      "highlights": [
+        "Teigzubereitung von Grund auf",
+        "Handknettechniken",
+        "Lehmofen-Backen",
+        "Verschiedene Brotsorten",
+        "Holzfeuer-Management"
+      ]
     },
     "amlou": {
       "title": "Amlou-Workshop Marokko",
       "subtitle": "Flüssiges Gold Marokkos",
       "description": "Entdecken Sie die Geheimnisse der Herstellung von traditionellem marokkanischem Amlou.",
       "longDescription": "Entdecken Sie die Geheimnisse der Herstellung von traditionellem marokkanischem Amlou – einer köstlichen Mischung aus Arganöl, gerösteten Mandeln und Honig. Lernen Sie traditionelle Mahltechniken mit alten Mühlsteinen und erreichen Sie die perfekte Konsistenz für diesen beliebten Berber-Aufstrich.",
-      "highlights": ["Arganöl-Wissen", "Mandeln rösten & mahlen", "Traditionellen Mühlstein verwenden", "Perfekte Konsistenz", "Honig-Mischtechniken"]
+      "highlights": [
+        "Arganöl-Wissen",
+        "Mandeln rösten & mahlen",
+        "Traditionellen Mühlstein verwenden",
+        "Perfekte Konsistenz",
+        "Honig-Mischtechniken"
+      ]
     }
   },
   "booking": {
@@ -100,6 +211,7 @@
     "packageType": "Paket Auswählen",
     "basicPackage": "Basis-Paket - 500 MAD",
     "privatePackage": "Privat-Paket - 800 MAD",
+    "privateAtLocationPackage": "Rabab kommt zu Ihnen - 100 EUR",
     "dietary": "Ernährungspräferenzen",
     "dietaryNone": "Keine Einschränkungen",
     "dietaryVegetarian": "Vegetarisch",
@@ -112,7 +224,30 @@
     "successMessage": "Vielen Dank für Ihre Buchungsanfrage! Wir werden Sie in Kürze kontaktieren, um Ihr Erlebnis zu bestätigen.",
     "bookAnother": "Ein Weiteres Erlebnis Buchen",
     "backHome": "Zurück zur Startseite",
-    "disclaimer": "Mit dem Absenden dieses Formulars wird Ihre Buchungsanfrage gespeichert und wir werden Sie in Kürze kontaktieren, um diese zu bestätigen."
+    "disclaimer": "Mit dem Absenden dieses Formulars wird Ihre Buchungsanfrage gespeichert und wir werden Sie in Kürze kontaktieren, um diese zu bestätigen.",
+    "calendarTitle": "Wählen Sie Ihren Tag",
+    "calendarSubtitle": "Wählen Sie einen verfügbaren Vormittags- oder Nachmittagsworkshop. Kostenloser Abholungspunkt: Taghazout Mosque.",
+    "changeSlot": "Datum / Uhrzeit ändern",
+    "selectedSlot": "Ausgewählter Workshop",
+    "pickupLabel": "Abholung",
+    "adults": "Anzahl Erwachsene",
+    "adultsHint": "Mindestens 3 Erwachsene für das Basic-Paket",
+    "childrenQuestion": "Kommen Kinder mit?",
+    "childrenYes": "Ja",
+    "childrenNo": "Nein",
+    "childAge": "Alter des Kindes",
+    "addChild": "Weiteres Kind hinzufügen",
+    "removeChild": "Entfernen",
+    "priceSummary": "Preisübersicht",
+    "adultsSubtotal": "Erwachsene",
+    "childrenSubtotal": "Kinder",
+    "total": "Gesamt",
+    "slotConflict": "Dieser Zeitslot ist bereits gebucht. Bitte wählen Sie einen anderen verfügbaren Slot.",
+    "childrenPricingNote": "0–3 Jahre gratis · 4–9 halb · 10+ voll",
+    "chooseDish": "Wählen Sie ein Gericht für Ihre Gruppe",
+    "chooseDishHint": "Alle kochen und essen dasselbe Gericht. Eine gemeinsame Wahl für die Buchung — nicht pro Person.",
+    "dietaryNotes": "Ernährungshinweise / Allergien",
+    "dietaryNotesPlaceholder": "z. B. ein Gast ohne Fleisch, Nussallergie — Hinweis für den Gastgeber, keine zweite Gerichtswahl"
   },
   "common": {
     "readMore": "Mehr Lesen",
@@ -148,7 +283,7 @@
       "bookNow": "Kochkurs in der Nähe von Taghazout buchen"
     },
     "experienceLinks": {
-      "tajine": "Tajine-Meisterklasse Taghazout",
+      "tajine": "Marokkanische Koch-Meisterklasse Taghazout",
       "amazigh": "Berberdorf-Kocherlebnis",
       "tea": "Marokkanische Minztee-Zeremonie",
       "bread": "Tonofenbrot Taghazout",
@@ -157,19 +292,46 @@
   },
   "internalLinks": {
     "hero": [
-      { "href": "/book", "label": "Taghazout Kochkurs buchen" },
-      { "href": "/packages", "label": "Kochkurs-Pakete Taghazout" },
-      { "href": "/experiences", "label": "Marokkanische Kocherlebnisse" }
+      {
+        "href": "/book",
+        "label": "Taghazout Kochkurs buchen"
+      },
+      {
+        "href": "/packages",
+        "label": "Kochkurs-Pakete Taghazout"
+      },
+      {
+        "href": "/experiences",
+        "label": "Marokkanische Kocherlebnisse"
+      }
     ],
     "packages": [
-      { "href": "/book", "label": "Kochkurs in der Nähe von Taghazout buchen" },
-      { "href": "/experiences#tajine-masterclass", "label": "Tajine-Meisterklasse Taghazout" },
-      { "href": "/events", "label": "Aktivitäten außer Surfen Taghazout" }
+      {
+        "href": "/book",
+        "label": "Kochkurs in der Nähe von Taghazout buchen"
+      },
+      {
+        "href": "/experiences#cooking-masterclass",
+        "label": "Marokkanische Koch-Meisterklasse Taghazout"
+      },
+      {
+        "href": "/events",
+        "label": "Aktivitäten außer Surfen Taghazout"
+      }
     ],
     "experience": [
-      { "href": "/book", "label": "Taghazout Kochkurs buchen" },
-      { "href": "/ourstory/meet-the-chef", "label": "Rabab kennenlernen — Kochkurs-Gastgeberin" },
-      { "href": "/ourstory/location", "label": "Atlas-Tagesausflug ab Taghazout" }
+      {
+        "href": "/book",
+        "label": "Taghazout Kochkurs buchen"
+      },
+      {
+        "href": "/ourstory/meet-the-chef",
+        "label": "Rabab kennenlernen — Kochkurs-Gastgeberin"
+      },
+      {
+        "href": "/ourstory/location",
+        "label": "Atlas-Tagesausflug ab Taghazout"
+      }
     ]
   },
   "heroSection": {
@@ -177,7 +339,7 @@
     "learnToCook": "Lernen Sie Amazigh kochen",
     "learnToCookPart1": "Marokkanischer Kochkurs",
     "learnToCookPart2": "in Taghazout",
-    "description": "Gehen Sie über die Restaurants hinaus und lernen Sie kochen wie ein Einheimischer. Unser authentischer Berber-Kochkurs führt Sie in ein traditionelles Dorfhaus, nur 15 Minuten oberhalb der Küste von Taghazout. Sie werden die Kunst der Tontopf-Tajine meistern, lernen, traditionelles Bergbrot zu backen, und die geheimen Gewürzmischungen des Atlas-Gebirges entdecken. Dieses immersive Halbtages-Erlebnis ist der perfekte Weg, die Amazigh- und Berber-Kultur durch ihre berühmtesten Aromen zu entdecken.",
+    "description": "Gehen Sie über die Restaurants hinaus und lernen Sie kochen wie ein Einheimischer. Unser authentischer Berber-Kochkurs führt Sie in ein traditionelles Dorfhaus, nur 15 Minuten oberhalb der Küste von Taghazout. Sie werden traditionelle marokkanische Gerichte Ihrer Wahl meistern — Tagine, Msemen, Couscous oder Rfissa — lernen, traditionelles Bergbrot zu backen, und die geheimen Gewürzmischungen des Atlas-Gebirges entdecken. Dieses immersive Halbtages-Erlebnis ist der perfekte Weg, die Amazigh- und Berber-Kultur durch ihre berühmtesten Aromen zu entdecken.",
     "bookClass": "BUCHEN SIE IHREN KURS",
     "duration": "DAUER",
     "group": "GÄSTE",
@@ -185,7 +347,7 @@
     "dishesLowercase": "Gerichte",
     "handsOn": "PRAKTISCH",
     "experienceIncludes": "Erlebnis beinhaltet",
-    "ratedBy": "4,9 von 500+ bewertet",
+    "ratedBy": "Bewertet mit 5,0 von 500+",
     "reviews": "500+ Bewertungen",
     "amazighExperience": "Amazigh-Erlebnis",
     "cookLikeLocal": "Kochen",
@@ -197,30 +359,51 @@
   "experience": {
     "title": "DIE REISE",
     "subtitle": "Traditionelles Kocherlebnis in Taghazout",
-    "description": "Erleben Sie eine authentische Berberdorf-Kochreise — Abholung in Taghazout, hands-on Tajine und Brot, und Familienfest im Atlas-Gebirge.",
+    "description": "Erleben Sie eine authentische Berberdorf-Kochreise — Abholung in Taghazout, Hands-on-Kochen Ihres gewählten Gerichts und Brot, und Familienfest im Atlas-Gebirge.",
     "step1": {
       "title": "Abholung & Reise",
       "subtitle": "Ihr Abenteuer Beginnt",
       "description": "Wir holen Sie in Taghazout ab und bringen Sie auf einer malerischen 15-20-minütigen Fahrt durch die atemberaubende marokkanische Landschaft zu einem authentischen traditionellen Haus. Beobachten Sie, wie sich die Landschaft verwandelt, wenn wir die Küste hinter uns lassen.",
-      "highlights": ["Komfortable Abholung an der Taghazout-Moschee", "Malerische Landschaftsfahrt", "Lernen Sie die lokale Kultur kennen", "Ankunft im traditionellen Workshop"]
+      "highlights": [
+        "Komfortable Abholung an der Taghazout-Moschee",
+        "Malerische Landschaftsfahrt",
+        "Lernen Sie die lokale Kultur kennen",
+        "Ankunft im traditionellen Workshop"
+      ]
     },
     "step2": {
       "title": "Traditionelle Küchentour",
       "subtitle": "Wo Magie Geschieht",
-      "description": "Treten Sie in eine authentische marokkanische Küche ein und entdecken Sie die traditionellen Werkzeuge und Techniken, die seit Generationen verwendet werden. Sehen Sie den Holzofen, traditionelle Tajines und den Arbeitsbereich, wo Sie Ihr Festmahl zubereiten werden.",
-      "highlights": ["Bereiten Sie Ihren eigenen Tee mit lokalen Kräutern zu", "Genießen Sie Tee mit marokkanischen handgemachten Süßigkeiten", "Authentische Küche erkunden", "Holzofen-Demonstration"]
+      "description": "Treten Sie in eine authentische marokkanische Küche ein und entdecken Sie die traditionellen Werkzeuge und Techniken, die seit Generationen verwendet werden. Sehen Sie den Holzofen, Tontöpfe und den Arbeitsbereich, wo Sie Ihr gewähltes Gericht zubereiten — Tagine, Msemen, Couscous oder Rfissa.",
+      "highlights": [
+        "Bereiten Sie Ihren eigenen Tee mit lokalen Kräutern zu",
+        "Genießen Sie Tee mit hausgemachten marokkanischen Süßigkeiten",
+        "Entdecken Sie Werkzeuge für Tagine, Msemen, Couscous & Rfissa",
+        "Holzofen-Demonstration"
+      ]
     },
     "step3": {
       "title": "Praktisches Kochen",
       "subtitle": "Rezepte aus Generationen",
-      "description": "In einer echten marokkanischen Küche lernen Sie authentische Kochtechniken, die über Generationen weitergegeben wurden. Von der Tajine-Zubereitung bis zum Backen von frischem Brot im traditionellen Holzofen – so wird wirklich gekocht.",
-      "highlights": ["Den Teig kneten", "Brotbacken im Holzofen", "Lokale Berber-Tajine zubereiten (salzig und süß)", "Marokkanischen Aufstrich Amlou herstellen", "Familienrezepte & Geheimnisse"]
+      "description": "In einer echten marokkanischen Küche lernen Sie authentische Kochtechniken, die über Generationen weitergegeben wurden. Von der Zubereitung Ihres gewählten traditionellen Gerichts bis zum Backen von frischem Brot im traditionellen Holzofen – so wird wirklich gekocht.",
+      "highlights": [
+        "Den Teig kneten",
+        "Brotbacken im Holzofen",
+        "Bereiten Sie Ihr gewähltes traditionelles Gericht zu (Tagine, Msemen, Couscous oder Rfissa)",
+        "Marokkanischen Aufstrich Amlou herstellen",
+        "Familienrezepte & Geheimnisse"
+      ]
     },
     "step4": {
       "title": "Festmahl & Rückkehr",
       "subtitle": "Das Herz der Gastfreundschaft",
       "description": "Versammeln Sie sich am Tisch in einem traditionellen marokkanischen Haus, um das unglaubliche Essen zu genießen, das Sie kreiert haben. Teilen Sie Geschichten, Lachen und erleben Sie echte marokkanische Gastfreundschaft, bevor wir Sie zurück nach Taghazout bringen.",
-      "highlights": ["Festmahl in authentischer Umgebung", "Minztee mit Blick auf den Sonnenuntergang", "Rezeptheft", "Rückkehr nach Taghazout"]
+      "highlights": [
+        "Festmahl in authentischer Umgebung",
+        "Minztee mit Blick auf den Sonnenuntergang",
+        "Rezeptheft",
+        "Rückkehr nach Taghazout"
+      ]
     },
     "finalTitle": "Erleben Sie Authentisches Marokko",
     "finalDescription": "Begleiten Sie uns auf einer Reise, die über das Kochen hinausgeht. Es geht um Verbindung, Kultur und Gemeinschaft—alles eingehüllt in die Wärme marokkanischer Gastfreundschaft.",
@@ -228,15 +411,35 @@
     "learnMore": "Mehr Erfahren"
   },
   "community": {
-    "badge": "GEMEINSCHAFTSENGAGEMENT",
-    "title": "Ihre Mahlzeit Unterstützt Lokale Kinder",
-    "description": "Jeder Kochkurs kommt direkt den Kindern im Dorf Tamsoult zugute. Wir stellen jeden Monat über 10 Kindern Schulmaterial, nahrhafte Mahlzeiten und Bildungsunterstützung zur Verfügung.",
-    "quote": "In der Amazigh-Kultur glauben wir, dass Kochen nicht nur um Essen geht – es geht darum, unsere Gemeinschaft zu nähren. Wenn Sie mit mir kochen, werden Sie Teil unserer Dorffamilie.",
-    "readMore": "Mehr Über Unsere Mission Erfahren",
-    "bookGiveBack": "Buchen & Geben Sie Zurück",
-    "impactItems": ["📚 Schulmaterial & Rucksäcke", "🍲 Nahrhafte Mahlzeiten", "🧸 Spielzeug für Kinder", "👕 Kleidung für Kinder"],
-    "children": "Kinder",
+    "badge": "GEMEINSCHAFTSIMPULSE",
+    "title": "Ihre Mahlzeit Unterstützt Dorftiere",
+    "description": "Jeder Kochkurs unterstützt direkt die Tiere des Dorfes Tamsoult. Wir kümmern uns um 1 Hund, 4 Katzen und eine Herde von 30 Hühnern — mit Futter, Unterkunft und Pflege für die Tiere, die unsere Gemeinschaft teilen.",
+    "quote": "In der Amazigh-Kultur glauben wir, dass Kochen nicht nur mit Essen zu tun hat – es geht darum, unsere Gemeinschaft zu nähren. Wenn Sie mit mir kochen, werden Sie Teil unserer Dorffamilie.",
+    "readMore": "Mehr über unsere Mission",
+    "bookGiveBack": "Buchen & Zurückgeben",
+    "impactItems": [
+      "35+ Betreute Tiere",
+      "100% Trinkgelder Gespendet",
+      "1 Hund · 4 Katzen · 30 Hühner"
+    ],
+    "statAnimals": "Betreute Tiere",
+    "statMix": "Hund · Katzen · Hühner",
     "tipsDonated": "Trinkgelder Gespendet",
+    "meetCats": "Treffen Sie die Dorfkatzen",
+    "meetChickens": "Treffen Sie die Hühner",
+    "cats": {
+      "badge": "4 Dorfkatzen",
+      "title": "Die Dorfkatzen",
+      "description": "Vier freundliche Katzen teilen unser Dorfhaus und den Küchenhof. Ein Teil jedes Kurses geht in ihre täglichen Mahlzeiten, Unterkunft und Pflege — die stillen Begleiter des Lebens in Tamsoult.",
+      "imageAlt": "Dorfkatzen betreut durch den Taghazout-Kochkurs in Tamsoult Marokko"
+    },
+    "chickens": {
+      "badge": "30 Hühner",
+      "title": "Die Dorfherde",
+      "description": "Eine Herde von 30 Hühnern lebt mit uns im Dorf. Ihr Kurs hilft, sie zu füttern und zu schützen — und Gäste treffen sie oft als Teil des echten Amazigh-Dorflebens.",
+      "imageAlt": "Dorftiere Hühner unterstützt durch den Taghazout-Kochkurs im Atlas"
+    },
+    "children": "Kinder",
     "schools": "Schulen"
   },
   "reviews": {
@@ -256,17 +459,33 @@
     "callUs": "Rufen Sie Uns An",
     "messageUs": "Nachricht Schreiben",
     "writeUs": "E-Mail Schreiben",
-    "step1": { "title": "Landung am Flughafen Agadir", "description": "Wir warten auf Sie zur Abholung – kostenlos für alle Gäste!", "time": "0 min" },
-    "step2": { "title": "Malerische Küstenfahrt", "description": "Genießen Sie die schöne Aussicht auf den Atlantischen Ozean.", "time": "25 min" },
-    "step3": { "title": "Ankunft in Taghazout", "description": "Betreten Sie unser traditionelles Amazigh-Dorfhaus.", "time": "30 min" },
-    "step4": { "title": "Treffen Sie Rabab", "description": "Willkommenstee und beginnen Sie Ihr kulinarisches Abenteuer!", "time": "Los geht's kochen! 👩‍🍳" }
+    "step1": {
+      "title": "Landung am Flughafen Agadir",
+      "description": "Wir warten auf Sie zur Abholung – kostenlos für alle Gäste!",
+      "time": "0 min"
+    },
+    "step2": {
+      "title": "Malerische Küstenfahrt",
+      "description": "Genießen Sie die schöne Aussicht auf den Atlantischen Ozean.",
+      "time": "25 min"
+    },
+    "step3": {
+      "title": "Ankunft in Taghazout",
+      "description": "Betreten Sie unser traditionelles Amazigh-Dorfhaus.",
+      "time": "30 min"
+    },
+    "step4": {
+      "title": "Treffen Sie Rabab",
+      "description": "Willkommenstee und beginnen Sie Ihr kulinarisches Abenteuer!",
+      "time": "Los geht's kochen! 👩‍🍳"
+    }
   },
   "packageHighlights": {
     "basic": [
       "300 Jahre altes Amazigh-Haus besichtigen",
       "Marokkanische Minztee-Zeremonie",
       "Traditionelles Dorfbrot backen",
-      "Authentischer Tajine-Koch-Workshop"
+      "Ihre Gerichtswahl (Tagine, Msemen, Couscous oder Rfissa)"
     ],
     "private": [
       "Komplett privates Erlebnis",
@@ -277,39 +496,49 @@
   },
   "events": {
     "badge": "Aktivitäten in Taghazout außer Surfen",
-    "seoSubtitle": "Wöchentliches Amazigh-Musik-Event — Jeden Donnerstag oberhalb von Taghazout",
+    "seoSubtitle": "Wöchentliches Berber-Musik-Event bei Sonnenuntergang — Jeden Samstag oberhalb von Taghazout",
     "title1": "ERLEBEN SIE DIE",
     "title2": "Amazigh",
     "title3": "MUSIK",
-    "description": "Suchen Sie Aktivitäten in Taghazout außer Surfen? Nehmen Sie an unserem wöchentlichen Amazigh-Musik- und Kultur-Event teil — Ahwach-Aufführungen, Berber-Musiker, Geschichten und Minztee jeden Donnerstag im Atlas.",
-    "everyThursday": "Jeden Donnerstag",
-    "time": "17:00 - 18:00",
-    "atlasLocation": "Atlas-Gebirge",
-    "amazighMusicians": "Amazigh-Musiker",
+    "description": "Nehmen Sie an unserem wöchentlichen Berber-Musik-Event bei Sonnenuntergang in einem traditionellen Amazigh-Dorf teil — Musik, Grill im Lehmofen, Minztee und Feier. Abholung an der Taghazout-Moschee inklusive.",
+    "everySaturday": "Jeden Samstag",
+    "time": "15:00 · 4 Stunden",
+    "groupSize": "6–13 Gäste",
+    "price": "80 € / Person",
+    "atlasLocation": "Amazigh-Dorf",
+    "amazighMusicians": "Amazigh Dorf Musik-Gala",
     "photoComingSoon": "Foto Kommt Bald",
     "liveTheMusic": "Erleben",
     "theMusic": "die Musik",
     "whatToExpect": "WAS SIE ERWARTET",
+    "highlights": [
+      "Jeden Samstag um 15:00",
+      "Mindestens 6 Gäste",
+      "Abholung an der Taghazout-Moschee",
+      "Minztee-Zeremonie",
+      "Bereiten Sie Ihren Grill zu",
+      "Traditionelle Amazigh-Musik & Feier"
+    ],
     "ahwach": {
-      "title": "Ahwach-Aufführung",
-      "description": "Erleben Sie authentischen Ahwach-Tanz und Musik in traditionellen Kreisen, die Gesang, Tanz und Poesie verbinden, geleitet von lokalen Amazigh-Künstlern."
+      "title": "Traditionelle Amazigh-Musik",
+      "description": "Erleben Sie live Berber-Musik und Feier in einem traditionellen Dorf — das Herzstück unseres wöchentlichen Events bei Sonnenuntergang."
     },
-    "storytelling": {
-      "title": "Kulturelles Geschichtenerzählen",
-      "description": "Erleben Sie traditionelle Poesie und Geschichten, die über Generationen weitergegeben wurden und das Amazigh-Erbe und die Verbundenheit mit dem Land feiern."
+    "bbq": {
+      "title": "Grill im Lehmofen",
+      "description": "Bereiten Sie Ihren Grill im Lehmofen mit frisch gebackenem traditionellem Brot zu — ein Festmahl für die Gruppe."
     },
     "musicians": {
-      "title": "Live-Musiker",
-      "description": "Genießen Sie Live-Auftritte mit traditionellen Instrumenten wie der Bendir-Trommel, dem Ribab-Saiteninstrument und der Talâouwadt-Flöte."
+      "title": "Live-Aufführung",
+      "description": "Genießen Sie Live-Auftritte und Dorffeier mit traditionellen Amazigh-Instrumenten und Rhythmen."
     },
     "teaRefreshments": {
-      "title": "Tee & Erfrischungen",
-      "description": "Genießen Sie traditionellen marokkanischen Minztee und lokale Süßigkeiten in der authentischen Atmosphäre einer Amazigh-Kulturveranstaltung."
+      "title": "Minztee-Zeremonie",
+      "description": "Beginnen Sie mit marokkanischem Minztee in der authentischen Atmosphäre einer Amazigh-Dorffestlichkeit."
     },
     "ctaTitle": "Begleiten Sie Uns Diesen",
-    "ctaTitleHighlight": "Donnerstag",
-    "ctaDescription": "Erleben Sie die Seele der Amazigh-Kultur durch Musik und Geschichtenerzählen.",
-    "bookNow": "JETZT BUCHEN"
+    "ctaTitleHighlight": "Samstag",
+    "ctaDescription": "Buchen Sie das Wochenevent — 80 € pro Person, 4 Stunden, 6–13 Gäste. Abholung an der Taghazout-Moschee.",
+    "bookNow": "WOCHENEVENT BUCHEN"
   },
   "packagesPage": {
     "badge": "Authentische Erlebnisse",
@@ -340,20 +569,52 @@
     "readyDescription": "Buchen Sie noch heute Ihr {name} und schaffen Sie unvergessliche Erinnerungen",
     "bookPackage": "{name} Buchen",
     "basic": {
-      "name": "Basis-Paket",
+      "name": "Die Authentische Berg- & Kulinarik-Flucht",
       "tagline": "Ihre Reise in die Berge",
       "subtitle": "Halbtägiges Authentisches Berber-Kulturerlebnis Oberhalb von Taghazout",
       "duration": "4 Stunden",
       "groupSize": "2-13 Gäste",
       "itinerary": [
-        { "time": "13:30", "title": "Der Malerische Aufstieg", "description": "Treffen Sie uns an der Taghazout-Moschee für eine komfortable 15-minütige Fahrt in den Kleinen Atlas. Wir fahren durch den Arganwald, wo Sie die frische Bergluft einatmen und einen atemberaubenden Panoramablick auf den Ozean von oben genießen können." },
-        { "time": "14:00", "title": "Ein Herzliches Dorf-Willkommen", "description": "Kommen Sie in unserem Dorf an und betreten Sie ein uraltes 300 Jahre altes Amazigh-Haus, eines der ältesten in Nordafrika. Lernen Sie die lokale Familie kennen und ich werde Ihnen bei einer geführten Tour zeigen, wie unsere Vorfahren im Herzen dieser Berge lebten." },
-        { "time": "14:30", "title": "Das Garten-Teeritual", "description": "Entspannen Sie sich in unserem authentischen Workshop und lernen Sie die Kunst des marokkanischen Tees. Sie pflücken frische Minze und Kräuter direkt aus unserem kleinen Garten, um Ihre eigene Kanne aufzubrühen. Genießen Sie Ihren Tee mit hausgemachten marokkanischen Süßigkeiten, die ich für Sie vorbereitet habe, während wir zusammensitzen und uns bei einem warmen Gespräch kennenlernen." },
-        { "time": "15:00", "title": "Das Traditionelle Brot Zubereiten", "description": "Meistern Sie die alte Kunst des Dorfbrotes. Sie kneten Ihren eigenen Teig von Hand, bevor er in unserem traditionellen Steinofen gebacken wird. Wir heizen mit Arganholz und verleihen dem Brot ein reichhaltiges, rauchiges Aroma und eine goldene Kruste, die Sie nur im Herzen der Berge finden." },
-        { "time": "15:30", "title": "Der Tajine-Workshop", "description": "Bereiten Sie eine authentische Tajine zu, indem Sie frisches Gemüse waschen, Ihr Hähnchen oder Ihren Fisch in speziellen marokkanischen Gewürzen marinieren und die süß-salzige Kombination meistern, während sie langsam über einem Arganholzfeuer für ein köstliches, rauchiges Aroma gart." },
-        { "time": "16:30", "title": "Der Alte Mühlstein", "description": "Erleben Sie die Magie, Ihr eigenes Amlou mit einem traditionellen Steinmühlstein herzustellen – einem unserer ältesten Werkzeuge, das wir noch heute bewahren und verwenden. Sie mahlen geröstete Mandeln von Hand und mischen sie mit reinem Arganöl und Orangenhonig, um den köstlichsten Aufstrich zu kreieren, den Sie in Marokko probieren können." },
-        { "time": "17:30", "title": "Das Familienfest & Sonnenuntergang", "description": "Nach einem halben Tag voller Tradition und Kochen ist es Zeit, als eine Familie zusammenzusitzen. Genießen Sie das köstliche Essen, das Sie zubereitet haben, teilen Sie Geschichten und Lachen über der dampfenden Tajine und dem frischen Brot. Es ist mehr als nur ein Abendessen; es ist ein Moment wahrer marokkanischer Gastfreundschaft im friedlichen Herzen der Berge, während Sie den Sonnenuntergang über den Atlas-Gipfeln beobachten, bevor wir unsere Rückfahrt nach Taghazout antreten." },
-        { "time": "19:00", "title": "Heimfahrt", "description": "Nachdem die Sonne untergegangen ist und wir uns verabschiedet haben, beginnen wir die malerische Rückfahrt und bringen Sie direkt nach Taghazout oder Tamraght bis 19:30 – 20:00 Uhr." }
+        {
+          "time": "13:30",
+          "title": "Der Malerische Aufstieg",
+          "description": "Treffen Sie uns an der Taghazout-Moschee für eine komfortable 15-minütige Fahrt in den Kleinen Atlas. Wir fahren durch den Arganwald, wo Sie die frische Bergluft einatmen und einen atemberaubenden Panoramablick auf den Ozean von oben genießen können."
+        },
+        {
+          "time": "14:00",
+          "title": "Ein Herzliches Dorf-Willkommen",
+          "description": "Kommen Sie in unserem Dorf an und betreten Sie ein uraltes 300 Jahre altes Amazigh-Haus, eines der ältesten in Nordafrika. Lernen Sie die lokale Familie kennen und ich werde Ihnen bei einer geführten Tour zeigen, wie unsere Vorfahren im Herzen dieser Berge lebten."
+        },
+        {
+          "time": "14:30",
+          "title": "Das Garten-Teeritual",
+          "description": "Entspannen Sie sich in unserem authentischen Workshop und lernen Sie die Kunst des marokkanischen Tees. Sie pflücken frische Minze und Kräuter direkt aus unserem kleinen Garten, um Ihre eigene Kanne aufzubrühen. Genießen Sie Ihren Tee mit hausgemachten marokkanischen Süßigkeiten, die ich für Sie vorbereitet habe, während wir zusammensitzen und uns bei einem warmen Gespräch kennenlernen."
+        },
+        {
+          "time": "15:00",
+          "title": "Das Traditionelle Brot Zubereiten",
+          "description": "Meistern Sie die alte Kunst des Dorfbrotes. Sie kneten Ihren eigenen Teig von Hand, bevor er in unserem traditionellen Steinofen gebacken wird. Wir heizen mit Arganholz und verleihen dem Brot ein reichhaltiges, rauchiges Aroma und eine goldene Kruste, die Sie nur im Herzen der Berge finden."
+        },
+        {
+          "time": "15:30",
+          "title": "Ihre Koch-Meisterklasse",
+          "description": "Bereiten Sie Ihr gewähltes traditionelles Gericht zu — Tagine, Msemen, Couscous oder Rfissa — mit authentischen marokkanischen Gewürzen und Techniken in unserer Dorfküche."
+        },
+        {
+          "time": "16:30",
+          "title": "Der Alte Mühlstein",
+          "description": "Erleben Sie die Magie, Ihr eigenes Amlou mit einem traditionellen Steinmühlstein herzustellen – einem unserer ältesten Werkzeuge, das wir noch heute bewahren und verwenden. Sie mahlen geröstete Mandeln von Hand und mischen sie mit reinem Arganöl und Orangenhonig, um den köstlichsten Aufstrich zu kreieren, den Sie in Marokko probieren können."
+        },
+        {
+          "time": "17:30",
+          "title": "Das Familienfest & Sonnenuntergang",
+          "description": "Nach einem halben Tag voller Tradition und Kochen ist es Zeit, als eine Familie zusammenzusitzen. Genießen Sie das köstliche Essen, das Sie zubereitet haben, teilen Sie Geschichten und Lachen über Ihrem Gericht und dem frischen Brot. Es ist mehr als nur ein Abendessen; es ist ein Moment wahrer marokkanischer Gastfreundschaft im friedlichen Herzen der Berge, während Sie den Sonnenuntergang über den Atlas-Gipfeln beobachten, bevor wir unsere Rückfahrt nach Taghazout antreten."
+        },
+        {
+          "time": "19:00",
+          "title": "Heimfahrt",
+          "description": "Nachdem die Sonne untergegangen ist und wir uns verabschiedet haben, beginnen wir die malerische Rückfahrt und bringen Sie direkt nach Taghazout oder Tamraght bis 19:30 – 20:00 Uhr."
+        }
       ],
       "includes": [
         "Abholung an der Taghazout-Moschee um 13:30",
@@ -361,7 +622,7 @@
         "300 Jahre altes Amazigh-Haus besichtigen",
         "Traditionelle marokkanische Teezeremonie",
         "Dorfbrot-Backworkshop",
-        "Authentisches Tajine-Kochen",
+        "Ihre Gerichtswahl (Tagine, Msemen, Couscous oder Rfissa)",
         "Marokkanischen Aufstrich (Amlou) herstellen",
         "Familienessen mit Blick auf den Sonnenuntergang",
         "Rücktransport nach Taghazout/Tamraght"
@@ -374,10 +635,14 @@
       "duration": "4 Stunden",
       "groupSize": "6-13 Gäste",
       "itinerary": [
-        { "time": "TBD", "title": "Veranstaltungsdetails Folgen Bald", "description": "Begleiten Sie uns zu unserer besonderen wöchentlichen Kochveranstaltung. Weitere Details werden in Kürze bekannt gegeben. Dies ist eine einzigartige Gelegenheit, marokkanisches Kochen in gemeinschaftlicher Atmosphäre zu erleben." }
+        {
+          "time": "TBD",
+          "title": "Veranstaltungsdetails Folgen Bald",
+          "description": "Begleiten Sie uns zu unserer besonderen wöchentlichen Kochveranstaltung. Weitere Details werden in Kürze bekannt gegeben. Dies ist eine einzigartige Gelegenheit, marokkanisches Kochen in gemeinschaftlicher Atmosphäre zu erleben."
+        }
       ],
       "includes": [
-        "Jeden Donnerstag um 15:00",
+        "Jeden Samstag um 15:00",
         "Mindestens 6 Gäste erforderlich",
         "Abholung an der Taghazout-Moschee",
         "Minztee-Zeremonie",
@@ -386,31 +651,84 @@
       ]
     },
     "private": {
-      "name": "Privat-Paket",
-      "tagline": "Exklusives Bergerlebnis",
-      "subtitle": "Personalisierte Reise für Sie und Ihre Gruppe",
-      "duration": "5 Stunden",
-      "groupSize": "Private Gruppe (2-8 Gäste)",
+      "name": "Privates Workshop-Erlebnis",
+      "tagline": "Privat in Unserem Dorf-Workshop",
+      "subtitle": "Ein privates Kocherlebnis nur für Ihre Gruppe in unserem traditionellen Dorf-Workshop — perfekt für Paare und kleine Feiern.",
+      "duration": "Flexibel",
+      "groupSize": "Mindestens 2 Gäste",
       "itinerary": [
-        { "time": "Flexible", "title": "Private Abholung", "description": "Wir holen Sie zu Ihrer bevorzugten Zeit von Ihrer Unterkunft ab. Genießen Sie eine komfortable private Fahrt durch den Arganwald mit atemberaubendem Meerblick von den Bergen." },
-        { "time": "Start", "title": "Exklusives Haus-Willkommen", "description": "Private Führung durch unser uraltes 300 Jahre altes Amazigh-Haus. Nehmen Sie sich Zeit zum Erkunden und erfahren Sie mit persönlicher Betreuung mehr über unsere angestammte Lebensweise." },
-        { "time": "+30 min", "title": "Personalisierte Teezeremonie", "description": "Private Teezeremonie in unserem Garten. Pflücken Sie Ihre eigenen frischen Kräuter und lernen Sie das authentische marokkanische Teeritual in Ihrem eigenen Tempo." },
-        { "time": "+1 hour", "title": "Brotback-Workshop", "description": "Exklusive Brotback-Sitzung. Kneten Sie Ihren Teig und backen Sie ihn in unserem traditionellen Steinofen mit Arganholz für den charakteristischen rauchigen Geschmack." },
-        { "time": "+1.5 hours", "title": "Individuelle Tajine-Kreation", "description": "Wählen Sie Ihre bevorzugten Zutaten und kreieren Sie Ihre persönliche Tajine. Wir berücksichtigen Ernährungswünsche und bringen Ihnen mit individueller Betreuung die authentischen Techniken bei." },
-        { "time": "+2.5 hours", "title": "Amlou-Herstellungserlebnis", "description": "Private Sitzung mit unserem uralten Mühlstein. Mahlen Sie geröstete Mandeln von Hand und mischen Sie sie mit reinem Arganöl und Honig, um authentisches Amlou herzustellen." },
-        { "time": "+3.5 hours", "title": "Privates Familienfest", "description": "Genießen Sie Ihr Essen in intimer Atmosphäre mit Ihrer Gruppe. Teilen Sie Geschichten und erleben Sie echte marokkanische Gastfreundschaft, während Sie den Sonnenuntergang über dem Atlas-Gebirge beobachten." },
-        { "time": "End", "title": "Private Rückfahrt", "description": "Komfortabler privater Transport zurück zu Ihrer Unterkunft zu Ihrer bevorzugten Zeit." }
+        {
+          "time": "Flexible",
+          "title": "Round-Trip Transport",
+          "description": "Round-trip transport from Taghazout Mosque to our traditional village workshop in the Atlas Mountains above Taghazout."
+        },
+        {
+          "time": "Start",
+          "title": "Moroccan Tea Masterclass",
+          "description": "Learn how to make traditional mint tea in a relaxing workshop setting reserved just for your group."
+        },
+        {
+          "time": "+1 hour",
+          "title": "Amlou Making",
+          "description": "Learn how to make traditional Moroccan almond and argan oil spread with hands-on guidance."
+        },
+        {
+          "time": "+2 hours",
+          "title": "Your Chosen Dish",
+          "description": "Cook the dish you choose — Tagine, Msemen, Couscous, or Rfissa — in our traditional village workshop."
+        },
+        {
+          "time": "+3 hours",
+          "title": "Shared Family Meal",
+          "description": "Enjoy a shared meal, eating together with a local family, then take home the recipe of the dish you cooked."
+        }
       ],
       "includes": [
-        "Komplett privates Erlebnis",
-        "Flexible Zeitplanung & Timing",
-        "Ihr Wunschort",
-        "Individuelle Menüoptionen",
-        "300 Jahre altes Amazigh-Haus besichtigen",
-        "Kompletter Koch-Workshop",
-        "Alle Zutaten & Materialien",
-        "Privates Familienessen",
-        "Ernährungsanpassungen möglich"
+        "Hin- und Rücktransport von der Taghazout-Moschee zum Workshop in den Bergen",
+        "Marokkanische Tee-Meisterklasse — lernen Sie traditionellen Minztee zuzubereiten",
+        "Amlou-Herstellung — traditioneller Mandel- und Arganöl-Aufstrich",
+        "Gemeinsames Essen mit einer lokalen Familie",
+        "Traditionelle, entspannte Workshop-Atmosphäre",
+        "Das Rezept des Gerichts Ihrer Wahl zum Mitnehmen",
+        "Anpassbares Menü (Tagine, Msemen, Couscous oder Rfissa)",
+        "Mindestens 2 Gäste"
+      ]
+    },
+    "privateAtLocation": {
+      "name": "Rabab Kommt Zu Ihnen",
+      "tagline": "Privat An Ihrem Standort",
+      "subtitle": "Wir bringen das volle Kocherlebnis zu Ihrer Villa oder Ihrem Riad — ideal für Familientreffen und größere Feiern.",
+      "duration": "Flexibel",
+      "groupSize": "Mindestens 6 Gäste",
+      "itinerary": [
+        {
+          "time": "Flexible",
+          "title": "We Come to You",
+          "description": "Rabab and the team come directly to your hotel, villa, or riad anywhere in the Taghazout area."
+        },
+        {
+          "time": "Start",
+          "title": "Ingredients Ready",
+          "description": "Rabab and the team shop for and bring all the ingredients needed for your chosen meal."
+        },
+        {
+          "time": "+1 hour",
+          "title": "Cook Together",
+          "description": "The team cooks together with you — choose Tagine, Msemen, Couscous, or Rfissa — and cleans the kitchen afterwards."
+        },
+        {
+          "time": "End",
+          "title": "A Gift to Take Home",
+          "description": "Receive a gift of local Moroccan terroir products to take home after your private celebration."
+        }
+      ],
+      "includes": [
+        "Rabab und das Team kommen direkt zu Ihnen",
+        "Das Team kocht mit Ihnen und räumt die Küche danach auf",
+        "Sie wählen Ihr Gericht (Tagine, Msemen, Couscous oder Rfissa)",
+        "Rabab und das Team kaufen ein und bringen alle Zutaten mit",
+        "Ein Geschenk lokaler marokkanischer Terroir-Produkte zum Mitnehmen",
+        "Mindestens 6 Gäste"
       ]
     }
   },
@@ -420,11 +738,11 @@
       "title": "Rabab — Taghazout",
       "titleHighlight": "Kochkurs-Gastgeberin",
       "hello": "Hallo, ich bin Rabab",
-      "paragraph1": "Mein Name ist Rabab und ich wurde in den Atlas-Bergen geboren und bin dort aufgewachsen. Mit einem Hintergrund in Betriebswirtschaft habe ich mich 2024 entschieden, mein eigenes Projekt zu starten: einen authentischen Kochkurs und ein kulturelles Erlebnis.",
-      "paragraph2": "Als Amazigh-Frau ist es meine Mission, meine Kultur mit der Welt und den Reisenden zu teilen, die in die Region Taghazout kommen.",
-      "paragraph3": "Nur 15 Minuten oberhalb von Taghazout habe ich einen lokalen Workshop gestartet, der eine direkte Zusammenarbeit mit Dorffrauen ist. Dieses Projekt ist darauf ausgelegt, denjenigen ein authentisches und immersives Erlebnis zu bieten, die das echte Marokko jenseits des Surfens entdecken möchten.",
-      "paragraph4": "In meinem Workshop bringe ich Ihnen bei, wie man Amazigh-Gerichte mit den originalen Werkzeugen und Techniken meiner Wurzeln zubereitet, die seit 10.000 Jahren in Nordafrika weitergegeben werden.",
-      "paragraph5": "Durch die Teilnahme an meinem Workshop helfen Sie mir, diesen lokalen Frauen Wertschätzung zu bringen, ihnen zu ermöglichen, produktiv zu sein und die finanzielle Unabhängigkeit zu erlangen, die sie zur Unterstützung ihrer Familien benötigen.",
+      "paragraph1": "Ich wurde in den Atlasbergen geboren und bin dort aufgewachsen. Mit einem Hintergrund in Business Management habe ich 2024 mein eigenes Projekt gestartet: einen authentischen Kochkurs und ein kulturelles Erlebnis, nur 15 Minuten oberhalb von Taghazout.",
+      "paragraph2": "Als Amazigh-Frau ist es meine Mission, meine Kultur mit Reisenden zu teilen, die über den Surf hinaus erkunden. Mein Workshop ist eine direkte Zusammenarbeit mit Dorf-Frauen — gemeinsam bringen wir Ihnen bei, traditionelles Amazigh-Essen mit Werkzeugen und Techniken zuzubereiten, die seit 10.000 Jahren weitergegeben werden.",
+      "paragraph3": "Jeder Kurs, den Sie besuchen, hilft diesen Frauen zu finanzieller Unabhängigkeit und unterstützt unsere Dorffamilie — einschließlich der Katzen, Hühner und des Hundes, um die wir uns jeden Tag kümmern.",
+      "paragraph4": "In der Amazigh-Kultur glauben wir, dass Kochen nicht nur mit Essen zu tun hat — es geht darum, unsere Gemeinschaft zu nähren. Wenn Sie mit mir kochen, werden Sie Teil unserer Dorffamilie.",
+      "paragraph5": "",
       "ctaTitle": "Kochen Mit",
       "ctaTitleHighlight": "Rabab",
       "ctaDescription": "Begleiten Sie mich in die Berge für ein authentisches kulturelles Erlebnis und unterstützen Sie unsere lokale Gemeinschaft.",
@@ -442,16 +760,41 @@
       "featuresTitle": "Lehmofenbrot & Traditionelle Berber-Werkzeuge",
       "featuresSubtitle": "Erleben Sie das Kochen, wie es seit Jahrtausenden praktiziert wird",
       "features": [
-        { "title": "Holzofen", "description": "Traditioneller Lehmofen zum Backen von authentischem marokkanischem Brot und zum Kochen von Tajines" },
-        { "title": "Handgefertigte Tajines", "description": "Authentische Keramik-Tajines zum langsamen Garen traditioneller marokkanischer Gerichte" },
-        { "title": "Steinmahl-Werkzeuge", "description": "Traditionelle Werkzeuge zum Mahlen von Gewürzen und zur Herstellung von Amlou auf die alte Art" },
-        { "title": "Brotback-Station", "description": "Eigener Bereich zum Kneten und Zubereiten von traditionellem marokkanischem Brot" },
-        { "title": "Gewürzsammlung", "description": "Authentische marokkanische Gewürze von lokalen Märkten und Kooperativen" },
-        { "title": "Traditionelles Kochgeschirr", "description": "Tontöpfe, Kupferutensilien und Werkzeuge, die über Generationen weitergegeben wurden" }
+        {
+          "title": "Holzofen",
+          "description": "Traditioneller Lehmofen zum Backen von authentischem marokkanischem Brot und zum Kochen von Tajines"
+        },
+        {
+          "title": "Handgefertigte Tajines",
+          "description": "Authentische Keramik-Tajines zum langsamen Garen traditioneller marokkanischer Gerichte"
+        },
+        {
+          "title": "Steinmahl-Werkzeuge",
+          "description": "Traditionelle Werkzeuge zum Mahlen von Gewürzen und zur Herstellung von Amlou auf die alte Art"
+        },
+        {
+          "title": "Brotback-Station",
+          "description": "Eigener Bereich zum Kneten und Zubereiten von traditionellem marokkanischem Brot"
+        },
+        {
+          "title": "Gewürzsammlung",
+          "description": "Authentische marokkanische Gewürze von lokalen Märkten und Kooperativen"
+        },
+        {
+          "title": "Traditionelles Kochgeschirr",
+          "description": "Tontöpfe, Kupferutensilien und Werkzeuge, die über Generationen weitergegeben wurden"
+        }
       ],
       "galleryTitle": "Küchen-Galerie",
       "gallerySubtitle": "Machen Sie einen visuellen Rundgang durch unsere authentische traditionelle Küche",
-      "galleryImages": ["Holzofen", "Traditionelle Tajines", "Küchenarbeitsbereich", "Gewürze", "Brotback-Station", "Küchenübersicht"],
+      "galleryImages": [
+        "Holzofen",
+        "Traditionelle Tajines",
+        "Küchenarbeitsbereich",
+        "Gewürze",
+        "Brotback-Station",
+        "Küchenübersicht"
+      ],
       "ctaTitle": "Bereit, in Unserer Traditionellen Küche zu Kochen?",
       "ctaDescription": "Begleiten Sie uns für ein authentisches kulinarisches Erlebnis im Herzen des Atlas-Gebirges",
       "bookYourExperience": "Buchen Sie Ihr Erlebnis",
@@ -471,20 +814,50 @@
       "featuresTitle": "Warum Unser Standort Besonders Ist",
       "featuresSubtitle": "Mehr als nur ein Kochkurs – es ist eine Reise in das authentische marokkanische Leben",
       "features": [
-        { "title": "Atlas-Gebirge-Kulisse", "description": "Umgeben von atemberaubenden Berglandschaften und traditionellen Amazigh-Dörfern" },
-        { "title": "15-20 Minuten von Taghazout", "description": "Einfache malerische Fahrt vom Küstendorf, Abholung inklusive" },
-        { "title": "Authentisches Dorfleben", "description": "Erleben Sie die echte marokkanische Kultur in einer traditionellen Berggemeinschaft" },
-        { "title": "Frische Bergluft", "description": "Entfliehen Sie der Küste und atmen Sie die reine Luft des Atlas-Gebirges" },
-        { "title": "Atemberaubende Aussichten", "description": "Panoramablicke auf Täler, Berge und traditionelle Architektur" },
-        { "title": "Lokale Gemeinschaft", "description": "Unterstützen Sie Dorffrauen und erleben Sie echte Amazigh-Gastfreundschaft" }
+        {
+          "title": "Atlas-Gebirge-Kulisse",
+          "description": "Umgeben von atemberaubenden Berglandschaften und traditionellen Amazigh-Dörfern"
+        },
+        {
+          "title": "15-20 Minuten von Taghazout",
+          "description": "Einfache malerische Fahrt vom Küstendorf, Abholung inklusive"
+        },
+        {
+          "title": "Authentisches Dorfleben",
+          "description": "Erleben Sie die echte marokkanische Kultur in einer traditionellen Berggemeinschaft"
+        },
+        {
+          "title": "Frische Bergluft",
+          "description": "Entfliehen Sie der Küste und atmen Sie die reine Luft des Atlas-Gebirges"
+        },
+        {
+          "title": "Atemberaubende Aussichten",
+          "description": "Panoramablicke auf Täler, Berge und traditionelle Architektur"
+        },
+        {
+          "title": "Lokale Gemeinschaft",
+          "description": "Unterstützen Sie Dorffrauen und erleben Sie echte Amazigh-Gastfreundschaft"
+        }
       ],
       "howToGetHere": "So Kommen Sie Hierher",
       "howToGetHereSubtitle": "Wir machen es einfach – die Abholung ist in allen unseren Paketen enthalten",
       "steps": [
-        { "title": "Buchen Sie Ihr Erlebnis", "description": "Wählen Sie Ihr Paket und bestätigen Sie Ihre Buchung über unsere Website oder WhatsApp" },
-        { "title": "Wir Holen Sie Ab", "description": "Wir holen Sie zur geplanten Zeit von Ihrer Unterkunft in Taghazout ab" },
-        { "title": "Malerische Bergfahrt", "description": "Genießen Sie eine wunderschöne 15-20-minütige Fahrt durch das Atlas-Gebirge zu unserem traditionellen Haus" },
-        { "title": "Rückkehr nach Taghazout", "description": "Nach Ihrem Erlebnis bringen wir Sie zurück zu Ihrer Unterkunft" }
+        {
+          "title": "Buchen Sie Ihr Erlebnis",
+          "description": "Wählen Sie Ihr Paket und bestätigen Sie Ihre Buchung über unsere Website oder WhatsApp"
+        },
+        {
+          "title": "Wir Holen Sie Ab",
+          "description": "Wir holen Sie zur geplanten Zeit von Ihrer Unterkunft in Taghazout ab"
+        },
+        {
+          "title": "Malerische Bergfahrt",
+          "description": "Genießen Sie eine wunderschöne 15-20-minütige Fahrt durch das Atlas-Gebirge zu unserem traditionellen Haus"
+        },
+        {
+          "title": "Rückkehr nach Taghazout",
+          "description": "Nach Ihrem Erlebnis bringen wir Sie zurück zu Ihrer Unterkunft"
+        }
       ],
       "ctaTitle": "Bereit, Uns zu Besuchen?",
       "ctaDescription": "Buchen Sie Ihr authentisches marokkanisches Kocherlebnis im Atlas-Gebirge",
@@ -551,15 +924,15 @@
         "id": "cooking-class",
         "emoji": "👩‍🍳",
         "title": "Marokkanischer Kochkurs Taghazout",
-        "description": "Buchen Sie ein halbtägiges Berberdorf-Kocherlebnis — Tajine, Lehmofenbrot, Amlou und Familienfest im Atlas.",
+        "description": "Buchen Sie ein halbtägiges Berberdorf-Kocherlebnis — Gericht Ihrer Wahl, Lehmofenbrot, Amlou und Familienfest im Atlas.",
         "imageAlt": "Marokkanischer Kochkurs Taghazout — Berberdorf-Erlebnis im Atlas-Gebirge"
       },
       {
         "id": "tajine",
         "emoji": "🍲",
-        "title": "Tajine-Meisterklasse Taghazout",
-        "description": "Lernen Sie die Geheimnisse des langsam gegarten marokkanischen Tajine mit aromatischen Gewürzen im traditionellen Tontopf.",
-        "imageAlt": "Tajine-Meisterklasse Taghazout — traditioneller marokkanischer Tajine-Kochkurs"
+        "title": "Marokkanische Koch-Meisterklasse Taghazout",
+        "description": "Wählen Sie Ihr Gericht — Tagine, Msemen, Couscous oder Rfissa — und lernen Sie, es auf traditionelle Weise mit aromatischen Gewürzen in einer authentischen Dorfküche zuzubereiten.",
+        "imageAlt": "Marokkanische Koch-Meisterklasse Taghazout — Tagine, Msemen, Couscous oder Rfissa"
       },
       {
         "id": "bread",
@@ -572,7 +945,7 @@
         "id": "music",
         "emoji": "🎵",
         "title": "Wöchentliches Amazigh-Musik-Event",
-        "description": "Jeden Donnerstag — traditionelle Ahwach-Aufführungen, Berber-Musiker und kulturelles Geschichtenerzählen im Atlas.",
+        "description": "Jeden Samstag — traditionelle Amazigh-Musik, Grill im Lehmofen und Dorffeier im Atlas.",
         "imageAlt": "Amazigh-Musik-Event Taghazout — Aktivitäten außer Surfen Marokko"
       },
       {

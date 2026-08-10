@@ -28,8 +28,8 @@ export const metadata: Metadata = {
     default: 'Taghazout Cooking Class - Authentic Moroccan & Amazigh Cooking Experience',
     template: '%s | Taghazout Cooking Class',
   },
-  description: 'Book your Taghazout cooking class — half-day Berber village experience with pickup from Taghazout & Agadir. Learn traditional Amazigh tagine, clay oven bread & tea ceremony in a 300-year-old Berber village home.',
-  keywords: ['taghazout cooking class', 'moroccan cooking class taghazout', 'authentic berber cooking class morocco', 'traditional cooking experience taghazout', 'book cooking class near taghazout', 'cooking class agadir', 'cooking class tamraght', 'berber village cooking experience', 'tajine masterclass taghazout', 'clay oven bread making taghazout', 'amlou workshop morocco', 'amazigh cuisine', 'atlas mountains cooking class', 'moroccan culinary experience', 'morocco food tour'],
+  description: 'Book your Taghazout cooking class — half-day Berber village experience with pickup from Taghazout & Agadir. Learn traditional Moroccan dishes of your choice (Tagine, Msemen, Couscous, or Rfissa), clay oven bread & tea ceremony in a 300-year-old Berber village home.',
+  keywords: ['taghazout cooking class', 'moroccan cooking class taghazout', 'authentic berber cooking class morocco', 'traditional cooking experience taghazout', 'book cooking class near taghazout', 'cooking class agadir', 'cooking class tamraght', 'berber village cooking experience', 'moroccan cooking masterclass taghazout', 'tajine masterclass taghazout', 'clay oven bread making taghazout', 'amlou workshop morocco', 'amazigh cuisine', 'atlas mountains cooking class', 'moroccan culinary experience', 'morocco food tour'],
   authors: [{ name: 'Rabab - Taghazout Cooking Class' }],
   creator: 'Taghazout Cooking Class',
   publisher: 'Taghazout Cooking Class',
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Taghazout Cooking Class - Authentic Moroccan & Amazigh Cooking Experience',
-    description: 'Book your Taghazout cooking class — half-day Berber village experience with pickup included. Learn tagine, clay oven bread & amlou in a 300-year-old Berber village home.',
+    description: 'Book your Taghazout cooking class — half-day Berber village experience with pickup included. Learn your choice of traditional dish (Tagine, Msemen, Couscous, or Rfissa), clay oven bread & amlou in a 300-year-old Berber village home.',
     type: 'website',
     locale: 'en_US',
     url: siteConfig.site.url,
@@ -69,9 +69,6 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
-  },
-  other: {
-    'msvalidate.01': '1ECBD90A39A2A51F72421738750109AD',
   },
 };
 
@@ -121,7 +118,7 @@ export default function RootLayout({
               ],
               image: 'https://www.taghazout-cooking-class.com/hero/desktop/bg.jpg',
               priceRange: '€60-€100',
-              aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '500' },
+              aggregateRating: { '@type': 'AggregateRating', ratingValue: '5.0', reviewCount: '500' },
               openingHoursSpecification: { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'], opens: '09:00', closes: '20:00' },
               sameAs: ['https://www.instagram.com/taghazout_cooking_class/', 'https://www.tiktok.com/@rabab_cooking_class'],
               hasOfferCatalog: {
@@ -130,7 +127,8 @@ export default function RootLayout({
                 itemListElement: [
                   { '@type': 'Offer', name: 'Basic Package', price: '60', priceCurrency: 'EUR', description: 'Half-day authentic Berber cooking experience in Atlas Mountains above Taghazout' },
                   { '@type': 'Offer', name: 'Weekly Amazigh Music Event', price: '80', priceCurrency: 'EUR', description: 'Weekly Berber music and cultural event — things to do in Taghazout besides surfing' },
-                  { '@type': 'Offer', name: 'Private Package', price: '100', priceCurrency: 'EUR', description: 'Exclusive private Moroccan cooking class near Taghazout' },
+                  { '@type': 'Offer', name: 'Private Workshop Experience', price: '80', priceCurrency: 'EUR', description: 'Private cooking class for your group at our traditional village workshop above Taghazout' },
+                  { '@type': 'Offer', name: 'Rabab Comes to You', price: '100', priceCurrency: 'EUR', description: 'Private Moroccan cooking experience at your villa or riad in the Taghazout area' },
                 ],
               },
             }),

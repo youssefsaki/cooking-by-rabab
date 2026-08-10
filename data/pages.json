@@ -5,7 +5,7 @@
       "slug": "/",
       "meta": {
         "title": "Taghazout Cooking Class - Authentic Moroccan & Amazigh Cooking Experience",
-        "description": "Book your Taghazout cooking class — half-day Berber village experience with pickup from Taghazout & Agadir. Learn tagine, clay oven bread, and amlou in the Atlas Mountains."
+        "description": "Book your Taghazout cooking class — half-day Berber village experience with pickup from Taghazout & Agadir. Learn your choice of traditional dish (Tagine, Msemen, Couscous, or Rfissa), clay oven bread, and amlou in the Atlas Mountains."
       }
     },
     "packages": {
@@ -13,15 +13,15 @@
       "slug": "/packages",
       "meta": {
         "title": "Taghazout Cooking Class Packages — Half-Day Berber Experience from €60",
-        "description": "Traditional cooking experience Taghazout — Basic (€60), Weekly Event (€80), or Private (€100). Pickup, tagine workshop, clay oven bread, amlou, and family feast included."
+        "description": "Traditional cooking experience Taghazout — Basic (€60), Weekly Event (€80), or Private (€100). Pickup, cooking masterclass (Tagine, Msemen, Couscous, or Rfissa), clay oven bread, amlou, and family feast included."
       }
     },
     "experiences": {
       "title": "Experiences",
       "slug": "/experiences",
       "meta": {
-        "title": "Tajine Masterclass, Clay Oven Bread & Amlou Workshop — Taghazout",
-        "description": "Moroccan cooking experiences in Taghazout: Tajine Masterclass, Clay Oven Bread Making, Amlou Workshop Morocco, Tea Ceremony, and Amazigh Heritage in the Atlas Mountains."
+        "title": "Moroccan Cooking Masterclass, Clay Oven Bread & Amlou Workshop — Taghazout",
+        "description": "Moroccan cooking experiences in Taghazout: Cooking Masterclass (Tagine, Msemen, Couscous, or Rfissa), Clay Oven Bread Making, Amlou Workshop Morocco, Tea Ceremony, and Amazigh Heritage in the Atlas Mountains."
       }
     },
     "book": {
@@ -36,8 +36,8 @@
       "title": "Events",
       "slug": "/events",
       "meta": {
-        "title": "Weekly Amazigh Music Event Taghazout — Every Thursday",
-        "description": "Things to do in Taghazout besides surfing — weekly Amazigh music, Ahwach performances, and cultural storytelling every Thursday in the Atlas Mountains."
+        "title": "Weekly Amazigh Music Event Taghazout — Every Saturday",
+        "description": "Things to do in Taghazout besides surfing — Weekly Berber Music Event every Saturday at sunset. Music, barbecue, mint tea, and village celebration. 80 € / person."
       }
     },
     "contact": {

@@ -10,7 +10,7 @@ export type BookingInput = {
   allergies?: string;
 };
 
-const PACKAGE_TYPES: PackageType[] = ['basic', 'weekly-event', 'private'];
+const PACKAGE_TYPES: PackageType[] = ['basic', 'weekly-event', 'private', 'private-at-location'];
 const DIETARY: DietaryPreference[] = ['none', 'vegetarian', 'vegan'];
 
 function isEmail(value: string) {

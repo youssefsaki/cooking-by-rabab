@@ -1,0 +1,59 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { listBookings } from '@/lib/booking/sheets';
+import { buildOccupancyMap } from '@/lib/booking/conflicts';
+import { getUpcomingCalendarDays, buildSlotId, BASIC_MAX_GUESTS } from '@/lib/booking/schedule';
+
+/** Allow short CDN/browser cache so the calendar feels instant on repeat views */
+export const revalidate = 20;
+
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const days = getUpcomingCalendarDays(28);
+    const from = searchParams.get('from') || days[0]?.date;
+    const to = searchParams.get('to') || days[days.length - 1]?.date;
+
+    const bookings = await listBookings(from || undefined, to || undefined);
+    const occupancyMap = buildOccupancyMap(bookings);
+
+    const occupancy = days
+      .filter((day) => (!from || day.date >= from) && (!to || day.date <= to))
+      .flatMap((day) =>
+        day.slots.map((slot) => {
+          const existing = occupancyMap.get(slot.id);
+          return (
+            existing ?? {
+              slotId: buildSlotId(slot.date, slot.period),
+              date: slot.date,
+              period: slot.period,
+              hasPrivate: false,
+              hasWeekly: false,
+              basicGuestCount: 0,
+              locked: false,
+              remainingBasicCapacity: BASIC_MAX_GUESTS,
+            }
+          );
+        })
+      );
+
+    // Include Private-only holds that may not match a Basic schedule slot
+    occupancyMap.forEach((value, slotId) => {
+      if (!occupancy.some((o) => o.slotId === slotId)) {
+        occupancy.push(value);
+      }
+    });
+
+    return NextResponse.json(
+      { occupancy, from, to },
+      {
+        headers: {
+          // Browser: ~10s. Edge/CDN: ~20s. Stale OK while revalidating.
+          'Cache-Control': 'public, max-age=10, s-maxage=20, stale-while-revalidate=60',
+        },
+      }
+    );
+  } catch (error) {
+    console.error('availability error', error);
+    return NextResponse.json({ error: 'Failed to load availability' }, { status: 500 });
+  }
+}

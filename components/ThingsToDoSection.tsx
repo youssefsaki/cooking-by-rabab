@@ -11,14 +11,14 @@ const activityImages = [
   '/packages/basic.jpg',
   '/experiences/tajine.jpg',
   '/experiences/oven-bread.jpg',
-  '/packages/weekly.jpeg',
+  '/packages/weekly.webp',
   '/journey/journey-1.jpeg',
   '/our-story/meet-the-chef/meet-the-chef.jpg',
 ] as const;
 
 const activityLinks = [
   '/book',
-  '/experiences#tajine-masterclass',
+  '/experiences#cooking-masterclass',
   '/experiences#clay-oven-bread',
   '/events',
   '/ourstory/location',

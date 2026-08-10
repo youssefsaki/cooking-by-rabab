@@ -15,6 +15,8 @@ Production (`main`) stays live. This branch uses Supabase as source of truth, mi
 
 Schema applied: tables, RLS, `site-media` bucket, packages seed (en/fr/de), site settings.
 
+Also run **`supabase/migrations/003_booking_slots.sql`** in the SQL editor (adds slot date/period, dish, guests, private-at-location). Booking calendar from `version-2.1.0` writes to Supabase; Sheets is mirror-only.
+
 Local secrets are in **`.env.local`** (gitignored). Admin login email: `rababouhadda5@gmail.com` — temp password in **`.admin-credentials.local`** (gitignored). Change that password after first login.
 
 ## Vercel Preview env

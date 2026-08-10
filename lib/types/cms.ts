@@ -1,5 +1,5 @@
 export type Locale = 'en' | 'fr' | 'de';
-export type PackageType = 'basic' | 'weekly-event' | 'private';
+export type PackageType = 'basic' | 'weekly-event' | 'private' | 'private-at-location';
 export type DietaryPreference = 'none' | 'vegetarian' | 'vegan';
 export type BookingStatus = 'new' | 'contacted' | 'confirmed' | 'cancelled';
 export type ContactStatus = 'new' | 'read' | 'replied' | 'archived';
@@ -15,6 +15,13 @@ export type BookingRow = {
   dietary_preference: DietaryPreference;
   allergies: string | null;
   status: BookingStatus;
+  slot_date?: string | null;
+  slot_period?: string | null;
+  dish_name?: string | null;
+  adults?: number | null;
+  children?: { age: number }[] | null;
+  location?: string | null;
+  total_price_eur?: number | null;
 };
 
 export type ContactMessageRow = {

@@ -35,15 +35,32 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
     t.experiences.amlou.title,
     t.experiences.tea.title,
   ];
-  
-  const allImages = [
-    { src: '/hero/desktop/learn-to-cook-amazigh/2.jpg', alt: 'Moroccan cooking class Taghazout — hands-on Amazigh cooking in Berber village kitchen' },
-    { src: '/hero/desktop/learn-to-cook-amazigh/5.jpg', alt: 'Traditional Moroccan cuisine Taghazout — authentic Berber dishes prepared in Atlas Mountains' },
-    { src: '/hero/desktop/learn-to-cook-amazigh/7.jpg', alt: 'Amazigh cooking experience Taghazout — traditional village cooking class near Agadir coast' },
-    { src: '/hero/desktop/learn-to-cook-amazigh/3.jpg', alt: 'Tajine masterclass Taghazout — slow-cooked Moroccan tagine in traditional clay pot' },
-    { src: '/hero/desktop/learn-to-cook-amazigh/6.jpg', alt: 'Clay oven bread making Taghazout — wood-fired Berber bread baking in Atlas Mountains' },
-    { src: '/hero/desktop/learn-to-cook-amazigh/4.jpg', alt: 'Moroccan mint tea ceremony Taghazout — traditional Amazigh hospitality after cooking class' },
-  ];
+
+  const imageAlts = [
+    'Moroccan cooking class Taghazout — hands-on Amazigh cooking in Berber village kitchen',
+    'Traditional Moroccan cuisine Taghazout — authentic Berber dishes prepared in Atlas Mountains',
+    'Amazigh cooking experience Taghazout — traditional village cooking class near Agadir coast',
+    'Moroccan cooking masterclass Taghazout — traditional dishes cooked in Berber village kitchen',
+    'Clay oven bread making Taghazout — wood-fired Berber bread baking in Atlas Mountains',
+    'Moroccan mint tea ceremony Taghazout — traditional Amazigh hospitality after cooking class',
+    'Taghazout cooking class feast — shared Amazigh meal after hands-on Berber cooking experience',
+  ] as const;
+
+  // Same gallery order for desktop + mobile; desktop & mobile use webp assets
+  const imageKeys = ['1', '2', '3', '4', '5', '6', '7'] as const;
+
+  const desktopImages = imageKeys.map((key, i) => ({
+    src: `/hero/desktop/learn-to-cook-amazigh/${key}.webp`,
+    alt: imageAlts[i],
+  }));
+
+  const mobileImages = imageKeys.map((key, i) => ({
+    src: `/hero/desktop/learn-to-cook-amazigh/mobile/${key}.webp`,
+    alt: imageAlts[i],
+  }));
+
+  const allImages = desktopImages; // desktop gallery (DesktopVersion)
+  const mobileGallery = mobileImages;
 
   // ============================================
   // MOBILE VARIANT A: Card Stack Design
@@ -59,7 +76,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
           </span>
-          <span className="text-[#C75D3A] text-xs font-medium">4.9 • 500+ {t.heroSection.rating}</span>
+          <span className="text-[#C75D3A] text-xs font-medium">5.0 • 500+ {t.heroSection.rating}</span>
         </div>
 
         {/* Title */}
@@ -89,8 +106,8 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
       <div className="px-5 mb-4">
         <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-xl">
           <Image
-            src={allImages[activeImage].src}
-            alt={allImages[activeImage].alt}
+            src={mobileGallery[activeImage].src}
+            alt={mobileGallery[activeImage].alt}
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 50vw"
@@ -116,7 +133,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
       {/* Thumbnail Strip */}
       <div className="px-5 pb-6">
         <div className="flex gap-2 overflow-x-auto scrollbar-hide py-2">
-          {allImages.map((img, index) => (
+          {mobileGallery.map((img, index) => (
             <button
               key={index}
               onClick={() => setActiveImage(index)}
@@ -136,7 +153,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
       <div className="grid grid-cols-4 border-t border-[#E5E0DA]">
         {[
           { number: '3h', label: t.heroSection.duration },
-          { number: '6', label: t.heroSection.group },
+          { number: '2 - 13', label: t.heroSection.group },
           { number: '4+', label: t.heroSection.dishes },
           { number: '100%', label: t.heroSection.handsOn },
         ].map((stat, i) => (
@@ -157,8 +174,8 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
       {/* Full-bleed background image */}
       <div className="relative min-h-[85vh]">
         <Image
-          src={allImages[activeImage].src}
-          alt={allImages[activeImage].alt}
+          src={mobileGallery[activeImage].src}
+          alt={mobileGallery[activeImage].alt}
           fill
           className="object-cover"
           sizes="100vw"
@@ -211,7 +228,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
           <div className="flex justify-between mt-6 pt-4 border-t border-white/20">
             {[
               { number: '3h', label: t.heroSection.duration },
-              { number: '6 max', label: t.heroSection.group },
+              { number: '2 - 13', label: t.heroSection.group },
               { number: '4+', label: t.heroSection.dishes },
             ].map((stat, i) => (
               <div key={i} className="text-center">
@@ -224,7 +241,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
 
         {/* Image selector dots */}
         <div className="absolute top-6 left-0 right-0 flex justify-center gap-2">
-          {allImages.map((_, index) => (
+          {mobileGallery.map((_, index) => (
             <button
               key={index}
               onClick={() => setActiveImage(index)}
@@ -281,7 +298,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
             <svg className="w-5 h-5 text-[#C75D3A]" fill="currentColor" viewBox="0 0 20 20">
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
-            <span className="text-lg font-bold text-[#2D2A26]">4.9</span>
+            <span className="text-lg font-bold text-[#2D2A26]">5.0</span>
           </div>
         </div>
 
@@ -304,8 +321,8 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
         {/* Main Image */}
         <div className="relative aspect-square mx-6 rounded-3xl overflow-hidden shadow-2xl">
           <Image
-            src={allImages[activeImage].src}
-            alt={allImages[activeImage].alt}
+            src={mobileGallery[activeImage].src}
+            alt={mobileGallery[activeImage].alt}
             fill
             className="object-cover"
             sizes="100vw"
@@ -327,7 +344,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
 
       {/* Thumbnail dots */}
       <div className="flex justify-center gap-2 pt-10 pb-8">
-        {allImages.map((_, index) => (
+        {mobileGallery.map((_, index) => (
           <button
             key={index}
             onClick={() => setActiveImage(index)}
@@ -345,6 +362,13 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
   // ============================================
   // DESKTOP VERSION (unchanged)
   // ============================================
+  const descriptionFull = t.heroSection.description;
+  const descriptionSplitAt = descriptionFull.indexOf('. ');
+  const descriptionLead =
+    descriptionSplitAt > 0 ? descriptionFull.slice(0, descriptionSplitAt + 1) : descriptionFull;
+  const descriptionBody =
+    descriptionSplitAt > 0 ? descriptionFull.slice(descriptionSplitAt + 2) : '';
+
   const DesktopVersion = () => (
     <div className="hidden lg:block">
       {/* Top Section */}
@@ -352,22 +376,22 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           
           {/* Header Row */}
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12 lg:mb-20">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-10 lg:gap-14 mb-12 lg:mb-20">
             {/* Left: Title */}
-            <div className="lg:max-w-2xl">
+            <div className="lg:max-w-2xl lg:flex-1 lg:pt-1">
               {/* Tagline */}
-              <div className="flex items-center gap-3 mb-6">
-                <span className="w-8 h-8 rounded-full bg-[#C75D3A] flex items-center justify-center">
-                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <div className="flex items-center gap-3 mb-6 lg:mb-8">
+                <span className="w-8 h-8 rounded-full bg-[#C75D3A] flex items-center justify-center shadow-sm shadow-[#C75D3A]/30">
+                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
                 </span>
-                <span className="text-[#C75D3A] text-sm font-medium tracking-wide">
+                <span className="text-[#C75D3A] text-sm font-semibold tracking-[0.14em] uppercase">
                   {t.heroSection.ratedBy} {t.heroSection.rating}
                 </span>
               </div>
-              
-              {/* Main Title - Oversized */}
+
+              {/* Main Title */}
               <h2 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-[#2D2A26] leading-[0.95] tracking-tight">
                 {t.heroSection.learnToCookPart1}
                 <br />
@@ -375,19 +399,32 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
               </h2>
             </div>
 
-            {/* Right: Description */}
-            <div className="lg:max-w-sm lg:text-right">
-              <p className="text-[#6B6560] text-base sm:text-lg lg:text-xl leading-relaxed mb-4 font-normal">
-                {t.heroSection.description}
+            {/* Right: Description — scannable hierarchy */}
+            <div className="lg:w-[24rem] lg:shrink-0 lg:pt-1 flex flex-col">
+              <div className="h-[2px] w-12 bg-[#C75D3A] mb-5" aria-hidden="true" />
+
+              <p className="text-[#2D2A26] text-lg lg:text-xl font-medium leading-snug mb-4">
+                {descriptionLead}
               </p>
-              <InternalLinkRow variant="hero" className="text-[#6B6560] mb-6 [&_a]:text-[#C75D3A] [&_a:hover]:text-[#a84d2f]" />
+              {descriptionBody && (
+                <p className="text-[#6B6560] text-sm lg:text-[0.95rem] leading-relaxed mb-6">
+                  {descriptionBody}
+                </p>
+              )}
+
+              <InternalLinkRow
+                variant="hero"
+                layout="stack"
+                className="mb-8 text-[#6B6560] [&_a]:text-[#C75D3A] [&_a:hover]:text-[#a84d2f]"
+              />
+
               <Link
                 href={data.cta.link}
-                className="inline-flex items-center gap-3 text-[#2D2A26] font-semibold group"
+                className="inline-flex items-center gap-3 text-[#2D2A26] font-semibold group self-start"
               >
                 <span className="uppercase tracking-wider text-sm">{t.heroSection.bookClass}</span>
-                <span className="w-12 h-12 rounded-full border-2 border-[#2D2A26] flex items-center justify-center group-hover:bg-[#2D2A26] group-hover:text-white transition-all duration-300">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span className="w-12 h-12 rounded-full border-2 border-[#2D2A26] flex items-center justify-center group-hover:bg-[#C75D3A] group-hover:border-[#C75D3A] group-hover:text-white transition-all duration-300 group-hover:translate-x-0.5">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </span>
@@ -476,7 +513,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
           <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-[#E5E0DA]">
             {[
               { number: '4h', label: t.heroSection.duration },
-              { number: '13', label: t.heroSection.group },
+              { number: '2 - 13', label: t.heroSection.group },
               { number: '4+', label: t.heroSection.dishes },
               { number: '100%', label: t.heroSection.handsOn },
             ].map((stat, i) => (

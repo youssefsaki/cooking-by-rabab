@@ -12,9 +12,47 @@
   "hero": {
     "badge": "TRADITIONAL AMAZIGH CUISINE",
     "title": "Taghazout Cooking Class",
-    "titleHighlight": "AUTHENTIC MOROCCAN",
-    "description": "Book a traditional cooking experience in Taghazout. Leave the coast for a half-day in the Atlas Mountains — discover Amazigh culture, clay oven bread, and aromatic tagines in a 300-year-old Berber village home.",
+    "titleHighlight": "AUTHENTIC BERBER and MOROCCAN CUISINE",
+    "description": "Looking for the best things to do in Taghazout? Leave the coast for an authentic half-day Atlas Mountains day trip! Step inside a 300-year-old village home to discover Berber culture, then join our hands-on workshop to master traditional Moroccan food - choose your dish when you book.",
+    "descriptionSegments": [
+      { "type": "text", "value": "Looking for the best " },
+      { "type": "link", "value": "things to do in Taghazout?", "href": "/#things-to-do-taghazout" },
+      { "type": "text", "value": " Leave the coast for an authentic half-day " },
+      { "type": "link", "value": "Atlas Mountains day trip!", "href": "/ourstory/location" },
+      { "type": "text", "value": " Step inside a 300-year-old village home to discover Berber culture, then join our hands-on workshop to master " },
+      { "type": "link", "value": "traditional Moroccan food - choose your dish when you book.", "href": "/experiences" }
+    ],
     "bookButton": "BOOK YOUR EXPERIENCE"
+  },
+  "heroIntro": {
+    "badge": "FROM TAGHAZOUT TO THE ATLAS",
+    "title": "Looking for the best things to do in Taghazout?",
+    "cta": "BOOK YOUR EXPERIENCE",
+    "descriptionSegments": [
+      { "type": "text", "value": "Leave the coast for an authentic half-day " },
+      { "type": "link", "value": "Atlas Mountains day trip!", "href": "/ourstory/location" },
+      { "type": "text", "value": " Step inside a 300-year-old village home to discover Berber culture, then join our hands-on workshop to master " },
+      { "type": "link", "value": "traditional Moroccan food - choose your dish when you book.", "href": "/experiences" }
+    ],
+    "includedTitle": "What's Included",
+    "included": [
+      {
+        "title": "Your Choice of Dish:",
+        "description": "Tagine, Msemen, Couscous, or Rfissa — you choose when you book"
+      },
+      {
+        "title": "Hands-On Experience:",
+        "description": "Bake traditional clay-oven bread & make your own stone-ground Amlou"
+      },
+      {
+        "title": "Full Feast:",
+        "description": "Enjoy a multi-course meal with scenic mountain views"
+      },
+      {
+        "title": "Free Transport:",
+        "description": "Round-trip transfer included from Taghazout Mosque"
+      }
+    ]
   },
   "packages": {
     "badge": "CHOOSE YOUR EXPERIENCE",
@@ -22,21 +60,29 @@
     "description": "Choose your traditional cooking experience in Taghazout — half-day Berber village journey in the Atlas Mountains, just 15 minutes from the coast.",
     "mostPopular": "Most Popular",
     "basic": {
-      "title": "Basic Package",
+      "title": "The Authentic Mountain & Culinary Escape",
       "subtitle": "Your Journey into the Mountains",
-      "description": "A half-day immersive cultural experience",
-      "price": "500 MAD/person",
-      "duration": "6 hours",
-      "startTime": "13:30 Start Time",
+      "description": "Escape the coast for a half-day in the Atlas Mountains. Tour a historic village home, grind fresh Amlou, and cook the traditional dish of your choice.",
+      "price": "From 65 EUR/person",
+      "duration": "4 hours",
+      "startTime": "Flexible Start Time",
       "pickup": "Taghazout Mosque Pickup"
     },
     "private": {
-      "title": "Private Package",
-      "subtitle": "Your Exclusive Mountain Experience",
-      "description": "A personalized full-day cultural journey",
-      "price": "800 MAD/person",
+      "title": "Private Workshop Experience",
+      "subtitle": "Private cooking at our village workshop",
+      "description": "A private cooking experience just for your group at our traditional village workshop — perfect for couples and small celebrations.",
+      "price": "80 EUR/person",
       "startTime": "Flexible Start Time",
-      "pickup": "Hotel Pickup Included"
+      "pickup": "Taghazout Mosque Pickup"
+    },
+    "privateAtLocation": {
+      "title": "Rabab Comes to You",
+      "subtitle": "Private cooking at your villa or riad",
+      "description": "We bring the full cooking experience to your villa or riad — ideal for family gatherings and larger celebrations.",
+      "price": "100 EUR/person",
+      "startTime": "Flexible Start Time",
+      "pickup": "At your location"
     },
     "viewDetails": "View Full Details",
     "bookNow": "Book Now"
@@ -44,18 +90,18 @@
   "experiences": {
     "title": "Moroccan Cooking",
     "titleHighlight": "Experiences in Taghazout",
-    "description": "Five hands-on Moroccan cooking experiences in Taghazout — from Tajine Masterclass and Clay Oven Bread Making to Amlou Workshop Morocco and Berber village cultural immersion.",
+    "description": "Five hands-on Moroccan cooking experiences in Taghazout — from Moroccan Cooking Masterclass and Clay Oven Bread Making to Amlou Workshop Morocco and Berber village cultural immersion.",
     "bookExperience": "Book an Experience",
     "ctaTitle": "Ready to Start Your",
     "ctaTitleHighlight": "Culinary Journey?",
     "ctaDescription": "Book your authentic Moroccan cooking experience today and create unforgettable memories in the Atlas Mountains.",
     "viewPackages": "View Packages",
     "tajine": {
-      "title": "Tajine Masterclass Taghazout",
-      "subtitle": "Morocco's Iconic Dish",
-      "description": "Master the art of Morocco's most iconic dish in this comprehensive class.",
-      "longDescription": "Master the art of Morocco's most iconic dish in this comprehensive class. Learn to prepare slow-cooked tagines with aromatic spices, tender meats, and vegetables in traditional clay pots, achieving the perfect balance of flavors that makes Moroccan tagine world-renowned.",
-      "highlights": ["Clay pot cooking techniques", "Spice layering & blending", "Meat & vegetable tagines", "Preserved lemons preparation", "Traditional serving methods"]
+      "title": "Moroccan Cooking Masterclass (Tagine, Msemen, Couscous, or Rfissa)",
+      "subtitle": "Choose Your Traditional Dish",
+      "description": "Cook the traditional Moroccan dish of your choice.",
+      "longDescription": "Choose your dish — Tagine, Msemen, Couscous, or Rfissa — and learn to cook it the traditional way in an authentic village kitchen. Master aromatic spices, hands-on techniques, and family recipes passed down through generations in the Atlas Mountains.",
+      "highlights": ["Your choice of Tagine, Msemen, Couscous, or Rfissa", "Traditional cooking techniques", "Aromatic spice blends", "Hands-on village kitchen experience", "Vegetarian & vegan options available"]
     },
     "amazigh": {
       "title": "Berber Village Cooking Experience",
@@ -98,8 +144,9 @@
     "email": "Email Address",
     "emailPlaceholder": "Enter your email address",
     "packageType": "Select Package",
-    "basicPackage": "Basic Package - 500 MAD",
-    "privatePackage": "Private Package - 800 MAD",
+    "basicPackage": "The Authentic Mountain & Culinary Escape - From 65 EUR",
+    "privatePackage": "Private Workshop Experience - 80 EUR",
+    "privateAtLocationPackage": "Rabab Comes to You - 100 EUR",
     "dietary": "Dietary Preferences",
     "dietaryNone": "No restrictions",
     "dietaryVegetarian": "Vegetarian",
@@ -112,7 +159,30 @@
     "successMessage": "Thank you for your booking request! We'll contact you shortly to confirm your experience.",
     "bookAnother": "Book Another Experience",
     "backHome": "Back to Home",
-    "disclaimer": "By submitting this form, your booking request will be saved and we'll contact you shortly to confirm."
+    "disclaimer": "By submitting this form, your booking request will be saved and we'll contact you shortly to confirm.",
+    "calendarTitle": "Choose Your Day",
+    "calendarSubtitle": "Pick an available morning or afternoon workshop. Complimentary pick-up from Taghazout Mosque is included.",
+    "changeSlot": "Change date / time",
+    "selectedSlot": "Selected workshop",
+    "pickupLabel": "Pick-up",
+    "adults": "Number of adults",
+    "adultsHint": "Minimum 3 adults for the Basic package",
+    "childrenQuestion": "Are children joining?",
+    "childrenYes": "Yes",
+    "childrenNo": "No",
+    "childAge": "Child age",
+    "addChild": "Add another child",
+    "removeChild": "Remove",
+    "priceSummary": "Price summary",
+    "adultsSubtotal": "Adults",
+    "childrenSubtotal": "Children",
+    "total": "Total",
+    "slotConflict": "This time slot is already booked. Please choose another available slot.",
+    "childrenPricingNote": "Ages 0–3 free · 4–9 half price · 10+ full price",
+    "chooseDish": "Choose one dish for your group",
+    "chooseDishHint": "Everyone cooks and eats the same dish. One shared choice for the whole booking — not per guest.",
+    "dietaryNotes": "Dietary notes / allergies",
+    "dietaryNotesPlaceholder": "e.g. one guest no meat, nut allergy — notes for the host, not a separate dish choice"
   },
   "common": {
     "readMore": "Read More",
@@ -148,7 +218,7 @@
       "bookNow": "Book Cooking Class Near Taghazout"
     },
     "experienceLinks": {
-      "tajine": "Tajine Masterclass Taghazout",
+      "tajine": "Moroccan Cooking Masterclass Taghazout",
       "amazigh": "Berber Village Cooking Experience",
       "tea": "Moroccan Mint Tea Ceremony",
       "bread": "Clay Oven Bread Making Taghazout",
@@ -163,7 +233,7 @@
     ],
     "packages": [
       { "href": "/book", "label": "Book Cooking Class Near Taghazout" },
-      { "href": "/experiences#tajine-masterclass", "label": "Tajine Masterclass Taghazout" },
+      { "href": "/experiences#cooking-masterclass", "label": "Moroccan Cooking Masterclass Taghazout" },
       { "href": "/events", "label": "Things to Do Besides Surfing" }
     ],
     "experience": [
@@ -177,7 +247,7 @@
     "learnToCook": "Learn to cook Amazigh",
     "learnToCookPart1": "Moroccan Cooking Class",
     "learnToCookPart2": "in Taghazout",
-    "description": "Go beyond the restaurants and learn to cook like a local. Our authentic Berber cooking class takes you into a traditional village home just 15 minutes above the Taghazout coast. You will master the art of the clay-pot tagine, learn to bake traditional mountain bread, and discover the secret spice blends of the Atlas Mountains. This immersive half-day experience is the perfect way to discover Amazigh and Berber culture through its most famous flavors.",
+    "description": "Go beyond the restaurants and learn to cook like a local. Our authentic Berber cooking class takes you into a traditional village home just 15 minutes above the Taghazout coast. You will master traditional Moroccan dishes of your choice — Tagine, Msemen, Couscous, or Rfissa — learn to bake traditional mountain bread, and discover the secret spice blends of the Atlas Mountains. This immersive half-day experience is the perfect way to discover Amazigh and Berber culture through its most famous flavors.",
     "bookClass": "BOOK YOUR CLASS",
     "duration": "DURATION",
     "group": "GUESTS",
@@ -185,7 +255,7 @@
     "dishesLowercase": "dishes",
     "handsOn": "HANDS-ON",
     "experienceIncludes": "Experience includes",
-    "ratedBy": "Rated 4.9 by 500+",
+    "ratedBy": "Rated 5.0 by 500+",
     "reviews": "500+ reviews",
     "amazighExperience": "Amazigh Experience",
     "cookLikeLocal": "Cook",
@@ -197,7 +267,7 @@
   "experience": {
     "title": "THE JOURNEY",
     "subtitle": "Traditional Cooking Experience in Taghazout",
-    "description": "Experience an authentic Berber village cooking journey — pickup from Taghazout, hands-on tagine and bread making, and a family feast in the Atlas Mountains.",
+    "description": "Experience an authentic Berber village cooking journey — pickup from Taghazout, hands-on cooking of your chosen dish and bread making, and a family feast in the Atlas Mountains.",
     "step1": {
       "title": "Pickup & Journey",
       "subtitle": "Your Adventure Begins",
@@ -207,14 +277,14 @@
     "step2": {
       "title": "Traditional Kitchen Tour",
       "subtitle": "Where Magic Happens",
-      "description": "Step into an authentic Moroccan kitchen and discover the traditional tools and techniques that have been used for generations. See the wood-fired oven, traditional tagines, and the workspace where you'll create your feast.",
-      "highlights": ["Make your own tea with the local herbs", "Enjoy tea with Moroccan handmade sweets", "Explore authentic kitchen", "Wood-fired oven demonstration"]
+      "description": "Step into an authentic Moroccan kitchen and discover the traditional tools and techniques that have been used for generations. See the wood-fired oven, clay pots, and the workspace where you'll prepare your chosen dish - Tagine, Msemen, Couscous, or Rfissa.",
+      "highlights": ["Make your own tea with the local herbs", "Enjoy tea with Moroccan handmade sweets", "Explore tools for Tagine, Msemen, Couscous & Rfissa", "Wood-fired oven demonstration"]
     },
     "step3": {
       "title": "Hands-On Cooking",
       "subtitle": "Recipes From Generations",
-      "description": "In a real Moroccan kitchen, learn authentic cooking techniques passed down through generations. From preparing tagine to baking fresh bread in a traditional wood-fired oven—this is cooking as it's meant to be.",
-      "highlights": ["Kneading the dough", "Bread making in wood oven", "Prepare local Berber tagine (salty and sweet)", "Making Moroccan spread Amlou", "Family recipes & secrets"]
+      "description": "In a real Moroccan kitchen, learn authentic cooking techniques passed down through generations. From preparing your chosen traditional dish to baking fresh bread in a traditional wood-fired oven—this is cooking as it's meant to be.",
+      "highlights": ["Kneading the dough", "Bread making in wood oven", "Prepare your chosen traditional dish (Tagine, Msemen, Couscous, or Rfissa)", "Making Moroccan spread Amlou", "Family recipes & secrets"]
     },
     "step4": {
       "title": "Feast & Return",
@@ -229,14 +299,34 @@
   },
   "community": {
     "badge": "COMMUNITY IMPACT",
-    "title": "Your Meal Supports Local Children",
-    "description": "Every cooking class directly benefits children in Tamsoult village. We provide school supplies, nutritious meals, and educational support to over 10 children each month.",
+    "title": "Your Meal Supports Village Animals",
+    "description": "Every cooking class directly supports the animals of Tamsoult village. We care for 1 dog, 4 cats, and a flock of 30 chickens — providing food, shelter, and care for the animals that share our community.",
     "quote": "In Amazigh culture, we believe cooking is not just about food – it's about nourishing our community. When you cook with me, you become part of our village family.",
     "readMore": "Read More About Our Mission",
     "bookGiveBack": "Book & Give Back",
-    "impactItems": ["📚 School supplies & backpacks", "🍲 Nutritious meals", "🧸 Toys for children", "👕 Clothes for children"],
-    "children": "Children",
+    "impactItems": [
+      "35+ Animals Cared For",
+      "100% Tips Donated",
+      "1 Dog · 4 Cats · 30 Chickens"
+    ],
+    "statAnimals": "Animals Cared For",
+    "statMix": "Dog · Cats · Chickens",
     "tipsDonated": "Tips Donated",
+    "meetCats": "Meet the Village Cats",
+    "meetChickens": "Meet the Chickens",
+    "cats": {
+      "badge": "4 Village Cats",
+      "title": "The Village Cats",
+      "description": "Four friendly cats share our village home and kitchen courtyard. Part of every class goes toward their daily meals, shelter, and care — the quiet companions of life in Tamsoult.",
+      "imageAlt": "Village cats cared for by Taghazout cooking class community in Tamsoult Morocco"
+    },
+    "chickens": {
+      "badge": "30 Chickens",
+      "title": "The Village Flock",
+      "description": "A flock of 30 chickens lives with us in the village. Your class helps keep them fed and safe — and guests often meet them as part of the real rhythm of Amazigh village life.",
+      "imageAlt": "Village chickens supported by Taghazout cooking class community impact in Atlas Mountains"
+    },
+    "children": "Children",
     "schools": "Schools"
   },
   "reviews": {
@@ -266,50 +356,60 @@
       "300-year-old Amazigh house tour",
       "Moroccan mint tea ceremony",
       "Traditional village bread baking",
-      "Authentic tagine cooking workshop"
+      "Your choice of dish (Tagine, Msemen, Couscous, or Rfissa)"
     ],
     "private": [
-      "Completely private experience",
-      "Flexible scheduling & timing",
-      "Customizable menu options",
-      "Exclusive Amazigh house access"
+      "Round-trip transport from Taghazout Mosque",
+      "Moroccan Tea Masterclass",
+      "Amlou Making",
+      "Customizable menu (Tagine, Msemen, Couscous, or Rfissa)"
     ]
   },
   "events": {
     "badge": "Things to Do in Taghazout Besides Surfing",
-    "seoSubtitle": "Weekly Amazigh Music & Cultural Event — Every Thursday Above Taghazout",
+    "seoSubtitle": "Weekly Berber Music Event at Sunset — Every Saturday Above Taghazout",
     "title1": "LIVE THE",
     "title2": "Amazigh",
     "title3": "MUSIC",
-    "description": "Looking for things to do in Taghazout besides surfing? Join our weekly Amazigh music and cultural event every Thursday in the Atlas Mountains — traditional Ahwach performances, live Berber musicians, storytelling, and Moroccan mint tea.",
-    "everyThursday": "Every Thursday",
-    "time": "17:00 - 18:00",
-    "atlasLocation": "Atlas Mountains",
-    "amazighMusicians": "Amazigh Musicians",
+    "description": "Join us for our Weekly Berber Music Event at sunset in a traditional Amazigh village — traditional music, barbecue grilled in the clay oven, mint tea, and a celebration with live performance. Pickup from Taghazout Mosque included.",
+    "everySaturday": "Every Saturday",
+    "time": "15:00 · 4 hours",
+    "groupSize": "6–13 guests",
+    "price": "80 € / person",
+    "atlasLocation": "Amazigh Village",
+    "amazighMusicians": "Amazigh Village Music Gala",
     "photoComingSoon": "Photo Coming Soon",
     "liveTheMusic": "Live",
     "theMusic": "the Music",
     "whatToExpect": "WHAT TO EXPECT",
+    "highlights": [
+      "Every Saturday at 15:00",
+      "Minimum 6 guests required",
+      "Pickup from Taghazout Mosque",
+      "Mint tea ceremony",
+      "Make your barbecue",
+      "Traditional Amazigh music & celebration"
+    ],
     "ahwach": {
-      "title": "Ahwach Performance",
-      "description": "Watch authentic Ahwach dance and music performed in traditional circles, combining singing, dancing, and poetry led by local Amazigh artists."
+      "title": "Traditional Amazigh Music",
+      "description": "Experience live Berber music and celebration in a traditional village — the heart of our Weekly Event at sunset."
     },
-    "storytelling": {
-      "title": "Cultural Storytelling",
-      "description": "Experience traditional poetry and stories that have been passed down through generations, celebrating Amazigh heritage and connection to the land."
+    "bbq": {
+      "title": "Clay Oven Barbecue",
+      "description": "Make your barbecue grilled in the clay oven with freshly baked traditional bread — a feast shared with the group."
     },
     "musicians": {
-      "title": "Live Musicians",
-      "description": "Enjoy live performances featuring traditional instruments including the Bendir drum, Ribab string instrument, and the Talâouwadt flute."
+      "title": "Live Performance",
+      "description": "Enjoy live performances and village celebration featuring traditional Amazigh instruments and rhythms."
     },
     "teaRefreshments": {
-      "title": "Tea & Refreshments",
-      "description": "Enjoy traditional Moroccan mint tea and local sweets in the authentic atmosphere of an Amazigh cultural gathering."
+      "title": "Mint Tea Ceremony",
+      "description": "Start with Moroccan mint tea in the authentic atmosphere of an Amazigh village gathering."
     },
     "ctaTitle": "Join Us This",
-    "ctaTitleHighlight": "Thursday",
-    "ctaDescription": "Experience the soul of Amazigh culture through music and storytelling.",
-    "bookNow": "BOOK NOW"
+    "ctaTitleHighlight": "Saturday",
+    "ctaDescription": "Book the Weekly Event — 80 € per person, 4 hours, 6–13 guests. Pickup from Taghazout Mosque.",
+    "bookNow": "BOOK WEEKLY EVENT"
   },
   "packagesPage": {
     "badge": "Authentic Experiences",
@@ -340,7 +440,7 @@
     "readyDescription": "Book your {name} today and create unforgettable memories",
     "bookPackage": "Book {name}",
     "basic": {
-      "name": "Basic Package",
+      "name": "The Authentic Mountain & Culinary Escape",
       "tagline": "Your Journey into the Mountains",
       "subtitle": "Half-Day Authentic Berber Cultural Experience Above Taghazout",
       "duration": "4 hours",
@@ -350,9 +450,9 @@
         { "time": "14:00", "title": "A Warm Village Welcome", "description": "Arrive at our village and step inside an ancient 300-year-old Amazigh house, one of the oldest in North Africa. Meet the local family and I will be your guided tour to show you how our ancestors lived in the heart of these mountains." },
         { "time": "14:30", "title": "The Garden Tea Ritual", "description": "Relax in our authentic workshop and learn the art of Moroccan tea. You'll pick fresh mint and herbs directly from our small garden to brew your own pot. Enjoy your tea with homemade Moroccan sweets I've prepared for you, as we sit together for a warm conversation to get to know one another." },
         { "time": "15:00", "title": "Prepare The Traditional Bread", "description": "Master the ancient art of village bread. You will knead your own dough by hand before baking it in our traditional stone oven. We fire the hearth with Argan wood, infusing the bread with a rich, smoky aroma and a golden crust that you can only find in the heart of the mountains." },
-        { "time": "15:30", "title": "The Tagine Workshop", "description": "Prepare an authentic Tagine by cleaning fresh vegetables, marinating your chicken or fish in special Moroccan spices, and mastering the sweet and salty combination as it slow-cooks over an Argan wood fire for a delicious, smoky aroma." },
+        { "time": "15:30", "title": "Your Cooking Masterclass", "description": "Prepare your chosen traditional dish — Tagine, Msemen, Couscous, or Rfissa — using authentic Moroccan spices and techniques in our village kitchen. Cook hands-on with guidance, then let the flavors develop while you continue the experience." },
         { "time": "16:30", "title": "The Ancient Millstone", "description": "Experience the magic of making your own Amlou using a traditional stone millstone—one of our most ancient tools that we still preserve and use today. You will grind toasted almonds by hand, blending them with pure Argan oil and orange honey to create the most delicious spread you can taste in Morocco." },
-        { "time": "17:30", "title": "The Family Feast & Sunset", "description": "After half day of tradition and cooking, it is time to sit together as one family. Enjoy the delicious meal you created, sharing stories and laughter over the steaming Tagine and fresh bread. It is more than just a dinner; it is a moment of true Moroccan hospitality in the peaceful heart of the mountains, watching the sunset over the Atlas peaks before we begin our journey back to Taghazout." },
+        { "time": "17:30", "title": "The Family Feast & Sunset", "description": "After half day of tradition and cooking, it is time to sit together as one family. Enjoy the delicious meal you created, sharing stories and laughter over your dish and fresh bread. It is more than just a dinner; it is a moment of true Moroccan hospitality in the peaceful heart of the mountains, watching the sunset over the Atlas peaks before we begin our journey back to Taghazout." },
         { "time": "19:00", "title": "Journey Home", "description": "After the sun sets and we've shared our final goodbyes, we begin the scenic drive back, dropping you directly in Taghazout or Tamraght by 19:30 – 20:00." }
       ],
       "includes": [
@@ -361,7 +461,7 @@
         "300-year-old Amazigh house tour",
         "Traditional Moroccan tea ceremony",
         "Village bread baking workshop",
-        "Authentic tagine cooking",
+        "Your choice of dish (Tagine, Msemen, Couscous, or Rfissa)",
         "Make Moroccan spread (Amlou)",
         "Family-style feast with sunset views",
         "Return transport to Taghazout/Tamraght"
@@ -377,7 +477,7 @@
         { "time": "TBD", "title": "Event Details Coming Soon", "description": "Join us for our special weekly cooking event. More details will be announced soon. This is a unique opportunity to experience Moroccan cooking in a communal setting." }
       ],
       "includes": [
-        "Every Thursday at 15:00",
+        "Every Saturday at 15:00",
         "Minimum 6 guests required",
         "Pickup from Taghazout Mosque",
         "Mint tea ceremony",
@@ -386,31 +486,48 @@
       ]
     },
     "private": {
-      "name": "Private Package",
-      "tagline": "Exclusive Mountain Experience",
-      "subtitle": "Personalized journey for you and your group",
-      "duration": "5 hours",
-      "groupSize": "Private group (2-8 guests)",
+      "name": "Private Workshop Experience",
+      "tagline": "Private at Our Village Workshop",
+      "subtitle": "A private cooking experience just for your group at our traditional village workshop — perfect for couples and small celebrations.",
+      "duration": "Flexible",
+      "groupSize": "Minimum 2 guests",
       "itinerary": [
-        { "time": "Flexible", "title": "Private Pickup", "description": "We'll pick you up from your accommodation at your preferred time. Enjoy a comfortable private drive through the Argan forest with stunning ocean views from the mountains." },
-        { "time": "Start", "title": "Exclusive House Welcome", "description": "Private tour of our ancient 300-year-old Amazigh house. Take your time exploring and learning about our ancestral way of life with personalized attention." },
-        { "time": "+30 min", "title": "Personalized Tea Ceremony", "description": "Private tea ceremony in our garden. Pick your own fresh herbs and learn the authentic Moroccan tea ritual at your own pace." },
-        { "time": "+1 hour", "title": "Bread Making Workshop", "description": "Exclusive bread-making session. Knead your dough and bake it in our traditional stone oven with Argan wood, creating that signature smoky flavor." },
-        { "time": "+1.5 hours", "title": "Custom Tagine Creation", "description": "Choose your preferred ingredients and create your personalized tagine. We'll accommodate dietary preferences and teach you the authentic techniques with individual attention." },
-        { "time": "+2.5 hours", "title": "Amlou Making Experience", "description": "Private session using our ancient millstone. Grind toasted almonds by hand and blend with pure Argan oil and honey to create authentic Amlou." },
-        { "time": "+3.5 hours", "title": "Private Family Feast", "description": "Enjoy your meal in an intimate setting with your group. Share stories and experience genuine Moroccan hospitality while watching the sunset over the Atlas Mountains." },
-        { "time": "End", "title": "Private Return Journey", "description": "Comfortable private transport back to your accommodation at your preferred time." }
+        { "time": "Flexible", "title": "Round-Trip Transport", "description": "Round-trip transport from Taghazout Mosque to our traditional village workshop in the Atlas Mountains above Taghazout." },
+        { "time": "Start", "title": "Moroccan Tea Masterclass", "description": "Learn how to make traditional mint tea in a relaxing workshop setting reserved just for your group." },
+        { "time": "+1 hour", "title": "Amlou Making", "description": "Learn how to make traditional Moroccan almond and argan oil spread with hands-on guidance." },
+        { "time": "+2 hours", "title": "Your Chosen Dish", "description": "Cook the dish you choose — Tagine, Msemen, Couscous, or Rfissa — in our traditional village workshop." },
+        { "time": "+3 hours", "title": "Shared Family Meal", "description": "Enjoy a shared meal, eating together with a local family, then take home the recipe of the dish you cooked." }
       ],
       "includes": [
-        "Completely private experience",
-        "Flexible scheduling & timing",
-        "Your choice of location",
-        "Custom menu options",
-        "300-year-old Amazigh house tour",
-        "Complete cooking workshop",
-        "All ingredients & materials",
-        "Private family-style feast",
-        "Dietary accommodations available"
+        "Round-trip transport from Taghazout Mosque to the workshop in the mountains",
+        "Moroccan Tea Masterclass — learn how to make traditional mint tea",
+        "Amlou Making — traditional Moroccan almond and argan oil spread",
+        "Shared meal, eating together with a local family",
+        "Traditional, relaxing workshop setting",
+        "The recipe of the dish you choose to cook, to take home",
+        "Customizable menu (Tagine, Msemen, Couscous, or Rfissa)",
+        "Minimum 2 guests"
+      ]
+    },
+    "privateAtLocation": {
+      "name": "Rabab Comes to You",
+      "tagline": "Private At Your Location",
+      "subtitle": "We bring the full cooking experience to your villa or riad — ideal for family gatherings and larger celebrations.",
+      "duration": "Flexible",
+      "groupSize": "Minimum 6 guests",
+      "itinerary": [
+        { "time": "Flexible", "title": "We Come to You", "description": "Rabab and the team come directly to your hotel, villa, or riad anywhere in the Taghazout area." },
+        { "time": "Start", "title": "Ingredients Ready", "description": "Rabab and the team shop for and bring all the ingredients needed for your chosen meal." },
+        { "time": "+1 hour", "title": "Cook Together", "description": "The team cooks together with you — choose Tagine, Msemen, Couscous, or Rfissa — and cleans the kitchen afterwards." },
+        { "time": "End", "title": "A Gift to Take Home", "description": "Receive a gift of local Moroccan terroir products to take home after your private celebration." }
+      ],
+      "includes": [
+        "Rabab and the team come directly to your location",
+        "The team cooks together with you, and cleans the kitchen afterwards",
+        "You choose your meal (Tagine, Msemen, Couscous, or Rfissa)",
+        "Rabab and the team shop for and bring all the ingredients needed",
+        "A gift of local Moroccan terroir products to take home",
+        "Minimum 6 guests"
       ]
     }
   },
@@ -420,11 +537,11 @@
       "title": "Rabab — Taghazout",
       "titleHighlight": "Cooking Class Host",
       "hello": "Hello, I'm Rabab",
-      "paragraph1": "My name is Rabab, and I was born and raised in the Atlas Mountains. With a background in Business Management, I decided in 2024 to launch my own project: an authentic cooking class and cultural experience.",
-      "paragraph2": "As an Amazigh woman, my mission is to share my culture with the world and the travelers who come to the Taghazout area.",
-      "paragraph3": "Located just 15 minutes above Taghazout, I have started a local workshop that is a direct collaboration with village women. This project is designed to give an authentic and immersive experience to those who want to discover the real Morocco beyond the surf.",
-      "paragraph4": "In my workshop, I teach you how to prepare Amazigh food using the original tools and techniques of my roots, which have been passed down for 10,000 years in North Africa.",
-      "paragraph5": "By joining my workshop, you are helping me bring value to these local women, allowing them to be productive and earn the financial independence they need to support their families.",
+      "paragraph1": "I was born and raised in the Atlas Mountains. With a background in Business Management, I launched my own project in 2024, an authentic cooking class and cultural experience, just 15 minutes above Taghazout.",
+      "paragraph2": "As an Amazigh woman, my mission is to share my culture with travelers who come to explore beyond the surf. My workshop is a direct collaboration with village women — together, we teach you to prepare traditional Amazigh food using tools and techniques passed down for 10,000 years.",
+      "paragraph3": "Every class you join helps bring financial independence to these women and supports our village family — including the cats, chickens, and dog we care for every day.",
+      "paragraph4": "In Amazigh culture, we believe cooking is not just about food — it's about nourishing our community. When you cook with me, you become part of our village family.",
+      "paragraph5": "",
       "ctaTitle": "Cook With",
       "ctaTitleHighlight": "Rabab",
       "ctaDescription": "Join me in the mountains for an authentic cultural experience and support our local community.",
@@ -551,15 +668,15 @@
         "id": "cooking-class",
         "emoji": "👩‍🍳",
         "title": "Moroccan Cooking Class Taghazout",
-        "description": "Book a half-day Berber village cooking experience — tagine, clay oven bread, amlou, and a family feast in the Atlas Mountains.",
+        "description": "Book a half-day Berber village cooking experience — your choice of dish, clay oven bread, amlou, and a family feast in the Atlas Mountains.",
         "imageAlt": "Moroccan cooking class Taghazout — Berber village experience in Atlas Mountains"
       },
       {
         "id": "tajine",
         "emoji": "🍲",
-        "title": "Tajine Masterclass Taghazout",
-        "description": "Learn the secrets of slow-cooked Moroccan tagine with aromatic spices in a traditional clay pot — Morocco's most iconic dish.",
-        "imageAlt": "Tajine masterclass Taghazout — traditional Moroccan tagine cooking class"
+        "title": "Moroccan Cooking Masterclass Taghazout",
+        "description": "Choose your dish - Tagine, Msemen, Couscous, or Rfissa - and learn to cook it the traditional way, with aromatic spices in an authentic village kitchen.",
+        "imageAlt": "Moroccan cooking masterclass Taghazout — Tagine, Msemen, Couscous, or Rfissa in traditional village kitchen"
       },
       {
         "id": "bread",
@@ -572,7 +689,7 @@
         "id": "music",
         "emoji": "🎵",
         "title": "Weekly Amazigh Music Event",
-        "description": "Every Thursday — experience traditional Ahwach performances, Berber musicians, and cultural storytelling in the Atlas Mountains.",
+        "description": "Every Saturday — experience traditional Amazigh music, clay-oven barbecue, and village celebration in the Atlas Mountains.",
         "imageAlt": "Amazigh music event Taghazout — things to do besides surfing Morocco"
       },
       {

@@ -1,19 +1,19 @@
 [
   {
-    "id": "tajine-masterclass",
-    "title": "Tajine Masterclass",
-    "subtitle": "Morocco's Iconic Dish",
-    "description": "The secret to perfect slow-cooked tagines",
-    "longDescription": "Master the art of Morocco's most iconic dish in this comprehensive class. Learn to prepare slow-cooked tagines with aromatic spices, tender meats, and vegetables in traditional clay pots, achieving the perfect balance of flavors that makes Moroccan tagine world-renowned.",
+    "id": "cooking-masterclass",
+    "title": "Moroccan Cooking Masterclass",
+    "subtitle": "Choose Your Traditional Dish",
+    "description": "Cook Tagine, Msemen, Couscous, or Rfissa — your choice",
+    "longDescription": "Choose your dish — Tagine, Msemen, Couscous, or Rfissa — and learn to cook it the traditional way in an authentic village kitchen. Master aromatic spices, hands-on techniques, and family recipes passed down through generations in the Atlas Mountains.",
     "image": "/experiences/tajine-masterclass.jpg",
     "duration": "3-4 hours",
     "groupSize": "4-8 guests",
     "highlights": [
-      "Clay pot cooking techniques",
-      "Spice layering & blending",
-      "Meat & vegetable tagines",
-      "Preserved lemons preparation",
-      "Traditional serving methods"
+      "Your choice of Tagine, Msemen, Couscous, or Rfissa",
+      "Traditional cooking techniques",
+      "Aromatic spice blends",
+      "Hands-on village kitchen experience",
+      "Vegetarian & vegan options available"
     ],
     "color": "from-orange-500 to-red-600"
   },

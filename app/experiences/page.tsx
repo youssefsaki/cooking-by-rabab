@@ -22,15 +22,15 @@ interface Experience {
 // Experiences data - imported from /data/experiences.json
 const experiences: Experience[] = [
   {
-    "id": "tajine-masterclass",
-    "title": "Tajine Masterclass",
-    "subtitle": "Morocco's Iconic Dish",
-    "description": "The secret to perfect slow-cooked tagines",
-    "longDescription": "Master the art of Morocco's most iconic dish in this comprehensive class. Learn to prepare slow-cooked tagines with aromatic spices, tender meats, and vegetables in traditional clay pots, achieving the perfect balance of flavors that makes Moroccan tagine world-renowned.",
+    "id": "cooking-masterclass",
+    "title": "Moroccan Cooking Masterclass",
+    "subtitle": "Choose Your Traditional Dish",
+    "description": "Cook Tagine, Msemen, Couscous, or Rfissa — your choice",
+    "longDescription": "Choose your dish — Tagine, Msemen, Couscous, or Rfissa — and learn to cook it the traditional way in an authentic village kitchen. Master aromatic spices, hands-on techniques, and family recipes passed down through generations in the Atlas Mountains.",
     "image": "/experiences/tajine.jpg",
     "duration": "4 hours",
     "groupSize": "2-13 guests",
-    "highlights": ["Clay pot cooking techniques", "Spice layering & blending", "Meat & vegetable tagines", "Preserved lemons preparation", "Traditional serving methods"],
+    "highlights": ["Your choice of Tagine, Msemen, Couscous, or Rfissa", "Traditional cooking techniques", "Aromatic spice blends", "Hands-on village kitchen experience", "Vegetarian & vegan options available"],
     "color": "from-orange-500 to-red-600"
   },
   {
@@ -146,7 +146,7 @@ export default function ExperiencesPage() {
                     {/* Content */}
                     <div className={`${!isEven ? 'lg:order-1' : ''}`}>
                       <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-2">
-                        {experience.id === 'tajine-masterclass' ? t.experiences.tajine.title :
+                        {experience.id === 'cooking-masterclass' ? t.experiences.tajine.title :
                          experience.id === 'amazigh-heritage' ? t.experiences.amazigh.title :
                          experience.id === 'tea-ceremony' ? t.experiences.tea.title :
                          experience.id === 'clay-oven-bread' ? t.experiences.bread.title :
@@ -154,7 +154,7 @@ export default function ExperiencesPage() {
                          experience.title}
                       </h2>
                       <p className="text-lg text-amber-600 font-semibold mb-4 italic">
-                        {experience.id === 'tajine-masterclass' ? t.experiences.tajine.subtitle :
+                        {experience.id === 'cooking-masterclass' ? t.experiences.tajine.subtitle :
                          experience.id === 'amazigh-heritage' ? t.experiences.amazigh.subtitle :
                          experience.id === 'tea-ceremony' ? t.experiences.tea.subtitle :
                          experience.id === 'clay-oven-bread' ? t.experiences.bread.subtitle :
@@ -163,7 +163,7 @@ export default function ExperiencesPage() {
                       </p>
                       
                       <p className="text-base text-gray-700 leading-relaxed mb-5">
-                        {experience.id === 'tajine-masterclass' ? t.experiences.tajine.longDescription :
+                        {experience.id === 'cooking-masterclass' ? t.experiences.tajine.longDescription :
                          experience.id === 'amazigh-heritage' ? t.experiences.amazigh.longDescription :
                          experience.id === 'tea-ceremony' ? t.experiences.tea.longDescription :
                          experience.id === 'clay-oven-bread' ? t.experiences.bread.longDescription :
@@ -185,7 +185,7 @@ export default function ExperiencesPage() {
 
                       {/* Highlights */}
                       <div className="space-y-2 mb-6">
-                        {(experience.id === 'tajine-masterclass' ? t.experiences.tajine.highlights :
+                        {(experience.id === 'cooking-masterclass' ? t.experiences.tajine.highlights :
                           experience.id === 'amazigh-heritage' ? t.experiences.amazigh.highlights :
                           experience.id === 'tea-ceremony' ? t.experiences.tea.highlights :
                           experience.id === 'clay-oven-bread' ? t.experiences.bread.highlights :

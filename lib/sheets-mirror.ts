@@ -12,6 +12,13 @@ export type BookingSheetPayload = {
   packageType: string;
   dietaryPreference: string;
   allergies?: string;
+  slotDate?: string;
+  slotPeriod?: string;
+  dish?: string;
+  adults?: number;
+  children?: string;
+  location?: string;
+  totalPrice?: number;
 };
 
 export type ContactSheetPayload = {

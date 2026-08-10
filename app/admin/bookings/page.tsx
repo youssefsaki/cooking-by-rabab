@@ -55,8 +55,8 @@ export default function AdminBookingsPage() {
                 <th className="px-4 py-3 font-semibold">Date</th>
                 <th className="px-4 py-3 font-semibold">Customer</th>
                 <th className="px-4 py-3 font-semibold">Contact</th>
-                <th className="px-4 py-3 font-semibold">Package</th>
-                <th className="px-4 py-3 font-semibold">Dietary</th>
+                <th className="px-4 py-3 font-semibold">Package / slot</th>
+                <th className="px-4 py-3 font-semibold">Guests / dish</th>
                 <th className="px-4 py-3 font-semibold">Status</th>
               </tr>
             </thead>
@@ -72,10 +72,27 @@ export default function AdminBookingsPage() {
                     <div className="text-[#6D7175]">{b.phone}</div>
                     <div className="text-[#6D7175]">{b.country}</div>
                   </td>
-                  <td className="px-4 py-3 capitalize">{b.package_type}</td>
                   <td className="px-4 py-3">
-                    {b.dietary_preference}
-                    {b.allergies ? <div className="text-[#6D7175]">{b.allergies}</div> : null}
+                    <div className="capitalize font-medium">{b.package_type}</div>
+                    {b.slot_date ? (
+                      <div className="text-[#6D7175]">
+                        {b.slot_date} · {b.slot_period}
+                      </div>
+                    ) : null}
+                    {b.location ? <div className="text-[#6D7175] text-xs mt-1">{b.location}</div> : null}
+                    {b.total_price_eur != null ? (
+                      <div className="text-[#6D7175] text-xs">€{b.total_price_eur}</div>
+                    ) : null}
+                  </td>
+                  <td className="px-4 py-3">
+                    <div>
+                      {b.adults ?? 1} adult{(b.adults ?? 1) === 1 ? '' : 's'}
+                      {Array.isArray(b.children) && b.children.length > 0
+                        ? ` · ${b.children.length} child${b.children.length === 1 ? '' : 'ren'}`
+                        : ''}
+                    </div>
+                    {b.dish_name ? <div className="text-[#6D7175]">{b.dish_name}</div> : null}
+                    {b.allergies ? <div className="text-[#6D7175] text-xs mt-1">{b.allergies}</div> : null}
                   </td>
                   <td className="px-4 py-3">
                     <select

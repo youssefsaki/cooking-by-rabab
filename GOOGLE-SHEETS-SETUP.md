@@ -1,236 +1,394 @@
-# Google Sheets Integration Setup Guide
+# Google Sheets Booking Setup
 
-## FREE Solution - No Cost, No Credit Card Required
+Server-side booking uses a Google Apps Script web app as the system of record. The Next.js API (`/api/availability`, `/api/bookings`) talks to it via `BOOKING_SCRIPT_URL`.
 
-This guide will help you set up automatic booking data collection in Google Sheets.
-
----
-
-## Step 1: Create Your Google Sheet
-
-1. Go to [Google Sheets](https://sheets.google.com)
-2. Click **+ Blank** to create a new spreadsheet
-3. Name it **"Cooking Class Bookings"**
-4. In the first row, add these exact headers:
-
-| A1 | B1 | C1 | D1 | E1 | F1 | G1 | H1 |
-|---|---|---|---|---|---|---|---|
-| Timestamp | Full Name | Phone | Country | Email | Package | Dietary Preference | Allergies |
+If the script URL is not set, the API falls back to a local JSON store at `data/bookings-store.json` (dev only).
 
 ---
 
-## Step 2: Create Google Apps Script
+## Step 1: Create the spreadsheet
 
-1. In your Google Sheet, click **Extensions** → **Apps Script**
-2. Delete any existing code in the editor
-3. Copy and paste this code:
+1. Go to [Google Sheets](https://sheets.google.com) and create a blank spreadsheet
+2. Name it **Cooking Class Bookings**
+3. Put these headers in row 1:
+
+| A | B | C | D | E | F | G | H | I | J | K | L | M | N | O |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Timestamp | Full Name | Phone | Country | Email | Package | SlotDate | SlotPeriod | Dish | Adults | ChildrenJson | Location | Allergies | Total (€) | Status |
+
+Package column values:
+
+- `Basic`
+- `Weekly Event`
+- `Private at workshop`
+- `Private at your location`
+
+---
+
+## Step 2: Apps Script (locked writes + availability)
+
+> **If Extensions → Apps Script shows “Unable to open file”:** you are signed into multiple Google accounts. Use the standalone method below instead (it works the same).
+
+### Option A — From the sheet (single Google account only)
+
+1. Open an **Incognito / Private** window
+2. Sign in **only** as `rababouhadda5@gmail.com`
+3. Open [Cooking Class Bookings New](https://docs.google.com/spreadsheets/d/1GJquhrJUSTcmfFMFLD-P0zqoVXbCDjOiXtTR52yxjKE/edit)
+4. **Extensions → Apps Script**
+
+### Option B — Standalone (recommended if Option A fails)
+
+1. Open [script.google.com](https://script.google.com/home) while signed in as `rababouhadda5@gmail.com`
+2. **New project** → name it **Booking Form Handler**
+3. Paste the code below (it opens the sheet by ID, so it does not need Extensions)
+
+Then continue with the same script either way:
+
+1. Replace all code with:
 
 ```javascript
-function doPost(e) {
-  try {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    const data = JSON.parse(e.postData.contents);
-    
-    // Add row with timestamp
-    sheet.appendRow([
-      new Date(),
-      data.fullName,
-      data.phone,
-      data.country,
-      data.email,
-      data.packageType,
-      data.dietaryPreference,
-      data.allergies || 'None'
-    ]);
-    
-    return ContentService
-      .createTextOutput(JSON.stringify({ success: true }))
-      .setMimeType(ContentService.MimeType.JSON);
-      
-  } catch (error) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ success: false, error: error.toString() }))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
+var CONFLICT_MESSAGE =
+  'This time slot is already booked. Please choose another available slot.';
+var BASIC_MAX_GUESTS = 13;
+var BASIC_MIN_ADULTS = 3;
+var SHEET_TZ = 'Africa/Casablanca';
+/** Cooking Class Bookings New (rababouhadda5@gmail.com) */
+var SPREADSHEET_ID = '1GJquhrJUSTcmfFMFLD-P0zqoVXbCDjOiXtTR52yxjKE';
+
+function getSheet_() {
+  return SpreadsheetApp.openById(SPREADSHEET_ID).getSheets()[0];
 }
-```
 
-4. Click the **Save** icon (💾) or press `Ctrl+S` / `Cmd+S`
-5. Name your project: **"Booking Form Handler"**
-
----
-
-## Step 3: Deploy as Web App
-
-1. Click **Deploy** → **New deployment**
-2. Click the gear icon (⚙️) next to "Select type"
-3. Choose **Web app**
-4. Configure settings:
-   - **Description:** "Booking Form Handler"
-   - **Execute as:** **Me** (your email)
-   - **Who has access:** **Anyone**
-5. Click **Deploy**
-6. Click **Authorize access**
-7. Choose your Google account
-8. Click **Advanced** → **Go to Booking Form Handler (unsafe)**
-9. Click **Allow**
-10. **IMPORTANT:** Copy the **Web App URL** (looks like: `https://script.google.com/macros/s/AKfycby.../exec`)
-
----
-
-## Step 4: Update Your Website Code
-
-1. Open the file: `app/book/page.tsx`
-2. Find this line (around line 24):
-   ```typescript
-   const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
-   ```
-3. Replace `'YOUR_GOOGLE_SCRIPT_URL_HERE'` with your Web App URL:
-   ```typescript
-   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby.../exec';
-   ```
-4. Save the file
-5. Deploy your website
-
----
-
-## Step 5: Test the Integration
-
-1. Go to your website's booking page
-2. Fill out the form with test data
-3. Click "Continue to WhatsApp"
-4. Check your Google Sheet - you should see a new row with the booking data!
-
----
-
-## What Happens When a User Books?
-
-1. User fills out the booking form
-2. Data is automatically sent to your Google Sheet
-3. A new row is added with timestamp
-4. User is redirected to WhatsApp to confirm with you
-5. You have both the Google Sheet record AND WhatsApp conversation
-
----
-
-## Viewing Your Bookings
-
-- Open your Google Sheet anytime to see all bookings
-- Data includes: Timestamp, Name, Phone, Country, Email, Package, Dietary Preferences, Allergies
-- You can sort, filter, and export the data
-- Set up email notifications (optional - see below)
-
----
-
-## Optional: Email Notifications
-
-To get email notifications for each new booking:
-
-1. In your Google Sheet, go to **Extensions** → **Apps Script**
-2. Replace the code with this:
-
-```javascript
-function doPost(e) {
+function doGet(e) {
   try {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    const data = JSON.parse(e.postData.contents);
-    
-    // Add row with timestamp
-    sheet.appendRow([
-      new Date(),
-      data.fullName,
-      data.phone,
-      data.country,
-      data.email,
-      data.packageType,
-      data.dietaryPreference,
-      data.allergies || 'None'
-    ]);
-    
-    // Send email notification
-    const emailBody = `
-New Booking Received!
+    var action = (e.parameter && e.parameter.action) || 'list';
+    if (action !== 'list') {
+      return json_({ success: false, error: 'Unknown action' });
+    }
 
-Name: ${data.fullName}
-Phone: ${data.phone}
-Country: ${data.country}
-Email: ${data.email}
-Package: ${data.packageType}
-Dietary Preference: ${data.dietaryPreference}
-Allergies: ${data.allergies || 'None'}
-
-Time: ${new Date().toLocaleString()}
-    `;
-    
-    MailApp.sendEmail({
-      to: 'YOUR_EMAIL@example.com', // Replace with your email
-      subject: '🎉 New Cooking Class Booking!',
-      body: emailBody
+    var from = e.parameter.from || '';
+    var to = e.parameter.to || '';
+    var bookings = readBookings_().filter(function (b) {
+      if (from && b.slotDate < from) return false;
+      if (to && b.slotDate > to) return false;
+      return true;
     });
-    
-    return ContentService
-      .createTextOutput(JSON.stringify({ success: true }))
-      .setMimeType(ContentService.MimeType.JSON);
-      
-  } catch (error) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ success: false, error: error.toString() }))
-      .setMimeType(ContentService.MimeType.JSON);
+
+    return json_({ success: true, bookings: bookings });
+  } catch (err) {
+    return json_({ success: false, error: String(err) });
   }
+}
+
+function doPost(e) {
+  var lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(30000);
+
+    var payload = JSON.parse(e.postData.contents);
+    var action = payload.action || 'create';
+    if (action !== 'create') {
+      return json_({ success: false, error: 'Unknown action' });
+    }
+
+    var booking = payload.booking || payload;
+    var conflict = evaluateConflict_(booking);
+    if (!conflict.ok) {
+      return json_({
+        success: false,
+        error: 'conflict',
+        message: CONFLICT_MESSAGE,
+      });
+    }
+
+    var sheet = getSheet_();
+    // Keep SlotDate as plain text (yyyy-MM-dd) so Sheets does not
+    // auto-convert it and shift the day by timezone.
+    var slotDateText = String(booking.slotDate || '').slice(0, 10);
+    var timestamp = Utilities.formatDate(
+      new Date(booking.createdAt || new Date()),
+      SHEET_TZ,
+      'yyyy-MM-dd HH:mm'
+    );
+    var totalEur = Number(booking.totalPrice) || 0;
+    var packageLabel =
+      booking.packageLabel || packageTypeSheetLabel_(booking.packageType);
+
+    sheet.appendRow([
+      timestamp,
+      booking.fullName,
+      booking.phone,
+      booking.country,
+      booking.email,
+      packageLabel,
+      "'" + slotDateText,
+      booking.slotPeriod,
+      booking.dish || '',
+      booking.adults,
+      JSON.stringify(booking.children || []),
+      booking.location || '',
+      booking.allergies || '',
+      totalEur + ' €',
+      booking.status || 'confirmed',
+    ]);
+
+    // Force SlotDate column to text so future edits stay stable
+    var lastRow = sheet.getLastRow();
+    sheet.getRange(lastRow, 7).setNumberFormat('@').setValue(slotDateText);
+
+    return json_({ success: true, booking: booking });
+  } catch (err) {
+    return json_({ success: false, error: String(err) });
+  } finally {
+    try {
+      lock.releaseLock();
+    } catch (ignore) {}
+  }
+}
+
+function readBookings_() {
+  var sheet = getSheet_();
+  var values = sheet.getDataRange().getValues();
+  if (values.length < 2) return [];
+
+  var bookings = [];
+  for (var i = 1; i < values.length; i++) {
+    var row = values[i];
+    if (!row[5] || !row[6] || !row[7]) continue;
+
+    var children = [];
+    try {
+      children = JSON.parse(row[10] || '[]');
+    } catch (ignore) {
+      children = [];
+    }
+
+    var locationText = String(row[11] || '');
+    var packageType = parsePackageType_(String(row[5] || ''));
+    // Legacy rows stored only "private" — infer at-location from Location column
+    if (
+      packageType === 'private' &&
+      /villa|riad|comes to you|at your/i.test(locationText)
+    ) {
+      packageType = 'private-at-location';
+    }
+
+    bookings.push({
+      id: 'sheet-' + (i + 1),
+      createdAt: String(row[0] || ''),
+      fullName: String(row[1] || ''),
+      phone: String(row[2] || ''),
+      country: String(row[3] || ''),
+      email: String(row[4] || ''),
+      packageType: packageType,
+      slotDate: formatDate_(row[6]),
+      slotPeriod: String(row[7] || ''),
+      dish: String(row[8] || ''),
+      adults: Number(row[9]) || 0,
+      children: children,
+      location: locationText,
+      allergies: String(row[12] || ''),
+      totalPrice: parsePrice_(row[13]),
+      status: String(row[14] || 'confirmed'),
+    });
+  }
+  return bookings;
+}
+
+function formatDate_(value) {
+  if (Object.prototype.toString.call(value) === '[object Date]') {
+    // Format at noon Casablanca to avoid off-by-one day shifts
+    return Utilities.formatDate(value, SHEET_TZ, 'yyyy-MM-dd');
+  }
+  return String(value || '')
+    .replace(/^'/, '')
+    .slice(0, 10);
+}
+
+function parsePrice_(value) {
+  if (typeof value === 'number') return value;
+  var match = String(value || '').replace(',', '.').match(/[\d.]+/);
+  return match ? Number(match[0]) : 0;
+}
+
+function guestCount_(adults, children) {
+  var count = Number(adults) || 0;
+  (children || []).forEach(function (c) {
+    if (Number(c.age) >= 4) count += 1;
+  });
+  return count;
+}
+
+function isPrivate_(pkg) {
+  return pkg === 'private' || pkg === 'private-at-location';
+}
+
+function isBasic_(pkg) {
+  return pkg === 'basic';
+}
+
+/** Clear labels written to the Package column */
+function packageTypeSheetLabel_(pkg) {
+  if (pkg === 'basic') return 'Basic';
+  if (pkg === 'weekly-event') return 'Weekly Event';
+  if (pkg === 'private') return 'Private at workshop';
+  if (pkg === 'private-at-location') return 'Private at your location';
+  return String(pkg || '');
+}
+
+/** Map sheet labels (and legacy codes) back to package codes for conflict checks */
+function parsePackageType_(value) {
+  var raw = String(value || '').trim().toLowerCase();
+  if (raw === 'basic') return 'basic';
+  if (raw === 'weekly-event' || raw === 'weekly event') return 'weekly-event';
+  if (
+    raw === 'private-at-location' ||
+    raw === 'private at your location' ||
+    raw.indexOf('at your location') !== -1 ||
+    raw.indexOf('comes to you') !== -1
+  ) {
+    return 'private-at-location';
+  }
+  if (
+    raw === 'private' ||
+    raw === 'private at workshop' ||
+    raw.indexOf('at workshop') !== -1 ||
+    raw.indexOf('at our workshop') !== -1
+  ) {
+    return 'private';
+  }
+  if (raw.indexOf('private') !== -1) return 'private';
+  return 'basic';
+}
+
+function evaluateConflict_(booking) {
+  // Normalize in case sheet labels are passed through
+  booking.packageType = parsePackageType_(booking.packageType);
+
+  var existing = readBookings_().filter(function (b) {
+    return b.slotDate === booking.slotDate && b.slotPeriod === booking.slotPeriod;
+  });
+
+  var hasPrivate = existing.some(function (b) {
+    return isPrivate_(b.packageType);
+  });
+  var hasWeekly = existing.some(function (b) {
+    return b.packageType === 'weekly-event';
+  });
+  var basicUsed = existing.reduce(function (sum, b) {
+    return isBasic_(b.packageType) ? sum + guestCount_(b.adults, b.children) : sum;
+  }, 0);
+
+  // Same date + same period only (morning OR afternoon)
+  if (isBasic_(booking.packageType)) {
+    if (hasPrivate) return { ok: false };
+    var remaining = BASIC_MAX_GUESTS - basicUsed;
+    // Below Basic minimum (3) — slot is closed for new Basic bookings
+    if (remaining < BASIC_MIN_ADULTS) return { ok: false };
+    var incoming = guestCount_(booking.adults, booking.children);
+    if (basicUsed + incoming > BASIC_MAX_GUESTS) return { ok: false };
+    return { ok: true };
+  }
+
+  if (isPrivate_(booking.packageType)) {
+    // Locked only by another Private, Weekly, or a full Basic slot (13)
+    if (hasPrivate || hasWeekly || basicUsed >= BASIC_MAX_GUESTS) return { ok: false };
+    return { ok: true };
+  }
+
+  if (booking.packageType === 'weekly-event') {
+    if (hasPrivate) return { ok: false };
+    return { ok: true };
+  }
+
+  return { ok: true };
+}
+
+function json_(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(
+    ContentService.MimeType.JSON
+  );
 }
 ```
 
-3. Replace `'YOUR_EMAIL@example.com'` with your actual email
-4. Save and deploy again (Deploy → Manage deployments → Edit → Version: New version → Deploy)
+3. Save the project (e.g. **Booking Form Handler**)
+
+---
+
+## Step 3: Deploy as a web app
+
+1. **Deploy → New deployment → Web app**
+2. Execute as: **Me**
+3. Who has access: **Anyone**
+4. Authorize, then copy the `/exec` URL
+
+Redeploy with a **new version** whenever you change the script.
+
+---
+
+## Step 4: Configure the website
+
+Set the environment variable (Vercel project settings or `.env.local`):
+
+```bash
+BOOKING_SCRIPT_URL=https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec
+```
+
+Do **not** hardcode the URL in client components. The Next.js routes call this URL server-side:
+
+- `GET /api/availability?from=YYYY-MM-DD&to=YYYY-MM-DD`
+- `POST /api/bookings`
+
+---
+
+## Conflict rules (enforced in script + API)
+
+All locks are for the **same date + same period** (morning or afternoon):
+
+| Existing hold | Blocks |
+|---|---|
+| **Private** | Basic, another Private, Weekly Event |
+| **Basic** (partial) | More Basic only if remaining capacity is exceeded |
+| **Basic** (under 3 spots left) | More Basic (min 3 adults required) |
+| **Basic** (full 13) | More Basic, and Private on that period |
+| **Weekly Event** | Private on that Saturday afternoon |
+
+- Basic capacity max **13** (ages 0–3 do not count)
+- Multiple Weekly Event bookings on the same Saturday are allowed
+- Conflict message:
+
+> This time slot is already booked. Please choose another available slot.
+
+`LockService.getScriptLock()` prevents concurrent double-book races on write.
+
+---
+
+## Optional: email on create
+
+Inside `doPost`, after a successful `appendRow`, you can send:
+
+```javascript
+MailApp.sendEmail({
+  to: 'rababouhadda5@gmail.com',
+  subject: 'New Cooking Class Booking',
+  body:
+    'Name: ' +
+    booking.fullName +
+    '\nPackage: ' +
+    booking.packageType +
+    '\nSlot: ' +
+    booking.slotDate +
+    ' ' +
+    booking.slotPeriod,
+});
+```
 
 ---
 
 ## Troubleshooting
 
-### Data not appearing in Google Sheet?
-
-1. Check that you copied the correct Web App URL
-2. Make sure you selected "Anyone" for "Who has access"
-3. Try redeploying: Deploy → Manage deployments → Edit → Version: New version → Deploy
-
-### Script not authorized?
-
-1. Go to Extensions → Apps Script
-2. Click Deploy → Test deployments
-3. Click "Authorize access" and allow permissions
-
-### Need to update the script?
-
-1. Make your changes in Apps Script
-2. Click Deploy → Manage deployments
-3. Click the pencil icon (Edit)
-4. Change "Version" to "New version"
-5. Click "Deploy"
-6. The Web App URL stays the same!
-
----
-
-## Benefits of This Solution
-
-✅ **100% FREE** - No costs, no credit card required
-✅ **Automatic** - Data saved instantly
-✅ **Reliable** - Powered by Google infrastructure
-✅ **Accessible** - View from any device
-✅ **Exportable** - Download as Excel, CSV, PDF
-✅ **Shareable** - Give team members access
-✅ **Searchable** - Find bookings easily
-✅ **Backup** - Google automatically backs up your data
-
----
-
-## Support
-
-If you need help:
-1. Check the troubleshooting section above
-2. Verify each step was completed correctly
-3. Test with a simple booking first
-4. Check the Apps Script execution logs: Apps Script → Executions
-
----
-
-**That's it! Your booking form now automatically saves all data to Google Sheets for FREE! 🎉**
+1. Confirm `BOOKING_SCRIPT_URL` is set in the deployed environment
+2. Access must be **Anyone** for the web app
+3. After script edits: Deploy → Manage deployments → Edit → **New version**
+4. Check **Executions** in Apps Script for errors
+5. Without `BOOKING_SCRIPT_URL`, bookings are stored locally in `data/bookings-store.json` only

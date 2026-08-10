@@ -37,7 +37,7 @@ export default function MeetTheChefPage() {
             {/* Image Placeholder */}
             <div className="relative h-[932px] rounded-3xl overflow-hidden shadow-2xl border-2 border-amber-200">
               <Image
-                src="/our-story/meet-the-chef/meet-the-chef.jpg"
+                src="/our-story/meet-the-chef/rabab.webp"
                 alt="Rabab — Taghazout cooking class host and Berber cultural guide in Atlas Mountains Morocco"
                 fill
                 className="object-cover"
@@ -68,12 +68,8 @@ export default function MeetTheChefPage() {
                   {t.ourStory.meetTheChef.paragraph3}
                 </p>
 
-                <p className="text-gray-700 leading-relaxed mb-4 text-sm sm:text-base">
-                  {t.ourStory.meetTheChef.paragraph4}
-                </p>
-
                 <p className="text-gray-700 leading-relaxed font-semibold text-amber-700 text-sm sm:text-base">
-                  {t.ourStory.meetTheChef.paragraph5}
+                  {t.ourStory.meetTheChef.paragraph4}
                 </p>
               </div>
             </div>
