@@ -9,6 +9,7 @@ import { HeaderProps } from '@/types';
 import { getSocialIconName } from '@/lib/static-data';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useSiteImages } from '@/hooks/useSiteImages';
 
 // =====================================================
 // BOOK NOW DROPDOWN DESIGN SELECTOR
@@ -35,6 +36,8 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 );
 
 const Header: React.FC<HeaderProps> = ({ navigationData }) => {
+  const { img } = useSiteImages();
+  const logoSrc = img('brand.logo', navigationData.logo.image?.src || '/rabab-logo.png');
   const [isScrolled, setIsScrolled] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -91,7 +94,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
             <Link href={navigationData.logo.href} className="flex items-center group">
               {navigationData.logo.image ? (
                 <Image
-                  src={navigationData.logo.image.src}
+                  src={logoSrc}
                   alt={navigationData.logo.image.alt}
                   width={navigationData.logo.image.width}
                   height={navigationData.logo.image.height}

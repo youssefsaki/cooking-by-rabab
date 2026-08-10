@@ -1,5 +1,5 @@
 import type { PackageType, SlotPeriod } from './schedule';
-import { BASIC_MAX_GUESTS, BASIC_MIN_ADULTS } from './schedule';
+import { BASIC_MAX_GUESTS, BASIC_MIN_ADULTS, effectiveMinAdultsForBasic } from './schedule';
 import { countGuestsTowardCapacity, type ChildGuest } from './pricing';
 
 export const SLOT_CONFLICT_MESSAGE =
@@ -71,9 +71,9 @@ function emptyOccupancy(slotId: string, date: string, period: SlotPeriod): SlotO
  * - Private on an empty slot → exclusive lock (blocks Basic, other Private, Weekly)
  * - Private on a slot that already has Basic (or joining Private) guests → joins the group,
  *   shares the 13-person capacity, does NOT exclusive-lock
- * - Basic shares capacity up to 13 (ages 0–3 excluded); blocked by exclusive Private,
- *   or when remaining spots are below the Basic minimum of 3 (leftover 1–2 spots stay
- *   visible so Private can still join them)
+ * - Basic shares capacity up to 13 (ages 0–3 excluded); blocked by exclusive Private
+ *   or when full. Starter minimum is 3 adults; once 3+ guests are already booked,
+ *   individuals (1+) can join any remaining spots.
  * - Weekly Event can have multiple groups, but is blocked if Private holds the slot
  */
 export function buildOccupancyMap(bookings: StoredBooking[]): Map<string, SlotOccupancy> {
@@ -160,11 +160,18 @@ export function evaluateSlotBooking(params: {
     }
     const used = occupancy?.basicGuestCount ?? 0;
     const remaining = BASIC_MAX_GUESTS - used;
-    if (remaining < BASIC_MIN_ADULTS) {
+    if (remaining <= 0 || used + guestCount > BASIC_MAX_GUESTS) {
       return { ok: false, message: SLOT_CONFLICT_MESSAGE };
     }
-    if (used + guestCount > BASIC_MAX_GUESTS) {
-      return { ok: false, message: SLOT_CONFLICT_MESSAGE };
+    const minAdults = effectiveMinAdultsForBasic(used, remaining);
+    if (adults < minAdults) {
+      return {
+        ok: false,
+        message:
+          used >= BASIC_MIN_ADULTS
+            ? `At least ${minAdults} adult is required to join this workshop.`
+            : `This workshop needs at least ${minAdults} adult${minAdults === 1 ? '' : 's'} to book (minimum ${BASIC_MIN_ADULTS} to start a new group).`,
+      };
     }
     return { ok: true };
   }
@@ -208,22 +215,27 @@ export function isSharedSlotForPrivate(occupancy?: SlotOccupancy | null): boolea
 }
 
 /**
- * Spots left that Basic cannot take (below min of 3) but Private can still join.
- * Returns 0 when not in that leftover state.
+ * Spots left that Basic still cannot take (workshop not open yet and not enough
+ * room to reach the starter minimum of 3). Private may still join those leftovers.
  */
 export function leftoverSpotsForPrivateJoin(occupancy?: SlotOccupancy | null): number {
   if (!occupancy || occupancy.hasPrivate) return 0;
+  // Once 3+ guests are booked, Basic individuals can fill remaining 1–2 spots
+  if (occupancy.basicGuestCount >= BASIC_MIN_ADULTS) return 0;
   const remaining = occupancy.remainingBasicCapacity;
-  if (remaining > 0 && remaining < BASIC_MIN_ADULTS) return remaining;
+  const needed = BASIC_MIN_ADULTS - occupancy.basicGuestCount;
+  if (remaining > 0 && remaining < needed) return remaining;
   return 0;
 }
 
-/** True when Basic cannot take this slot (exclusive Private, full, or fewer than 3 spots left) */
+/** True when Basic cannot take this slot (exclusive Private, full, or can't reach starter min) */
 export function isSlotLockedForBasic(occupancy?: SlotOccupancy | null): boolean {
   if (!occupancy) return false;
   if (occupancy.hasPrivate) return true;
   if (occupancy.remainingBasicCapacity <= 0) return true;
-  return occupancy.remainingBasicCapacity < BASIC_MIN_ADULTS;
+  if (occupancy.basicGuestCount >= BASIC_MIN_ADULTS) return false;
+  const needed = BASIC_MIN_ADULTS - occupancy.basicGuestCount;
+  return occupancy.remainingBasicCapacity < needed;
 }
 
 /** True when Weekly Event cannot take this Saturday slot */

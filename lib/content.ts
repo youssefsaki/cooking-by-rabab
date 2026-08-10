@@ -107,6 +107,8 @@ export const getHeroContent = unstable_cache(
       titleHighlight: copy['hero.titleHighlight'],
       description: copy['hero.description'],
       bookButton: copy['hero.bookButton'],
+      bgDesktop: copy['hero.bg.desktop'] || '/hero/desktop/bg.webp',
+      bgMobile: copy['hero.bg.mobile'] || '/hero/mobile/bg.webp',
     };
   },
   ['content-hero'],

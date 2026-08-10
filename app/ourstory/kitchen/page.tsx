@@ -3,19 +3,21 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useSiteCopy } from '@/hooks/useSiteCopy';
 
 export default function OurKitchenPage() {
   const { t } = useLanguage();
+  const { copy, img } = useSiteCopy();
 
   // Kitchen gallery images
   const galleryImages = [
-    { src: '/our-story/our-kitchen/wood-fire-oven.jpg', alt: 'Traditional Amazigh wood-fired clay oven — Taghazout cooking class Berber village kitchen' },
-    { src: '/our-story/our-kitchen/traditional-tagines.jpg', alt: 'Traditional Moroccan tagine pots — Taghazout cooking class kitchen tools Atlas Mountains' },
-    { src: '/our-story/our-kitchen/kitchen-workspace.jpg', alt: 'Authentic Amazigh kitchen workspace Taghazout — traditional Berber cooking class preparation area' },
-    { src: '/our-story/our-kitchen/spices.jpg', alt: 'Moroccan spices and ingredients — Taghazout cooking class Berber village kitchen display' },
-    { src: '/our-story/our-kitchen/bread-making-station.jpg', alt: 'Clay oven bread making station Taghazout — traditional Berber bread preparation area Morocco' },
-    { src: '/our-story/our-kitchen/kitchen-overview.jpg', alt: 'Traditional Moroccan Amazigh kitchen overview — Taghazout cooking class in 300-year-old Berber home' }
-  ].map((img, index) => ({ ...img, title: t.ourStory.kitchen.galleryImages[index] }));
+    { src: img('kitchen.gallery.0'), alt: 'Traditional Amazigh wood-fired clay oven — Taghazout cooking class Berber village kitchen' },
+    { src: img('kitchen.gallery.1'), alt: 'Traditional Moroccan tagine pots — Taghazout cooking class kitchen tools Atlas Mountains' },
+    { src: img('kitchen.gallery.2'), alt: 'Authentic Amazigh kitchen workspace Taghazout — traditional Berber cooking class preparation area' },
+    { src: img('kitchen.gallery.3'), alt: 'Moroccan spices and ingredients — Taghazout cooking class Berber village kitchen display' },
+    { src: img('kitchen.gallery.4'), alt: 'Clay oven bread making station Taghazout — traditional Berber bread preparation area Morocco' },
+    { src: img('kitchen.gallery.5'), alt: 'Traditional Moroccan Amazigh kitchen overview — Taghazout cooking class in 300-year-old Berber home' },
+  ].map((item, index) => ({ ...item, title: t.ourStory.kitchen.galleryImages[index] }));
 
   return (
     <div className="min-h-screen">
@@ -30,10 +32,10 @@ export default function OurKitchenPage() {
 
           <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 drop-shadow-2xl">
-              {t.ourStory.kitchen.heroTitle}
+              {copy('kitchen.heroTitle', t.ourStory.kitchen.heroTitle)}
             </h1>
             <p className="text-xl sm:text-2xl text-white/95 font-light max-w-2xl mx-auto drop-shadow-lg">
-              {t.ourStory.kitchen.heroSubtitle}
+              {copy('kitchen.heroSubtitle', t.ourStory.kitchen.heroSubtitle)}
             </p>
           </div>
 
@@ -52,24 +54,24 @@ export default function OurKitchenPage() {
               <div className="space-y-6">
                 <div className="inline-block">
                   <span className="text-amber-600 font-bold text-sm uppercase tracking-widest bg-amber-50 px-4 py-2 rounded-full">
-                    {t.ourStory.kitchen.badge}
+                    {copy('kitchen.badge', t.ourStory.kitchen.badge)}
                   </span>
                 </div>
                 <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-                  {t.ourStory.kitchen.introTitle} <span className="text-amber-600">{t.ourStory.kitchen.introTitleHighlight}</span>
+                  {copy('kitchen.introTitle', t.ourStory.kitchen.introTitle)} <span className="text-amber-600">{copy('kitchen.introTitleHighlight', t.ourStory.kitchen.introTitleHighlight)}</span>
                 </h2>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  {t.ourStory.kitchen.introP1}
+                  {copy('kitchen.introP1', t.ourStory.kitchen.introP1)}
                 </p>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  {t.ourStory.kitchen.introP2}
+                  {copy('kitchen.introP2', t.ourStory.kitchen.introP2)}
                 </p>
               </div>
 
               <div className="relative">
                 <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-2xl">
                   <Image
-                    src="/our-story/our-kitchen/main.jpg"
+                    src={img('kitchen.main')}
                     alt="Traditional Moroccan Amazigh kitchen Taghazout — 300-year-old Berber cooking class space in Atlas Mountains"
                     fill
                     className="object-cover"
@@ -89,10 +91,10 @@ export default function OurKitchenPage() {
           <div className="max-w-6xl mx-auto px-6 lg:px-12">
             <div className="text-center mb-16">
               <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                {t.ourStory.kitchen.featuresTitle}
+                {copy('kitchen.featuresTitle', t.ourStory.kitchen.featuresTitle)}
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                {t.ourStory.kitchen.featuresSubtitle}
+                {copy('kitchen.featuresSubtitle', t.ourStory.kitchen.featuresSubtitle)}
               </p>
             </div>
 
@@ -116,7 +118,7 @@ export default function OurKitchenPage() {
           <div className="max-w-7xl mx-auto px-6 lg:px-12">
             <div className="text-center mb-16">
               <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                {t.ourStory.kitchen.galleryTitle}
+                {copy('kitchen.galleryTitle', t.ourStory.kitchen.galleryTitle)}
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                 {t.ourStory.kitchen.gallerySubtitle}

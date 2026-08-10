@@ -430,8 +430,8 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                               {leftover} spot{leftover === 1 ? '' : 's'} left
                             </p>
                             <p className="text-[11px] text-amber-800/80 mt-1 leading-relaxed">
-                              Basic needs at least 3 guests. Join this workshop with the Private
-                              package.
+                              Not enough room to start a new Basic group (needs 3 guests). Join
+                              with the Private package instead.
                             </p>
                           </div>
                           <Link

@@ -5,10 +5,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FiArrowRight } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useSiteCopy } from '@/hooks/useSiteCopy';
 
 // SEO optimized for Moroccan cooking class, Amazigh culture, Taghazout experiences
 export default function MeetTheChefPage() {
   const { t } = useLanguage();
+  const { copy, img } = useSiteCopy();
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section - Optimized for 13" */}
@@ -17,14 +19,14 @@ export default function MeetTheChefPage() {
           <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white shadow-lg border border-amber-200 mb-4">
             <span className="text-xl">👩‍🍳</span>
             <span className="text-xs font-bold text-amber-900 tracking-wider uppercase">
-              {t.ourStory.meetTheChef.badge}
+              {copy('meetChef.badge', t.ourStory.meetTheChef.badge)}
             </span>
           </div>
           
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-4 leading-tight">
-            {t.ourStory.meetTheChef.title}{' '}
+            {copy('meetChef.title', t.ourStory.meetTheChef.title)}{' '}
             <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
-              {t.ourStory.meetTheChef.titleHighlight}
+              {copy('meetChef.titleHighlight', t.ourStory.meetTheChef.titleHighlight)}
             </span>
           </h1>
         </div>
@@ -37,7 +39,7 @@ export default function MeetTheChefPage() {
             {/* Image Placeholder */}
             <div className="relative h-[932px] rounded-3xl overflow-hidden shadow-2xl border-2 border-amber-200">
               <Image
-                src="/our-story/meet-the-chef/rabab.webp"
+                src={img('meetChef.image')}
                 alt="Rabab — Taghazout cooking class host and Berber cultural guide in Atlas Mountains Morocco"
                 fill
                 className="object-cover"
@@ -50,26 +52,26 @@ export default function MeetTheChefPage() {
             <div className="space-y-5">
               <div>
                 <h2 className="text-3xl font-black text-gray-900 mb-3">
-                  Hello, I&apos;m Rabab
+                  {copy('meetChef.hello', t.ourStory.meetTheChef.hello || "Hello, I'm Rabab")}
                 </h2>
                 <div className="w-14 h-1 bg-gradient-to-r from-amber-500 to-orange-500 mb-5"></div>
               </div>
 
               <div className="prose prose-base max-w-none">
                 <p className="text-gray-700 leading-relaxed mb-4 text-sm sm:text-base">
-                  {t.ourStory.meetTheChef.paragraph1}
+                  {copy('meetChef.paragraph.1', t.ourStory.meetTheChef.paragraph1)}
                 </p>
 
                 <p className="text-gray-700 leading-relaxed mb-4 text-sm sm:text-base">
-                  {t.ourStory.meetTheChef.paragraph2}
+                  {copy('meetChef.paragraph.2', t.ourStory.meetTheChef.paragraph2)}
                 </p>
 
                 <p className="text-gray-700 leading-relaxed mb-4 text-sm sm:text-base">
-                  {t.ourStory.meetTheChef.paragraph3}
+                  {copy('meetChef.paragraph.3', t.ourStory.meetTheChef.paragraph3)}
                 </p>
 
                 <p className="text-gray-700 leading-relaxed font-semibold text-amber-700 text-sm sm:text-base">
-                  {t.ourStory.meetTheChef.paragraph4}
+                  {copy('meetChef.paragraph.4', t.ourStory.meetTheChef.paragraph4)}
                 </p>
               </div>
             </div>

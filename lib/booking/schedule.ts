@@ -181,6 +181,23 @@ export function effectiveMinAdultsForPrivate(
   return Math.min(base, Math.max(1, remainingSpots));
 }
 
+/**
+ * Basic package minimum:
+ * - Empty / not yet open (< 3 guests booked): need enough adults to reach 3
+ * - Once 3+ guests are already booked: individuals (1 adult) can join
+ */
+export function effectiveMinAdultsForBasic(
+  bookedGuestCount: number,
+  remainingSpots: number
+): number {
+  if (remainingSpots <= 0) return BASIC_MIN_ADULTS;
+  if (bookedGuestCount >= BASIC_MIN_ADULTS) {
+    return 1;
+  }
+  const neededToOpen = BASIC_MIN_ADULTS - Math.max(0, bookedGuestCount);
+  return Math.min(neededToOpen, Math.max(1, remainingSpots));
+}
+
 /** Human-readable package name for Google Sheets / admin views */
 export function packageTypeSheetLabel(packageType: PackageType): string {
   if (packageType === 'basic') return 'Basic';

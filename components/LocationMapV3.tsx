@@ -3,6 +3,7 @@
 import React, { memo } from 'react';
 import { FiMapPin, FiNavigation, FiClock, FiPhone, FiMail, FiSend, FiArrowRight } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useSiteCopy } from '@/hooks/useSiteCopy';
 
 /**
  * LOCATION & MAP SECTION - Design 3 of 3
@@ -34,11 +35,12 @@ const locationData = {
 
 const LocationMapV3: React.FC = memo(() => {
   const { t } = useLanguage();
+  const { copy } = useSiteCopy();
   const journeySteps = [
-    { step: "01", ...t.location.step1 },
-    { step: "02", ...t.location.step2 },
-    { step: "03", ...t.location.step3 },
-    { step: "04", ...t.location.step4 },
+    { step: "01", title: copy('location.step.1.title', t.location.step1.title), description: copy('location.step.1.description', t.location.step1.description), time: copy('location.step.1.time', t.location.step1.time) },
+    { step: "02", title: copy('location.step.2.title', t.location.step2.title), description: copy('location.step.2.description', t.location.step2.description), time: copy('location.step.2.time', t.location.step2.time) },
+    { step: "03", title: copy('location.step.3.title', t.location.step3.title), description: copy('location.step.3.description', t.location.step3.description), time: copy('location.step.3.time', t.location.step3.time) },
+    { step: "04", title: copy('location.step.4.title', t.location.step4.title), description: copy('location.step.4.description', t.location.step4.description), time: copy('location.step.4.time', t.location.step4.time) },
   ];
   // Component rendered client-side only (ssr: false in dynamic import)
 
@@ -59,19 +61,19 @@ const LocationMapV3: React.FC = memo(() => {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-100 to-orange-100 mb-6">
             <span className="text-xl">📍</span>
             <span className="text-sm font-bold text-amber-900 tracking-wider uppercase">
-              {t.location.badge}
+              {copy('location.badge', t.location.badge)}
             </span>
           </div>
           
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
-            {t.location.titlePart1}
+            {copy('location.titlePart1', t.location.titlePart1)}
             <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-clip-text text-transparent">
-              {t.location.titlePart2}
+              {copy('location.titlePart2', t.location.titlePart2)}
             </span>
           </h2>
           
           <p className="text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            {t.location.description}
+            {copy('location.description', t.location.description)}
           </p>
         </div>
 
@@ -83,7 +85,7 @@ const LocationMapV3: React.FC = memo(() => {
               <span className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
                 <FiNavigation className="w-5 h-5 text-white" />
               </span>
-              {t.location.journeyTitle}
+              {copy('location.journeyTitle', t.location.journeyTitle)}
             </h3>
 
             <div className="relative">

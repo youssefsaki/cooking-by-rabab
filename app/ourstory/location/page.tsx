@@ -2,9 +2,11 @@
 
 import Link from 'next/link';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useSiteCopy } from '@/hooks/useSiteCopy';
 
 export default function LocationPage() {
   const { t } = useLanguage();
+  const { copy } = useSiteCopy();
   return (
     <div className="min-h-screen bg-[#FAF8F5]">
         {/* Hero Section */}
@@ -21,10 +23,10 @@ export default function LocationPage() {
               {t.ourStory.location.badge}
             </p>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 drop-shadow-2xl">
-              {t.ourStory.location.heroTitle}
+              {copy('locationPage.heroTitle', t.ourStory.location.heroTitle)}
             </h1>
             <p className="text-xl sm:text-2xl text-white/95 font-light max-w-2xl mx-auto drop-shadow-lg">
-              {t.ourStory.location.heroSubtitle}
+              {copy('locationPage.heroSubtitle', t.ourStory.location.heroSubtitle)}
             </p>
           </div>
 

@@ -11,6 +11,8 @@ import { calculateBookingTotal, type ChildGuest } from '@/lib/booking/pricing';
 import { getDishById } from '@/lib/booking/menu';
 import {
   getSlotById,
+  BASIC_MAX_GUESTS,
+  effectiveMinAdultsForBasic,
   effectiveMinAdultsForPrivate,
   minAdultsForPackage,
   unitPriceForPackage,
@@ -85,16 +87,25 @@ export async function POST(request: NextRequest) {
     const children = Array.isArray(body.children) ? body.children : [];
     let minAdults = minAdultsForPackage(packageType);
 
+    const existingForMin = await listBookings(body.slotDate, body.slotDate);
+    const occupancyForMin = buildOccupancyMap(existingForMin).get(
+      `${body.slotDate}|${body.slotPeriod}`
+    );
+
+    // Basic: once 3+ guests are booked, individuals (1) can join
+    if (packageType === 'basic') {
+      minAdults = effectiveMinAdultsForBasic(
+        occupancyForMin?.basicGuestCount ?? 0,
+        occupancyForMin?.remainingBasicCapacity ?? BASIC_MAX_GUESTS
+      );
+    }
+
     // Private joining a shared workshop with leftover spots can book below the usual min
     if (packageType === 'private' || packageType === 'private-at-location') {
-      const existingForMin = await listBookings(body.slotDate, body.slotDate);
-      const occupancy = buildOccupancyMap(existingForMin).get(
-        `${body.slotDate}|${body.slotPeriod}`
-      );
-      if (isSharedSlotForPrivate(occupancy)) {
+      if (isSharedSlotForPrivate(occupancyForMin)) {
         minAdults = effectiveMinAdultsForPrivate(
           packageType,
-          occupancy!.remainingBasicCapacity,
+          occupancyForMin!.remainingBasicCapacity,
           true
         );
       }
@@ -247,7 +258,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    void mirrorBookingToSheets({
+    const sheetsMirrored = await mirrorBookingToSheets({
       fullName: booking.fullName,
       phone: booking.phone,
       country: booking.country,
@@ -262,9 +273,14 @@ export async function POST(request: NextRequest) {
       children: JSON.stringify(booking.children),
       location: booking.location,
       totalPrice: booking.totalPrice,
+      status: 'new',
     });
 
-    return NextResponse.json({ success: true, booking });
+    if (!sheetsMirrored) {
+      console.warn('[api/bookings] Supabase OK but Google Sheets mirror failed or is not configured');
+    }
+
+    return NextResponse.json({ success: true, booking, sheetsMirrored });
   } catch (error) {
     console.error('booking error', error);
     return NextResponse.json({ error: 'Failed to create booking' }, { status: 500 });

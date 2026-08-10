@@ -1,5 +1,7 @@
 import type { Locale, PackageCmsItem, PackagesContent, FaqsContent } from '@/lib/types/cms';
 import { DEFAULT_PACKAGES } from '@/lib/content-defaults';
+import { SITE_IMAGE_DEFAULTS, SITE_IMAGE_FIELDS } from '@/lib/site-images';
+import { buildSectionTextFields, seedSectionCopy } from '@/lib/cms-section-fields';
 import faqsFallback from '@/data/faqs.json';
 import en from '@/lib/translations/en.json';
 import fr from '@/lib/translations/fr.json';
@@ -68,6 +70,14 @@ export function buildCmsFields(packages: PackagesContent, faqs: FaqsContent): Cm
     );
   }
 
+  for (const textField of buildSectionTextFields()) {
+    fields.push({ ...textField });
+  }
+
+  for (const imageField of SITE_IMAGE_FIELDS) {
+    fields.push({ ...imageField });
+  }
+
   return fields;
 }
 
@@ -101,6 +111,12 @@ export function defaultSiteCopy(locale: Locale): SiteCopyBag {
   for (const faq of (faqsFallback as FaqsContent).faqs) {
     bag[`faq.${faq.id}.question`] = faq.question;
     bag[`faq.${faq.id}.answer`] = faq.answer;
+  }
+
+  Object.assign(bag, seedSectionCopy(t));
+
+  for (const [key, value] of Object.entries(SITE_IMAGE_DEFAULTS)) {
+    bag[key] = value;
   }
 
   return bag;

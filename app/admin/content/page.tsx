@@ -27,6 +27,8 @@ import { DEFAULT_PACKAGES } from '@/lib/content-defaults';
 import type { Locale } from '@/lib/types/cms';
 import faqsFallback from '@/data/faqs.json';
 import LiveCanvasPreview from '@/components/admin/LiveCanvasPreview';
+import { PREVIEW_PAGES, previewPageForField, type PreviewPage } from '@/lib/site-images';
+import { invalidateSiteCopyCache } from '@/hooks/useSiteCopy';
 
 const LOCALES: Locale[] = ['en', 'fr', 'de'];
 
@@ -42,7 +44,7 @@ export default function AdminContentPage() {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
-  const [previewMode, setPreviewMode] = useState<'home' | 'packages'>('home');
+  const [previewMode, setPreviewMode] = useState<PreviewPage>('home');
   const [panelMode, setPanelMode] = useState<'content' | 'images'>('content');
   const [deviceMode, setDeviceMode] = useState<'desktop' | 'mobile'>('desktop');
   const [loading, setLoading] = useState(true);
@@ -114,13 +116,9 @@ export default function AdminContentPage() {
   }, [locale]);
 
   useEffect(() => {
-    if (!selectedGroup) return;
-    if (selectedGroup.startsWith('Package:') || selectedGroup === 'Packages section') {
-      setPreviewMode('packages');
-    } else {
-      setPreviewMode('home');
-    }
-  }, [selectedGroup]);
+    if (!selected?.id) return;
+    setPreviewMode(previewPageForField(selected.id, selectedGroup));
+  }, [selected?.id, selectedGroup]);
 
   function setFieldValue(id: string, value: string) {
     setDraftBag((prev) => {
@@ -150,6 +148,7 @@ export default function AdminContentPage() {
       setSavedBag(bag);
       setDraftBag(bag);
       draftRef.current = bag;
+      invalidateSiteCopyCache();
       setStatus(successMessage);
       return true;
     } catch {
@@ -166,7 +165,7 @@ export default function AdminContentPage() {
 
   async function uploadImage(file: File) {
     if (!selected || selected.type !== 'image') {
-      setError('Select a package photo field first (click a photo in the preview).');
+      setError('Select a photo first (click a photo in the preview or Images tab).');
       return;
     }
     if (!file.type.startsWith('image/')) {
@@ -361,46 +360,60 @@ export default function AdminContentPage() {
                     <UploadCloud className="size-4" />
                     <span className="text-[10px] font-bold uppercase tracking-[0.14em]">Visual media</span>
                   </div>
-                  <p className="mt-2 text-sm font-semibold">Choose the photo you want to replace.</p>
+                  <p className="mt-2 text-sm font-semibold">Replace any photo on the website.</p>
                   <p className="mt-1 text-xs leading-5 text-white/50">
-                    Your new image uploads and saves automatically.
+                    {imageFields.length} photos · uploads save automatically. Use the page tabs in the preview.
                   </p>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
-                  {imageFields.map((field) => {
-                    const active = field.id === selected.id;
-                    return (
-                      <button
-                        key={field.id}
-                        type="button"
-                        onClick={() => {
-                          setSelectedId(field.id);
-                          setPreviewMode('packages');
-                        }}
-                        className={`admin-focus group overflow-hidden rounded-2xl border bg-white text-left transition ${
-                          active
-                            ? 'border-[var(--admin-accent-strong)] ring-2 ring-[var(--admin-accent)]/35'
-                            : 'border-[var(--admin-line)] hover:border-[var(--admin-line-strong)]'
-                        }`}
-                      >
-                        <div className="relative aspect-[4/3] overflow-hidden bg-[var(--admin-surface-soft)]">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={draftBag[field.id] || '/packages/basic.jpg'}
-                            alt={field.label}
-                            className="size-full object-cover transition duration-500 group-hover:scale-105"
-                          />
-                          <span className="absolute inset-x-2 bottom-2 rounded-lg bg-black/70 px-2 py-1 text-center text-[9px] font-bold text-white backdrop-blur-sm">
-                            Replace photo
-                          </span>
-                        </div>
-                        <div className="p-2.5">
-                          <p className="truncate text-xs font-semibold text-[var(--admin-copy)]">{field.group}</p>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
+                {Array.from(
+                  imageFields.reduce((map, field) => {
+                    const list = map.get(field.group) || [];
+                    list.push(field);
+                    map.set(field.group, list);
+                    return map;
+                  }, new Map<string, typeof imageFields>())
+                ).map(([group, list]) => (
+                  <div key={group} className="mb-5">
+                    <p className="mb-2 px-1 text-[9px] font-bold uppercase tracking-[0.14em] text-[var(--admin-muted)]">
+                      {group}
+                    </p>
+                    <div className="grid grid-cols-2 gap-3">
+                      {list.map((field) => {
+                        const active = field.id === selected.id;
+                        return (
+                          <button
+                            key={field.id}
+                            type="button"
+                            onClick={() => {
+                              setSelectedId(field.id);
+                              setPreviewMode(previewPageForField(field.id, field.group));
+                            }}
+                            className={`admin-focus group overflow-hidden rounded-2xl border bg-white text-left transition ${
+                              active
+                                ? 'border-[var(--admin-accent-strong)] ring-2 ring-[var(--admin-accent)]/35'
+                                : 'border-[var(--admin-line)] hover:border-[var(--admin-line-strong)]'
+                            }`}
+                          >
+                            <div className="relative aspect-[4/3] overflow-hidden bg-[var(--admin-surface-soft)]">
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img
+                                src={draftBag[field.id] || '/packages/basic.jpg'}
+                                alt={field.label}
+                                className="size-full object-cover transition duration-500 group-hover:scale-105"
+                              />
+                              <span className="absolute inset-x-2 bottom-2 rounded-lg bg-black/70 px-2 py-1 text-center text-[9px] font-bold text-white backdrop-blur-sm">
+                                Replace photo
+                              </span>
+                            </div>
+                            <div className="p-2.5">
+                              <p className="truncate text-xs font-semibold text-[var(--admin-copy)]">{field.label}</p>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : (
               grouped.map(([group, list]) => (
@@ -535,19 +548,19 @@ export default function AdminContentPage() {
 
         <section className="order-1 flex min-h-0 max-h-[42vh] flex-col bg-[#dfe3dd] lg:order-2 lg:max-h-none">
           <div className="flex shrink-0 items-center gap-2 border-b border-[var(--admin-line-strong)] bg-white px-3 py-2.5">
-            <div className="flex items-center gap-1 rounded-xl bg-[var(--admin-surface-soft)] p-1">
-              {(['home', 'packages'] as const).map((mode) => (
+            <div className="admin-scrollbar flex max-w-[min(100%,520px)] items-center gap-1 overflow-x-auto rounded-xl bg-[var(--admin-surface-soft)] p-1">
+              {PREVIEW_PAGES.map((page) => (
                 <button
-                  key={mode}
+                  key={page.id}
                   type="button"
-                  onClick={() => setPreviewMode(mode)}
-                  className={`admin-focus rounded-lg px-3 py-1.5 text-[10px] font-bold transition ${
-                    previewMode === mode
+                  onClick={() => setPreviewMode(page.id)}
+                  className={`admin-focus shrink-0 rounded-lg px-3 py-1.5 text-[10px] font-bold transition ${
+                    previewMode === page.id
                       ? 'bg-[var(--admin-ink)] text-white'
                       : 'text-[var(--admin-muted)]'
                   }`}
                 >
-                  {mode === 'home' ? 'Homepage' : 'Packages'}
+                  {page.label}
                 </button>
               ))}
             </div>

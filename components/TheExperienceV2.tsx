@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { FiArrowRight, FiMapPin, FiHome, FiActivity, FiHeart } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
 import InternalLinkRow from '@/components/InternalLinkRow';
+import { useSiteCopy } from '@/hooks/useSiteCopy';
 
 /**
  * THE COOKING CLASS EXPERIENCE SECTION - Design 2 of 3
@@ -33,20 +34,29 @@ interface ExperienceStep {
 }
 
 const stepMeta = [
-  { image: "/journey/journey-1.jpeg", alt: "Taghazout Morocco pickup location - Scenic coastal village starting point for authentic Moroccan cooking class journey to Atlas Mountains", duration: "20 min", icon: FiMapPin },
-  { image: "/journey/journey-2.jpg", alt: "Traditional Moroccan kitchen tour - Authentic Amazigh cooking space with wood-fired oven and traditional tagines in Atlas Mountains home", duration: "20 min", icon: FiHome },
-  { image: "/journey/journey-3.webp", alt: "Hands-on Moroccan cooking class - Learning traditional dishes and bread baking techniques in authentic village kitchen", duration: "90 min", icon: FiActivity },
-  { image: "/journey/journey-4.webp", alt: "Moroccan feast and hospitality - Traditional home-cooked meal experience with mint tea ceremony in Atlas Mountains Amazigh home", duration: "60 min", icon: FiHeart },
+  { alt: "Taghazout Morocco pickup location - Scenic coastal village starting point for authentic Moroccan cooking class journey to Atlas Mountains", duration: "20 min", icon: FiMapPin },
+  { alt: "Traditional Moroccan kitchen tour - Authentic Amazigh cooking space with wood-fired oven and traditional tagines in Atlas Mountains home", duration: "20 min", icon: FiHome },
+  { alt: "Hands-on Moroccan cooking class - Learning traditional dishes and bread baking techniques in authentic village kitchen", duration: "90 min", icon: FiActivity },
+  { alt: "Moroccan feast and hospitality - Traditional home-cooked meal experience with mint tea ceremony in Atlas Mountains Amazigh home", duration: "60 min", icon: FiHeart },
 ] as const;
 
 const TheExperienceV2: React.FC = memo(() => {
   const { t } = useLanguage();
-  const experienceSteps: ExperienceStep[] = [
-    { step: 1, ...t.experience.step1, ...stepMeta[0] },
-    { step: 2, ...t.experience.step2, ...stepMeta[1] },
-    { step: 3, ...t.experience.step3, ...stepMeta[2] },
-    { step: 4, ...t.experience.step4, ...stepMeta[3] },
-  ];
+  const { copy, img } = useSiteCopy();
+  const experienceSteps: ExperienceStep[] = [1, 2, 3, 4].map((n) => {
+    const fallback = t.experience[`step${n}` as 'step1'];
+    return {
+      step: n,
+      title: copy(`experience.step.${n}.title`, fallback.title),
+      subtitle: copy(`experience.step.${n}.subtitle`, fallback.subtitle),
+      description: copy(`experience.step.${n}.description`, fallback.description),
+      highlights: (fallback.highlights || []).map((h, i) =>
+        copy(`experience.step.${n}.highlight.${i}`, h)
+      ),
+      ...stepMeta[n - 1],
+      image: img(`experience.step.${n}.image`),
+    };
+  });
   return (
     <section className="relative bg-white">
       {/* Header Section - Mobile Optimized */}
@@ -54,16 +64,16 @@ const TheExperienceV2: React.FC = memo(() => {
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-block mb-4 sm:mb-6">
             <span className="text-xs sm:text-sm font-bold text-amber-600 tracking-[0.25em] sm:tracking-[0.3em] uppercase">
-              {t.experience.title}
+              {copy('experience.title', t.experience.title)}
             </span>
           </div>
           
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-6 sm:mb-8 leading-tight px-4">
-            {t.experience.subtitle}
+            {copy('experience.subtitle', t.experience.subtitle)}
           </h2>
           
           <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed px-4">
-            {t.experience.description}
+            {copy('experience.description', t.experience.description)}
           </p>
           <InternalLinkRow variant="experience" className="text-gray-500 max-w-2xl mx-auto mt-5 px-4 [&_a]:text-amber-700 [&_a:hover]:text-amber-800" />
         </div>
@@ -186,11 +196,11 @@ const TheExperienceV2: React.FC = memo(() => {
           </div>
           
           <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 px-4">
-            {t.experience.finalTitle}
+            {copy('experience.finalTitle', t.experience.finalTitle)}
           </h3>
           
           <p className="text-base sm:text-lg text-gray-600 mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed px-4">
-            {t.experience.finalDescription}
+            {copy('experience.finalDescription', t.experience.finalDescription)}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
@@ -198,7 +208,7 @@ const TheExperienceV2: React.FC = memo(() => {
               href="/book"
               className="inline-flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-base sm:text-lg rounded-full shadow-xl hover:shadow-2xl active:scale-95 sm:hover:scale-105 transition-all duration-300"
             >
-              <span>{t.experience.bookExperience}</span>
+              <span>{copy('experience.bookExperience', t.experience.bookExperience)}</span>
               <FiArrowRight className="w-5 h-5" />
             </a>
             
@@ -206,7 +216,7 @@ const TheExperienceV2: React.FC = memo(() => {
               href="/packages"
               className="inline-flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-white text-gray-900 font-bold text-base sm:text-lg rounded-full border-2 border-gray-200 hover:border-amber-500 active:scale-95 sm:hover:shadow-lg transition-all duration-300"
             >
-              <span>{t.experience.learnMore}</span>
+              <span>{copy('experience.learnMore', t.experience.learnMore)}</span>
             </a>
           </div>
         </div>

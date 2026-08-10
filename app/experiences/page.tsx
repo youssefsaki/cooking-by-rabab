@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FiArrowRight, FiClock, FiUsers, FiCheck } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useSiteCopy } from '@/hooks/useSiteCopy';
 
 interface Experience {
   id: string;
@@ -12,81 +13,137 @@ interface Experience {
   subtitle: string;
   description: string;
   longDescription: string;
-  image: string;
+  imageKey: string;
   duration: string;
   groupSize: string;
   highlights: string[];
   color: string;
 }
 
-// Experiences data - imported from /data/experiences.json
-const experiences: Experience[] = [
+const experienceDefs: Experience[] = [
   {
-    "id": "cooking-masterclass",
-    "title": "Moroccan Cooking Masterclass",
-    "subtitle": "Choose Your Traditional Dish",
-    "description": "Cook Tagine, Msemen, Couscous, or Rfissa — your choice",
-    "longDescription": "Choose your dish — Tagine, Msemen, Couscous, or Rfissa — and learn to cook it the traditional way in an authentic village kitchen. Master aromatic spices, hands-on techniques, and family recipes passed down through generations in the Atlas Mountains.",
-    "image": "/experiences/tajine.jpg",
-    "duration": "4 hours",
-    "groupSize": "2-13 guests",
-    "highlights": ["Your choice of Tagine, Msemen, Couscous, or Rfissa", "Traditional cooking techniques", "Aromatic spice blends", "Hands-on village kitchen experience", "Vegetarian & vegan options available"],
-    "color": "from-orange-500 to-red-600"
+    id: 'cooking-masterclass',
+    title: 'Moroccan Cooking Masterclass',
+    subtitle: 'Choose Your Traditional Dish',
+    description: 'Cook Tagine, Msemen, Couscous, or Rfissa — your choice',
+    longDescription:
+      'Choose your dish — Tagine, Msemen, Couscous, or Rfissa — and learn to cook it the traditional way in an authentic village kitchen. Master aromatic spices, hands-on techniques, and family recipes passed down through generations in the Atlas Mountains.',
+    imageKey: 'experiences.cooking-masterclass.image',
+    duration: '4 hours',
+    groupSize: '2-13 guests',
+    highlights: [
+      'Your choice of Tagine, Msemen, Couscous, or Rfissa',
+      'Traditional cooking techniques',
+      'Aromatic spice blends',
+      'Hands-on village kitchen experience',
+      'Vegetarian & vegan options available',
+    ],
+    color: 'from-orange-500 to-red-600',
   },
   {
-    "id": "amazigh-heritage",
-    "title": "Amazigh Heritage",
-    "subtitle": "Ancient Berber Traditions",
-    "description": "Journey into the heart of Amazigh culture",
-    "longDescription": "Immerse yourself in authentic Amazigh culture and culinary traditions. Learn ancient cooking methods, traditional recipes, and the rich cultural stories behind Amazigh cuisine passed down through generations in the Atlas Mountains.",
-    "image": "/experiences/amazigh.jpg",
-    "duration": "4 hours",
-    "groupSize": "2-13 guests",
-    "highlights": ["Traditional cooking methods", "Cultural storytelling", "Authentic Berber recipes", "Amazigh history & customs", "Family-style dining"],
-    "color": "from-amber-500 to-orange-600"
+    id: 'amazigh-heritage',
+    title: 'Amazigh Heritage',
+    subtitle: 'Ancient Berber Traditions',
+    description: 'Journey into the heart of Amazigh culture',
+    longDescription:
+      'Immerse yourself in authentic Amazigh culture and culinary traditions. Learn ancient cooking methods, traditional recipes, and the rich cultural stories behind Amazigh cuisine passed down through generations in the Atlas Mountains.',
+    imageKey: 'experiences.amazigh-heritage.image',
+    duration: '4 hours',
+    groupSize: '2-13 guests',
+    highlights: [
+      'Traditional cooking methods',
+      'Cultural storytelling',
+      'Authentic Berber recipes',
+      'Amazigh history & customs',
+      'Family-style dining',
+    ],
+    color: 'from-amber-500 to-orange-600',
   },
   {
-    "id": "tea-ceremony",
-    "title": "Tea Ceremony",
-    "subtitle": "The Art of Moroccan Mint Tea",
-    "description": "Traditional Moroccan hospitality ritual",
-    "longDescription": "Experience the elegance of traditional Moroccan tea ceremony. Learn the proper techniques for brewing perfect mint tea, master the iconic high-pour method, and understand the cultural significance of tea in Moroccan hospitality.",
-    "image": "/experiences/tea.jpg",
-    "duration": "4 hours",
-    "groupSize": "2-13 guests",
-    "highlights": ["Tea selection & quality", "High-pour technique mastery", "Fresh mint preparation", "Cultural significance", "Traditional glassware"],
-    "color": "from-green-500 to-emerald-600"
+    id: 'tea-ceremony',
+    title: 'Tea Ceremony',
+    subtitle: 'The Art of Moroccan Mint Tea',
+    description: 'Traditional Moroccan hospitality ritual',
+    longDescription:
+      'Experience the elegance of traditional Moroccan tea ceremony. Learn the proper techniques for brewing perfect mint tea, master the iconic high-pour method, and understand the cultural significance of tea in Moroccan hospitality.',
+    imageKey: 'experiences.tea-ceremony.image',
+    duration: '4 hours',
+    groupSize: '2-13 guests',
+    highlights: [
+      'Tea selection & quality',
+      'High-pour technique mastery',
+      'Fresh mint preparation',
+      'Cultural significance',
+      'Traditional glassware',
+    ],
+    color: 'from-green-500 to-emerald-600',
   },
   {
-    "id": "clay-oven-bread",
-    "title": "Clay Oven Bread",
-    "subtitle": "Wood-Fired Tradition",
-    "description": "Ancient bread-making in clay ovens",
-    "longDescription": "Experience the ancient art of baking traditional Moroccan bread in a wood-fired clay oven. From kneading dough by hand to achieving the perfect golden crust, learn authentic Amazigh bread-making techniques that have remained unchanged for centuries.",
-    "image": "/experiences/oven-bread.jpg",
-    "duration": "4 hours",
-    "groupSize": "2-13 guests",
-    "highlights": ["Dough preparation from scratch", "Hand kneading techniques", "Clay oven baking", "Multiple bread varieties", "Wood fire management"],
-    "color": "from-amber-500 to-yellow-600"
+    id: 'clay-oven-bread',
+    title: 'Clay Oven Bread',
+    subtitle: 'Wood-Fired Tradition',
+    description: 'Ancient bread-making in clay ovens',
+    longDescription:
+      'Experience the ancient art of baking traditional Moroccan bread in a wood-fired clay oven. From kneading dough by hand to achieving the perfect golden crust, learn authentic Amazigh bread-making techniques that have remained unchanged for centuries.',
+    imageKey: 'experiences.clay-oven-bread.image',
+    duration: '4 hours',
+    groupSize: '2-13 guests',
+    highlights: [
+      'Dough preparation from scratch',
+      'Hand kneading techniques',
+      'Clay oven baking',
+      'Multiple bread varieties',
+      'Wood fire management',
+    ],
+    color: 'from-amber-500 to-yellow-600',
   },
   {
-    "id": "amlou-workshop",
-    "title": "Amlou Workshop",
-    "subtitle": "Liquid Gold of Morocco",
-    "description": "Argan oil, almonds, and honey perfection",
-    "longDescription": "Discover the secrets of making traditional Moroccan amlou - a delicious blend of argan oil, roasted almonds, and honey. Learn traditional grinding techniques using ancient millstones and achieve the perfect consistency for this beloved Berber spread.",
-    "image": "/experiences/amlou-workshop.jpg",
-    "duration": "4 hours",
-    "groupSize": "2-13 guests",
-    "highlights": ["Argan oil knowledge", "Almond roasting & grinding", "Traditional millstone use", "Perfect consistency", "Honey blending techniques"],
-    "color": "from-yellow-500 to-amber-600"
-  }
+    id: 'amlou-workshop',
+    title: 'Amlou Workshop',
+    subtitle: 'Liquid Gold of Morocco',
+    description: 'Argan oil, almonds, and honey perfection',
+    longDescription:
+      'Discover the secrets of making traditional Moroccan amlou - a delicious blend of argan oil, roasted almonds, and honey. Learn traditional grinding techniques using ancient millstones and achieve the perfect consistency for this beloved Berber spread.',
+    imageKey: 'experiences.amlou-workshop.image',
+    duration: '4 hours',
+    groupSize: '2-13 guests',
+    highlights: [
+      'Argan oil knowledge',
+      'Almond roasting & grinding',
+      'Traditional millstone use',
+      'Perfect consistency',
+      'Honey blending techniques',
+    ],
+    color: 'from-yellow-500 to-amber-600',
+  },
 ];
 
 // SEO optimized for Moroccan cooking experiences, Tajine masterclass, Amazigh heritage, Taghazout culinary tours
 export default function ExperiencesPage() {
   const { t } = useLanguage();
-  
+  const { copy, img } = useSiteCopy();
+  const translationById: Record<string, { title: string; subtitle: string; description: string; longDescription: string; highlights: string[] }> = {
+    'cooking-masterclass': t.experiences.tajine,
+    'amazigh-heritage': t.experiences.amazigh,
+    'tea-ceremony': t.experiences.tea,
+    'clay-oven-bread': t.experiences.bread,
+    'amlou-workshop': t.experiences.amlou,
+  };
+  const experiences = experienceDefs.map((item) => {
+    const tr = translationById[item.id];
+    return {
+      ...item,
+      title: copy(`expCard.${item.id}.title`, tr?.title || item.title),
+      subtitle: copy(`expCard.${item.id}.subtitle`, tr?.subtitle || item.subtitle),
+      description: copy(`expCard.${item.id}.description`, tr?.description || item.description),
+      longDescription: copy(`expCard.${item.id}.longDescription`, tr?.longDescription || item.longDescription),
+      highlights: item.highlights.map((h, i) =>
+        copy(`expCard.${item.id}.highlight.${i}`, tr?.highlights?.[i] || h)
+      ),
+      image: img(item.imageKey),
+    };
+  });
+
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section - Optimized for 13" */}
@@ -94,14 +151,14 @@ export default function ExperiencesPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-4 leading-tight">
-              {t.experiences.title}{' '}
+              {copy('experiencesPage.title', t.experiences.title)}{' '}
               <span className="bg-gradient-to-r from-orange-600 via-amber-600 to-orange-500 bg-clip-text text-transparent">
-                {t.experiences.titleHighlight}
+                {copy('experiencesPage.titleHighlight', t.experiences.titleHighlight)}
               </span>
             </h1>
             
             <p className="text-base lg:text-lg text-gray-600 leading-relaxed mb-8">
-              {t.experiences.description}
+              {copy('experiencesPage.description', t.experiences.description)}
             </p>
 
             <Link
@@ -221,27 +278,27 @@ export default function ExperiencesPage() {
       <section className="py-16 bg-gradient-to-b from-white to-amber-50">
         <div className="max-w-4xl mx-auto px-6 lg:px-12 text-center">
           <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-4">
-            Ready to Start Your{' '}
+            {copy('experiencesPage.ctaTitle', t.experiences.ctaTitle)}{' '}
             <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
-              Culinary Journey?
+              {copy('experiencesPage.ctaTitleHighlight', t.experiences.ctaTitleHighlight)}
             </span>
           </h2>
           <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-            Book your authentic Moroccan cooking experience today and create unforgettable memories in the Atlas Mountains.
+            {copy('experiencesPage.ctaDescription', t.experiences.ctaDescription)}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/book"
               className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-8 py-4 rounded-full hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-xl hover:scale-105"
             >
-              <span>Book Now</span>
+              <span>{copy('experiencesPage.bookNow', t.experiences.bookExperience || 'Book Now')}</span>
               <FiArrowRight className="w-5 h-5" />
             </Link>
             <Link
               href="/packages"
               className="inline-flex items-center justify-center gap-3 bg-white text-gray-900 font-bold px-8 py-4 rounded-full border-2 border-gray-200 hover:border-amber-500 transition-all duration-300 shadow-lg hover:scale-105"
             >
-              <span>View Packages</span>
+              <span>{copy('experiencesPage.viewPackages', t.experiences.viewPackages)}</span>
             </Link>
           </div>
         </div>

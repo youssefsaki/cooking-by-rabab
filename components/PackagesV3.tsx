@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { FiClock, FiUsers, FiMapPin } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
 import InternalLinkRow from '@/components/InternalLinkRow';
+import { useSiteCopy } from '@/hooks/useSiteCopy';
 
 const packagesData = [
   {
@@ -135,8 +136,10 @@ function PriceRow({
 }
 
 const PackagesV3: React.FC = memo(() => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const { copy } = useSiteCopy();
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [cmsItems, setCmsItems] = useState<typeof packagesData | null>(null);
 
   const closeActive = useCallback(() => setActiveId(null), []);
 
@@ -151,6 +154,39 @@ const PackagesV3: React.FC = memo(() => {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [activeId, closeActive]);
 
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/content?section=packages&locale=${language.toLowerCase()}`)
+      .then((r) => r.json())
+      .then((payload) => {
+        if (cancelled || !payload.ok || !payload.data?.items?.length) return;
+        const byId = new Map(
+          (payload.data.items as Array<{ id: string; image?: string; price?: string; name?: string; subtitle?: string }>).map(
+            (item) => [item.id, item]
+          )
+        );
+        setCmsItems(
+          packagesData.map((pkg) => {
+            const overlay = byId.get(pkg.id);
+            if (!overlay) return pkg;
+            return {
+              ...pkg,
+              image: overlay.image || pkg.image,
+              price: overlay.price || pkg.price,
+              name: overlay.name || pkg.name,
+              subtitle: overlay.subtitle || pkg.subtitle,
+            };
+          })
+        );
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [language]);
+
+  const items = cmsItems || packagesData;
+
   return (
     <section className="relative py-12 sm:py-16 lg:py-20 bg-[#F5EFE7] overflow-hidden">
       <div className="absolute top-0 left-0 w-64 h-64 bg-amber-200/20 rounded-full blur-3xl pointer-events-none" />
@@ -161,25 +197,33 @@ const PackagesV3: React.FC = memo(() => {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-xl mb-4 border border-amber-100">
             <span className="text-lg">🍽️</span>
             <span className="text-xs font-bold text-amber-900 tracking-wider uppercase">
-              {t.packages.badge}
+              {copy('packages.badge', t.packages.badge)}
             </span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black text-gray-900 mb-3 sm:mb-4 leading-tight">
-            {t.packages.title.split(' ')[0]}{' '}
-            <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-clip-text text-transparent">
-              {t.packages.title.split(' ').slice(1).join(' ')}
-            </span>
+            {(() => {
+              const title = copy('packages.title', t.packages.title);
+              const parts = title.split(' ');
+              return (
+                <>
+                  {parts[0]}{' '}
+                  <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-clip-text text-transparent">
+                    {parts.slice(1).join(' ')}
+                  </span>
+                </>
+              );
+            })()}
           </h2>
 
           <p className="text-sm sm:text-base lg:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
-            {t.packages.description}
+            {copy('packages.description', t.packages.description)}
           </p>
           <InternalLinkRow variant="packages" className="text-gray-600 max-w-3xl mx-auto mt-4 [&_a]:text-amber-700 [&_a:hover]:text-amber-800" />
         </div>
 
         <div className="flex flex-wrap justify-center gap-5 lg:gap-6 max-w-6xl mx-auto">
-          {packagesData.map((pkg) => {
+          {items.map((pkg) => {
             const isActive = activeId === pkg.id;
 
             return (

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { HeroSectionData } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
 import InternalLinkRow from '@/components/InternalLinkRow';
+import { useSiteCopy } from '@/hooks/useSiteCopy';
 
 interface HeroSectionProps {
   data: HeroSectionData;
@@ -27,13 +28,14 @@ interface HeroSectionProps {
  */
 const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }) => {
   const { t } = useLanguage();
+  const { copy, img } = useSiteCopy();
   const [activeImage, setActiveImage] = useState(0);
   
   const experiences = [
-    t.experiences.bread.title,
-    t.experiences.tajine.title,
-    t.experiences.amlou.title,
-    t.experiences.tea.title,
+    copy('heroSection.include.0', t.experiences.bread.title),
+    copy('heroSection.include.1', t.experiences.tajine.title),
+    copy('heroSection.include.2', t.experiences.amlou.title),
+    copy('heroSection.include.3', t.experiences.tea.title),
   ];
 
   const imageAlts = [
@@ -46,17 +48,14 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
     'Taghazout cooking class feast — shared Amazigh meal after hands-on Berber cooking experience',
   ] as const;
 
-  // Same gallery order for desktop + mobile; desktop & mobile use webp assets
-  const imageKeys = ['1', '2', '3', '4', '5', '6', '7'] as const;
-
-  const desktopImages = imageKeys.map((key, i) => ({
-    src: `/hero/desktop/learn-to-cook-amazigh/${key}.webp`,
-    alt: imageAlts[i],
+  const desktopImages = imageAlts.map((alt, i) => ({
+    src: img(`heroSection.image.${i}`),
+    alt,
   }));
 
-  const mobileImages = imageKeys.map((key, i) => ({
-    src: `/hero/desktop/learn-to-cook-amazigh/mobile/${key}.webp`,
-    alt: imageAlts[i],
+  const mobileImages = imageAlts.map((alt, i) => ({
+    src: img(`heroSection.mobile.${i}`),
+    alt,
   }));
 
   const allImages = desktopImages; // desktop gallery (DesktopVersion)
@@ -81,13 +80,13 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
 
         {/* Title */}
         <h2 className="text-4xl font-bold text-[#2D2A26] leading-tight mb-3">
-          {t.heroSection.learnToCookPart1}<br />
-          <span className="text-[#C75D3A]">{t.heroSection.learnToCookPart2}</span>
+          {copy('heroSection.learnToCookPart1', t.heroSection.learnToCookPart1)}<br />
+          <span className="text-[#C75D3A]">{copy('heroSection.learnToCookPart2', t.heroSection.learnToCookPart2)}</span>
         </h2>
 
         {/* Description */}
         <p className="text-[#6B6560] text-sm leading-relaxed mb-5 max-w-xs mx-auto">
-          {t.heroSection.description}
+          {copy('heroSection.description', t.heroSection.description)}
         </p>
 
         {/* CTA */}
@@ -95,7 +94,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
           href={data.cta.link}
           className="inline-flex items-center justify-center gap-2 bg-[#C75D3A] text-white font-bold uppercase tracking-wider py-3.5 px-8 rounded-full text-sm"
         >
-          {t.heroSection.bookClass}
+          {copy('heroSection.bookClass', t.heroSection.bookClass)}
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
@@ -118,7 +117,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
           
           {/* Bottom content */}
           <div className="absolute bottom-0 left-0 right-0 p-5">
-            <p className="text-white/70 text-xs uppercase tracking-wider mb-2">{t.heroSection.experienceIncludes}</p>
+            <p className="text-white/70 text-xs uppercase tracking-wider mb-2">{copy('heroSection.experienceIncludes', t.heroSection.experienceIncludes)}</p>
             <div className="flex flex-wrap gap-2">
               {experiences.slice(0, 3).map((item, i) => (
                 <span key={i} className="px-3 py-1.5 bg-white/15 backdrop-blur-sm rounded-full text-xs text-white font-medium">
@@ -200,8 +199,8 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
 
           {/* Title */}
           <h2 className="text-4xl sm:text-5xl font-bold text-white leading-[1.1] mb-4">
-            {t.heroSection.learnToCookPart1}<br />
-            <span className="text-[#C75D3A]">{t.heroSection.learnToCookPart2}</span>
+            {copy('heroSection.learnToCookPart1', t.heroSection.learnToCookPart1)}<br />
+            <span className="text-[#C75D3A]">{copy('heroSection.learnToCookPart2', t.heroSection.learnToCookPart2)}</span>
           </h2>
 
           {/* Experience tags */}
@@ -218,7 +217,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
             href={data.cta.link}
             className="w-full bg-[#C75D3A] text-white font-bold uppercase tracking-wider py-4 rounded-2xl text-center text-sm flex items-center justify-center gap-2"
           >
-            {t.heroSection.bookClass}
+            {copy('heroSection.bookClass', t.heroSection.bookClass)}
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
@@ -279,7 +278,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
 
         {/* Description */}
         <p className="text-[#6B6560] text-base leading-relaxed mb-8">
-          {t.heroSection.description}
+          {copy('heroSection.description', t.heroSection.description)}
         </p>
 
         {/* Inline Stats */}
@@ -307,7 +306,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
           href={data.cta.link}
           className="flex items-center justify-between w-full bg-[#2D2A26] text-white py-4 px-6 rounded-2xl group"
         >
-          <span className="font-bold uppercase tracking-wider text-sm">{t.heroSection.bookClass}</span>
+          <span className="font-bold uppercase tracking-wider text-sm">{copy('heroSection.bookClass', t.heroSection.bookClass)}</span>
           <span className="w-10 h-10 rounded-full bg-[#C75D3A] flex items-center justify-center group-hover:scale-110 transition-transform">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -387,15 +386,15 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
                   </svg>
                 </span>
                 <span className="text-[#C75D3A] text-sm font-semibold tracking-[0.14em] uppercase">
-                  {t.heroSection.ratedBy} {t.heroSection.rating}
+                  {copy('heroSection.ratedBy', t.heroSection.ratedBy)} {t.heroSection.rating}
                 </span>
               </div>
 
               {/* Main Title */}
               <h2 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-[#2D2A26] leading-[0.95] tracking-tight">
-                {t.heroSection.learnToCookPart1}
+                {copy('heroSection.learnToCookPart1', t.heroSection.learnToCookPart1)}
                 <br />
-                <span className="text-[#C75D3A]">{t.heroSection.learnToCookPart2}</span>
+                <span className="text-[#C75D3A]">{copy('heroSection.learnToCookPart2', t.heroSection.learnToCookPart2)}</span>
               </h2>
             </div>
 
@@ -422,7 +421,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
                 href={data.cta.link}
                 className="inline-flex items-center gap-3 text-[#2D2A26] font-semibold group self-start"
               >
-                <span className="uppercase tracking-wider text-sm">{t.heroSection.bookClass}</span>
+                <span className="uppercase tracking-wider text-sm">{copy('heroSection.bookClass', t.heroSection.bookClass)}</span>
                 <span className="w-12 h-12 rounded-full border-2 border-[#2D2A26] flex items-center justify-center group-hover:bg-[#C75D3A] group-hover:border-[#C75D3A] group-hover:text-white transition-all duration-300 group-hover:translate-x-0.5">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -455,7 +454,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
               <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
                 {/* Left Info */}
                 <div className="text-white">
-                  <p className="text-white/70 text-sm uppercase tracking-wider mb-2">{t.heroSection.experienceIncludes}</p>
+                  <p className="text-white/70 text-sm uppercase tracking-wider mb-2">{copy('heroSection.experienceIncludes', t.heroSection.experienceIncludes)}</p>
                   <div className="flex flex-wrap gap-3">
                     {experiences.map((item, i) => (
                       <span key={i} className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium">
@@ -470,7 +469,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
                   href="/book"
                   className="inline-flex items-center gap-2 bg-white text-[#2D2A26] font-bold uppercase tracking-wider py-4 px-8 rounded-full hover:bg-[#C75D3A] hover:text-white transition-all duration-300 self-start lg:self-auto"
                 >
-                  {t.heroSection.bookNow}
+                  {copy('heroSection.bookNow', t.heroSection.bookNow)}
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FiClock, FiUsers, FiMapPin, FiCheck, FiArrowRight } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useSiteCopy } from '@/hooks/useSiteCopy';
 
 export default function PackagesPage() {
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
@@ -20,78 +21,79 @@ export default function PackagesPage() {
     }
   }, []);
   const { t } = useLanguage();
+  const { copy, img } = useSiteCopy();
 
   const packagesData = [
     {
       id: "basic",
-      name: t.packagesPage.basic.name,
-      tagline: t.packagesPage.basic.tagline,
-      subtitle: t.packagesPage.basic.subtitle,
-      price: "65",
-      currency: "EUR",
-      duration: t.packagesPage.basic.duration,
-      groupSize: t.packagesPage.basic.groupSize,
+      name: copy('pkg.basic.name', t.packagesPage.basic.name),
+      tagline: copy('pkg.basic.subtitle', t.packagesPage.basic.tagline),
+      subtitle: copy('pkg.basic.subtitle', t.packagesPage.basic.subtitle),
+      price: (copy('pkg.basic.price', '65').match(/\d+/) || ['65'])[0],
+      currency: copy('pkg.basic.currency', 'EUR'),
+      duration: copy('pkg.basic.duration', t.packagesPage.basic.duration),
+      groupSize: copy('pkg.basic.groupSize', t.packagesPage.basic.groupSize),
       startTime: "13:30",
       endTime: "19:30-20:00",
       pickup: "Taghazout Mosque",
       dropoff: "Taghazout or Tamraght",
-      image: "/packages/basic.webp",
-      alt: "Taghazout cooking class — half-day Berber village experience with traditional Moroccan dishes and clay oven bread in Atlas Mountains",
+      image: img('pkg.basic.image', '/packages/basic.webp'),
+      alt: copy('pkg.basic.imageAlt', "Taghazout cooking class — half-day Berber village experience with traditional Moroccan dishes and clay oven bread in Atlas Mountains"),
       popular: true,
       itinerary: t.packagesPage.basic.itinerary,
       includes: t.packagesPage.basic.includes,
     },
     {
       id: "weekly-event",
-      name: t.packagesPage.weeklyEvent.name,
-      tagline: t.packagesPage.weeklyEvent.tagline,
-      subtitle: t.packagesPage.weeklyEvent.subtitle,
-      price: "80",
-      currency: "EUR",
-      duration: t.packagesPage.weeklyEvent.duration,
-      groupSize: t.packagesPage.weeklyEvent.groupSize,
+      name: copy('pkg.weekly-event.name', t.packagesPage.weeklyEvent.name),
+      tagline: copy('pkg.weekly-event.subtitle', t.packagesPage.weeklyEvent.tagline),
+      subtitle: copy('pkg.weekly-event.subtitle', t.packagesPage.weeklyEvent.subtitle),
+      price: (copy('pkg.weekly-event.price', '80').match(/\d+/) || ['80'])[0],
+      currency: copy('pkg.weekly-event.currency', 'EUR'),
+      duration: copy('pkg.weekly-event.duration', t.packagesPage.weeklyEvent.duration),
+      groupSize: copy('pkg.weekly-event.groupSize', t.packagesPage.weeklyEvent.groupSize),
       startTime: "15:00",
       endTime: "TBD",
       pickup: "Taghazout Mosque",
       dropoff: "Taghazout or Tamraght",
-      image: "/packages/weekly.webp",
-      alt: "Weekly Amazigh music event Taghazout — Berber village sunset celebration and traditional cooking experience Morocco",
+      image: img('pkg.weekly-event.image', '/packages/weekly.webp'),
+      alt: copy('pkg.weekly-event.imageAlt', "Weekly Amazigh music event Taghazout — Berber village sunset celebration and traditional cooking experience Morocco"),
       itinerary: t.packagesPage.weeklyEvent.itinerary,
       includes: t.packagesPage.weeklyEvent.includes,
     },
     {
       id: "private",
-      name: t.packagesPage.private.name,
-      tagline: t.packagesPage.private.tagline,
-      subtitle: t.packagesPage.private.subtitle,
-      price: "80",
-      currency: "EUR",
-      duration: t.packagesPage.private.duration,
-      groupSize: t.packagesPage.private.groupSize,
+      name: copy('pkg.private.name', t.packagesPage.private.name),
+      tagline: copy('pkg.private.subtitle', t.packagesPage.private.tagline),
+      subtitle: copy('pkg.private.subtitle', t.packagesPage.private.subtitle),
+      price: (copy('pkg.private.price', '80').match(/\d+/) || ['80'])[0],
+      currency: copy('pkg.private.currency', 'EUR'),
+      duration: copy('pkg.private.duration', t.packagesPage.private.duration),
+      groupSize: copy('pkg.private.groupSize', t.packagesPage.private.groupSize),
       startTime: "Flexible",
       endTime: "Flexible",
       pickup: "Taghazout Mosque",
       dropoff: "Taghazout or Tamraght",
-      image: "/packages/private.webp",
-      alt: "Private Workshop Experience Taghazout — private Moroccan cooking class at Amazigh village workshop",
+      image: img('pkg.private.image', '/packages/private.webp'),
+      alt: copy('pkg.private.imageAlt', "Private Workshop Experience Taghazout — private Moroccan cooking class at Amazigh village workshop"),
       itinerary: t.packagesPage.private.itinerary,
       includes: t.packagesPage.private.includes,
     },
     {
       id: "private-at-location",
-      name: t.packagesPage.privateAtLocation.name,
-      tagline: t.packagesPage.privateAtLocation.tagline,
-      subtitle: t.packagesPage.privateAtLocation.subtitle,
-      price: "100",
-      currency: "EUR",
-      duration: t.packagesPage.privateAtLocation.duration,
-      groupSize: t.packagesPage.privateAtLocation.groupSize,
+      name: copy('pkg.private-at-location.name', t.packagesPage.privateAtLocation.name),
+      tagline: copy('pkg.private-at-location.subtitle', t.packagesPage.privateAtLocation.tagline),
+      subtitle: copy('pkg.private-at-location.subtitle', t.packagesPage.privateAtLocation.subtitle),
+      price: (copy('pkg.private-at-location.price', '100').match(/\d+/) || ['100'])[0],
+      currency: copy('pkg.private-at-location.currency', 'EUR'),
+      duration: copy('pkg.private-at-location.duration', t.packagesPage.privateAtLocation.duration),
+      groupSize: copy('pkg.private-at-location.groupSize', t.packagesPage.privateAtLocation.groupSize),
       startTime: "Flexible",
       endTime: "Flexible",
       pickup: "At your location",
       dropoff: "At your location",
-      image: "/packages/pv-at-ur-location.webp",
-      alt: "Rabab Comes to You — private Moroccan cooking class at your villa or riad in Taghazout",
+      image: img('pkg.private-at-location.image', '/packages/pv-at-ur-location.webp'),
+      alt: copy('pkg.private-at-location.imageAlt', "Rabab Comes to You — private Moroccan cooking class at your villa or riad in Taghazout"),
       itinerary: t.packagesPage.privateAtLocation.itinerary,
       includes: t.packagesPage.privateAtLocation.includes,
     }
@@ -115,20 +117,20 @@ export default function PackagesPage() {
               <div className="flex items-center gap-2 px-5 py-2 rounded-full bg-white shadow-2xl border-2 border-amber-100">
                 <span className="text-xl">🍽️</span>
                 <span className="text-xs font-black text-amber-900 tracking-wider uppercase">
-                  {t.packagesPage.badge}
+                  {copy('packagesPage.badge', t.packagesPage.badge)}
                 </span>
               </div>
             </div>
             
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-4 leading-tight">
-              {t.packagesPage.title}{' '}
+              {copy('packagesPage.title', t.packagesPage.title)}{' '}
               <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-clip-text text-transparent">
-                {t.packagesPage.titleHighlight}
+                {copy('packagesPage.titleHighlight', t.packagesPage.titleHighlight)}
               </span>
             </h1>
             
             <p className="text-base sm:text-lg lg:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed font-light">
-              {t.packagesPage.description}
+              {copy('packagesPage.description', t.packagesPage.description)}
             </p>
           </div>
 

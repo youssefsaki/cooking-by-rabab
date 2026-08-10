@@ -16,6 +16,7 @@ import type { CalendarSlot, PackageType } from '@/lib/booking/schedule';
 import {
   BASIC_MAX_GUESTS,
   BASIC_MIN_ADULTS,
+  effectiveMinAdultsForBasic,
   effectiveMinAdultsForPrivate,
   getUpcomingCalendarWeeks,
   minAdultsForPackage,
@@ -177,6 +178,7 @@ function BookingForm() {
   const [selectedSlot, setSelectedSlot] = useState<CalendarSlot | null>(null);
   const [dishStepError, setDishStepError] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [whatsappUrl, setWhatsappUrl] = useState('');
   const [phoneDialCode, setPhoneDialCode] = useState('212');
   const [phoneError, setPhoneError] = useState('');
   const [submitError, setSubmitError] = useState('');
@@ -237,9 +239,14 @@ function BookingForm() {
           isPrivate && isSharedSlotForPrivate(slotOccupancy);
         const privateRemaining =
           slotOccupancy?.remainingBasicCapacity ?? BASIC_MAX_GUESTS;
-        const minAdults = isPrivate
-          ? effectiveMinAdultsForPrivate(pkg, privateRemaining, joiningShared)
-          : minAdultsForPackage(pkg);
+        const bookedCount = slotOccupancy?.basicGuestCount ?? 0;
+        const remainingForMin =
+          slotOccupancy?.remainingBasicCapacity ?? BASIC_MAX_GUESTS;
+        const minAdults = isBasic
+          ? effectiveMinAdultsForBasic(bookedCount, remainingForMin)
+          : isPrivate
+            ? effectiveMinAdultsForPrivate(pkg, privateRemaining, joiningShared)
+            : minAdultsForPackage(pkg);
 
         if (values.adults < minAdults) {
           setSubmitError(`This package requires at least ${minAdults} adults.`);
@@ -254,13 +261,12 @@ function BookingForm() {
           const leftover = leftoverSpotsForPrivateJoin(slotOccupancy);
           if (leftover > 0) {
             setSubmitError(
-              `Only ${leftover} spot${leftover === 1 ? '' : 's'} left — Basic needs at least ${BASIC_MIN_ADULTS} guests. You can join via the Private package.`
+              `Only ${leftover} spot${leftover === 1 ? '' : 's'} left — not enough to start a Basic group of ${BASIC_MIN_ADULTS}. You can join via the Private package.`
             );
             setSubmitting(false);
             return;
           }
-          const minForPackage = minAdultsForPackage(pkg);
-          if (remaining < minForPackage) {
+          if (remaining < minAdults) {
             setSubmitError(
               'This workshop is fully booked. Please choose another day.'
             );
@@ -447,23 +453,26 @@ function BookingForm() {
     initialPackage === 'basic' ? leftoverSpotsForPrivateJoin(slotOccupancy) : 0;
 
   const minAdults = useMemo(() => {
+    if (activePackage === 'basic') {
+      return effectiveMinAdultsForBasic(bookedGuestCount, remainingSpots ?? BASIC_MAX_GUESTS);
+    }
     if (isPrivatePackage(activePackage)) {
       const remaining = remainingSpots ?? BASIC_MAX_GUESTS;
       return effectiveMinAdultsForPrivate(activePackage, remaining, joiningSharedSlot);
     }
     return minAdultsForPackage(activePackage);
-  }, [activePackage, remainingSpots, joiningSharedSlot]);
+  }, [activePackage, remainingSpots, joiningSharedSlot, bookedGuestCount]);
 
   const partyCapacityCount = useMemo(() => {
     const childPayload = bringingChildren ? children : [];
     return countGuestsTowardCapacity(formik.values.adults, childPayload);
   }, [bringingChildren, children, formik.values.adults]);
 
-  /** True when this Basic slot cannot fit the package minimum (e.g. only 2 left, min is 3) */
+  /** True when this Basic slot cannot fit the effective minimum for this booking */
   const slotTooFullForPackage =
     initialPackage === 'basic' &&
     remainingSpots !== null &&
-    remainingSpots < BASIC_MIN_ADULTS;
+    remainingSpots < effectiveMinAdultsForBasic(bookedGuestCount, remainingSpots);
 
   /** True when the guest party exceeds remaining capacity */
   const partyExceedsCapacity =
@@ -478,7 +487,9 @@ function BookingForm() {
 
   // Keep adult count within joining capacity / effective minimum
   useEffect(() => {
-    if (!joiningSharedSlot || remainingSpots === null) return;
+    const shouldClamp =
+      joiningSharedSlot || (initialPackage === 'basic' && remainingSpots !== null);
+    if (!shouldClamp || remainingSpots === null) return;
     const maxAdults = Math.max(minAdults, remainingSpots);
     if (formik.values.adults > maxAdults) {
       formik.setFieldValue('adults', maxAdults);
@@ -486,7 +497,7 @@ function BookingForm() {
       formik.setFieldValue('adults', minAdults);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only clamp when capacity/min changes
-  }, [joiningSharedSlot, remainingSpots, minAdults]);
+  }, [joiningSharedSlot, remainingSpots, minAdults, initialPackage]);
 
   const priceSummary = useMemo(() => {
     const childPayload = bringingChildren ? children : [];
@@ -544,17 +555,19 @@ function BookingForm() {
     );
 
     const whatsappMessage = lines.filter(Boolean).join('\n');
+    const url = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`;
+    setWhatsappUrl(url);
     setTimeout(() => {
-      const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`;
-      const newWindow = window.open(whatsappUrl, '_blank');
+      const newWindow = window.open(url, '_blank');
       if (!newWindow || newWindow.closed) {
-        window.location.href = whatsappUrl;
+        window.location.href = url;
       }
-    }, 1200);
+    }, 600);
   }
 
   const resetAll = () => {
     setSubmitted(false);
+    setWhatsappUrl('');
     setSubmitError('');
     setDishStepError('');
     setSelectedSlot(null);
@@ -589,11 +602,22 @@ function BookingForm() {
             </div>
             <h1 className="text-4xl font-black text-gray-900 mb-4">{t.booking.success}</h1>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">{t.booking.successMessage}</p>
-            <div className="bg-green-50 border-2 border-green-200 rounded-xl p-6 mb-8">
-              <p className="text-sm text-green-800 font-semibold mb-2">✓ Your booking details have been saved</p>
-              <p className="text-sm text-green-700">✓ We&apos;ll reach out within 24 hours</p>
+            <div className="bg-green-50 border-2 border-green-200 rounded-xl p-6 mb-8 text-left space-y-2">
+              <p className="text-sm text-green-800 font-semibold">✓ Booking saved in our system</p>
+              <p className="text-sm text-green-700">✓ A WhatsApp message opens so you can confirm with Rabab</p>
+              <p className="text-sm text-green-700">✓ We&apos;ll follow up within 24 hours</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              {whatsappUrl ? (
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-[#25D366] text-white font-bold px-8 py-4 rounded-full hover:bg-[#1ebe57] transition-all duration-300 shadow-lg hover:scale-105"
+                >
+                  Open WhatsApp
+                </a>
+              ) : null}
               <button
                 onClick={resetAll}
                 className="inline-block bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-8 py-4 rounded-full hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-lg hover:scale-105"
@@ -675,7 +699,10 @@ function BookingForm() {
             error={dishStepError}
             remainingSpots={remainingSpots}
             maxGuests={BASIC_MAX_GUESTS}
-            minAdults={BASIC_MIN_ADULTS}
+            minAdults={effectiveMinAdultsForBasic(
+              bookedGuestCount,
+              remainingSpots ?? BASIC_MAX_GUESTS
+            )}
           />
         </section>
       </main>
@@ -872,8 +899,8 @@ function BookingForm() {
                         {basicLeftoverSpots} spot{basicLeftoverSpots === 1 ? '' : 's'} left
                       </p>
                       <p className="mt-1 font-medium leading-relaxed">
-                        Basic needs at least {BASIC_MIN_ADULTS} guests. You can still join this
-                        workshop with the Private package.
+                        Not enough room to start a new Basic group (needs {BASIC_MIN_ADULTS}{' '}
+                        guests). You can still join via the Private package.
                       </p>
                       <Link
                         href="/book?package=private"
@@ -890,10 +917,15 @@ function BookingForm() {
                       {remainingSpots === 1 ? 'is' : 'are'} left. Please choose another day, or
                       reduce your group (ages 0–3 do not count).
                     </p>
+                  ) : bookedGuestCount >= BASIC_MIN_ADULTS ? (
+                    <p>
+                      {bookedGuestCount} guests already booked · {remainingSpots} spot
+                      {remainingSpots === 1 ? '' : 's'} left — you can join alone
+                    </p>
                   ) : (
                     <p>
-                      {remainingSpots} spot{remainingSpots === 1 ? '' : 's'} available on this
-                      workshop (max {BASIC_MAX_GUESTS})
+                      {remainingSpots} spot{remainingSpots === 1 ? '' : 's'} available · groups of{' '}
+                      {BASIC_MIN_ADULTS}+ to start (max {BASIC_MAX_GUESTS})
                     </p>
                   )}
                   {cannotBookThisSlot && basicLeftoverSpots === 0 && (
@@ -944,7 +976,9 @@ function BookingForm() {
                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500"
               />
               <p className="text-xs text-gray-500 mt-1">
-                Minimum {minAdults} adult{minAdults === 1 ? '' : 's'} for this package
+                {initialPackage === 'basic' && bookedGuestCount >= BASIC_MIN_ADULTS
+                  ? 'This workshop is open — you can book for 1 adult or more'
+                  : `Minimum ${minAdults} adult${minAdults === 1 ? '' : 's'} for this package`}
                 {(initialPackage === 'basic' || joiningSharedSlot) && remainingSpots !== null
                   ? ` · ${remainingSpots} spot${remainingSpots === 1 ? '' : 's'} left`
                   : ''}

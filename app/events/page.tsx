@@ -5,9 +5,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FiCalendar, FiClock, FiUsers, FiMapPin, FiArrowRight } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useSiteCopy } from '@/hooks/useSiteCopy';
 
 export default function EventsPage() {
   const { t } = useLanguage();
+  const { copy, img } = useSiteCopy();
 
   const expectItems = [
     { emoji: '🎭', ...t.events.ahwach },
@@ -15,13 +17,16 @@ export default function EventsPage() {
     { emoji: '🎶', ...t.events.musicians },
     { emoji: '🍵', ...t.events.teaRefreshments },
   ];
+  const highlights = (t.events.highlights || [])
+    .map((item, i) => copy(`events.highlight.${i}`, item))
+    .filter(Boolean);
 
   return (
     <main className="min-h-screen bg-[#FAF8F5]">
       {/* Hero — full-bleed image, single composition */}
       <section className="relative min-h-[100svh] flex items-end sm:items-center overflow-hidden">
         <Image
-          src="/packages/weekly.webp"
+          src={img('events.hero.image')}
           alt="Weekly Amazigh music and BBQ event in a traditional Berber village near Taghazout"
           fill
           priority
@@ -34,20 +39,20 @@ export default function EventsPage() {
         <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-28 pb-14 sm:py-28">
           <div className="max-w-2xl">
             <p className="text-[11px] sm:text-xs font-bold tracking-[0.28em] uppercase text-amber-200 mb-4 sm:mb-5">
-              {t.events.badge}
+              {copy('events.badge', t.events.badge)}
             </p>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white leading-[0.95] tracking-tight mb-5 sm:mb-6">
-              {t.events.title1}{' '}
-              <span className="italic font-light text-amber-100">{t.events.title2}</span>
+              {copy('events.title1', t.events.title1)}{' '}
+              <span className="italic font-light text-amber-100">{copy('events.title2', t.events.title2)}</span>
               <br />
-              {t.events.title3}
+              {copy('events.title3', t.events.title3)}
             </h1>
 
             <div className="h-[2px] w-14 bg-[#C75D3A] mb-5 sm:mb-6" aria-hidden="true" />
 
             <p className="text-base sm:text-lg text-white/90 leading-relaxed mb-6 sm:mb-8 max-w-xl">
-              {t.events.description}
+              {copy('events.description', t.events.description)}
             </p>
 
             <div className="flex flex-wrap gap-2 sm:gap-2.5 mb-6 sm:mb-8">
@@ -71,13 +76,13 @@ export default function EventsPage() {
 
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
               <p className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-                {t.events.price}
+                {copy('events.price', t.events.price)}
               </p>
               <Link
                 href="/book?package=weekly-event"
                 className="inline-flex items-center justify-center gap-2.5 bg-[#C75D3A] hover:bg-[#a84d2f] text-white font-bold px-7 py-3.5 rounded-full transition-colors shadow-lg shadow-black/20 self-start"
               >
-                {t.events.bookNow}
+                {copy('events.bookNow', t.events.bookNow)}
                 <FiArrowRight className="w-5 h-5" />
               </Link>
             </div>
@@ -99,7 +104,7 @@ export default function EventsPage() {
             </div>
 
             <ul className="flex-1 grid sm:grid-cols-2 gap-x-8 gap-y-4">
-              {t.events.highlights.map((item) => (
+              {highlights.map((item) => (
                 <li key={item} className="flex items-start gap-3 text-[#2D2A26]">
                   <span
                     className="mt-2 h-1.5 w-1.5 rounded-full bg-[#C75D3A] shrink-0"
@@ -155,7 +160,7 @@ export default function EventsPage() {
             href="/book?package=weekly-event"
             className="inline-flex items-center justify-center gap-3 bg-white text-[#C75D3A] font-bold px-10 py-4 rounded-full hover:bg-amber-50 transition-colors shadow-xl text-base"
           >
-            <span>{t.events.bookNow}</span>
+            <span>{copy('events.bookNow', t.events.bookNow)}</span>
             <FiArrowRight className="w-5 h-5" />
           </Link>
         </div>

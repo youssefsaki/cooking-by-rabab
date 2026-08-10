@@ -35,14 +35,29 @@ Copy key values from your local `.env.local` — do not commit them.
 
 ## Google Sheets mirror (client view)
 
-Update your Apps Script `doPost` to route by `type`:
+Every successful booking is saved in **Supabase first**, then mirrored to Google Sheets so Rabab can see clients in her spreadsheet.
 
-- `type: "booking"` → Bookings sheet
-- `type: "contact"` → Contact sheet
+1. Open the Google Sheet Rabab uses for bookings
+2. **Extensions → Apps Script**
+3. Paste the code from `supabase/sheets-apps-script.js`
+4. **Deploy → New deployment → Web app**
+   - Execute as: Me
+   - Who has access: Anyone
+5. Copy the `/exec` URL into `.env.local` and Vercel Preview/Production:
+
+```bash
+SHEETS_WEBAPP_URL=https://script.google.com/macros/s/XXXX/exec
+```
+
+6. Restart `yarn dev` after changing `.env.local`
+
+Bookings sheet columns: Timestamp, Full Name, Phone, Country, Email, Package, Slot Date, Slot Period, Dish, Adults, Children, Location, Total EUR, Dietary / Allergies, Status.
+
+Mirror is **append-only** (no locking in Sheets). Capacity locks live in Supabase.
+
+WhatsApp still opens automatically after a successful booking (guest confirms with Rabab).
 
 See `supabase/sheets-apps-script.js`.
-
-Mirror is **non-blocking**: guest success depends only on Supabase.
 
 ## Validate on Preview
 

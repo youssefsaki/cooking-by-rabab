@@ -6,15 +6,9 @@ import Image from 'next/image';
 import { FiArrowRight } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
 import en from '@/lib/translations/en.json';
+import { useSiteCopy } from '@/hooks/useSiteCopy';
 
-const activityImages = [
-  '/packages/basic.jpg',
-  '/experiences/tajine.jpg',
-  '/experiences/oven-bread.jpg',
-  '/packages/weekly.webp',
-  '/journey/journey-1.jpeg',
-  '/our-story/meet-the-chef/meet-the-chef.jpg',
-] as const;
+
 
 const activityLinks = [
   '/book',
@@ -27,7 +21,14 @@ const activityLinks = [
 
 const ThingsToDoSection: React.FC = memo(() => {
   const { t } = useLanguage();
+  const { copy, img } = useSiteCopy();
   const thingsToDo = t.thingsToDo ?? en.thingsToDo;
+  const activityImages = [0,1,2,3,4,5].map((i) => img(`thingsToDo.activity.${i}.image`));
+  const activities = thingsToDo.activities.map((activity, index) => ({
+    ...activity,
+    title: copy(`thingsToDo.activity.${index}.title`, activity.title),
+    description: copy(`thingsToDo.activity.${index}.description`, activity.description),
+  }));
 
   return (
     <section
@@ -41,21 +42,21 @@ const ThingsToDoSection: React.FC = memo(() => {
         {/* Header */}
         <div className="text-center max-w-4xl mx-auto mb-12 lg:mb-16">
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-md border border-amber-100 text-xs font-bold text-amber-800 uppercase tracking-wider mb-5">
-            {thingsToDo.badge}
+            {copy('thingsToDo.badge', thingsToDo.badge)}
           </span>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-5 leading-tight">
-            {thingsToDo.title}
+            {copy('thingsToDo.title', thingsToDo.title)}
           </h2>
 
           <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-            {thingsToDo.description}
+            {copy('thingsToDo.description', thingsToDo.description)}
           </p>
         </div>
 
         {/* Activity Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12">
-          {thingsToDo.activities.map((activity, index) => (
+          {activities.map((activity, index) => (
             <Link
               key={activity.id}
               href={activityLinks[index]}
@@ -101,14 +102,14 @@ const ThingsToDoSection: React.FC = memo(() => {
               href="/book"
               className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-8 py-4 rounded-full hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-lg hover:scale-105"
             >
-              {thingsToDo.bookCookingClass}
+              {copy('thingsToDo.bookCookingClass', thingsToDo.bookCookingClass)}
               <FiArrowRight className="w-5 h-5" />
             </Link>
             <Link
               href="/experiences"
               className="inline-flex items-center justify-center gap-2 bg-white text-gray-900 font-bold px-8 py-4 rounded-full border-2 border-gray-200 hover:border-amber-500 transition-all duration-300 shadow-lg hover:scale-105"
             >
-              {thingsToDo.viewAllExperiences}
+              {copy('thingsToDo.viewAllExperiences', thingsToDo.viewAllExperiences)}
             </Link>
           </div>
         </div>
