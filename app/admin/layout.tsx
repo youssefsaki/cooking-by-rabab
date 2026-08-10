@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { createSessionClient } from '@/lib/supabase/server';
 import AdminShell from '@/components/admin/AdminShell';
+import './admin-theme.css';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,7 +16,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   // Login page: no shell
   if (!user) {
-    return <div className="min-h-screen bg-[#F1F1F1]">{children}</div>;
+    return <div className="admin-theme min-h-screen">{children}</div>;
   }
 
   return (

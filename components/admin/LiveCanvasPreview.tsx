@@ -1,5 +1,6 @@
 'use client';
 
+import { Image as ImageIcon, MousePointer2 } from 'lucide-react';
 import type { SiteCopyBag } from '@/lib/cms-fields';
 import { packagesFromCopy } from '@/lib/cms-fields';
 import { DEFAULT_PACKAGES } from '@/lib/content-defaults';
@@ -19,7 +20,9 @@ export default function LiveCanvasPreview({
 }) {
   const packages = packagesFromCopy(bag, DEFAULT_PACKAGES);
   const ring = (id: string) =>
-    selectedId === id ? 'ring-2 ring-[#008060] ring-offset-2 rounded-sm' : 'hover:ring-1 hover:ring-[#008060]/50 rounded-sm';
+    selectedId === id
+      ? 'ring-2 ring-[var(--admin-accent)] ring-offset-2 ring-offset-[var(--admin-ink)] rounded-sm'
+      : 'hover:ring-2 hover:ring-[var(--admin-accent)]/70 rounded-sm';
   const pick = (id: string) => (e: React.MouseEvent) => {
     e.stopPropagation();
     onSelect?.(id);
@@ -56,10 +59,24 @@ export default function LiveCanvasPreview({
                 <button
                   type="button"
                   onClick={pick(`pkg.${pkg.id}.image`)}
-                  className={`relative block w-full h-40 bg-stone-200 ${ring(`pkg.${pkg.id}.image`)}`}
+                  className={`group relative block h-48 w-full overflow-hidden bg-stone-200 ${ring(`pkg.${pkg.id}.image`)}`}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={pkg.image} alt={pkg.imageAlt} className="absolute inset-0 w-full h-full object-cover" />
+                  <img
+                    src={pkg.image}
+                    alt={pkg.imageAlt}
+                    className="absolute inset-0 size-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                  <span
+                    className={`absolute inset-0 flex items-center justify-center bg-black/45 transition ${
+                      selectedId === `pkg.${pkg.id}.image` ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                    }`}
+                  >
+                    <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-xs font-bold text-black shadow-lg">
+                      <ImageIcon className="size-3.5" />
+                      Replace image
+                    </span>
+                  </span>
                 </button>
                 <div className="p-4 space-y-1">
                   <button
@@ -161,14 +178,24 @@ export default function LiveCanvasPreview({
                 <button
                   type="button"
                   onClick={pick(`pkg.${pkg.id}.image`)}
-                  className={`relative block w-full h-28 bg-stone-200 ${ring(`pkg.${pkg.id}.image`)}`}
+                  className={`group relative block h-32 w-full overflow-hidden bg-stone-200 ${ring(`pkg.${pkg.id}.image`)}`}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={pkg.image}
                     alt={pkg.imageAlt}
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="absolute inset-0 size-full object-cover transition duration-500 group-hover:scale-105"
                   />
+                  <span
+                    className={`absolute inset-0 flex items-center justify-center bg-black/50 transition ${
+                      selectedId === `pkg.${pkg.id}.image` ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                    }`}
+                  >
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1.5 text-[10px] font-bold text-black">
+                      <ImageIcon className="size-3" />
+                      Edit photo
+                    </span>
+                  </span>
                 </button>
                 <div className="p-3 text-left">
                   <button
@@ -190,6 +217,10 @@ export default function LiveCanvasPreview({
             ))}
           </div>
         </div>
+      </div>
+      <div className="pointer-events-none sticky bottom-4 z-20 mx-auto -mt-12 flex w-fit items-center gap-2 rounded-full bg-[var(--admin-ink)]/90 px-3 py-2 text-[10px] font-semibold text-white shadow-xl backdrop-blur-md">
+        <MousePointer2 className="size-3 text-[var(--admin-accent)]" />
+        Click text or photos to edit
       </div>
     </div>
   );

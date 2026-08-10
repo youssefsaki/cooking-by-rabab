@@ -2,6 +2,21 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
+  Check,
+  ChevronLeft,
+  Eye,
+  Image as ImageIcon,
+  Languages,
+  LayoutPanelLeft,
+  Loader2,
+  Monitor,
+  Save,
+  Search,
+  Smartphone,
+  UploadCloud,
+  X,
+} from 'lucide-react';
+import {
   buildCmsFields,
   defaultSiteCopy,
   faqsFromCopy,
@@ -28,6 +43,8 @@ export default function AdminContentPage() {
   const [uploading, setUploading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [previewMode, setPreviewMode] = useState<'home' | 'packages'>('home');
+  const [panelMode, setPanelMode] = useState<'content' | 'images'>('content');
+  const [deviceMode, setDeviceMode] = useState<'desktop' | 'mobile'>('desktop');
   const [loading, setLoading] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -47,6 +64,8 @@ export default function AdminContentPage() {
   }, [draftBag]);
 
   const selected = fields.find((f) => f.id === selectedId) || fields[0];
+  const imageFields = useMemo(() => fields.filter((field) => field.type === 'image'), [fields]);
+  const selectedGroup = selected?.group;
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -95,13 +114,13 @@ export default function AdminContentPage() {
   }, [locale]);
 
   useEffect(() => {
-    if (!selected) return;
-    if (selected.group.startsWith('Package:') || selected.group === 'Packages section') {
+    if (!selectedGroup) return;
+    if (selectedGroup.startsWith('Package:') || selectedGroup === 'Packages section') {
       setPreviewMode('packages');
     } else {
       setPreviewMode('home');
     }
-  }, [selected?.group]);
+  }, [selectedGroup]);
 
   function setFieldValue(id: string, value: string) {
     setDraftBag((prev) => {
@@ -193,251 +212,379 @@ export default function AdminContentPage() {
   }
 
   return (
-    <div className="h-full flex flex-col bg-[#F1F1F1] overflow-hidden">
-      {/* Always-visible action bar */}
-      <div className="shrink-0 sticky top-0 z-50 bg-white border-b border-[#E1E3E5] px-3 sm:px-4 py-3">
-        <div className="flex items-center justify-between gap-3">
+    <div className="flex h-full flex-col overflow-hidden bg-[var(--admin-canvas)]">
+      <header className="z-50 flex shrink-0 items-center justify-between gap-3 border-b border-white/10 bg-[var(--admin-ink)] px-3 py-3 text-white sm:px-5">
+        <div className="flex min-w-0 items-center gap-3">
+          <a
+            href="/admin"
+            aria-label="Back to dashboard"
+            className="admin-focus grid size-9 shrink-0 place-items-center rounded-xl bg-white/[0.08] text-white/70 hover:bg-white/15 hover:text-white"
+          >
+            <ChevronLeft className="size-4" />
+          </a>
           <div className="min-w-0">
-            <h1 className="text-base sm:text-lg font-semibold text-[#202223] truncate">
-              Online store · Customize
-            </h1>
-            <p className="text-xs text-[#6D7175] hidden sm:block">
-              Change text or photos, then click Save. Photos also save automatically after upload.
+            <h1 className="truncate text-sm font-semibold sm:text-base">Visual storefront editor</h1>
+            <p className="hidden text-[11px] text-white/45 sm:block">
+              Click anything in the preview to edit it
             </p>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <div className="hidden sm:flex gap-1">
-              {LOCALES.map((l) => (
-                <button
-                  key={l}
-                  type="button"
-                  onClick={() => {
-                    if (dirty && !confirm('Discard unsaved edits and switch language?')) return;
-                    setLocale(l);
-                  }}
-                  className={`px-2 py-1 rounded text-xs font-semibold uppercase ${
-                    locale === l ? 'bg-[#1A1A1A] text-white' : 'bg-[#E4E5E7] text-[#202223]'
-                  }`}
-                >
-                  {l}
-                </button>
-              ))}
-            </div>
+        </div>
+
+        <div className="flex shrink-0 items-center gap-2">
+          <div className="hidden items-center rounded-xl bg-white/[0.07] p-1 sm:flex">
+            <Languages className="mx-2 size-3.5 text-white/45" />
+            {LOCALES.map((language) => (
+              <button
+                key={language}
+                type="button"
+                onClick={() => {
+                  if (dirty && !confirm('Discard unsaved edits and switch language?')) return;
+                  setLocale(language);
+                }}
+                className={`admin-focus rounded-lg px-2.5 py-1.5 text-[10px] font-bold uppercase transition ${
+                  locale === language
+                    ? 'bg-white text-[var(--admin-ink)]'
+                    : 'text-white/45 hover:text-white'
+                }`}
+              >
+                {language}
+              </button>
+            ))}
+          </div>
+          {dirty && (
             <button
               type="button"
-              disabled={!dirty || saving}
               onClick={() => {
                 setDraftBag(savedBag);
                 draftRef.current = savedBag;
                 setStatus('Draft discarded.');
               }}
-              className="rounded-lg border border-[#C9CCCF] bg-white px-3 py-2.5 text-sm font-semibold disabled:opacity-40"
+              className="admin-focus hidden rounded-xl px-3 py-2 text-xs font-semibold text-white/55 hover:bg-white/[0.08] hover:text-white sm:block"
             >
               Discard
             </button>
-            <button
-              type="button"
-              data-testid="save-content"
-              disabled={saving || loading || (!dirty && !uploading)}
-              onClick={saveAllEdits}
-              className={`rounded-lg px-5 py-2.5 text-sm font-bold shadow-sm min-w-[96px] ${
-                dirty
-                  ? 'bg-[#008060] hover:bg-[#006e52] text-white'
-                  : 'bg-[#008060]/70 text-white'
-              } disabled:opacity-50`}
-            >
-              {saving ? 'Saving…' : dirty ? 'Save' : 'Saved'}
-            </button>
-          </div>
+          )}
+          <button
+            type="button"
+            data-testid="save-content"
+            disabled={saving || loading || (!dirty && !uploading)}
+            onClick={saveAllEdits}
+            className={`admin-focus inline-flex min-w-[98px] items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
+              dirty
+                ? 'bg-[var(--admin-accent)] text-[var(--admin-ink)] hover:bg-white'
+                : 'bg-white/[0.10] text-white/55'
+            } disabled:cursor-default`}
+          >
+            {saving ? (
+              <Loader2 className="size-3.5 animate-spin" />
+            ) : dirty ? (
+              <Save className="size-3.5" />
+            ) : (
+              <Check className="size-3.5" />
+            )}
+            {saving ? 'Saving' : dirty ? 'Save changes' : 'Saved'}
+          </button>
         </div>
-      </div>
+      </header>
 
       {(status || error) && (
         <div
-          className={`shrink-0 px-4 py-2 text-sm border-b ${
-            error ? 'bg-[#FFF4F4] text-[#D72C0D] border-[#FED3D1]' : 'bg-[#F1F8F5] text-[#0D8050] border-[#AEE9D1]'
+          role="status"
+          className={`flex shrink-0 items-center justify-between border-b px-4 py-2 text-xs ${
+            error
+              ? 'border-red-200 bg-red-50 text-red-700'
+              : 'border-emerald-200 bg-[var(--admin-accent-soft)] text-[var(--admin-ink)]'
           }`}
         >
-          {error || status}
+          <span>{error || status}</span>
+          <button type="button" onClick={() => (error ? setError('') : setStatus(''))} aria-label="Dismiss">
+            <X className="size-3.5" />
+          </button>
         </div>
       )}
 
-      <div className="flex-1 min-h-0 grid lg:grid-cols-[400px_1fr]">
-        <aside className="min-h-0 bg-white border-r border-[#E1E3E5] flex flex-col order-2 lg:order-1">
-          <div className="p-3 border-b border-[#E1E3E5] flex gap-2 sm:hidden">
-            {LOCALES.map((l) => (
+      <div className="grid min-h-0 flex-1 lg:grid-cols-[420px_1fr]">
+        <aside className="order-2 flex min-h-0 flex-col border-r border-[var(--admin-line)] bg-white lg:order-1">
+          <div className="shrink-0 border-b border-[var(--admin-line)] p-3">
+            <div className="grid grid-cols-2 rounded-xl bg-[var(--admin-surface-soft)] p-1">
               <button
-                key={l}
                 type="button"
-                onClick={() => {
-                  if (dirty && !confirm('Discard unsaved edits and switch language?')) return;
-                  setLocale(l);
-                }}
-                className={`px-2.5 py-1 rounded text-xs font-semibold uppercase ${
-                  locale === l ? 'bg-[#1A1A1A] text-white' : 'bg-[#E4E5E7] text-[#202223]'
+                onClick={() => setPanelMode('content')}
+                className={`admin-focus flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold transition ${
+                  panelMode === 'content'
+                    ? 'bg-white text-[var(--admin-ink)] shadow-sm'
+                    : 'text-[var(--admin-muted)]'
                 }`}
               >
-                {l}
+                <LayoutPanelLeft className="size-3.5" />
+                Sections
               </button>
-            ))}
+              <button
+                type="button"
+                onClick={() => setPanelMode('images')}
+                className={`admin-focus flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold transition ${
+                  panelMode === 'images'
+                    ? 'bg-white text-[var(--admin-ink)] shadow-sm'
+                    : 'text-[var(--admin-muted)]'
+                }`}
+              >
+                <ImageIcon className="size-3.5" />
+                Images
+                <span className="rounded-full bg-[var(--admin-accent-soft)] px-1.5 py-0.5 text-[9px] text-[var(--admin-ink)]">
+                  {imageFields.length}
+                </span>
+              </button>
+            </div>
+
+            {panelMode === 'content' && (
+              <div className="relative mt-3">
+                <Search className="pointer-events-none absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-[var(--admin-muted)]" />
+                <input
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search all content"
+                  className="admin-focus w-full rounded-xl border border-[var(--admin-line)] bg-white py-2.5 pl-9 pr-3 text-xs text-[var(--admin-copy)] placeholder:text-[var(--admin-muted)]"
+                />
+              </div>
+            )}
           </div>
 
-          <div className="p-3 border-b border-[#E1E3E5]">
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search content…"
-              className="w-full rounded-lg border border-[#C9CCCF] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#008060]/40"
-            />
-          </div>
-
-          <div className="flex-1 min-h-0 overflow-y-auto p-2">
+          <div className="admin-scrollbar min-h-0 flex-1 overflow-y-auto p-3">
             {loading ? (
-              <p className="p-4 text-sm text-[#6D7175]">Loading…</p>
-            ) : (
-              grouped.map(([group, list]) => (
-                <div key={group} className="mb-3">
-                  <p className="px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-[#6D7175]">
-                    {group}
+              <div className="flex items-center gap-2 p-4 text-xs text-[var(--admin-muted)]">
+                <Loader2 className="size-4 animate-spin" /> Loading storefront
+              </div>
+            ) : panelMode === 'images' ? (
+              <div>
+                <div className="mb-4 rounded-2xl bg-[var(--admin-ink)] p-4 text-white">
+                  <div className="flex items-center gap-2 text-[var(--admin-accent)]">
+                    <UploadCloud className="size-4" />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.14em]">Visual media</span>
+                  </div>
+                  <p className="mt-2 text-sm font-semibold">Choose the photo you want to replace.</p>
+                  <p className="mt-1 text-xs leading-5 text-white/50">
+                    Your new image uploads and saves automatically.
                   </p>
-                  {list.map((f) => {
-                    const active = f.id === selected?.id;
-                    const changed = (draftBag[f.id] || '') !== (savedBag[f.id] || '');
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  {imageFields.map((field) => {
+                    const active = field.id === selected.id;
                     return (
                       <button
-                        key={f.id}
+                        key={field.id}
                         type="button"
-                        onClick={() => setSelectedId(f.id)}
-                        className={`w-full text-left rounded-lg px-3 py-2 mb-0.5 text-sm ${
-                          active ? 'bg-[#F2F7F4] ring-1 ring-[#008060]/40' : 'hover:bg-[#F6F6F7]'
+                        onClick={() => {
+                          setSelectedId(field.id);
+                          setPreviewMode('packages');
+                        }}
+                        className={`admin-focus group overflow-hidden rounded-2xl border bg-white text-left transition ${
+                          active
+                            ? 'border-[var(--admin-accent-strong)] ring-2 ring-[var(--admin-accent)]/35'
+                            : 'border-[var(--admin-line)] hover:border-[var(--admin-line-strong)]'
                         }`}
                       >
-                        <span className="font-medium flex items-center gap-2">
-                          {f.type === 'image' ? '🖼 ' : ''}
-                          {f.label}
-                          {changed && <span className="text-[10px] text-[#B98900] font-bold">EDITED</span>}
-                        </span>
-                        <span className="block truncate text-xs text-[#6D7175] mt-0.5">
-                          {f.type === 'image' ? 'Photo — click to change' : draftBag[f.id] || '—'}
-                        </span>
+                        <div className="relative aspect-[4/3] overflow-hidden bg-[var(--admin-surface-soft)]">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={draftBag[field.id] || '/packages/basic.jpg'}
+                            alt={field.label}
+                            className="size-full object-cover transition duration-500 group-hover:scale-105"
+                          />
+                          <span className="absolute inset-x-2 bottom-2 rounded-lg bg-black/70 px-2 py-1 text-center text-[9px] font-bold text-white backdrop-blur-sm">
+                            Replace photo
+                          </span>
+                        </div>
+                        <div className="p-2.5">
+                          <p className="truncate text-xs font-semibold text-[var(--admin-copy)]">{field.group}</p>
+                        </div>
                       </button>
                     );
                   })}
+                </div>
+              </div>
+            ) : (
+              grouped.map(([group, list]) => (
+                <div key={group} className="mb-4">
+                  <p className="px-2 pb-1.5 text-[9px] font-bold uppercase tracking-[0.14em] text-[var(--admin-muted)]">
+                    {group}
+                  </p>
+                  <div className="space-y-1">
+                    {list.map((field) => {
+                      const active = field.id === selected?.id;
+                      const changed = (draftBag[field.id] || '') !== (savedBag[field.id] || '');
+                      return (
+                        <button
+                          key={field.id}
+                          type="button"
+                          onClick={() => setSelectedId(field.id)}
+                          className={`admin-focus w-full rounded-xl border px-3 py-2.5 text-left transition ${
+                            active
+                              ? 'border-[var(--admin-accent-strong)] bg-[var(--admin-accent-soft)]'
+                              : 'border-transparent hover:bg-[var(--admin-surface-soft)]'
+                          }`}
+                        >
+                          <span className="flex items-center gap-2 text-xs font-semibold text-[var(--admin-copy)]">
+                            {field.type === 'image' && <ImageIcon className="size-3.5" />}
+                            <span className="truncate">{field.label.replace(/^Homepage — |^Packages section — /, '')}</span>
+                            {changed && <span className="ml-auto size-1.5 shrink-0 rounded-full bg-[var(--admin-warning)]" />}
+                          </span>
+                          <span className="mt-1 block truncate text-[10px] text-[var(--admin-muted)]">
+                            {field.type === 'image' ? 'Click to replace photo' : draftBag[field.id] || 'Empty'}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               ))
             )}
           </div>
 
           {selected && !loading && (
-            <div className="shrink-0 border-t-2 border-[#008060]/30 p-4 bg-[#FAFBFB] space-y-3 max-h-[55%] overflow-y-auto">
-              <div className="flex items-start justify-between gap-2">
-                <div>
-                  <p className="text-[11px] font-semibold uppercase text-[#6D7175]">{selected.group}</p>
-                  <h2 className="font-semibold text-[#202223]">{selected.label}</h2>
-                </div>
-                <button
-                  type="button"
-                  data-testid="save-content-panel"
-                  disabled={saving || loading || !dirty}
-                  onClick={saveAllEdits}
-                  className="rounded-lg bg-[#008060] text-white text-sm font-bold px-4 py-2 disabled:opacity-40 shrink-0"
-                >
-                  {saving ? 'Saving…' : 'Save'}
-                </button>
+            <div className="admin-scrollbar max-h-[52%] shrink-0 overflow-y-auto border-t border-[var(--admin-line)] bg-[var(--admin-surface-soft)] p-4">
+              <div className="mb-3">
+                <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-[var(--admin-accent-strong)]">
+                  Editing now
+                </p>
+                <h2 className="mt-1 text-sm font-semibold text-[var(--admin-ink)]">{selected.label}</h2>
               </div>
 
               {selected.type === 'image' ? (
                 <div
-                  onDragOver={(e) => {
-                    e.preventDefault();
+                  onDragOver={(event) => {
+                    event.preventDefault();
                     setDragOver(true);
                   }}
                   onDragLeave={() => setDragOver(false)}
-                  onDrop={(e) => {
-                    e.preventDefault();
+                  onDrop={(event) => {
+                    event.preventDefault();
                     setDragOver(false);
-                    const file = e.dataTransfer.files?.[0];
+                    const file = event.dataTransfer.files?.[0];
                     if (file) void uploadImage(file);
                   }}
-                  className={`rounded-xl border-2 border-dashed p-4 text-center bg-white transition ${
-                    dragOver ? 'border-[#008060] bg-[#F1F8F5]' : 'border-[#C9CCCF]'
+                  className={`overflow-hidden rounded-2xl border-2 border-dashed bg-white transition ${
+                    dragOver
+                      ? 'border-[var(--admin-accent-strong)] bg-[var(--admin-accent-soft)]'
+                      : 'border-[var(--admin-line-strong)]'
                   }`}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    key={draftBag[selected.id]}
-                    src={draftBag[selected.id] || '/packages/basic.jpg'}
-                    alt={selected.label}
-                    className="mx-auto mb-3 max-h-44 w-full rounded-lg object-cover shadow-sm bg-stone-100"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = '/packages/basic.jpg';
-                    }}
-                  />
-                  <p className="text-sm font-semibold text-[#202223]">
-                    {uploading ? 'Uploading & saving…' : 'Drag a photo here'}
-                  </p>
-                  <p className="text-xs text-[#6D7175] mt-1 mb-3">JPG, PNG or WebP · max 5MB</p>
-                  <button
-                    type="button"
-                    data-testid="upload-image"
-                    disabled={uploading}
-                    onClick={() => fileInputRef.current?.click()}
-                    className="inline-block cursor-pointer rounded-lg bg-[#008060] text-white text-sm font-bold px-4 py-2.5 disabled:opacity-50"
-                  >
-                    {uploading ? 'Working…' : 'Choose photo'}
-                  </button>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp,image/avif"
-                    className="hidden"
-                    disabled={uploading}
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) void uploadImage(file);
-                      e.target.value = '';
-                    }}
-                  />
+                  <div className="relative aspect-[16/8] bg-[var(--admin-ink)]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      key={draftBag[selected.id]}
+                      src={draftBag[selected.id] || '/packages/basic.jpg'}
+                      alt={selected.label}
+                      className="size-full object-cover"
+                      onError={(event) => {
+                        (event.target as HTMLImageElement).src = '/packages/basic.jpg';
+                      }}
+                    />
+                    {uploading && (
+                      <div className="absolute inset-0 grid place-items-center bg-[var(--admin-ink)]/80 text-white backdrop-blur-sm">
+                        <div className="text-center">
+                          <Loader2 className="mx-auto size-6 animate-spin text-[var(--admin-accent)]" />
+                          <p className="mt-2 text-xs font-semibold">Uploading and publishing</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-4 text-center">
+                    <p className="text-xs font-semibold text-[var(--admin-copy)]">Drop a new image here</p>
+                    <p className="mt-1 text-[10px] text-[var(--admin-muted)]">JPG, PNG, WebP or AVIF · max 5MB</p>
+                    <button
+                      type="button"
+                      data-testid="upload-image"
+                      disabled={uploading}
+                      onClick={() => fileInputRef.current?.click()}
+                      className="admin-focus mt-3 inline-flex items-center gap-2 rounded-xl bg-[var(--admin-ink)] px-4 py-2.5 text-xs font-bold text-white transition hover:bg-[var(--admin-ink-soft)] disabled:opacity-50"
+                    >
+                      <UploadCloud className="size-3.5 text-[var(--admin-accent)]" />
+                      {uploading ? 'Publishing…' : 'Choose new image'}
+                    </button>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,image/avif"
+                      className="hidden"
+                      disabled={uploading}
+                      onChange={(event) => {
+                        const file = event.target.files?.[0];
+                        if (file) void uploadImage(file);
+                        event.target.value = '';
+                      }}
+                    />
+                  </div>
                 </div>
               ) : selected.type === 'textarea' ? (
                 <textarea
                   value={draftBag[selected.id] || ''}
-                  onChange={(e) => setFieldValue(selected.id, e.target.value)}
+                  onChange={(event) => setFieldValue(selected.id, event.target.value)}
                   rows={5}
-                  className="w-full rounded-lg border border-[#C9CCCF] px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#008060]/30"
+                  className="admin-focus w-full resize-none rounded-xl border border-[var(--admin-line-strong)] bg-white px-3 py-2.5 text-xs leading-5 text-[var(--admin-copy)]"
                 />
               ) : (
                 <input
                   value={draftBag[selected.id] || ''}
-                  onChange={(e) => setFieldValue(selected.id, e.target.value)}
-                  className="w-full rounded-lg border border-[#C9CCCF] px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#008060]/30"
+                  onChange={(event) => setFieldValue(selected.id, event.target.value)}
+                  className="admin-focus w-full rounded-xl border border-[var(--admin-line-strong)] bg-white px-3 py-2.5 text-xs text-[var(--admin-copy)]"
                 />
               )}
             </div>
           )}
         </aside>
 
-        <section className="min-h-0 flex flex-col order-1 lg:order-2 max-h-[40vh] lg:max-h-none">
-          <div className="shrink-0 px-4 py-2 bg-white border-b border-[#E1E3E5] flex items-center gap-2">
-            <span className="text-xs font-semibold text-[#6D7175] mr-1">Preview</span>
-            {(['home', 'packages'] as const).map((m) => (
+        <section className="order-1 flex min-h-0 max-h-[42vh] flex-col bg-[#dfe3dd] lg:order-2 lg:max-h-none">
+          <div className="flex shrink-0 items-center gap-2 border-b border-[var(--admin-line-strong)] bg-white px-3 py-2.5">
+            <div className="flex items-center gap-1 rounded-xl bg-[var(--admin-surface-soft)] p-1">
+              {(['home', 'packages'] as const).map((mode) => (
+                <button
+                  key={mode}
+                  type="button"
+                  onClick={() => setPreviewMode(mode)}
+                  className={`admin-focus rounded-lg px-3 py-1.5 text-[10px] font-bold transition ${
+                    previewMode === mode
+                      ? 'bg-[var(--admin-ink)] text-white'
+                      : 'text-[var(--admin-muted)]'
+                  }`}
+                >
+                  {mode === 'home' ? 'Homepage' : 'Packages'}
+                </button>
+              ))}
+            </div>
+            <div className="ml-auto hidden items-center gap-1 rounded-xl bg-[var(--admin-surface-soft)] p-1 sm:flex">
               <button
-                key={m}
                 type="button"
-                onClick={() => setPreviewMode(m)}
-                className={`rounded-full px-3 py-1 text-xs font-semibold capitalize ${
-                  previewMode === m ? 'bg-[#1A1A1A] text-white' : 'bg-[#E4E5E7] text-[#202223]'
+                aria-label="Desktop preview"
+                onClick={() => setDeviceMode('desktop')}
+                className={`admin-focus grid size-7 place-items-center rounded-lg ${
+                  deviceMode === 'desktop' ? 'bg-white shadow-sm' : 'text-[var(--admin-muted)]'
                 }`}
               >
-                {m === 'home' ? 'Homepage' : 'Packages'}
+                <Monitor className="size-3.5" />
               </button>
-            ))}
-            <span className="ml-auto text-[11px] text-[#6D7175] hidden sm:inline">
-              {dirty ? 'Unsaved changes' : 'All changes saved'}
+              <button
+                type="button"
+                aria-label="Mobile preview"
+                onClick={() => setDeviceMode('mobile')}
+                className={`admin-focus grid size-7 place-items-center rounded-lg ${
+                  deviceMode === 'mobile' ? 'bg-white shadow-sm' : 'text-[var(--admin-muted)]'
+                }`}
+              >
+                <Smartphone className="size-3.5" />
+              </button>
+            </div>
+            <span className="hidden items-center gap-1.5 text-[10px] font-semibold text-[var(--admin-muted)] sm:flex">
+              <Eye className="size-3.5" />
+              Live preview
             </span>
           </div>
-          <div className="flex-1 min-h-0 p-2 sm:p-3">
-            <div className="h-full rounded-xl overflow-hidden border border-[#C9CCCF] shadow-sm bg-white">
+
+          <div className="admin-scrollbar flex min-h-0 flex-1 justify-center overflow-auto p-3 sm:p-5">
+            <div
+              className={`h-full overflow-hidden rounded-2xl border border-black/10 bg-white shadow-[var(--admin-shadow-lg)] transition-[width] duration-500 ${
+                deviceMode === 'mobile' ? 'w-[390px] max-w-full' : 'w-full'
+              }`}
+            >
               <LiveCanvasPreview
                 bag={draftBag}
                 mode={previewMode}
@@ -449,16 +596,16 @@ export default function AdminContentPage() {
         </section>
       </div>
 
-      {/* Mobile floating Save — always visible */}
-      <div className="lg:hidden shrink-0 border-t border-[#E1E3E5] bg-white p-3 safe-area-pb">
+      <div className="shrink-0 border-t border-[var(--admin-line)] bg-white p-3 lg:hidden">
         <button
           type="button"
           data-testid="save-content-mobile"
           disabled={saving || loading || !dirty}
           onClick={saveAllEdits}
-          className="w-full rounded-xl bg-[#008060] text-white font-bold py-3.5 text-base disabled:opacity-40 shadow-md"
+          className="admin-focus flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--admin-ink)] py-3 text-sm font-bold text-white disabled:opacity-40"
         >
-          {saving ? 'Saving…' : dirty ? 'Save changes' : 'All saved'}
+          <Save className="size-4 text-[var(--admin-accent)]" />
+          {saving ? 'Saving…' : dirty ? 'Save changes' : 'All changes saved'}
         </button>
       </div>
     </div>

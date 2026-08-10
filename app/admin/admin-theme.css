@@ -1,0 +1,85 @@
+/*
+ * Cooking by Rabab admin design tokens
+ * Reference: Shopify 2026 — dark evergreen, clean white surfaces, acid-green accent.
+ * Tone: premium, calm, operational. Audience context: international travelers.
+ *
+ * Motion vocabulary:
+ * - reveal-up: page/section entrances
+ * - stagger-grid: metrics and action groups
+ * - sticky-stack: operational insights
+ * - pinned-preview: storefront editor canvas
+ * - progress-scrub: charts and completion meters
+ */
+
+.admin-theme {
+  --admin-ink: #061a1c;
+  --admin-ink-strong: #02090a;
+  --admin-ink-soft: #123235;
+  --admin-canvas: #f3f4f1;
+  --admin-surface: #ffffff;
+  --admin-surface-soft: #f7f8f5;
+  --admin-line: #dfe3dd;
+  --admin-line-strong: #c9d0c8;
+  --admin-muted: #687473;
+  --admin-copy: #172221;
+  --admin-accent: #36f4a4;
+  --admin-accent-strong: #18c985;
+  --admin-accent-soft: #dffbed;
+  --admin-warning: #f4bd50;
+  --admin-danger: #d83a2e;
+  --admin-radius-sm: 10px;
+  --admin-radius-md: 16px;
+  --admin-radius-lg: 24px;
+  --admin-shadow-sm: 0 1px 2px rgb(2 9 10 / 5%), 0 8px 24px rgb(2 9 10 / 4%);
+  --admin-shadow-lg: 0 24px 70px rgb(2 9 10 / 14%);
+  --admin-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color: var(--admin-copy);
+  background: var(--admin-canvas);
+}
+
+.admin-display {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.045em;
+}
+
+.admin-card {
+  border: 1px solid var(--admin-line);
+  border-radius: var(--admin-radius-md);
+  background: var(--admin-surface);
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.admin-focus:focus-visible {
+  outline: 3px solid rgb(54 244 164 / 40%);
+  outline-offset: 2px;
+}
+
+.admin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--admin-line-strong) transparent;
+}
+
+.admin-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.admin-scrollbar::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: var(--admin-line-strong);
+  background-clip: padding-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-theme *,
+  .admin-theme *::before,
+  .admin-theme *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
