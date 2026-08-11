@@ -49,7 +49,7 @@ VALUES (
         "subtitle": "Weekly Berber Music Event At Sunset",
         "price": "80",
         "currency": "EUR",
-        "duration": "4 hours",
+        "duration": "5 hours",
         "groupSize": "6-13 guests",
         "startTime": "15:00",
         "image": "/packages/weekly.webp",

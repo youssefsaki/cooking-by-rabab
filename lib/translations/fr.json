@@ -502,7 +502,7 @@
     "title3": "MUSIQUE",
     "description": "Rejoignez notre événement musical berbère hebdomadaire au coucher du soleil dans un village amazigh traditionnel — musique, barbecue au four d'argile, thé à la menthe et célébration. Prise en charge à la Mosquée de Taghazout incluse.",
     "everySaturday": "Chaque Samedi",
-    "time": "15:00 · 4 heures",
+    "time": "15:00 · 5 heures",
     "groupSize": "6–13 personnes",
     "price": "80 € / personne",
     "atlasLocation": "Village Amazigh",
@@ -537,7 +537,7 @@
     },
     "ctaTitle": "Rejoignez-nous ce",
     "ctaTitleHighlight": "Samedi",
-    "ctaDescription": "Réservez l'Événement Hebdomadaire — 80 € par personne, 4 heures, 6–13 personnes. Prise en charge à la Mosquée de Taghazout.",
+    "ctaDescription": "Réservez l'Événement Hebdomadaire — 80 € par personne, 5 heures, 6–13 personnes. Prise en charge à la Mosquée de Taghazout.",
     "bookNow": "RÉSERVER L'ÉVÉNEMENT"
   },
   "packagesPage": {
@@ -632,7 +632,7 @@
       "name": "Événement Hebdomadaire",
       "tagline": "Le Gala Musical du Village Amazigh",
       "subtitle": "Rejoignez-nous pour notre événement musical berbère hebdomadaire au coucher du soleil dans un village traditionnel",
-      "duration": "4 heures",
+      "duration": "5 heures",
       "groupSize": "6-13 invités",
       "itinerary": [
         {

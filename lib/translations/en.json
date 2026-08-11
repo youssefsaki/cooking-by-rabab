@@ -368,7 +368,7 @@
     "title3": "MUSIC",
     "description": "Join us for our Weekly Berber Music Event at sunset in a traditional Amazigh village — traditional music, barbecue grilled in the clay oven, mint tea, and a celebration with live performance. Pickup from Taghazout Mosque included.",
     "everySaturday": "Every Saturday",
-    "time": "15:00 · 4 hours",
+    "time": "15:00 · 5 hours",
     "groupSize": "6–13 guests",
     "price": "80 € / person",
     "atlasLocation": "Amazigh Village",
@@ -403,7 +403,7 @@
     },
     "ctaTitle": "Join Us This",
     "ctaTitleHighlight": "Saturday",
-    "ctaDescription": "Book the Weekly Event — 80 € per person, 4 hours, 6–13 guests. Pickup from Taghazout Mosque.",
+    "ctaDescription": "Book the Weekly Event — 80 € per person, 5 hours, 6–13 guests. Pickup from Taghazout Mosque.",
     "bookNow": "BOOK WEEKLY EVENT"
   },
   "packagesPage": {
@@ -466,7 +466,7 @@
       "name": "Weekly Event",
       "tagline": "The Amazigh Village Music Gala",
       "subtitle": "Join us for our Weekly Berber Music Event At Sunset in a traditional village",
-      "duration": "4 hours",
+      "duration": "5 hours",
       "groupSize": "6-13 guests",
       "itinerary": [
         { "time": "TBD", "title": "Event Details Coming Soon", "description": "Join us for our special weekly cooking event. More details will be announced soon. This is a unique opportunity to experience Moroccan cooking in a communal setting." }

@@ -55,7 +55,7 @@ export default function PackagesPage() {
       pricePrefix: '',
       priceMad: formatMadFromEur(80),
       currency: copy('pkg.weekly-event.currency', 'EUR'),
-      duration: copy('pkg.weekly-event.duration', t.packagesPage.weeklyEvent.duration),
+      duration: '5 hours',
       groupSize: copy('pkg.weekly-event.groupSize', t.packagesPage.weeklyEvent.groupSize),
       startTime: "15:00",
       endTime: "TBD",

@@ -502,7 +502,7 @@
     "title3": "MUSIK",
     "description": "Nehmen Sie an unserem wöchentlichen Berber-Musik-Event bei Sonnenuntergang in einem traditionellen Amazigh-Dorf teil — Musik, Grill im Lehmofen, Minztee und Feier. Abholung an der Taghazout-Moschee inklusive.",
     "everySaturday": "Jeden Samstag",
-    "time": "15:00 · 4 Stunden",
+    "time": "15:00 · 5 Stunden",
     "groupSize": "6–13 Gäste",
     "price": "80 € / Person",
     "atlasLocation": "Amazigh-Dorf",
@@ -537,7 +537,7 @@
     },
     "ctaTitle": "Begleiten Sie Uns Diesen",
     "ctaTitleHighlight": "Samstag",
-    "ctaDescription": "Buchen Sie das Wochenevent — 80 € pro Person, 4 Stunden, 6–13 Gäste. Abholung an der Taghazout-Moschee.",
+    "ctaDescription": "Buchen Sie das Wochenevent — 80 € pro Person, 5 Stunden, 6–13 Gäste. Abholung an der Taghazout-Moschee.",
     "bookNow": "WOCHENEVENT BUCHEN"
   },
   "packagesPage": {
@@ -632,7 +632,7 @@
       "name": "Wöchentliche Veranstaltung",
       "tagline": "Die Amazigh-Dorf-Musikgala",
       "subtitle": "Begleiten Sie uns zu unserer wöchentlichen Berber-Musikveranstaltung bei Sonnenuntergang in einem traditionellen Dorf",
-      "duration": "4 Stunden",
+      "duration": "5 Stunden",
       "groupSize": "6-13 Gäste",
       "itinerary": [
         {

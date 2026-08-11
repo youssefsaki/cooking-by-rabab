@@ -53,7 +53,7 @@ const packagesData = [
     pricePrefix: "",
     currency: "EUR",
     priceLocal: "850 MAD",
-    duration: "4 hours",
+    duration: "5 hours",
     groupSize: "6-13 guests",
     locationLabel: "Amazigh Village",
     startTime: "15:00",
