@@ -151,7 +151,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
       {/* Stats Grid */}
       <div className="grid grid-cols-4 border-t border-line">
         {[
-          { number: '3h', label: t.heroSection.duration },
+          { number: '4h', label: t.heroSection.duration },
           { number: '2 - 13', label: t.heroSection.group },
           { number: '4+', label: t.heroSection.dishes },
           { number: '100%', label: t.heroSection.handsOn },
@@ -226,7 +226,7 @@ const HeroSectionV3: React.FC<HeroSectionProps> = ({ data, mobileVariant = 'A' }
           {/* Stats row */}
           <div className="flex justify-between mt-6 pt-4 border-t border-white/20">
             {[
-              { number: '3h', label: t.heroSection.duration },
+              { number: '4h', label: t.heroSection.duration },
               { number: '2 - 13', label: t.heroSection.group },
               { number: '4+', label: t.heroSection.dishes },
             ].map((stat, i) => (

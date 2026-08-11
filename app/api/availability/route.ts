@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { listBookings } from '@/lib/booking/sheets';
 import { buildOccupancyMap, type SlotOccupancy } from '@/lib/booking/conflicts';
-import { getUpcomingCalendarDays, buildSlotId, BASIC_MAX_GUESTS } from '@/lib/booking/schedule';
+import {
+  getUpcomingCalendarDays,
+  buildSlotId,
+  BASIC_MAX_GUESTS,
+  BOOKING_HORIZON_DAYS,
+} from '@/lib/booking/schedule';
 import {
   blockedDateSet,
 } from '@/lib/availability';
@@ -35,7 +40,7 @@ function buildOccupancyList(
   from?: string,
   to?: string
 ): SlotOccupancy[] {
-  const days = getUpcomingCalendarDays(28);
+  const days = getUpcomingCalendarDays(BOOKING_HORIZON_DAYS);
   const occupancy = days
     .filter((day) => (!from || day.date >= from) && (!to || day.date <= to))
     .flatMap((day) =>
@@ -114,7 +119,7 @@ async function getOccupancyPayload(from?: string, to?: string): Promise<Occupanc
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const days = getUpcomingCalendarDays(28);
+    const days = getUpcomingCalendarDays(BOOKING_HORIZON_DAYS);
     const from = searchParams.get('from') || days[0]?.date || undefined;
     const to = searchParams.get('to') || days[days.length - 1]?.date || undefined;
 
@@ -122,7 +127,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(body, {
       headers: {
-        'Cache-Control': 'public, max-age=20, s-maxage=45, stale-while-revalidate=120',
+        'Cache-Control': 'private, no-store, max-age=0, must-revalidate',
       },
     });
   } catch (error) {

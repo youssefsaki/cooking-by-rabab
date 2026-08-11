@@ -18,7 +18,7 @@ import {
   type PackageType,
   type SlotPeriod,
 } from '@/lib/booking/schedule';
-import { appendBooking, listBookings } from '@/lib/booking/sheets';
+import { appendBooking, listBookingsForSlot } from '@/lib/booking/sheets';
 import { mirrorBookingToSheets } from '@/lib/sheets-mirror';
 import { resolveLeadSource } from '@/lib/lead-source';
 import { createServiceClient } from '@/lib/supabase/server';
@@ -107,13 +107,13 @@ export async function POST(request: NextRequest) {
     const children = Array.isArray(body.children) ? body.children : [];
     let minAdults = minAdultsForPackage(packageType);
 
-    const [sharedMaxGuests, packageMaxGuests] = await Promise.all([
+    const [sharedMaxGuests, packageMaxGuests, existingForSlot] = await Promise.all([
       getSharedMaxGuests(),
       getPackageMaxGuests(packageType),
+      listBookingsForSlot(body.slotDate, body.slotPeriod),
     ]);
 
-    const existingForMin = await listBookings(body.slotDate, body.slotDate);
-    const occupancyForMin = buildOccupancyMap(existingForMin, sharedMaxGuests).get(
+    const occupancyForMin = buildOccupancyMap(existingForSlot, sharedMaxGuests).get(
       `${body.slotDate}|${body.slotPeriod}`
     );
 
@@ -174,14 +174,13 @@ export async function POST(request: NextRequest) {
       }
 
       if (packageType === 'basic') {
-        const existing = await listBookings(body.slotDate, body.slotDate);
         const conflict = evaluateSlotBooking({
           packageType,
           slotDate: body.slotDate,
           slotPeriod: body.slotPeriod,
           adults,
           children,
-          existingBookings: existing,
+          existingBookings: existingForSlot,
           maxGuests: sharedMaxGuests,
         });
 
@@ -208,14 +207,13 @@ export async function POST(request: NextRequest) {
         unitPrice = unitPriceForPackage(packageType, menuDish.priceEur);
       } else {
         // Weekly Event — blocked if Private already holds that Saturday afternoon
-        const existing = await listBookings(body.slotDate, body.slotDate);
         const conflict = evaluateSlotBooking({
           packageType,
           slotDate: body.slotDate,
           slotPeriod: body.slotPeriod,
           adults,
           children,
-          existingBookings: existing,
+          existingBookings: existingForSlot,
           maxGuests: sharedMaxGuests,
         });
 
@@ -228,14 +226,13 @@ export async function POST(request: NextRequest) {
       }
     } else {
       // Private form request — locks matching Basic date + period only
-      const existing = await listBookings(body.slotDate, body.slotDate);
       const conflict = evaluateSlotBooking({
         packageType,
         slotDate: body.slotDate,
         slotPeriod: body.slotPeriod,
         adults,
         children,
-        existingBookings: existing,
+        existingBookings: existingForSlot,
         maxGuests: sharedMaxGuests,
       });
 

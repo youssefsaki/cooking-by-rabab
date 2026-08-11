@@ -19,6 +19,7 @@ import {
   effectiveMinAdultsForBasic,
   effectiveMinAdultsForPrivate,
   getUpcomingCalendarWeeks,
+  BOOKING_HORIZON_WEEKS,
   minAdultsForPackage,
   unitPriceForPackage,
 } from '@/lib/booking/schedule';
@@ -35,6 +36,10 @@ import {
   SLOT_CONFLICT_MESSAGE,
   type SlotOccupancy,
 } from '@/lib/booking/conflicts';
+import {
+  clearAvailabilityClientCache,
+  fetchAvailability,
+} from '@/lib/booking/availability-client';
 import {
   LEAD_SOURCE_OPTIONS,
   resolveLeadSource,
@@ -212,14 +217,14 @@ function BookingForm() {
   // Warm availability into HTTP + sessionStorage before the calendar paints
   useEffect(() => {
     if (!calendarFlow) return;
-    const weeks = getUpcomingCalendarWeeks(4);
+    const weeks = getUpcomingCalendarWeeks(BOOKING_HORIZON_WEEKS);
     const dates = weeks.flatMap((w) => w.days.map((d) => d.date));
     const from = dates[0];
     const to = dates[dates.length - 1];
     if (!from || !to) return;
     void (async () => {
       try {
-        const res = await fetch(`/api/availability?from=${from}&to=${to}`);
+        const res = await fetchAvailability(from, to);
         if (!res.ok) return;
         const data = (await res.json()) as { occupancy?: SlotOccupancy[] };
         if (!data.occupancy?.length) return;
@@ -275,17 +280,33 @@ function BookingForm() {
           return;
         }
 
-        const joiningShared =
-          isPrivate && isSharedSlotForPrivate(slotOccupancy);
+        // Always re-check live occupancy before submit so min guests / spots stay accurate
+        let liveOccupancy = slotOccupancy;
+        if ((isBasic || isPrivate) && selectedSlot) {
+          try {
+            const res = await fetchAvailability(selectedSlot.date, selectedSlot.date);
+            if (res.ok) {
+              const data = (await res.json()) as { occupancy?: SlotOccupancy[] };
+              liveOccupancy =
+                data.occupancy?.find((o) => o.slotId === selectedSlot.id) ?? liveOccupancy;
+              setSlotOccupancy(liveOccupancy);
+            }
+          } catch {
+            // fall back to in-memory occupancy
+          }
+        }
+
+        const liveJoiningShared =
+          isPrivate && isSharedSlotForPrivate(liveOccupancy);
         const privateRemaining =
-          slotOccupancy?.remainingBasicCapacity ?? BASIC_MAX_GUESTS;
-        const bookedCount = slotOccupancy?.basicGuestCount ?? 0;
+          liveOccupancy?.remainingBasicCapacity ?? BASIC_MAX_GUESTS;
+        const bookedCount = liveOccupancy?.basicGuestCount ?? 0;
         const remainingForMin =
-          slotOccupancy?.remainingBasicCapacity ?? BASIC_MAX_GUESTS;
+          liveOccupancy?.remainingBasicCapacity ?? BASIC_MAX_GUESTS;
         const minAdults = isBasic
           ? effectiveMinAdultsForBasic(bookedCount, remainingForMin)
           : isPrivate
-            ? effectiveMinAdultsForPrivate(pkg, privateRemaining, joiningShared)
+            ? effectiveMinAdultsForPrivate(pkg, privateRemaining, liveJoiningShared)
             : minAdultsForPackage(pkg);
 
         if (values.adults < minAdults) {
@@ -297,8 +318,8 @@ function BookingForm() {
         if (isBasic) {
           const childPayload = bringingChildren ? children : [];
           const partySize = countGuestsTowardCapacity(values.adults, childPayload);
-          const remaining = slotOccupancy?.remainingBasicCapacity ?? BASIC_MAX_GUESTS;
-          const leftover = leftoverSpotsForPrivateJoin(slotOccupancy);
+          const remaining = liveOccupancy?.remainingBasicCapacity ?? BASIC_MAX_GUESTS;
+          const leftover = leftoverSpotsForPrivateJoin(liveOccupancy);
           if (leftover > 0) {
             setSubmitError(
               `Only ${leftover} spot${leftover === 1 ? '' : 's'} left — not enough to start a Basic group of ${BASIC_MIN_ADULTS}. You can join via the Private package.`
@@ -376,7 +397,7 @@ function BookingForm() {
             : pkg === 'weekly-event'
               ? `Weekly Event · ${selectedSlot!.startTime}–${selectedSlot!.endTime}`
               : pkg === 'private'
-                ? joiningShared
+                ? liveJoiningShared
                   ? `Joining shared workshop — ${selectedSlot!.startTime}–${selectedSlot!.endTime}`
                   : `Private workshop — ${selectedSlot!.startTime}–${selectedSlot!.endTime}`
                 : `Pick-up ${selectedSlot!.pickup.time} at ${selectedSlot!.pickup.meetingPoint}`;
@@ -422,6 +443,7 @@ function BookingForm() {
         }
 
         setSubmitted(true);
+        clearAvailabilityClientCache();
         openWhatsApp({
           ...values,
           dish: dishName,
@@ -470,7 +492,7 @@ function BookingForm() {
     (async () => {
       try {
         const date = selectedSlot.date;
-        const res = await fetch(`/api/availability?from=${date}&to=${date}`);
+        const res = await fetchAvailability(date, date);
         if (!res.ok) throw new Error('availability failed');
         const data = (await res.json()) as { occupancy?: SlotOccupancy[] };
         const hold = data.occupancy?.find((o) => o.slotId === selectedSlot.id) ?? null;
@@ -479,7 +501,7 @@ function BookingForm() {
         if (cancelled) return;
         // Fallback to calendar session cache if the request fails
         try {
-          const weeks = getUpcomingCalendarWeeks(4);
+          const weeks = getUpcomingCalendarWeeks(BOOKING_HORIZON_WEEKS);
           const dates = weeks.flatMap((w) => w.days.map((d) => d.date));
           const from = dates[0];
           const to = dates[dates.length - 1];
@@ -488,7 +510,7 @@ function BookingForm() {
             if (raw) {
               const parsed = JSON.parse(raw) as { at: number; map: Record<string, SlotOccupancy> };
               const hold = parsed?.map?.[selectedSlot.id];
-              if (hold && Date.now() - parsed.at < 120_000) {
+              if (hold && Date.now() - parsed.at < 15_000) {
                 setSlotOccupancy(hold);
                 return;
               }
@@ -511,7 +533,9 @@ function BookingForm() {
   const remainingSpots = useMemo(() => {
     if (!needsSlotOccupancy) return null;
     if (slotOccupancyLoading) return null;
-    return slotOccupancy?.remainingBasicCapacity ?? BASIC_MAX_GUESTS;
+    // Missing occupancy means unknown — don't invent a full empty slot (13)
+    if (!slotOccupancy) return null;
+    return slotOccupancy.remainingBasicCapacity;
   }, [needsSlotOccupancy, slotOccupancy, slotOccupancyLoading]);
 
   const bookedGuestCount = slotOccupancy?.basicGuestCount ?? 0;
@@ -729,11 +753,13 @@ function BookingForm() {
   }
 
   const resetAll = () => {
+    clearAvailabilityClientCache();
     setSubmitted(false);
     setWhatsappUrl('');
     setSubmitError('');
     setDishStepError('');
     setSelectedSlot(null);
+    setSlotOccupancy(null);
     setBringingChildren(false);
     setChildren([]);
     setStep(calendarFlow ? 'calendar' : 'form');

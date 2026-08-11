@@ -83,6 +83,7 @@ function emptyOccupancy(
  *   or when full. Starter minimum is 3 adults; once 3+ guests are already booked,
  *   individuals (1+) can join any remaining spots.
  * - Weekly Event can have multiple groups, but is blocked if Private holds the slot
+ *   or the date is admin-blocked (`locked`)
  */
 export function buildOccupancyMap(
   bookings: StoredBooking[],
@@ -215,7 +216,7 @@ export function evaluateSlotBooking(params: {
   }
 
   if (isWeeklyPackage(packageType)) {
-    if (occupancy?.hasPrivate) {
+    if (isSlotLockedForWeekly(occupancy)) {
       return { ok: false, message: SLOT_CONFLICT_MESSAGE };
     }
     return { ok: true };
@@ -230,6 +231,7 @@ export function isPeriodLockedForPrivate(
   maxGuests: number = BASIC_MAX_GUESTS
 ): boolean {
   if (!occupancy) return false;
+  if (occupancy.locked) return true;
   if (occupancy.hasPrivate || occupancy.hasWeekly) return true;
   const cap = Number.isFinite(maxGuests) && maxGuests > 0 ? maxGuests : BASIC_MAX_GUESTS;
   return occupancy.remainingBasicCapacity <= 0 || occupancy.basicGuestCount >= cap;
@@ -255,9 +257,10 @@ export function leftoverSpotsForPrivateJoin(occupancy?: SlotOccupancy | null): n
   return 0;
 }
 
-/** True when Basic cannot take this slot (exclusive Private, full, or can't reach starter min) */
+/** True when Basic cannot take this slot (exclusive Private, full, blocked, or can't reach starter min) */
 export function isSlotLockedForBasic(occupancy?: SlotOccupancy | null): boolean {
   if (!occupancy) return false;
+  if (occupancy.locked) return true;
   if (occupancy.hasPrivate) return true;
   if (occupancy.remainingBasicCapacity <= 0) return true;
   if (occupancy.basicGuestCount >= BASIC_MIN_ADULTS) return false;
@@ -265,8 +268,8 @@ export function isSlotLockedForBasic(occupancy?: SlotOccupancy | null): boolean 
   return occupancy.remainingBasicCapacity < needed;
 }
 
-/** True when Weekly Event cannot take this Saturday slot */
+/** True when Weekly Event cannot take this Saturday slot (blocked date or exclusive Private) */
 export function isSlotLockedForWeekly(occupancy?: SlotOccupancy | null): boolean {
   if (!occupancy) return false;
-  return occupancy.hasPrivate;
+  return occupancy.locked || occupancy.hasPrivate;
 }

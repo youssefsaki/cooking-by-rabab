@@ -319,8 +319,16 @@ export interface CalendarDay {
   slots: CalendarSlot[];
 }
 
-/** Upcoming calendar days (default 21 days from today). */
-export function getUpcomingCalendarDays(dayCount = 21, fromDate = new Date()): CalendarDay[] {
+/** How far ahead guests can browse & book on the public calendar (~3 months). */
+export const BOOKING_HORIZON_WEEKS = 13;
+/** Day span covering the week horizon (with a little buffer for month edges). */
+export const BOOKING_HORIZON_DAYS = BOOKING_HORIZON_WEEKS * 7 + 6;
+
+/** Upcoming calendar days (default = public booking horizon). */
+export function getUpcomingCalendarDays(
+  dayCount = BOOKING_HORIZON_DAYS,
+  fromDate = new Date()
+): CalendarDay[] {
   const start = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
   const days: CalendarDay[] = [];
 
@@ -349,7 +357,10 @@ export interface CalendarWeek {
 }
 
 /** Monday–Sunday weeks starting from the week that contains `fromDate`. Always includes Saturday Weekly Event. */
-export function getUpcomingCalendarWeeks(weekCount = 3, fromDate = new Date()): CalendarWeek[] {
+export function getUpcomingCalendarWeeks(
+  weekCount = BOOKING_HORIZON_WEEKS,
+  fromDate = new Date()
+): CalendarWeek[] {
   const today = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
   const day = today.getDay(); // 0 Sun … 6 Sat
   const mondayOffset = day === 0 ? -6 : 1 - day;

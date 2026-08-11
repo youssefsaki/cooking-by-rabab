@@ -162,7 +162,10 @@ export async function listBookings(from?: string, to?: string): Promise<StoredBo
 }
 
 /** Fresh read for one slot only — used for conflict checks on submit */
-async function fetchBookingsForSlot(slotDate: string, slotPeriod: SlotPeriod): Promise<StoredBooking[]> {
+export async function listBookingsForSlot(
+  slotDate: string,
+  slotPeriod: SlotPeriod
+): Promise<StoredBooking[]> {
   const supabase = createServiceClient();
   const { data, error } = await supabase
     .from('bookings')
@@ -188,7 +191,7 @@ export async function appendBooking(
   const supabase = createServiceClient();
 
   // Only load this slot — not the entire bookings table
-  const existing = (await fetchBookingsForSlot(booking.slotDate, booking.slotPeriod)).filter(
+  const existing = (await listBookingsForSlot(booking.slotDate, booking.slotPeriod)).filter(
     (b) => b.id !== booking.id
   );
 

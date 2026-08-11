@@ -3,9 +3,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
+  BOOKING_HORIZON_WEEKS,
   getUpcomingCalendarWeeks,
   isBasicSelectable,
   isWeeklyEventSlot,
+  BASIC_MIN_ADULTS,
   type CalendarSlot,
 } from '@/lib/booking/schedule';
 import type { SlotOccupancy } from '@/lib/booking/conflicts';
@@ -16,6 +18,11 @@ import {
   isSlotLockedForWeekly,
   leftoverSpotsForPrivateJoin,
 } from '@/lib/booking/conflicts';
+import {
+  AVAILABILITY_CACHE_PREFIX,
+  clearAvailabilityClientCache,
+  fetchAvailability,
+} from '@/lib/booking/availability-client';
 
 interface WorkshopCalendarProps {
   onSelectSlot: (slot: CalendarSlot) => void;
@@ -50,8 +57,7 @@ const PERIOD_STYLES: Record<
   },
 };
 
-const AVAILABILITY_CACHE_PREFIX = 'cbr-availability-v2:';
-const AVAILABILITY_CACHE_TTL_MS = 120_000;
+const AVAILABILITY_CACHE_TTL_MS = 15_000;
 
 function occupancyCacheKey(from: string, to: string): string {
   return `${AVAILABILITY_CACHE_PREFIX}${from}:${to}`;
@@ -93,7 +99,7 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
   selectedSlotId = null,
   mode = 'basic',
 }) => {
-  const weeks = useMemo(() => getUpcomingCalendarWeeks(4), []);
+  const weeks = useMemo(() => getUpcomingCalendarWeeks(BOOKING_HORIZON_WEEKS), []);
   const [weekIndex, setWeekIndex] = useState(0);
   const allDates = useMemo(() => weeks.flatMap((w) => w.days.map((d) => d.date)), [weeks]);
   const rangeFrom = allDates[0];
@@ -114,12 +120,19 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
 
     let cancelled = false;
     setRefreshing(true);
-    setHasOccupancyData(false);
     setError('');
+
+    const cached = readOccupancyCache(rangeFrom, rangeTo);
+    if (cached) {
+      setOccupancy(cached);
+      setHasOccupancyData(true);
+    } else {
+      setHasOccupancyData(false);
+    }
 
     (async () => {
       try {
-        const res = await fetch(`/api/availability?from=${rangeFrom}&to=${rangeTo}`);
+        const res = await fetchAvailability(rangeFrom, rangeTo);
         if (!res.ok) throw new Error('Failed to load availability');
         const data = (await res.json()) as { occupancy: SlotOccupancy[] };
         if (cancelled) return;
@@ -132,9 +145,9 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
         console.error(err);
         if (cancelled) return;
         // Fallback to session cache if the network request fails
-        const cached = readOccupancyCache(rangeFrom, rangeTo);
-        if (cached) {
-          setOccupancy(cached);
+        const fallback = cached || readOccupancyCache(rangeFrom, rangeTo);
+        if (fallback) {
+          setOccupancy(fallback);
           setHasOccupancyData(true);
           setError('');
         } else {
@@ -145,13 +158,32 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
       }
     })();
 
+    const onVisible = () => {
+      if (document.visibilityState !== 'visible') return;
+      clearAvailabilityClientCache();
+      void fetchAvailability(rangeFrom, rangeTo)
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data: { occupancy?: SlotOccupancy[] } | null) => {
+          if (cancelled || !data?.occupancy) return;
+          const map = toOccupancyMap(data.occupancy);
+          setOccupancy(map);
+          setHasOccupancyData(true);
+          writeOccupancyCache(rangeFrom, rangeTo, map);
+        })
+        .catch(() => {
+          // keep current occupancy
+        });
+    };
+    document.addEventListener('visibilitychange', onVisible);
+
     return () => {
       cancelled = true;
+      document.removeEventListener('visibilitychange', onVisible);
     };
   }, [rangeFrom, rangeTo]);
 
   const ready = hasOccupancyData || !!error;
-  const showCalendar = ready && !refreshing;
+  const showCalendar = ready;
 
   const isSlotBookableForMode = (slot: CalendarSlot): boolean => {
     if (mode === 'weekly') return isWeeklyEventSlot(slot);
@@ -171,7 +203,17 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
     }
     if (isSlotLockedForBasic(info)) return false;
     const spots = info?.remainingBasicCapacity ?? 13;
-    return spots >= 3;
+    const booked = info?.basicGuestCount ?? 0;
+    // Once a group is open (3+ booked), allow joining with any remaining spots
+    if (booked >= BASIC_MIN_ADULTS) return spots >= 1;
+    // Empty / not yet open: need room for a starter group of 3
+    return spots >= BASIC_MIN_ADULTS;
+  };
+
+  /** Weekly Event openness — independent of the package currently being booked. */
+  const isWeeklySlotOpen = (slot: CalendarSlot): boolean => {
+    if (!ready) return false;
+    return !isSlotLockedForWeekly(occupancy[slot.id]);
   };
 
   return (
@@ -193,10 +235,10 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
         </h1>
         <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
           {mode === 'weekly'
-            ? 'Only Saturdays are bookable for the Weekly Event. Other days are shown for context but cannot be selected.'
+            ? 'Only Saturdays are bookable for the Weekly Event. Browse up to about three months ahead.'
             : mode === 'private'
-              ? 'Empty days are exclusive to your group. Days with guests already booked show spots left — you join them.'
-              : 'Browse upcoming weeks and book a morning or afternoon workshop. Pick-up from Taghazout Mosque is included.'}
+              ? 'Empty days are exclusive to your group. Days with guests already booked show spots left — you join them. Book up to about three months ahead.'
+              : 'Browse upcoming weeks and book a morning or afternoon workshop up to about three months ahead. Pick-up from Taghazout Mosque is included.'}
         </p>
       </div>
 
@@ -302,8 +344,14 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                   const joining = ready && mode === 'private' && isSharedSlotForPrivate(info);
 
                   if (weeklyOnly) {
+                    const weeklyOpen = isWeeklySlotOpen(slot);
+                    const weeklyUnavailableReason = info?.locked
+                      ? 'Unavailable — this date is blocked'
+                      : info?.hasPrivate
+                        ? 'Unavailable — private booking holds this slot'
+                        : 'Unavailable';
+
                     if (mode === 'weekly') {
-                      const weeklyOpen = isSlotAvailable(slot);
                       return (
                         <div
                           key={slot.id}
@@ -340,7 +388,7 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                                 ? 'Checking…'
                                 : weeklyOpen
                                   ? 'Fixed time · 80 € / person'
-                                  : 'Unavailable — private booking holds this slot'}
+                                  : weeklyUnavailableReason}
                             </p>
                             <button
                               type="button"
@@ -362,9 +410,13 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                     return (
                       <div
                         key={slot.id}
-                        className={`rounded-2xl border border-violet-100 overflow-hidden ${styles.soft} opacity-90`}
+                        className={`rounded-2xl border overflow-hidden ${
+                          weeklyOpen
+                            ? `border-violet-100 ${styles.soft} opacity-90`
+                            : 'border-gray-100 bg-gray-50 opacity-60'
+                        }`}
                       >
-                        <div className={`h-1 w-full ${styles.bar}`} />
+                        <div className={`h-1 w-full ${weeklyOpen ? styles.bar : 'bg-gray-300'}`} />
                         <div className="p-3.5">
                           <span
                             className={`inline-block text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${styles.badge}`}
@@ -378,12 +430,31 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                           <p className="text-sm font-semibold text-gray-900 mt-2 leading-snug">
                             {slot.dish}
                           </p>
-                          <Link
-                            href="/book?package=weekly-event"
-                            className="mt-3.5 inline-flex w-full items-center justify-center rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-sm font-bold py-2.5 transition-colors"
-                          >
-                            Book Weekly Event
-                          </Link>
+                          {!ready ? (
+                            <p className="mt-3.5 text-center text-sm font-bold text-gray-400 py-2.5">
+                              Checking…
+                            </p>
+                          ) : weeklyOpen ? (
+                            <Link
+                              href="/book?package=weekly-event"
+                              className="mt-3.5 inline-flex w-full items-center justify-center rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-sm font-bold py-2.5 transition-colors"
+                            >
+                              Book Weekly Event
+                            </Link>
+                          ) : (
+                            <>
+                              <p className="text-[11px] mt-2 font-semibold text-gray-500">
+                                {weeklyUnavailableReason}
+                              </p>
+                              <button
+                                type="button"
+                                disabled
+                                className="mt-3.5 w-full rounded-xl text-sm font-bold py-2.5 bg-gray-200 text-gray-500 cursor-not-allowed"
+                              >
+                                Unavailable
+                              </button>
+                            </>
+                          )}
                         </div>
                       </div>
                     );
