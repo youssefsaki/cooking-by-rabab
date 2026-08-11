@@ -20,6 +20,7 @@ import AdminMotion from '@/components/admin/AdminMotion';
 const NAV = [
   { href: '/admin', label: 'Home', icon: Home },
   { href: '/admin/bookings', label: 'Bookings', icon: BookOpen },
+  { href: '/admin/reports', label: 'Reports', icon: BarChart3 },
   { href: '/admin/messages', label: 'Inbox', icon: MessageSquare },
   { href: '/admin/content', label: 'Visual editor', icon: Store, accent: true },
   { href: '/admin/media', label: 'Media library', icon: Files },

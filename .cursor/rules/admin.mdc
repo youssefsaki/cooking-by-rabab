@@ -1,0 +1,53 @@
+---
+description: Cooking by Rabab /admin dashboard — stack, APIs, CMS merge rules, and feature workflow
+alwaysApply: true
+---
+
+# Admin dashboard — project context
+
+This is the `/admin` dashboard for **Cooking by Rabab**, a Moroccan cooking-experience business.
+Stack: Next.js App Router, Supabase (Postgres + Auth + Storage).
+
+## Existing data
+
+Tables: `bookings`, `contact_messages`, `content_entries`, `site_settings`, `media`.
+Storage bucket: `site-media`.
+
+## Existing admin API (`/api/admin`)
+
+- `GET /api/admin` — bookings + contact_messages + counts (session-gated via `requireAdmin`)
+- `PATCH /api/admin` — `{ type: 'booking' | 'contact', id, status }`
+- `PUT /api/admin` — `{ settings }` or CMS payload → `site_settings` / `content_entries`
+- `POST /api/admin/upload` — image upload, auth required, 5MB, `site-media` + `media` table
+- `POST /api/admin/logout`
+
+## Key libraries
+
+- `lib/cms-fields.ts` — visual editor field catalog, defaults, package/FAQ mapping, merge on save
+- `lib/cms-section-fields.ts` — homepage + inner-page text fields (SEO fields belong here too)
+- `lib/site-images.ts` — image field registry, defaults, aliases, preview-page mapping
+- `lib/content-defaults.ts` — default package data
+- `hooks/useSiteCopy` — public site reads CMS overlay from `content_entries`
+- `components/admin/LiveCanvasPreview.tsx` — clickable live preview
+- `components/admin/AdminShell.tsx`, `AdminMotion.tsx` — shell + motion
+
+## Critical behavior to preserve
+
+- **Merge-safe saves** to `content_entries`: saving one field must never wipe unrelated `site_copy` keys. New content types (testimonials, SEO) must follow the same merge pattern as packages/FAQs. Read `lib/cms-fields.ts` and the PUT handler before adding types.
+- After any `content_entries` write, **revalidate content cache tags** the same way the current PUT handler does.
+- Admin theme in `app/admin/admin-theme.css`: dark evergreen sidebar + accent via `--admin-accent` / `--admin-accent-strong` / `--admin-accent-soft` (check live tokens before styling — do not invent new accent names).
+- Admin pages are **noindex**. New pages must keep that.
+- Reuse **`requireAdmin` / session client** for all admin API routes — no new auth patterns.
+
+## How to build features
+
+1. One feature at a time, each on its own branch off `feature/supabase-bookings`.
+2. **Step 1 — schema only:** propose migration SQL; wait for review before applying.
+3. **Step 2 — API + UI** only after schema is approved. Do not combine schema + API + UI + review in one pass.
+4. Read relevant existing files fully before writing. Match naming, error handling, and `{ ok, error }` response shapes.
+
+## Feature queue
+
+1. Revenue reporting → 2. Source/campaign attribution → 3. Promo codes → 4. Testimonials → 5. Customers (CRM-lite) → 6. SEO fields → 7. Availability / capacity
+
+Do Testimonials and SEO back-to-back (both extend CMS fields). Other features are independent.
