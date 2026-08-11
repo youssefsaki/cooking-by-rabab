@@ -36,6 +36,7 @@ export interface FormData {
   email: string;
   subject: string;
   message: string;
+  source: string;
 }
 
 export interface FormErrors {
@@ -43,6 +44,7 @@ export interface FormErrors {
   email?: string;
   subject?: string;
   message?: string;
+  source?: string;
 }
 
 

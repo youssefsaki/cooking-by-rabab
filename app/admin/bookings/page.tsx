@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { BookingRow } from '@/lib/types/cms';
+import { formatLeadSourceLabel } from '@/lib/lead-source';
 
 export default function AdminBookingsPage() {
   const [bookings, setBookings] = useState<BookingRow[]>([]);
@@ -57,6 +58,7 @@ export default function AdminBookingsPage() {
                 <th className="px-4 py-3 font-semibold">Contact</th>
                 <th className="px-4 py-3 font-semibold">Package / slot</th>
                 <th className="px-4 py-3 font-semibold">Guests / dish</th>
+                <th className="px-4 py-3 font-semibold">Source</th>
                 <th className="px-4 py-3 font-semibold">Status</th>
               </tr>
             </thead>
@@ -94,6 +96,9 @@ export default function AdminBookingsPage() {
                     {b.dish_name ? <div className="text-[#6D7175]">{b.dish_name}</div> : null}
                     {b.allergies ? <div className="text-[#6D7175] text-xs mt-1">{b.allergies}</div> : null}
                   </td>
+                  <td className="px-4 py-3 whitespace-nowrap text-[#6D7175]">
+                    {formatLeadSourceLabel(b.source)}
+                  </td>
                   <td className="px-4 py-3">
                     <select
                       value={b.status}
@@ -110,7 +115,7 @@ export default function AdminBookingsPage() {
               ))}
               {bookings.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-4 py-10 text-center text-[#6D7175]">
+                  <td colSpan={7} className="px-4 py-10 text-center text-[#6D7175]">
                     No orders yet.
                   </td>
                 </tr>

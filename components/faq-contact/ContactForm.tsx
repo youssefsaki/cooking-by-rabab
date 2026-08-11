@@ -1,15 +1,25 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Send } from 'lucide-react';
 import { FormData, FormErrors } from '@/types/faq-contact.types';
+import {
+  LEAD_SOURCE_OPTIONS,
+  resolveLeadSource,
+  sourceFromQueryParams,
+} from '@/lib/lead-source';
 
 const ContactForm: React.FC = () => {
+  const searchParams = useSearchParams();
+  const querySource = useMemo(() => sourceFromQueryParams(searchParams), [searchParams]);
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     subject: '',
     message: '',
+    source: querySource || '',
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -62,10 +72,17 @@ const ContactForm: React.FC = () => {
     setSubmitError('');
 
     try {
+      const payload = {
+        ...formData,
+        source: resolveLeadSource({
+          querySource,
+          selectedSource: formData.source,
+        }),
+      };
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
       const result = await response.json().catch(() => ({ ok: false }));
 
@@ -81,6 +98,7 @@ const ContactForm: React.FC = () => {
         email: '',
         subject: '',
         message: '',
+        source: querySource || '',
       });
       setErrors({});
       setTimeout(() => setIsSubmitted(false), 3000);
@@ -93,11 +111,10 @@ const ContactForm: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
-    // Clear error when user starts typing
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
     if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({ ...prev, [name]: undefined }));
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
   };
 
@@ -115,7 +132,6 @@ const ContactForm: React.FC = () => {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Name */}
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
             Name
@@ -131,12 +147,9 @@ const ContactForm: React.FC = () => {
               errors.name ? 'border-red-500' : 'border-gray-300'
             }`}
           />
-          {errors.name && (
-            <p className="mt-1 text-sm text-red-600">{errors.name}</p>
-          )}
+          {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
         </div>
 
-        {/* Email */}
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
             Email
@@ -152,12 +165,9 @@ const ContactForm: React.FC = () => {
               errors.email ? 'border-red-500' : 'border-gray-300'
             }`}
           />
-          {errors.email && (
-            <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-          )}
+          {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
         </div>
 
-        {/* Subject */}
         <div>
           <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
             Subject
@@ -178,12 +188,34 @@ const ContactForm: React.FC = () => {
               </option>
             ))}
           </select>
-          {errors.subject && (
-            <p className="mt-1 text-sm text-red-600">{errors.subject}</p>
-          )}
+          {errors.subject && <p className="mt-1 text-sm text-red-600">{errors.subject}</p>}
         </div>
 
-        {/* Message */}
+        <div>
+          <label htmlFor="source" className="block text-sm font-medium text-gray-700 mb-1">
+            How did you hear about us?
+          </label>
+          <select
+            id="source"
+            name="source"
+            value={formData.source}
+            onChange={handleChange}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+          >
+            <option value="">Select an option (optional)</option>
+            {LEAD_SOURCE_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          {querySource ? (
+            <p className="mt-1 text-xs text-gray-500">
+              Prefill from link: <span className="font-semibold">{querySource}</span>
+            </p>
+          ) : null}
+        </div>
+
         <div>
           <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
             Message
@@ -199,12 +231,9 @@ const ContactForm: React.FC = () => {
               errors.message ? 'border-red-500' : 'border-gray-300'
             }`}
           />
-          {errors.message && (
-            <p className="mt-1 text-sm text-red-600">{errors.message}</p>
-          )}
+          {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message}</p>}
         </div>
 
-        {/* Submit Button */}
         {submitError && (
           <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
             {submitError}
@@ -217,7 +246,7 @@ const ContactForm: React.FC = () => {
         >
           {isSubmitting ? (
             <>
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               Sending...
             </>
           ) : (
@@ -233,19 +262,3 @@ const ContactForm: React.FC = () => {
 };
 
 export default ContactForm;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

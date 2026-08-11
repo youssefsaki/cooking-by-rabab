@@ -27,7 +27,7 @@ const bookingsCacheByKey = new Map<string, BookingsCacheEntry>();
 const bookingsInflightByKey = new Map<string, Promise<StoredBooking[]>>();
 
 const LEAN_SELECT =
-  'id, created_at, package_type, slot_date, slot_period, adults, children, location, status, full_name, phone, country, email, dish_name, allergies, dietary_notes, total_price_eur';
+  'id, created_at, package_type, slot_date, slot_period, adults, children, location, status, full_name, phone, country, email, dish_name, allergies, dietary_notes, total_price_eur, source';
 
 export function invalidateBookingsCache(): void {
   bookingsCacheByKey.clear();
@@ -53,6 +53,7 @@ type BookingRow = {
   allergies?: string | null;
   dietary_notes?: string | null;
   total_price_eur?: number | string | null;
+  source?: string | null;
   status: string;
 };
 
@@ -225,6 +226,7 @@ export async function appendBooking(
     children: booking.children,
     location: booking.location,
     total_price_eur: booking.totalPrice,
+    source: booking.source || 'direct',
   });
 
   if (error) {

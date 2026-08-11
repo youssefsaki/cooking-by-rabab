@@ -1,4 +1,5 @@
 import type { DietaryPreference, PackageType } from '@/lib/types/cms';
+import { normalizeLeadSource } from '@/lib/lead-source';
 
 export type BookingInput = {
   fullName: string;
@@ -72,6 +73,7 @@ export type ContactInput = {
   email: string;
   subject: string;
   message: string;
+  source: string;
 };
 
 export function validateContact(body: unknown): { ok: true; data: ContactInput } | { ok: false; error: string } {
@@ -84,6 +86,7 @@ export function validateContact(body: unknown): { ok: true; data: ContactInput }
   const email = String(b.email ?? '').trim();
   const subject = String(b.subject ?? '').trim();
   const message = String(b.message ?? '').trim();
+  const source = normalizeLeadSource(String(b.source ?? ''));
 
   if (name.length < 2) {
     return { ok: false, error: 'Name must be at least 2 characters' };
@@ -98,5 +101,5 @@ export function validateContact(body: unknown): { ok: true; data: ContactInput }
     return { ok: false, error: 'Message must be at least 10 characters' };
   }
 
-  return { ok: true, data: { name, email, subject, message } };
+  return { ok: true, data: { name, email, subject, message, source } };
 }

@@ -28,6 +28,7 @@ export async function POST(request: Request) {
       subject: data.subject,
       message: data.message,
       status: 'new',
+      source: data.source,
     });
 
     if (error) {

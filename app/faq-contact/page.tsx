@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Star, Clock, Zap, Heart, HelpCircle } from 'lucide-react';
 import TabNavigation from '@/components/faq-contact/TabNavigation';
@@ -125,7 +125,9 @@ const FAQContactPage: React.FC = () => {
             {/* Right Column - Contact */}
             <div className="space-y-6">
               <ContactCard contactInfo={contactInfo} />
-              <ContactForm />
+              <Suspense fallback={<div className="rounded-xl border border-gray-200 bg-white p-6 text-sm text-gray-500">Loading form…</div>}>
+                <ContactForm />
+              </Suspense>
             </div>
           </div>
         </div>

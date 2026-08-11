@@ -19,6 +19,7 @@ import {
   Users,
 } from 'lucide-react';
 import type { BookingRow, ContactMessageRow } from '@/lib/types/cms';
+import { formatLeadSourceLabel } from '@/lib/lead-source';
 
 type AdminPayload = {
   ok: boolean;
@@ -66,13 +67,21 @@ export default function AdminHomePage() {
     const weekMs = 7 * 24 * 60 * 60 * 1000;
     const last7 = bookings.filter((booking) => now - new Date(booking.created_at).getTime() < weekMs);
     const byPackage: Record<string, number> = {};
+    const bySource: Record<string, number> = {};
 
     for (const booking of bookings) {
       byPackage[booking.package_type] = (byPackage[booking.package_type] || 0) + 1;
+      const source = booking.source || 'direct';
+      bySource[source] = (bySource[source] || 0) + 1;
+    }
+    for (const message of messages) {
+      const source = message.source || 'direct';
+      bySource[source] = (bySource[source] || 0) + 1;
     }
 
     const confirmed = bookings.filter((booking) => booking.status === 'confirmed').length;
     const countries = new Set(bookings.map((booking) => booking.country).filter(Boolean));
+    const sourceTotal = Object.values(bySource).reduce((sum, n) => sum + n, 0);
 
     return {
       totalBookings: bookings.length,
@@ -81,11 +90,15 @@ export default function AdminHomePage() {
       confirmed,
       countries: countries.size,
       byPackage,
+      bySource,
+      sourceTotal,
       confirmationRate: bookings.length ? Math.round((confirmed / bookings.length) * 100) : 0,
     };
   }, [data]);
 
   const maxPackage = Math.max(1, ...Object.values(analytics.byPackage));
+  const sourceEntries = Object.entries(analytics.bySource).sort((a, b) => b[1] - a[1]);
+  const maxSource = Math.max(1, ...sourceEntries.map(([, count]) => count));
   const recentBookings = (data?.bookings || []).slice(0, 4);
 
   return (
@@ -265,6 +278,56 @@ export default function AdminHomePage() {
             </div>
           </div>
         </article>
+      </section>
+
+      <section data-admin-scroll-reveal className="admin-card overflow-hidden">
+        <div className="flex items-start justify-between border-b border-[var(--admin-line)] p-5 sm:p-6">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--admin-muted)]">
+              Attribution
+            </p>
+            <h2 className="admin-display mt-2 text-2xl text-[var(--admin-ink)]">Where guests find you</h2>
+          </div>
+          <div className="rounded-full bg-[var(--admin-surface-soft)] px-3 py-1.5 text-xs text-[var(--admin-muted)]">
+            Bookings + inbox
+          </div>
+        </div>
+        <div className="space-y-6 p-5 sm:p-6">
+          {sourceEntries.map(([source, count], index) => {
+            const percentage = analytics.sourceTotal
+              ? Math.round((count / analytics.sourceTotal) * 100)
+              : 0;
+            const bar = Math.round((count / maxSource) * 100);
+            return (
+              <div key={source}>
+                <div className="mb-2.5 flex items-end justify-between gap-4">
+                  <div>
+                    <span className="mr-2 text-xs font-bold text-[var(--admin-accent-strong)]">
+                      0{index + 1}
+                    </span>
+                    <span className="text-sm font-semibold text-[var(--admin-copy)]">
+                      {formatLeadSourceLabel(source)}
+                    </span>
+                  </div>
+                  <span className="text-xs text-[var(--admin-muted)]">
+                    {percentage}% · {count}
+                  </span>
+                </div>
+                <div className="h-2.5 overflow-hidden rounded-full bg-[var(--admin-surface-soft)]">
+                  <div
+                    className="h-full rounded-full bg-[linear-gradient(90deg,var(--admin-ink),var(--admin-accent-strong))] transition-[width] duration-1000"
+                    style={{ width: `${count ? Math.max(12, bar) : 0}%` }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+          {sourceEntries.length === 0 && (
+            <div className="rounded-2xl bg-[var(--admin-surface-soft)] p-4 text-sm text-[var(--admin-muted)]">
+              Source data appears once guests book or message with attribution.
+            </div>
+          )}
+        </div>
       </section>
 
       {/* 04 — pinned-preview */}

@@ -21,6 +21,7 @@ import {
 } from '@/lib/booking/schedule';
 import { appendBooking, listBookings } from '@/lib/booking/sheets';
 import { mirrorBookingToSheets } from '@/lib/sheets-mirror';
+import { resolveLeadSource } from '@/lib/lead-source';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -40,6 +41,7 @@ interface BookingPayload {
   location?: string;
   allergies?: string;
   dietaryNotes?: string;
+  source?: string;
 }
 
 function isValidEmail(email: string): boolean {
@@ -218,6 +220,7 @@ export async function POST(request: NextRequest) {
     });
 
     const dietaryNotes = (body.dietaryNotes || body.allergies || '').trim();
+    const source = resolveLeadSource({ selectedSource: body.source });
 
     const defaultLocation =
       packageType === 'private-at-location'
@@ -245,6 +248,7 @@ export async function POST(request: NextRequest) {
       allergies: dietaryNotes,
       totalPrice: pricing.total,
       status: 'confirmed',
+      source,
     };
 
     try {

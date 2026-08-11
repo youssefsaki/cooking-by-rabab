@@ -22,6 +22,7 @@ export interface StoredBooking {
   allergies: string;
   totalPrice: number;
   status: 'confirmed';
+  source?: string;
 }
 
 export interface SlotOccupancy {

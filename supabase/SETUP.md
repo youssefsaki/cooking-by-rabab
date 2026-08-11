@@ -17,7 +17,11 @@ Schema applied: tables, RLS, `site-media` bucket, packages seed (en/fr/de), site
 
 Also run **`supabase/migrations/003_booking_slots.sql`** in the SQL editor (adds slot date/period, dish, guests, private-at-location). Booking calendar from `version-2.1.0` writes to Supabase; Sheets is mirror-only.
 
-Also run **`supabase/migrations/004_revenue_reporting.sql`** (backfills null `total_price_eur` for reports; adds reporting index).
+Also run these later admin migrations if not already applied:
+- **`004_revenue_reporting.sql`** — backfill `total_price_eur` + reporting index
+- **`005_source_attribution.sql`** — nullable `source` on bookings + contact_messages
+- **`006_promo_codes.sql`** — promo_codes table + booking promo columns
+- **`007_availability.sql`** — blocked_dates + package_capacity
 
 Local secrets are in **`.env.local`** (gitignored). Admin login email: `rababouhadda5@gmail.com` — temp password in **`.admin-credentials.local`** (gitignored). Change that password after first login.
 

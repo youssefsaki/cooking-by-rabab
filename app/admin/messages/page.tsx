@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { ContactMessageRow } from '@/lib/types/cms';
+import { formatLeadSourceLabel } from '@/lib/lead-source';
 
 export default function AdminMessagesPage() {
   const [messages, setMessages] = useState<ContactMessageRow[]>([]);
@@ -56,6 +57,9 @@ export default function AdminMessagesPage() {
                   <h2 className="font-semibold text-[#202223]">{m.subject}</h2>
                   <p className="text-sm text-[#6D7175]">
                     {m.name} · {m.email} · {new Date(m.created_at).toLocaleString()}
+                  </p>
+                  <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-[#6D7175]">
+                    Source · {formatLeadSourceLabel(m.source)}
                   </p>
                 </div>
                 <select
