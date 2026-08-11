@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 
 /**
  * Lightweight fade-ins only. No Lenis / GSAP — those made scroll feel sticky.
+ * Re-scans after dynamic sections mount / layout shifts so titles never stay invisible.
  */
 export default function SiteMotion({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -12,40 +13,66 @@ export default function SiteMotion({ children }: { children: React.ReactNode }) 
   useEffect(() => {
     if (pathname?.startsWith('/admin')) return;
 
-    const nodes = Array.from(document.querySelectorAll<HTMLElement>('[data-fade]'));
-    if (!nodes.length) return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let observer: IntersectionObserver | null = null;
+    let scanRaf = 0;
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      nodes.forEach((el) => el.classList.add('is-visible'));
-      return;
-    }
-
-    // Reveal anything already in view immediately (avoids blank sections)
-    const revealIfVisible = (el: HTMLElement) => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.92) {
-        el.classList.add('is-visible');
-        return true;
-      }
-      return false;
+    const reveal = (el: HTMLElement) => {
+      el.classList.add('is-visible');
+      observer?.unobserve(el);
     };
 
-    const pending = nodes.filter((el) => !revealIfVisible(el));
-    if (!pending.length) return;
+    const inView = (el: HTMLElement) => {
+      const rect = el.getBoundingClientRect();
+      return rect.bottom > 40 && rect.top < window.innerHeight * 0.95;
+    };
 
-    const observer = new IntersectionObserver(
+    const scan = () => {
+      const nodes = Array.from(
+        document.querySelectorAll<HTMLElement>('[data-fade]:not(.is-visible)')
+      );
+      if (!nodes.length) return;
+
+      if (reduced) {
+        nodes.forEach(reveal);
+        return;
+      }
+
+      nodes.forEach((el) => {
+        if (inView(el)) reveal(el);
+        else observer?.observe(el);
+      });
+    };
+
+    const scheduleScan = () => {
+      cancelAnimationFrame(scanRaf);
+      scanRaf = requestAnimationFrame(scan);
+    };
+
+    observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
+          reveal(entry.target as HTMLElement);
         });
       },
-      { rootMargin: '0px 0px -5% 0px', threshold: 0.01 }
+      { rootMargin: '0px 0px 10% 0px', threshold: 0 }
     );
 
-    pending.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    scan();
+
+    const mo = new MutationObserver(scheduleScan);
+    mo.observe(document.body, { childList: true, subtree: true });
+    window.addEventListener('scroll', scheduleScan, { passive: true });
+    window.addEventListener('resize', scheduleScan, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(scanRaf);
+      observer?.disconnect();
+      mo.disconnect();
+      window.removeEventListener('scroll', scheduleScan);
+      window.removeEventListener('resize', scheduleScan);
+    };
   }, [pathname]);
 
   return <>{children}</>;

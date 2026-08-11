@@ -193,12 +193,16 @@ const PackagesV3: React.FC = memo(() => {
             const overlay = byId.get(pkg.id);
             if (!overlay) return pkg;
             const rawImage = overlay.image || pkg.image;
-            const image = resolveSiteImage(rawImage, pkg.image);
+            // Always use the local basic.webp for the main basic package card
+            const image =
+              pkg.id === 'basic'
+                ? '/packages/basic.webp'
+                : resolveSiteImage(rawImage, pkg.image);
             // Keep package EUR/MAD from code — CMS sometimes still has stale €60
             return {
               ...pkg,
               image,
-              name: overlay.name || pkg.name,
+              name: pkg.id === 'basic' ? pkg.name : overlay.name || pkg.name,
               subtitle: overlay.subtitle || pkg.subtitle,
             };
           })

@@ -40,7 +40,7 @@ export default function PackagesPage() {
       endTime: "19:30-20:00",
       pickup: "Taghazout Mosque",
       dropoff: "Taghazout or Tamraght",
-      image: img('pkg.basic.image', '/packages/basic.webp'),
+      image: '/packages/basic.webp',
       alt: copy('pkg.basic.imageAlt', "Taghazout cooking class — half-day Berber village experience with traditional Moroccan dishes and clay oven bread in Atlas Mountains"),
       popular: true,
       itinerary: t.packagesPage.basic.itinerary,

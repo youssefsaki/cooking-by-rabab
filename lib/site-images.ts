@@ -234,6 +234,9 @@ const LEGACY_IMAGE_ALIASES: Record<string, string> = {
   // Wrong CMS upload (woman+child) was saved as the village cats photo
   'https://sgjsxrznjhmaluhsgvks.supabase.co/storage/v1/object/public/site-media/uploads/1786363410520-o1cbwf2yddk.jpg':
     '/community/cat.webp',
+  // Prefer local basic package photo over old CMS upload
+  'https://sgjsxrznjhmaluhsgvks.supabase.co/storage/v1/object/public/site-media/uploads/1786321369899-1ks5kdxzqmo.jpg':
+    '/packages/basic.webp',
 };
 
 /** Normalize CMS / stored image URLs (fix aliases, trim). */

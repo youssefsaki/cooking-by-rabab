@@ -174,10 +174,20 @@ function ReviewPhotos({ review, active }: { review: GoogleReview; active: boolea
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const closeLightbox = React.useCallback(() => setLightboxIndex(null), []);
 
-  if (!images.length || !active) return null;
+  if (!images.length) return null;
 
   const shown = images.slice(0, MAX_PHOTOS);
   const extra = images.length - MAX_PHOTOS;
+
+  if (!active) {
+    return (
+      <div className="mt-4 grid grid-cols-3 gap-1.5 sm:gap-2" aria-hidden>
+        {Array.from({ length: Math.min(images.length, MAX_PHOTOS) }, (_, i) => (
+          <div key={i} className="aspect-square bg-paper" />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <>
@@ -272,17 +282,19 @@ function ReviewCard({ review }: { review: GoogleReview }) {
   return (
     <article
       ref={ref}
-      className="w-[min(100%,calc(50%-0.75rem))] shrink-0 snap-start border-t border-line pt-6 max-md:w-[min(100%,85%)] [content-visibility:auto] [contain-intrinsic-size:auto_320px]"
+      className="flex h-full w-[min(100%,calc(50%-0.75rem))] shrink-0 snap-start flex-col border-t border-line pt-6 max-md:w-[min(100%,85%)]"
     >
       <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1">
         <Stars rating={review.rating} />
         <p className="text-sm font-semibold text-ink">{review.author.name}</p>
         <span className="text-xs text-muted">{review.date}</span>
       </div>
-      <p className="line-clamp-5 text-sm leading-relaxed text-muted sm:text-[15px]">
+      <p className="line-clamp-5 min-h-[6.5rem] flex-1 text-sm leading-relaxed text-muted sm:min-h-[7.5rem] sm:text-[15px]">
         “{review.text}”
       </p>
-      <ReviewPhotos review={review} active={active} />
+      <div className="mt-auto">
+        <ReviewPhotos review={review} active={active} />
+      </div>
     </article>
   );
 }
@@ -377,7 +389,7 @@ const GoogleReviewsSectionV2: React.FC = () => {
 
         <div
           ref={scrollerRef}
-          className="flex gap-6 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
+          className="flex items-stretch gap-6 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
           aria-label="Guest reviews carousel"
         >
           {ordered.map((review) => (
