@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Taghazout Cooking Class Packages — Half-Day Berber Experience from €60',
+  title: 'Taghazout Cooking Class Packages — Half-Day Berber Experience from €65',
   description:
-    'Traditional cooking experience Taghazout — choose Basic (€60), Weekly Event (€80), or Private (€100). Includes pickup, 300-year-old Berber house tour, tagine workshop, clay oven bread, amlou, and family feast in the Atlas Mountains.',
+    'Traditional cooking experience Taghazout — From 65 € (700 MAD), Weekly Event 80 € (850 MAD), Private Workshop 80 € (850 MAD), or At Your Location 100 € (1050 MAD). Includes pickup, Berber house tour, cooking workshop, clay oven bread, amlou, and family feast in the Atlas Mountains.',
   keywords: [
     'taghazout cooking class packages',
     'traditional cooking experience taghazout',
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Taghazout Cooking Class Packages | Taghazout Cooking Class',
     description:
-      '3 authentic Moroccan cooking packages from €60. Half-day immersive Berber village experience with pickup from Taghazout.',
+      'Moroccan cooking packages from 65 € (700 MAD). Half-day Berber village experience with pickup from Taghazout.',
     url: 'https://www.taghazout-cooking-class.com/packages',
     type: 'website',
     images: [
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Taghazout Cooking Class Packages',
-    description: 'Basic €60, Weekly Event €80, Private €100 — pickup included from Taghazout.',
+    description: 'From 65 € (700 MAD), Weekly/Private 80 € (850 MAD), At Your Location 100 € (1050 MAD).',
     images: ['/packages/basic.jpg'],
   },
 };

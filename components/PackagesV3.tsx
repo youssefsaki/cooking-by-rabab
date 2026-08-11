@@ -3,15 +3,25 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FiClock, FiUsers, FiMapPin } from 'react-icons/fi';
+import { FiClock, FiUsers, FiMapPin, FiCheck, FiX } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
 import InternalLinkRow from '@/components/InternalLinkRow';
 import { useSiteCopy } from '@/hooks/useSiteCopy';
+import { resolveSiteImage } from '@/lib/site-images';
+
+type PackagePageKey = 'basic' | 'weeklyEvent' | 'private' | 'privateAtLocation';
+
+const packagePageKeyById: Record<string, PackagePageKey> = {
+  basic: 'basic',
+  'weekly-event': 'weeklyEvent',
+  private: 'private',
+  'private-at-location': 'privateAtLocation',
+};
 
 const packagesData = [
   {
     id: "basic",
-    name: "The Authentic Mountain & Culinary Escape",
+    name: "The authentic mountains culinary escape",
     tagline: "Your Journey into the Mountains",
     subtitle: "Escape the coast for a half-day in the Atlas Mountains. Tour a historic 300-year-old village home, grind fresh Amlou, and cook the traditional dish of your choice.",
     price: "65",
@@ -42,7 +52,7 @@ const packagesData = [
     price: "80",
     pricePrefix: "",
     currency: "EUR",
-    priceLocal: "",
+    priceLocal: "850 MAD",
     duration: "4 hours",
     groupSize: "6-13 guests",
     locationLabel: "Amazigh Village",
@@ -66,7 +76,7 @@ const packagesData = [
     price: "80",
     pricePrefix: "",
     currency: "EUR",
-    priceLocal: "",
+    priceLocal: "850 MAD",
     duration: "Flexible",
     groupSize: "2+ guests",
     locationLabel: "Village Workshop",
@@ -92,13 +102,13 @@ const packagesData = [
     price: "100",
     pricePrefix: "",
     currency: "EUR",
-    priceLocal: "",
+    priceLocal: "1050 MAD",
     duration: "Flexible",
     groupSize: "6+ guests",
     locationLabel: "Your Location",
     startTime: "Flexible",
     image: "/packages/pv-at-ur-location.webp",
-    imageAlt: "Rabab Comes to You — private Moroccan cooking class at your villa or riad in Taghazout area",
+    imageAlt: "Rabab Comes to You — private cooking class at your villa or riad in Taghazout area",
     popular: false,
     highlights: [
       "Minimum 6 guests required",
@@ -125,7 +135,7 @@ function PriceRow({
       {pricePrefix ? (
         <span className="text-xs sm:text-sm text-white/85 font-medium">{pricePrefix}</span>
       ) : null}
-      <span className="text-2xl sm:text-3xl md:text-4xl font-black text-white drop-shadow-lg">{price}</span>
+                      <span className="text-2xl font-medium text-white sm:text-3xl md:text-4xl">{price}</span>
       <span className="text-sm sm:text-lg text-white/90 font-semibold">€</span>
       <span className="text-[11px] sm:text-sm text-white/80">/ person</span>
       {priceLocal ? (
@@ -139,20 +149,33 @@ const PackagesV3: React.FC = memo(() => {
   const { t, language } = useLanguage();
   const { copy } = useSiteCopy();
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [detailsId, setDetailsId] = useState<string | null>(null);
   const [cmsItems, setCmsItems] = useState<typeof packagesData | null>(null);
 
   const closeActive = useCallback(() => setActiveId(null), []);
+  const closeDetails = useCallback(() => setDetailsId(null), []);
 
   useEffect(() => {
-    if (!activeId) return;
+    if (!activeId && !detailsId) return;
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') closeActive();
+      if (event.key !== 'Escape') return;
+      if (detailsId) closeDetails();
+      else closeActive();
     };
 
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [activeId, closeActive]);
+  }, [activeId, detailsId, closeActive, closeDetails]);
+
+  useEffect(() => {
+    if (!detailsId) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [detailsId]);
 
   useEffect(() => {
     let cancelled = false;
@@ -169,10 +192,12 @@ const PackagesV3: React.FC = memo(() => {
           packagesData.map((pkg) => {
             const overlay = byId.get(pkg.id);
             if (!overlay) return pkg;
+            const rawImage = overlay.image || pkg.image;
+            const image = resolveSiteImage(rawImage, pkg.image);
+            // Keep package EUR/MAD from code — CMS sometimes still has stale €60
             return {
               ...pkg,
-              image: overlay.image || pkg.image,
-              price: overlay.price || pkg.price,
+              image,
               name: overlay.name || pkg.name,
               subtitle: overlay.subtitle || pkg.subtitle,
             };
@@ -186,43 +211,28 @@ const PackagesV3: React.FC = memo(() => {
   }, [language]);
 
   const items = cmsItems || packagesData;
+  const detailsPackage = detailsId ? items.find((pkg) => pkg.id === detailsId) : null;
+  const detailsPageKey = detailsId ? packagePageKeyById[detailsId] : null;
+  const detailsContent = detailsPageKey ? t.packagesPage[detailsPageKey] : null;
 
   return (
-    <section className="relative py-12 sm:py-16 lg:py-20 bg-[#F5EFE7] overflow-hidden">
-      <div className="absolute top-0 left-0 w-64 h-64 bg-amber-200/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-orange-200/20 rounded-full blur-3xl pointer-events-none" />
+    <section className="relative bg-paper py-20 sm:py-24 lg:py-28">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
+        <div className="mb-12 text-center lg:mb-14" data-fade>
+          <p className="section-eyebrow">{copy('packages.badge', t.packages.badge)}</p>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-        <div className="text-center mb-8 lg:mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-xl mb-4 border border-amber-100">
-            <span className="text-lg">🍽️</span>
-            <span className="text-xs font-bold text-amber-900 tracking-wider uppercase">
-              {copy('packages.badge', t.packages.badge)}
-            </span>
-          </div>
+          <h2 className="section-title mb-5">{copy('packages.title', t.packages.title)}</h2>
 
-          <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black text-gray-900 mb-3 sm:mb-4 leading-tight">
-            {(() => {
-              const title = copy('packages.title', t.packages.title);
-              const parts = title.split(' ');
-              return (
-                <>
-                  {parts[0]}{' '}
-                  <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-clip-text text-transparent">
-                    {parts.slice(1).join(' ')}
-                  </span>
-                </>
-              );
-            })()}
-          </h2>
-
-          <p className="text-sm sm:text-base lg:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
+          <p className="section-lead mx-auto max-w-2xl">
             {copy('packages.description', t.packages.description)}
           </p>
-          <InternalLinkRow variant="packages" className="text-gray-600 max-w-3xl mx-auto mt-4 [&_a]:text-amber-700 [&_a:hover]:text-amber-800" />
+          <InternalLinkRow
+            variant="packages"
+            className="mx-auto mt-4 max-w-2xl text-muted [&_a]:text-clay [&_a:hover]:text-clay-deep"
+          />
         </div>
 
-        <div className="flex flex-wrap justify-center gap-5 lg:gap-6 max-w-6xl mx-auto">
+        <div className="mx-auto flex max-w-6xl flex-wrap justify-center gap-5 lg:gap-6">
           {items.map((pkg) => {
             const isActive = activeId === pkg.id;
 
@@ -233,7 +243,6 @@ const PackagesV3: React.FC = memo(() => {
                 tabIndex={0}
                 aria-expanded={isActive}
                 onClick={() => {
-                  // Desktop hover works via CSS; tap-toggle is for touch devices
                   if (typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
                     return;
                   }
@@ -245,130 +254,118 @@ const PackagesV3: React.FC = memo(() => {
                     setActiveId((current) => (current === pkg.id ? null : pkg.id));
                   }
                 }}
-                className={`group relative h-[520px] sm:h-[560px] lg:h-[580px] w-full sm:w-[calc(50%-0.625rem)] lg:w-[calc(50%-0.75rem)] rounded-3xl overflow-hidden cursor-pointer shadow-2xl hover:shadow-3xl transition-all duration-300 will-change-transform outline-none focus-visible:ring-2 focus-visible:ring-amber-500 ${
-                  isActive ? 'is-active ring-2 ring-amber-400/70' : ''
+                className={`group relative h-[520px] w-full cursor-pointer overflow-hidden outline-none transition focus-visible:ring-2 focus-visible:ring-ink sm:h-[560px] sm:w-[calc(50%-0.625rem)] lg:h-[580px] lg:w-[calc(50%-0.75rem)] ${
+                  isActive ? 'is-active ring-1 ring-ink/30' : ''
                 }`}
               >
                 {pkg.popular && (
-                  <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-30 pointer-events-none">
-                    <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-bold shadow-xl">
-                      ⭐ {t.packages.mostPopular}
-                    </div>
+                  <div className="pointer-events-none absolute right-4 top-4 z-30">
+                    <span className="bg-primary px-3 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-white">
+                      {t.packages.mostPopular}
+                    </span>
                   </div>
                 )}
 
-                <div className="absolute inset-0 will-change-transform">
+                <div className="absolute inset-0">
                   <Image
                     src={pkg.image}
                     alt={pkg.imageAlt}
                     fill
-                    className={`object-cover transition-transform duration-500 ease-out group-hover:scale-105 ${
-                      isActive ? 'scale-105' : ''
+                    className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] ${
+                      isActive ? 'scale-[1.03]' : ''
                     }`}
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     loading="lazy"
-                    quality={75}
+                    quality={70}
                   />
                 </div>
 
                 <div
-                  className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-300 ease-out group-hover:from-black/90 group-hover:via-black/70 group-hover:to-black/50 ${
-                    isActive ? 'from-black/90 via-black/70 to-black/50' : ''
+                  className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/25 transition duration-300 group-hover:from-black/95 group-hover:via-black/75 group-hover:to-black/55 ${
+                    isActive ? 'from-black/95 via-black/75 to-black/55' : ''
                   }`}
                 />
 
-                {/* Default Content */}
                 <div
-                  className={`absolute inset-0 flex flex-col justify-end p-5 sm:p-6 lg:p-8 transition-all duration-300 ease-out group-hover:opacity-0 group-hover:translate-y-2 will-change-transform ${
-                    isActive ? 'opacity-0 translate-y-2 pointer-events-none' : ''
+                  className={`absolute inset-0 flex flex-col justify-end p-6 transition duration-300 group-hover:translate-y-2 group-hover:opacity-0 sm:p-8 ${
+                    isActive ? 'pointer-events-none translate-y-2 opacity-0' : ''
                   }`}
                 >
-                  <div className="space-y-2 mb-2 sm:mb-3">
-                    <div className="inline-block px-2.5 sm:px-3 py-1 bg-white/20 backdrop-blur-md rounded-full border border-white/30">
-                      <span className="text-white text-[11px] sm:text-xs font-semibold">
-                        {pkg.duration} • {pkg.groupSize}
-                      </span>
-                    </div>
-                  </div>
-                  <h3 className="text-xl sm:text-2xl lg:text-4xl font-bold text-white mb-1.5 sm:mb-2 leading-snug drop-shadow-lg">
+                  <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.14em] text-white/65">
+                    {pkg.duration} · {pkg.groupSize}
+                  </p>
+                  <h3 className="mb-2 font-display text-2xl font-normal leading-snug text-white sm:text-3xl">
                     {pkg.name}
                   </h3>
-                  <p className="text-sm sm:text-base lg:text-lg text-white/95 font-light leading-relaxed drop-shadow-md line-clamp-2 sm:line-clamp-3">
+                  <p className="line-clamp-2 text-sm leading-relaxed text-white/75 sm:line-clamp-3 sm:text-base">
                     {pkg.subtitle}
                   </p>
-                  <div className="mt-2.5 sm:mt-3">
+                  <div className="mt-4">
                     <PriceRow
                       pricePrefix={pkg.pricePrefix}
                       price={pkg.price}
                       priceLocal={pkg.priceLocal}
                     />
                   </div>
-                  <p className="mt-3 text-[11px] sm:text-xs text-white/70 uppercase tracking-wider lg:hidden">
-                    Tap for details
-                  </p>
+                  <p className="mt-3 text-[11px] text-white/50 lg:hidden">Tap for details</p>
                 </div>
 
-                {/* Hover / Active Content */}
                 <div
-                  className={`absolute inset-0 flex flex-col justify-between p-4 sm:p-6 md:p-8 lg:p-10 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 will-change-transform ${
+                  className={`absolute inset-0 flex flex-col justify-between p-5 opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:p-7 lg:p-8 ${
                     isActive ? 'opacity-100' : 'pointer-events-none group-hover:pointer-events-auto'
                   }`}
                 >
-                  <div className="space-y-3 sm:space-y-4 overflow-y-auto min-h-0 pr-1">
+                  <div className="min-h-0 space-y-4 overflow-y-auto pr-1">
                     <div>
-                      <h3 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-1.5 sm:mb-2 leading-snug drop-shadow-lg">
+                      <h3 className="mb-2 font-display text-xl font-normal leading-snug text-white sm:text-2xl lg:text-3xl">
                         {pkg.name}
                       </h3>
-                      <p className="text-xs sm:text-sm md:text-base text-white/95 leading-relaxed drop-shadow-md mb-2 sm:mb-3 line-clamp-3 sm:line-clamp-4">
+                      <p className="mb-3 line-clamp-3 text-sm leading-relaxed text-white/75 sm:text-base">
                         {pkg.subtitle}
                       </p>
-                      <div className="mb-2 sm:mb-3">
-                        <PriceRow
-                          pricePrefix={pkg.pricePrefix}
-                          price={pkg.price}
-                          priceLocal={pkg.priceLocal}
-                        />
-                      </div>
+                      <PriceRow
+                        pricePrefix={pkg.pricePrefix}
+                        price={pkg.price}
+                        priceLocal={pkg.priceLocal}
+                      />
                     </div>
 
-                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                      <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-white/15 backdrop-blur-sm rounded-full border border-white/20">
-                        <FiClock className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-300" />
-                        <span className="text-white text-[11px] sm:text-sm font-medium">{pkg.duration}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-white/15 backdrop-blur-sm rounded-full border border-white/20">
-                        <FiUsers className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-300" />
-                        <span className="text-white text-[11px] sm:text-sm font-medium">{pkg.groupSize}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-white/15 backdrop-blur-sm rounded-full border border-white/20">
-                        <FiMapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-300" />
-                        <span className="text-white text-[11px] sm:text-sm font-medium">
-                          {pkg.locationLabel}
-                        </span>
-                      </div>
+                    <div className="flex flex-wrap gap-2 text-[11px] text-white/70 sm:text-xs">
+                      <span className="inline-flex items-center gap-1.5 border border-white/20 px-2.5 py-1">
+                        <FiClock className="h-3 w-3" /> {pkg.duration}
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 border border-white/20 px-2.5 py-1">
+                        <FiUsers className="h-3 w-3" /> {pkg.groupSize}
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 border border-white/20 px-2.5 py-1">
+                        <FiMapPin className="h-3 w-3" /> {pkg.locationLabel}
+                      </span>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-1.5 sm:gap-2">
+                    <ul className="space-y-1.5">
                       {pkg.highlights.map((highlight) => (
-                        <div key={highlight} className="flex items-start gap-2 text-white/95">
-                          <span className="text-amber-300 text-sm flex-shrink-0 leading-none mt-0.5">✦</span>
-                          <span className="text-[11px] sm:text-sm leading-snug">{highlight}</span>
-                        </div>
+                        <li key={highlight} className="flex items-start gap-2 text-[11px] leading-snug text-white/85 sm:text-sm">
+                          <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-primary" />
+                          {highlight}
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-3 sm:mt-4 shrink-0">
-                    <Link
-                      href={`/packages#${pkg.id}`}
-                      className="flex-1 inline-flex items-center justify-center border-2 border-white text-white font-bold px-4 sm:px-6 py-2.5 sm:py-3.5 rounded-full hover:bg-white hover:text-black transition-all duration-200 text-xs sm:text-sm"
-                      onClick={(event) => event.stopPropagation()}
+                  <div className="mt-4 flex shrink-0 flex-col gap-2 sm:flex-row sm:gap-3">
+                    <button
+                      type="button"
+                      className="inline-flex flex-1 items-center justify-center border border-white/40 px-4 py-3 text-xs font-medium tracking-[0.02em] text-white transition hover:bg-white/10 sm:text-sm"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        setDetailsId(pkg.id);
+                      }}
                     >
                       {t.packages.viewDetails}
-                    </Link>
+                    </button>
                     <Link
                       href={`/book?package=${pkg.id}`}
-                      className="flex-1 inline-flex items-center justify-center bg-white text-black font-bold px-4 sm:px-6 py-2.5 sm:py-3.5 rounded-full hover:bg-gradient-to-r hover:from-amber-500 hover:to-orange-500 hover:text-white transition-all duration-200 shadow-xl text-xs sm:text-sm"
+                      className="inline-flex flex-1 items-center justify-center bg-primary px-4 py-3 text-xs font-medium tracking-[0.02em] text-white transition hover:bg-primary-dark sm:text-sm"
                       onClick={(event) => event.stopPropagation()}
                     >
                       {t.packages.bookNow}
@@ -380,6 +377,115 @@ const PackagesV3: React.FC = memo(() => {
           })}
         </div>
       </div>
+
+      {detailsPackage && detailsContent && (
+        <div
+          className="fixed inset-0 z-[80] flex items-end justify-center bg-ink/55 p-0 sm:items-center sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="package-details-title"
+          onClick={closeDetails}
+        >
+          <div
+            className="relative flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden bg-surface shadow-2xl sm:max-h-[88vh]"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="relative h-44 shrink-0 sm:h-56">
+              <Image
+                src={detailsPackage.image}
+                alt={detailsPackage.imageAlt}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 768px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/20 to-transparent" />
+              <button
+                type="button"
+                onClick={closeDetails}
+                className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center bg-white/95 text-ink transition hover:bg-white"
+                aria-label={t.packagesPage.closeDetails}
+              >
+                <FiX className="h-5 w-5" />
+              </button>
+              <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
+                <p className="mb-1 text-[11px] font-medium uppercase tracking-[0.16em] text-primary-light">
+                  {detailsPackage.tagline}
+                </p>
+                <h3 id="package-details-title" className="font-display text-2xl text-white sm:text-3xl">
+                  {detailsPackage.name}
+                </h3>
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-5 py-6 sm:px-7 sm:py-8">
+              <p className="mb-6 text-sm leading-relaxed text-muted sm:text-base">{detailsPackage.subtitle}</p>
+
+              <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <div className="border border-line bg-paper p-3 text-center">
+                  <p className="font-display text-xl text-ink">{detailsPackage.price}€</p>
+                  <p className="mt-1 text-[11px] text-muted">{t.packagesPage.perPerson}</p>
+                </div>
+                <div className="border border-line bg-paper p-3 text-center">
+                  <p className="text-sm font-medium text-ink">{detailsPackage.duration}</p>
+                  <p className="mt-1 text-[11px] text-muted">{t.packagesPage.duration}</p>
+                </div>
+                <div className="border border-line bg-paper p-3 text-center">
+                  <p className="text-sm font-medium text-ink">{detailsPackage.startTime}</p>
+                  <p className="mt-1 text-[11px] text-muted">{t.packagesPage.startTime}</p>
+                </div>
+                <div className="border border-line bg-paper p-3 text-center">
+                  <p className="text-sm font-medium text-ink">{detailsPackage.locationLabel}</p>
+                  <p className="mt-1 text-[11px] text-muted">{t.packagesPage.pickup}</p>
+                </div>
+              </div>
+
+              {detailsContent.itinerary?.length ? (
+                <div className="mb-8">
+                  <h4 className="mb-4 font-display text-xl text-ink">
+                    {t.packagesPage.completeItinerary} {t.packagesPage.itineraryHighlight}
+                  </h4>
+                  <ol className="space-y-4">
+                    {detailsContent.itinerary.map((item) => (
+                      <li key={`${item.time}-${item.title}`} className="border-l-2 border-primary/30 pl-4">
+                        <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-primary">{item.time}</p>
+                        <p className="mt-1 font-medium text-ink">{item.title}</p>
+                        <p className="mt-1 text-sm leading-relaxed text-muted">{item.description}</p>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              ) : null}
+
+              <div>
+                <h4 className="mb-4 font-display text-xl text-ink">
+                  {t.packagesPage.whatsIncluded} {t.packagesPage.includedHighlight}
+                </h4>
+                <ul className="space-y-2.5">
+                  {(detailsContent.includes?.length ? detailsContent.includes : detailsPackage.highlights).map(
+                    (item) => (
+                      <li key={item} className="flex items-start gap-3 text-sm text-ink/85">
+                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
+                          <FiCheck className="h-3 w-3" />
+                        </span>
+                        <span>{item}</span>
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
+            </div>
+
+            <div className="flex shrink-0 flex-col gap-2 border-t border-line bg-paper px-5 py-4 sm:flex-row sm:px-7">
+              <button type="button" onClick={closeDetails} className="btn-outline flex-1">
+                {t.packagesPage.closeDetails}
+              </button>
+              <Link href={`/book?package=${detailsPackage.id}`} className="btn-primary flex-1 text-center" onClick={closeDetails}>
+                {t.packagesPage.bookNow}
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 });

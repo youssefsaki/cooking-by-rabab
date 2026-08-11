@@ -80,8 +80,8 @@
     "dropdownItems": [
       {
         "id": "basic",
-        "label": "The Authentic Mountain & Culinary Escape",
-        "price": "From 65 EUR",
+        "label": "The authentic mountains culinary escape",
+        "price": "From 65 € · 700 MAD",
         "description": "Half-day village cooking experience",
         "href": "/book?package=basic",
         "popular": true
@@ -89,21 +89,21 @@
       {
         "id": "weekly-event",
         "label": "Weekly Event",
-        "price": "80 EUR",
+        "price": "80 € · 850 MAD",
         "description": "Music + BBQ feast at sunset",
         "href": "/book?package=weekly-event"
       },
       {
         "id": "private",
         "label": "Private Workshop Experience",
-        "price": "80 EUR",
+        "price": "80 € · 850 MAD",
         "description": "Exclusive group workshop",
         "href": "/book?package=private"
       },
       {
         "id": "private-at-location",
         "label": "Rabab Comes to You",
-        "price": "100 EUR",
+        "price": "100 € · 1050 MAD",
         "description": "Private cooking at your location",
         "href": "/book?package=private-at-location"
       }

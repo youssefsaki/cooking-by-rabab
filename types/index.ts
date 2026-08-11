@@ -75,6 +75,18 @@ export interface HeaderProps {
   navigationData: NavigationData;
 }
 
+export interface HeroCmsContent {
+  badge?: string;
+  title?: string;
+  titleHighlight?: string;
+  description?: string;
+  bookButton?: string;
+  bgDesktop?: string;
+  bgMobile?: string;
+}
+
 export interface HeroProps {
   heroData: HeroData;
+  /** Prefetched CMS copy — prevents translation→CMS text flash on first paint */
+  initialCms?: HeroCmsContent | null;
 }

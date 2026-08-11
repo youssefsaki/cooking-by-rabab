@@ -3,15 +3,9 @@
 import React, { memo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FiHeart, FiArrowRight } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
 import en from '@/lib/translations/en.json';
 import { useSiteCopy } from '@/hooks/useSiteCopy';
-
-/**
- * SUPPORTING VILLAGE ANIMALS SECTION
- * Split-screen editorial with animal care details
- */
 
 const SupportingChildrenV4: React.FC = memo(() => {
   const { t } = useLanguage();
@@ -22,8 +16,8 @@ const SupportingChildrenV4: React.FC = memo(() => {
   );
 
   return (
-    <section className="py-0 overflow-hidden">
-      <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
+    <section className="overflow-hidden py-0">
+      <div className="grid min-h-[600px] grid-cols-1 lg:grid-cols-2">
         <div className="relative h-[400px] lg:h-auto">
           <Image
             src={img('community.hero.image')}
@@ -35,55 +29,53 @@ const SupportingChildrenV4: React.FC = memo(() => {
 
           <div className="absolute bottom-6 left-6 right-6 lg:bottom-10 lg:left-10 lg:right-10">
             <div className="grid grid-cols-3 gap-3">
-              <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg">
-                <div className="text-2xl lg:text-3xl font-black text-amber-600">35+</div>
-                <p className="text-xs text-gray-600">{community.statAnimals}</p>
-              </div>
-              <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg">
-                <div className="text-2xl lg:text-3xl font-black text-amber-600">100%</div>
-                <p className="text-xs text-gray-600">{community.tipsDonated}</p>
-              </div>
-              <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg">
-                <div className="text-lg lg:text-xl font-black text-amber-600 leading-tight">1·4·30</div>
-                <p className="text-xs text-gray-600">{community.statMix}</p>
-              </div>
+              {[
+                { value: '35+', label: community.statAnimals },
+                { value: '100%', label: community.tipsDonated },
+                { value: '1·4·30', label: community.statMix },
+              ].map((stat) => (
+                <div key={stat.label} className="bg-white/95 p-4 text-center">
+                  <div className="font-display text-2xl text-ink lg:text-3xl">{stat.value}</div>
+                  <p className="mt-1 text-[11px] text-muted">{stat.label}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-amber-500 to-orange-500 p-10 lg:p-16 flex flex-col justify-center">
+        <div className="flex flex-col justify-center bg-ink p-10 lg:p-16">
           <div className="max-w-lg">
-            <span className="inline-block px-4 py-2 bg-white/20 rounded-full text-white text-sm font-bold uppercase tracking-wider mb-6">
-              ❤️ {copy('community.badge', community.badge)}
-            </span>
+            <p className="mb-5 text-[11px] font-medium uppercase tracking-[0.18em] text-sand">
+              {copy('community.badge', community.badge)}
+            </p>
 
-            <h2 className="text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
+            <h2 className="mb-6 font-display text-3xl font-normal leading-tight text-white lg:text-5xl">
               {copy('community.title', community.title)}
             </h2>
 
-            <p className="text-white/90 text-lg leading-relaxed mb-8">
+            <p className="mb-8 text-base leading-relaxed text-white/65 lg:text-lg">
               {copy('community.description', community.description)}
             </p>
 
-            <div className="space-y-3 mb-8">
+            <ul className="mb-8 space-y-3">
               {impactItems.map((item) => (
-                <div key={item} className="flex items-start gap-3 text-white">
-                  <span className="text-white/80 mt-0.5">•</span>
+                <li key={item} className="flex items-start gap-3 text-sm text-white/80">
+                  <span className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-primary" />
                   <span>{item}</span>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
 
-            <div className="flex flex-col sm:flex-row gap-3 mb-8">
+            <div className="mb-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href="#village-cats"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white/15 border border-white/30 text-white font-bold rounded-xl hover:bg-white/25 transition-colors"
+                className="inline-flex items-center justify-center border border-white/25 px-5 py-3 text-sm font-medium text-white transition hover:border-white/50"
               >
                 {copy('community.meetCats', community.meetCats)}
               </a>
               <a
                 href="#village-chickens"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white/15 border border-white/30 text-white font-bold rounded-xl hover:bg-white/25 transition-colors"
+                className="inline-flex items-center justify-center border border-white/25 px-5 py-3 text-sm font-medium text-white transition hover:border-white/50"
               >
                 {copy('community.meetChickens', community.meetChickens)}
               </a>
@@ -91,74 +83,66 @@ const SupportingChildrenV4: React.FC = memo(() => {
 
             <Link
               href="/book"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-amber-600 font-bold text-lg rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+              className="btn-primary"
             >
-              <FiHeart className="w-5 h-5" />
-              <span>{copy('community.bookGiveBack', community.bookGiveBack)}</span>
-              <FiArrowRight className="w-5 h-5" />
+              {copy('community.bookGiveBack', community.bookGiveBack)}
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Animal spotlight cards */}
-      <div className="bg-[#F7F2EA] py-14 lg:py-16">
-        <div className="max-w-6xl mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-            <article
-              id="village-cats"
-              className="scroll-mt-28 overflow-hidden rounded-3xl bg-white shadow-lg border border-amber-100"
-            >
-              <div className="relative h-56 sm:h-64">
-                <Image
-                  src={img('community.cats.image')}
-                  alt={community.cats.imageAlt}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-              <div className="p-6 sm:p-8">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-700 mb-2">
-                  {copy('community.cats.badge', community.cats.badge)}
-                </p>
-                <h3 className="text-2xl font-black text-gray-900 mb-3">{copy('community.cats.title', community.cats.title)}</h3>
-                <p className="text-gray-600 leading-relaxed">{copy('community.cats.description', community.cats.description)}</p>
-              </div>
-            </article>
-
-            <article
-              id="village-chickens"
-              className="scroll-mt-28 overflow-hidden rounded-3xl bg-white shadow-lg border border-amber-100"
-            >
-              <div className="relative h-56 sm:h-64">
-                <Image
-                  src={img('community.chickens.image')}
-                  alt={community.chickens.imageAlt}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-              <div className="p-6 sm:p-8">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-700 mb-2">
-                  {copy('community.chickens.badge', community.chickens.badge)}
-                </p>
-                <h3 className="text-2xl font-black text-gray-900 mb-3">{copy('community.chickens.title', community.chickens.title)}</h3>
-                <p className="text-gray-600 leading-relaxed">{copy('community.chickens.description', community.chickens.description)}</p>
-              </div>
-            </article>
+      <div className="bg-paper py-16 lg:py-20">
+        <div className="mx-auto max-w-6xl px-6 lg:px-12">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+            {[
+              {
+                id: 'village-cats',
+                // Always use the local cats photo — CMS once pointed this at the wrong upload
+                image: '/community/cat.webp',
+                alt: community.cats.imageAlt,
+                badge: copy('community.cats.badge', community.cats.badge),
+                title: copy('community.cats.title', community.cats.title),
+                description: copy('community.cats.description', community.cats.description),
+              },
+              {
+                id: 'village-chickens',
+                image: img('community.chickens.image'),
+                alt: community.chickens.imageAlt,
+                badge: copy('community.chickens.badge', community.chickens.badge),
+                title: copy('community.chickens.title', community.chickens.title),
+                description: copy('community.chickens.description', community.chickens.description),
+              },
+            ].map((card) => (
+              <article key={card.id} id={card.id} className="scroll-mt-28 overflow-hidden bg-surface">
+                <div className="relative w-full bg-line">
+                  <Image
+                    src={card.image}
+                    alt={card.alt}
+                    width={1200}
+                    height={900}
+                    className="h-auto w-full"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    loading="lazy"
+                    quality={70}
+                  />
+                </div>
+                <div className="p-6 sm:p-8">
+                  <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.16em] text-clay">{card.badge}</p>
+                  <h3 className="mb-3 font-display text-2xl text-ink">{card.title}</h3>
+                  <p className="leading-relaxed text-muted">{card.description}</p>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="bg-gray-900 py-10 lg:py-12">
-        <div className="max-w-5xl mx-auto px-6 lg:px-12 text-center">
-          <div className="text-4xl text-amber-500 font-serif mb-4">&ldquo;</div>
-          <blockquote className="text-xl lg:text-2xl text-white font-medium italic mb-4 leading-relaxed">
+      <div className="bg-ink py-12 lg:py-14">
+        <div className="mx-auto max-w-3xl px-6 text-center lg:px-12">
+          <blockquote className="font-display text-xl italic leading-relaxed text-white sm:text-2xl">
             {copy('community.quote', community.quote)}
           </blockquote>
-          <cite className="text-amber-400 font-bold not-italic">— Rabab</cite>
+          <cite className="mt-5 block text-sm not-italic text-sand">— Rabab</cite>
         </div>
       </div>
     </section>

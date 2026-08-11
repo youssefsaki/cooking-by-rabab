@@ -5,7 +5,7 @@ export const DEFAULT_PACKAGES: PackagesContent = {
   items: [
     {
       id: 'basic',
-      name: 'The Authentic Mountain & Culinary Escape',
+      name: 'The authentic mountains culinary escape',
       tagline: 'Your Journey into the Mountains',
       subtitle:
         'Escape the coast for a half-day in the Atlas Mountains. Tour a historic 300-year-old village home, grind fresh Amlou, and cook the traditional dish of your choice.',

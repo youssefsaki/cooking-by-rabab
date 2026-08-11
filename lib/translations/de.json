@@ -209,9 +209,9 @@
     "email": "E-Mail-Adresse",
     "emailPlaceholder": "Geben Sie Ihre E-Mail-Adresse ein",
     "packageType": "Paket Auswählen",
-    "basicPackage": "Basis-Paket - 500 MAD",
-    "privatePackage": "Privat-Paket - 800 MAD",
-    "privateAtLocationPackage": "Rabab kommt zu Ihnen - 100 EUR",
+    "basicPackage": "Basis-Paket - Ab 65 € · 700 MAD",
+    "privatePackage": "Privater Workshop - 80 € · 850 MAD",
+    "privateAtLocationPackage": "Rabab kommt zu Ihnen - 100 € · 1050 MAD",
     "dietary": "Ernährungspräferenzen",
     "dietaryNone": "Keine Einschränkungen",
     "dietaryVegetarian": "Vegetarisch",
@@ -286,7 +286,7 @@
       "tajine": "Marokkanische Koch-Meisterklasse Taghazout",
       "amazigh": "Berberdorf-Kocherlebnis",
       "tea": "Marokkanische Minztee-Zeremonie",
-      "bread": "Tonofenbrot Taghazout",
+      "bread": "Die authentische marokkanische Gastfreundschaft",
       "amlou": "Amlou-Workshop Marokko"
     }
   },

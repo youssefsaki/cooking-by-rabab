@@ -209,9 +209,9 @@
     "email": "Adresse E-mail",
     "emailPlaceholder": "Entrez votre adresse e-mail",
     "packageType": "Sélectionner le Forfait",
-    "basicPackage": "Forfait de Base - 500 MAD",
-    "privatePackage": "Forfait Privé - 800 MAD",
-    "privateAtLocationPackage": "Rabab vient chez vous - 100 EUR",
+    "basicPackage": "Forfait de Base - À partir de 65 € · 700 MAD",
+    "privatePackage": "Atelier privé - 80 € · 850 MAD",
+    "privateAtLocationPackage": "Rabab vient chez vous - 100 € · 1050 MAD",
     "dietary": "Préférences Alimentaires",
     "dietaryNone": "Aucune restriction",
     "dietaryVegetarian": "Végétarien",
@@ -286,7 +286,7 @@
       "tajine": "Masterclass de Cuisine Marocaine Taghazout",
       "amazigh": "Expérience Cuisine Village Berbère",
       "tea": "Cérémonie du Thé Marocain",
-      "bread": "Pain au Four à Argile Taghazout",
+      "bread": "L'authentique hospitalité marocaine",
       "amlou": "Atelier Amlou Maroc"
     }
   },

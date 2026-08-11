@@ -9,45 +9,56 @@ import 'server-only';
 
 import { createServiceClient } from '@/lib/supabase/server';
 import type { StoredBooking } from './conflicts';
-import { parsePackageType } from './schedule';
+import { parsePackageType, type SlotPeriod } from './schedule';
 import type { ChildGuest } from './pricing';
 import { SLOT_CONFLICT_MESSAGE, evaluateSlotBooking } from './conflicts';
+import { invalidateOccupancyResponseCache } from './occupancy-response-cache';
 
-const BOOKINGS_CACHE_TTL_MS = 15_000;
+/** Occupancy reads can be slightly stale; writes always invalidate. */
+const BOOKINGS_CACHE_TTL_MS = 45_000;
 
 type BookingsCacheEntry = {
   at: number;
   data: StoredBooking[];
 };
 
-let bookingsCache: BookingsCacheEntry | null = null;
-let bookingsInflight: Promise<StoredBooking[]> | null = null;
+/** Range-keyed cache so calendar windows don't reload the entire table */
+const bookingsCacheByKey = new Map<string, BookingsCacheEntry>();
+const bookingsInflightByKey = new Map<string, Promise<StoredBooking[]>>();
+
+const LEAN_SELECT =
+  'id, created_at, package_type, slot_date, slot_period, adults, children, location, status, full_name, phone, country, email, dish_name, allergies, dietary_notes, total_price_eur';
 
 export function invalidateBookingsCache(): void {
-  bookingsCache = null;
-  bookingsInflight = null;
+  bookingsCacheByKey.clear();
+  bookingsInflightByKey.clear();
+  invalidateOccupancyResponseCache();
 }
 
 type BookingRow = {
   id: string;
   created_at: string;
-  full_name: string;
-  phone: string;
-  country: string;
-  email: string;
+  full_name?: string | null;
+  phone?: string | null;
+  country?: string | null;
+  email?: string | null;
   package_type: string;
   slot_date: string | null;
   slot_period: string | null;
-  dish_id: string | null;
-  dish_name: string | null;
+  dish_id?: string | null;
+  dish_name?: string | null;
   adults: number | null;
   children: unknown;
   location: string | null;
-  allergies: string | null;
-  dietary_notes: string | null;
-  total_price_eur: number | string | null;
+  allergies?: string | null;
+  dietary_notes?: string | null;
+  total_price_eur?: number | string | null;
   status: string;
 };
+
+function cacheKey(from?: string, to?: string): string {
+  return `${from || '*'}::${to || '*'}`;
+}
 
 function normalizeChildren(value: unknown): ChildGuest[] {
   if (!Array.isArray(value)) return [];
@@ -79,10 +90,10 @@ function rowToStored(row: BookingRow): StoredBooking | null {
   return {
     id: row.id,
     createdAt: row.created_at,
-    fullName: row.full_name,
-    phone: row.phone,
-    country: row.country,
-    email: row.email,
+    fullName: row.full_name || '',
+    phone: row.phone || '',
+    country: row.country || '',
+    email: row.email || '',
     packageType,
     slotDate: row.slot_date,
     slotPeriod: row.slot_period,
@@ -96,16 +107,20 @@ function rowToStored(row: BookingRow): StoredBooking | null {
   };
 }
 
-async function fetchAllBookingsUncached(): Promise<StoredBooking[]> {
+async function fetchBookingsUncached(from?: string, to?: string): Promise<StoredBooking[]> {
   const supabase = createServiceClient();
-  const { data, error } = await supabase
+  let query = supabase
     .from('bookings')
-    .select(
-      'id, created_at, full_name, phone, country, email, package_type, slot_date, slot_period, dish_id, dish_name, adults, children, location, allergies, dietary_notes, total_price_eur, status'
-    )
+    .select(LEAN_SELECT)
     .neq('status', 'cancelled')
     .not('slot_date', 'is', null)
-    .order('created_at', { ascending: true });
+    .order('slot_date', { ascending: true });
+
+  // Push date filters into Postgres so we don't download the whole table
+  if (from) query = query.gte('slot_date', from);
+  if (to) query = query.lte('slot_date', to);
+
+  const { data, error } = await query;
 
   if (error) {
     console.error('[booking/store] list error:', error);
@@ -117,37 +132,52 @@ async function fetchAllBookingsUncached(): Promise<StoredBooking[]> {
     .filter((b): b is StoredBooking => !!b);
 }
 
-async function getCachedBookings(): Promise<StoredBooking[]> {
+async function getCachedBookings(from?: string, to?: string): Promise<StoredBooking[]> {
+  const key = cacheKey(from, to);
   const now = Date.now();
-  if (bookingsCache && now - bookingsCache.at < BOOKINGS_CACHE_TTL_MS) {
-    return bookingsCache.data;
+  const hit = bookingsCacheByKey.get(key);
+  if (hit && now - hit.at < BOOKINGS_CACHE_TTL_MS) {
+    return hit.data;
   }
 
-  if (bookingsInflight) {
-    return bookingsInflight;
-  }
+  const inflight = bookingsInflightByKey.get(key);
+  if (inflight) return inflight;
 
-  bookingsInflight = fetchAllBookingsUncached()
+  const promise = fetchBookingsUncached(from, to)
     .then((data) => {
-      bookingsCache = { at: Date.now(), data };
+      bookingsCacheByKey.set(key, { at: Date.now(), data });
       return data;
     })
     .finally(() => {
-      bookingsInflight = null;
+      bookingsInflightByKey.delete(key);
     });
 
-  return bookingsInflight;
+  bookingsInflightByKey.set(key, promise);
+  return promise;
 }
 
 export async function listBookings(from?: string, to?: string): Promise<StoredBooking[]> {
-  const all = await getCachedBookings();
-  if (!from && !to) return all;
+  return getCachedBookings(from, to);
+}
 
-  return all.filter((b) => {
-    if (from && b.slotDate < from) return false;
-    if (to && b.slotDate > to) return false;
-    return true;
-  });
+/** Fresh read for one slot only — used for conflict checks on submit */
+async function fetchBookingsForSlot(slotDate: string, slotPeriod: SlotPeriod): Promise<StoredBooking[]> {
+  const supabase = createServiceClient();
+  const { data, error } = await supabase
+    .from('bookings')
+    .select(LEAN_SELECT)
+    .neq('status', 'cancelled')
+    .eq('slot_date', slotDate)
+    .eq('slot_period', slotPeriod);
+
+  if (error) {
+    console.error('[booking/store] slot list error:', error);
+    throw new Error('Failed to list slot bookings from Supabase');
+  }
+
+  return (data as BookingRow[])
+    .map(rowToStored)
+    .filter((b): b is StoredBooking => !!b);
 }
 
 export async function appendBooking(
@@ -156,10 +186,9 @@ export async function appendBooking(
 ): Promise<StoredBooking> {
   const supabase = createServiceClient();
 
-  // Fresh read for conflict check (ignore cache)
-  const fresh = await fetchAllBookingsUncached();
-  const existing = fresh.filter(
-    (b) => b.slotDate === booking.slotDate && b.slotPeriod === booking.slotPeriod && b.id !== booking.id
+  // Only load this slot — not the entire bookings table
+  const existing = (await fetchBookingsForSlot(booking.slotDate, booking.slotPeriod)).filter(
+    (b) => b.id !== booking.id
   );
 
   const conflict = evaluateSlotBooking({

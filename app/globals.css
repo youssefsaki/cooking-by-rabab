@@ -20,22 +20,32 @@
   100% { background-position: -200% 0; }
 }
 
-/* CSS Variables for Easy Color Management - Change Primary Color Here */
+/* Premium hospitality tokens — primary: #ed843e */
 :root {
-  /* Primary Color Palette - Change these values to update the entire site */
-  --color-primary: #f08741;        /* Warm Orange Primary */
-  --color-primary-dark: #d6722e;   /* Darker Orange */
-  --color-primary-light: #f5a066;   /* Light Orange */
-  --color-primary-pale: #fef3eb;    /* Very Light Orange */
-  
-  /* Derived Colors */
-  --color-primary-hover: #d6722e;  /* Hover state */
-  --color-primary-focus: #c5662a;  /* Focus state */
-  --color-primary-text: #ffffff;   /* Text on primary background */
-  
-  /* Background Colors */
-  --color-primary-bg: #fef3eb;     /* Primary background */
-  --color-primary-border: #f5a066; /* Primary border */
+  --color-ink: #171412;
+  --color-muted: #6B645C;
+  --color-paper: #F7F4F0;
+  --color-surface: #FFFFFF;
+  --color-line: #E8E2DA;
+
+  --color-primary: #ed843e;
+  --color-primary-hex: #ed843e;
+  --color-primary-hover: #d17437;
+  --color-primary-deep: #ab5f2d;
+  --color-primary-soft: #f19f68;
+  --color-primary-pale: #fdf0e8;
+  --color-primary-text: #ffffff;
+  --color-primary-bg: var(--color-primary-pale);
+  --color-primary-border: #f7c8a8;
+  --color-primary-dark: var(--color-primary-deep);
+  --color-primary-light: var(--color-primary-soft);
+  --color-primary-focus: var(--color-primary-hover);
+
+  /* Accents alias primary so existing clay utilities stay on-brand */
+  --color-clay: var(--color-primary);
+  --color-clay-soft: var(--color-primary-soft);
+  --color-clay-deep: var(--color-primary-deep);
+  --color-sand: #e8c4a0;
 }
 
 /* Optimized Animations */
@@ -543,7 +553,7 @@
     background-color: #fefefe;
     color: #2d3748;
     line-height: 1.6;
-    font-family: var(--font-roboto-condensed), system-ui, sans-serif;
+    font-family: var(--font-outfit), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
@@ -565,25 +575,57 @@
 
 @layer components {
   .btn-primary {
-    @apply font-black uppercase tracking-wide px-8 py-3 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer;
+    @apply inline-flex items-center justify-center px-7 py-3.5 text-sm font-medium tracking-[0.02em] text-white transition-colors duration-200 focus:outline-none cursor-pointer;
     background-color: var(--color-primary);
-    color: #084869;
+    border-radius: 2px;
   }
-  
+
   .btn-primary:hover {
     background-color: var(--color-primary-hover);
   }
-  
-  .btn-primary:focus {
-    ring-color: var(--color-primary);
-  }
-  
+
   .btn-secondary {
-    @apply bg-transparent text-white font-semibold uppercase tracking-wide px-8 py-3 rounded-lg border-2 border-white transition-all duration-300 hover:bg-white hover:text-text-primary focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 cursor-pointer;
+    @apply inline-flex items-center justify-center px-7 py-3.5 text-sm font-medium tracking-[0.02em] transition-colors duration-200 focus:outline-none cursor-pointer;
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 2px;
   }
-  
+
+  .btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-7 py-3.5 text-sm font-medium tracking-[0.02em] transition-colors duration-200 focus:outline-none cursor-pointer;
+    color: var(--color-ink);
+    background-color: transparent;
+    border: 1px solid rgba(23, 20, 18, 0.18);
+    border-radius: 2px;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary-deep);
+  }
+
+  .section-eyebrow {
+    @apply mb-4 text-[11px] font-medium uppercase tracking-[0.18em];
+    color: var(--color-primary);
+  }
+
+  .section-title {
+    @apply font-display text-3xl font-normal leading-[1.15] tracking-tight sm:text-4xl lg:text-[2.75rem];
+    color: var(--color-ink);
+  }
+
+  .section-lead {
+    @apply text-base leading-relaxed sm:text-lg;
+    color: var(--color-muted);
+  }
+
   .hero-overlay {
-    @apply absolute inset-0 bg-gradient-to-b from-black/20 via-black/30 to-black/40;
+    @apply absolute inset-0 bg-gradient-to-b from-black/35 via-black/25 to-black/55;
   }
   
   .container-custom {
@@ -601,6 +643,64 @@
   
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+}
+
+/* Final CTA — static accents only (animated layers made scroll feel sticky) */
+.cta-band__glow {
+  pointer-events: none;
+  position: absolute;
+  border-radius: 50%;
+  contain: strict;
+}
+
+.cta-band__glow--a {
+  top: -35%;
+  left: -20%;
+  width: 60%;
+  height: 90%;
+  opacity: 0.55;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-primary-soft) 80%, transparent) 0%, transparent 70%);
+}
+
+.cta-band__glow--b {
+  top: -25%;
+  right: -25%;
+  width: 65%;
+  height: 95%;
+  opacity: 0.4;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-primary-deep) 55%, transparent) 0%, transparent 72%);
+}
+
+.cta-band__glow--c {
+  display: none;
+}
+
+.cta-band__sheen {
+  pointer-events: none;
+  position: absolute;
+  inset: -10% -20%;
+  opacity: 0.1;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    color-mix(in srgb, white 22%, transparent) 50%,
+    transparent 60%
+  );
+}
+
+/* Scroll reveal — instant show once in view (no transition = less scroll jank) */
+[data-fade] {
+  opacity: 0;
+}
+
+[data-fade].is-visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-fade] {
+    opacity: 1;
   }
 }
 

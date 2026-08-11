@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { FiClock, FiUsers, FiMapPin, FiCheck, FiArrowRight } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useSiteCopy } from '@/hooks/useSiteCopy';
+import { formatMadFromEur } from '@/lib/booking/schedule';
 
 export default function PackagesPage() {
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
@@ -29,7 +30,9 @@ export default function PackagesPage() {
       name: copy('pkg.basic.name', t.packagesPage.basic.name),
       tagline: copy('pkg.basic.subtitle', t.packagesPage.basic.tagline),
       subtitle: copy('pkg.basic.subtitle', t.packagesPage.basic.subtitle),
-      price: (copy('pkg.basic.price', '65').match(/\d+/) || ['65'])[0],
+      price: '65',
+      pricePrefix: 'From',
+      priceMad: formatMadFromEur(65),
       currency: copy('pkg.basic.currency', 'EUR'),
       duration: copy('pkg.basic.duration', t.packagesPage.basic.duration),
       groupSize: copy('pkg.basic.groupSize', t.packagesPage.basic.groupSize),
@@ -48,7 +51,9 @@ export default function PackagesPage() {
       name: copy('pkg.weekly-event.name', t.packagesPage.weeklyEvent.name),
       tagline: copy('pkg.weekly-event.subtitle', t.packagesPage.weeklyEvent.tagline),
       subtitle: copy('pkg.weekly-event.subtitle', t.packagesPage.weeklyEvent.subtitle),
-      price: (copy('pkg.weekly-event.price', '80').match(/\d+/) || ['80'])[0],
+      price: '80',
+      pricePrefix: '',
+      priceMad: formatMadFromEur(80),
       currency: copy('pkg.weekly-event.currency', 'EUR'),
       duration: copy('pkg.weekly-event.duration', t.packagesPage.weeklyEvent.duration),
       groupSize: copy('pkg.weekly-event.groupSize', t.packagesPage.weeklyEvent.groupSize),
@@ -66,7 +71,9 @@ export default function PackagesPage() {
       name: copy('pkg.private.name', t.packagesPage.private.name),
       tagline: copy('pkg.private.subtitle', t.packagesPage.private.tagline),
       subtitle: copy('pkg.private.subtitle', t.packagesPage.private.subtitle),
-      price: (copy('pkg.private.price', '80').match(/\d+/) || ['80'])[0],
+      price: '80',
+      pricePrefix: '',
+      priceMad: formatMadFromEur(80),
       currency: copy('pkg.private.currency', 'EUR'),
       duration: copy('pkg.private.duration', t.packagesPage.private.duration),
       groupSize: copy('pkg.private.groupSize', t.packagesPage.private.groupSize),
@@ -84,7 +91,9 @@ export default function PackagesPage() {
       name: copy('pkg.private-at-location.name', t.packagesPage.privateAtLocation.name),
       tagline: copy('pkg.private-at-location.subtitle', t.packagesPage.privateAtLocation.tagline),
       subtitle: copy('pkg.private-at-location.subtitle', t.packagesPage.privateAtLocation.subtitle),
-      price: (copy('pkg.private-at-location.price', '100').match(/\d+/) || ['100'])[0],
+      price: '100',
+      pricePrefix: '',
+      priceMad: formatMadFromEur(100),
       currency: copy('pkg.private-at-location.currency', 'EUR'),
       duration: copy('pkg.private-at-location.duration', t.packagesPage.privateAtLocation.duration),
       groupSize: copy('pkg.private-at-location.groupSize', t.packagesPage.privateAtLocation.groupSize),
@@ -180,10 +189,14 @@ export default function PackagesPage() {
                   <p className="text-lg sm:text-xl text-white/95 font-light leading-relaxed drop-shadow-md">
                     {pkg.tagline}
                   </p>
-                  <div className="mt-4 flex items-baseline gap-2">
+                  <div className="mt-4 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                    {pkg.pricePrefix ? (
+                      <span className="text-sm font-medium text-white/85">{pkg.pricePrefix}</span>
+                    ) : null}
                     <span className="text-4xl sm:text-5xl font-black text-white drop-shadow-lg">{pkg.price}</span>
-                    <span className="text-xl text-white/90 font-semibold">{pkg.currency}</span>
+                    <span className="text-xl text-white/90 font-semibold">€</span>
                     <span className="text-sm text-white/80">{t.packagesPage.perPerson}</span>
+                    <span className="text-sm text-white/75">· {pkg.priceMad}</span>
                   </div>
                 </div>
 
@@ -198,10 +211,14 @@ export default function PackagesPage() {
                         {pkg.subtitle}
                       </p>
 
-                      <div className="flex items-baseline gap-2 mb-4">
+                      <div className="mb-4 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                        {pkg.pricePrefix ? (
+                          <span className="text-sm font-medium text-white/85">{pkg.pricePrefix}</span>
+                        ) : null}
                         <span className="text-3xl sm:text-4xl font-black text-white">{pkg.price}</span>
-                        <span className="text-lg text-white/90 font-semibold">{pkg.currency}</span>
+                        <span className="text-lg text-white/90 font-semibold">€</span>
                         <span className="text-sm text-white/80">{t.packagesPage.perPerson}</span>
+                        <span className="text-sm text-white/75">· {pkg.priceMad}</span>
                       </div>
                     </div>
 

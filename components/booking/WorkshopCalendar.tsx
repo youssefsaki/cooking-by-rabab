@@ -50,8 +50,8 @@ const PERIOD_STYLES: Record<
   },
 };
 
-const AVAILABILITY_CACHE_PREFIX = 'cbr-availability-v1:';
-const AVAILABILITY_CACHE_TTL_MS = 60_000;
+const AVAILABILITY_CACHE_PREFIX = 'cbr-availability-v2:';
+const AVAILABILITY_CACHE_TTL_MS = 120_000;
 
 function occupancyCacheKey(from: string, to: string): string {
   return `${AVAILABILITY_CACHE_PREFIX}${from}:${to}`;
@@ -113,16 +113,12 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
     }
 
     let cancelled = false;
-    const cached = readOccupancyCache(rangeFrom, rangeTo);
-    if (cached) {
-      setOccupancy(cached);
-      setHasOccupancyData(true);
-    }
     setRefreshing(true);
+    setHasOccupancyData(false);
+    setError('');
 
     (async () => {
       try {
-        // Respect API Cache-Control so warm browser/CDN hits return instantly
         const res = await fetch(`/api/availability?from=${rangeFrom}&to=${rangeTo}`);
         if (!res.ok) throw new Error('Failed to load availability');
         const data = (await res.json()) as { occupancy: SlotOccupancy[] };
@@ -134,7 +130,14 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
         setError('');
       } catch (err) {
         console.error(err);
-        if (!cancelled && !cached) {
+        if (cancelled) return;
+        // Fallback to session cache if the network request fails
+        const cached = readOccupancyCache(rangeFrom, rangeTo);
+        if (cached) {
+          setOccupancy(cached);
+          setHasOccupancyData(true);
+          setError('');
+        } else {
           setError('Could not load slot availability. You can still browse the schedule.');
         }
       } finally {
@@ -148,6 +151,7 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
   }, [rangeFrom, rangeTo]);
 
   const ready = hasOccupancyData || !!error;
+  const showCalendar = ready && !refreshing;
 
   const isSlotBookableForMode = (slot: CalendarSlot): boolean => {
     if (mode === 'weekly') return isWeeklyEventSlot(slot);
@@ -196,22 +200,18 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
         </p>
       </div>
 
-      {/* Slim bar — calendar stays visible so people don’t bounce on a blank spinner */}
-      {refreshing && (
+      {!showCalendar ? (
         <div
-          className="mb-5 flex items-center justify-center gap-2 text-xs font-semibold text-amber-800"
+          className="flex flex-col items-center justify-center gap-4 py-20 sm:py-28"
           role="status"
           aria-live="polite"
           aria-busy="true"
         >
-          <span className="relative inline-flex h-3.5 w-3.5">
-            <span className="absolute inset-0 rounded-full border-2 border-amber-200" />
-            <span className="absolute inset-0 rounded-full border-2 border-transparent border-t-amber-600 animate-spin" />
-          </span>
-          {hasOccupancyData ? 'Updating availability…' : 'Loading availability…'}
+          <div className="h-11 w-11 animate-spin rounded-full border-[3px] border-amber-100 border-t-amber-600" />
+          <p className="text-sm font-semibold text-gray-600">Loading availability…</p>
         </div>
-      )}
-
+      ) : (
+        <>
       {weeks.length > 0 && (
         <div className="flex items-center justify-between gap-3 max-w-3xl mx-auto mb-8 rounded-2xl bg-white border border-gray-100 px-3 py-2.5 shadow-sm">
           <button
@@ -245,11 +245,8 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
 
       {error && <p className="text-center text-sm text-amber-700 mb-6">{error}</p>}
 
-      <div
-        className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 transition-opacity duration-200 ${
-          !ready && refreshing ? 'opacity-70' : 'opacity-100'
-        }`}
-      >
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+
         {(activeWeek?.days ?? []).map((day) => {
           const daySelected = day.slots.some((s) => s.id === selectedSlotId);
           const hasWeekly = day.slots.some(isWeeklyEventSlot);
@@ -586,11 +583,13 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
             at 13:30 in front of Taghazout Mosque
           </li>
           <li>
-            <span className="font-semibold">Saturday Weekly Event:</span> always listed each week —
-            music + BBQ feast (not a Basic class)
+            <span className="font-semibold">Saturday Weekly Event:</span> pick-up at 14:30 in front
+            of Taghazout Mosque — music + BBQ feast (not a Basic class), listed every week
           </li>
         </ul>
       </div>
+        </>
+      )}
     </div>
   );
 };

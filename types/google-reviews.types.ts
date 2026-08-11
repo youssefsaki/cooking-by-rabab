@@ -9,6 +9,8 @@ export interface GoogleReview {
   text: string;
   date: string;
   verified?: boolean;
+  /** Guest photos from the Google review */
+  images?: string[];
 }
 
 export interface GoogleReviewsSectionData {
@@ -17,6 +19,7 @@ export interface GoogleReviewsSectionData {
   reviews: GoogleReview[];
   overallRating: number;
   totalReviews: number;
+  googleUrl?: string;
 }
 
 

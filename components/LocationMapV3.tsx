@@ -1,119 +1,89 @@
 'use client';
 
-import React, { memo } from 'react';
-import { FiMapPin, FiNavigation, FiClock, FiPhone, FiMail, FiSend, FiArrowRight } from 'react-icons/fi';
+import React, { memo, useEffect, useRef, useState } from 'react';
+import { FiMapPin, FiNavigation, FiPhone, FiMail, FiSend } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useSiteCopy } from '@/hooks/useSiteCopy';
 
-/**
- * LOCATION & MAP SECTION - Design 3 of 3
- * 
- * Design 3: Photo-First with Tabbed Info
- * 
- * Aesthetic: Visual, storytelling, warm
- * - Large photo of the location/kitchen
- * - Map in a card
- * - Vertical timeline for directions
- * - Warm amber theme
- */
+const MAP_EMBED =
+  'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27225.888770919465!2d-9.724669!3d30.544167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdb3b6f2e7b8e8e8%3A0x8e8e8e8e8e8e8e8!2sTaghazout%2C%20Morocco!5e0!3m2!1sen!2s!4v1234567890';
 
 const locationData = {
   name: "Rabab's Traditional Kitchen",
-  address: "Taghazout Village",
-  city: "Taghazout",
-  region: "Agadir-Ida-Ou-Tanane",
-  country: "Morocco",
-  coordinates: {
-    lat: 30.5236,
-    lng: -9.7366
-  },
-  phone: "+212 726 671 746",
-  whatsapp: "212726671746",
-  email: "rababouhadda5@gmail.com",
-  hours: "Daily: 9:00 AM - 6:00 PM"
+  address: 'Taghazout Village',
+  city: 'Taghazout',
+  region: 'Agadir-Ida-Ou-Tanane',
+  country: 'Morocco',
+  coordinates: { lat: 30.5236, lng: -9.7366 },
+  phone: '+212 726 671 746',
+  whatsapp: '212726671746',
+  email: 'rababouhadda5@gmail.com',
+  hours: 'Daily: 9:00 AM - 6:00 PM',
 };
 
 const LocationMapV3: React.FC = memo(() => {
   const { t } = useLanguage();
   const { copy } = useSiteCopy();
+  const mapRef = useRef<HTMLDivElement>(null);
+  const [showMap, setShowMap] = useState(false);
   const journeySteps = [
-    { step: "01", title: copy('location.step.1.title', t.location.step1.title), description: copy('location.step.1.description', t.location.step1.description), time: copy('location.step.1.time', t.location.step1.time) },
-    { step: "02", title: copy('location.step.2.title', t.location.step2.title), description: copy('location.step.2.description', t.location.step2.description), time: copy('location.step.2.time', t.location.step2.time) },
-    { step: "03", title: copy('location.step.3.title', t.location.step3.title), description: copy('location.step.3.description', t.location.step3.description), time: copy('location.step.3.time', t.location.step3.time) },
-    { step: "04", title: copy('location.step.4.title', t.location.step4.title), description: copy('location.step.4.description', t.location.step4.description), time: copy('location.step.4.time', t.location.step4.time) },
+    { step: '01', title: copy('location.step.1.title', t.location.step1.title), description: copy('location.step.1.description', t.location.step1.description), time: copy('location.step.1.time', t.location.step1.time) },
+    { step: '02', title: copy('location.step.2.title', t.location.step2.title), description: copy('location.step.2.description', t.location.step2.description), time: copy('location.step.2.time', t.location.step2.time) },
+    { step: '03', title: copy('location.step.3.title', t.location.step3.title), description: copy('location.step.3.description', t.location.step3.description), time: copy('location.step.3.time', t.location.step3.time) },
+    { step: '04', title: copy('location.step.4.title', t.location.step4.title), description: copy('location.step.4.description', t.location.step4.description), time: copy('location.step.4.time', t.location.step4.time) },
   ];
-  // Component rendered client-side only (ssr: false in dynamic import)
+
+  useEffect(() => {
+    const el = mapRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShowMap(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '240px 0px', threshold: 0.01 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section className="relative py-12 lg:py-16 overflow-hidden bg-gradient-to-b from-amber-50 via-white to-amber-50">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute inset-0" 
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f59e0b' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }}
-        />
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-100 to-orange-100 mb-6">
-            <span className="text-xl">📍</span>
-            <span className="text-sm font-bold text-amber-900 tracking-wider uppercase">
-              {copy('location.badge', t.location.badge)}
-            </span>
-          </div>
-          
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
+    <section className="relative overflow-hidden bg-paper py-20 lg:py-28">
+      <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
+        <div className="mb-14 text-center" data-fade>
+          <p className="section-eyebrow">{copy('location.badge', t.location.badge)}</p>
+          <h2 className="section-title mb-5">
             {copy('location.titlePart1', t.location.titlePart1)}
-            <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-clip-text text-transparent">
-              {copy('location.titlePart2', t.location.titlePart2)}
-            </span>
+            {copy('location.titlePart2', t.location.titlePart2)}
           </h2>
-          
-          <p className="text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="section-lead mx-auto max-w-2xl">
             {copy('location.description', t.location.description)}
           </p>
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 mb-16">
-          {/* Left - Journey Timeline */}
-          <div className="lg:col-span-2 order-2 lg:order-1">
-            <h3 className="text-2xl font-bold text-gray-900 mb-8 flex items-center gap-3">
-              <span className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
-                <FiNavigation className="w-5 h-5 text-white" />
-              </span>
+        <div className="mb-4 grid grid-cols-1 gap-10 lg:grid-cols-5 lg:gap-14">
+          <div className="order-2 lg:order-1 lg:col-span-2">
+            <h3 className="mb-8 flex items-center gap-3 text-lg font-medium text-ink">
+              <FiNavigation className="h-4 w-4 text-clay" strokeWidth={1.5} />
               {copy('location.journeyTitle', t.location.journeyTitle)}
             </h3>
 
             <div className="relative">
-              {/* Vertical Line */}
-              <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-amber-500 via-orange-500 to-amber-300"></div>
-
-              {/* Steps */}
+              <div className="absolute bottom-0 left-4 top-0 w-px bg-line" />
               <div className="space-y-8">
-                {journeySteps.map((item, index) => (
-                  <div key={index} className="relative flex gap-6">
-                    {/* Circle */}
-                    <div className="relative z-10 flex-shrink-0">
-                      <div className="w-12 h-12 rounded-full bg-white border-4 border-amber-500 flex items-center justify-center shadow-lg">
-                        <span className="text-sm font-black text-amber-600">{item.step}</span>
-                      </div>
+                {journeySteps.map((item) => (
+                  <div key={item.step} className="relative flex gap-5">
+                    <div className="relative z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center bg-paper">
+                      <span className="font-display text-sm text-clay">{item.step}</span>
                     </div>
-
-                    {/* Content */}
-                    <div className="flex-1 bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl hover:border-amber-200 transition-all duration-300">
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <h4 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h4>
-                          <p className="text-gray-600">{item.description}</p>
-                        </div>
-                        <span className="flex-shrink-0 px-3 py-1 bg-amber-100 text-amber-700 text-sm font-bold rounded-full">
-                          {item.time}
-                        </span>
+                    <div className="flex-1 pb-1">
+                      <div className="mb-1 flex items-baseline justify-between gap-3">
+                        <h4 className="font-medium text-ink">{item.title}</h4>
+                        <span className="text-xs text-muted">{item.time}</span>
                       </div>
+                      <p className="text-sm leading-relaxed text-muted">{item.description}</p>
                     </div>
                   </div>
                 ))}
@@ -121,89 +91,77 @@ const LocationMapV3: React.FC = memo(() => {
             </div>
           </div>
 
-          {/* Right - Map & Contact */}
-          <div className="lg:col-span-3 order-1 lg:order-2 space-y-6">
-            {/* Map Card */}
-            <div className="bg-white rounded-3xl overflow-hidden shadow-2xl border border-gray-100">
-              <div className="h-[350px] lg:h-[400px] bg-gradient-to-br from-amber-100 to-orange-50">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27225.888770919465!2d-9.724669!3d30.544167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdb3b6f2e7b8e8e8%3A0x8e8e8e8e8e8e8e8!2sTaghazout%2C%20Morocco!5e0!3m2!1sen!2s!4v1234567890"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Location Map"
-                />
+          <div className="order-1 space-y-5 lg:order-2 lg:col-span-3">
+            <div className="overflow-hidden bg-surface">
+              <div ref={mapRef} className="h-[320px] bg-line lg:h-[380px]">
+                {showMap ? (
+                  <iframe
+                    src={MAP_EMBED}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Location Map"
+                  />
+                ) : null}
               </div>
-              
-              {/* Map Footer */}
-              <div className="p-6 bg-gradient-to-r from-gray-900 to-gray-800">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-amber-500 flex items-center justify-center">
-                      <FiMapPin className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h4 className="text-white font-bold">{locationData.name}</h4>
-                      <p className="text-gray-400 text-sm">{locationData.address}, {locationData.country}</p>
-                    </div>
+
+              <div className="flex flex-col items-start justify-between gap-4 bg-ink p-6 sm:flex-row sm:items-center">
+                <div className="flex items-center gap-4">
+                  <FiMapPin className="h-5 w-5 text-sand" strokeWidth={1.5} />
+                  <div>
+                    <h4 className="font-medium text-white">{locationData.name}</h4>
+                    <p className="text-sm text-white/50">
+                      {locationData.address}, {locationData.country}
+                    </p>
                   </div>
-                  
-                  <a 
-                    href="https://www.google.com/maps/search/?api=1&query=Taghazout+Morocco"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-3 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition-colors"
-                  >
-                    <span>{t.location.getDirections}</span>
-                    <FiArrowRight className="w-4 h-4" />
-                  </a>
                 </div>
+
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Taghazout+Morocco"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center bg-white px-5 py-2.5 text-sm font-medium text-ink transition hover:bg-paper"
+                >
+                  {t.location.getDirections}
+                </a>
               </div>
             </div>
 
-            {/* Contact Cards Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <a 
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <a
                 href={`tel:${locationData.phone}`}
-                className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:border-amber-300 hover:shadow-xl transition-all duration-300 text-center group"
+                className="border border-line bg-surface p-5 text-center transition hover:border-ink/20"
               >
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                  <FiPhone className="w-6 h-6 text-amber-600" />
-                </div>
-                <p className="text-sm text-gray-500 mb-1">{t.location.callUs}</p>
-                <p className="text-gray-900 font-bold">{locationData.phone}</p>
+                <FiPhone className="mx-auto mb-3 h-4 w-4 text-clay" strokeWidth={1.5} />
+                <p className="mb-1 text-xs text-muted">{t.location.callUs}</p>
+                <p className="text-sm font-medium text-ink">{locationData.phone}</p>
               </a>
 
-              <a 
+              <a
                 href={`https://wa.me/${locationData.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:border-green-300 hover:shadow-xl transition-all duration-300 text-center group"
+                className="border border-line bg-surface p-5 text-center transition hover:border-ink/20"
               >
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                  <FiSend className="w-6 h-6 text-green-600" />
-                </div>
-                <p className="text-sm text-gray-500 mb-1">WhatsApp</p>
-                <p className="text-gray-900 font-bold">{t.location.messageUs}</p>
+                <FiSend className="mx-auto mb-3 h-4 w-4 text-clay" strokeWidth={1.5} />
+                <p className="mb-1 text-xs text-muted">WhatsApp</p>
+                <p className="text-sm font-medium text-ink">{t.location.messageUs}</p>
               </a>
 
-              <a 
+              <a
                 href={`mailto:${locationData.email}`}
-                className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:border-orange-300 hover:shadow-xl transition-all duration-300 text-center group"
+                className="border border-line bg-surface p-5 text-center transition hover:border-ink/20"
               >
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-100 to-red-100 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                  <FiMail className="w-6 h-6 text-orange-600" />
-                </div>
-                <p className="text-sm text-gray-500 mb-1">Email</p>
-                <p className="text-gray-900 font-bold">{t.location.writeUs}</p>
+                <FiMail className="mx-auto mb-3 h-4 w-4 text-clay" strokeWidth={1.5} />
+                <p className="mb-1 text-xs text-muted">Email</p>
+                <p className="text-sm font-medium text-ink">{t.location.writeUs}</p>
               </a>
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );

@@ -52,7 +52,7 @@ VALUES (
         "duration": "4 hours",
         "groupSize": "6-13 guests",
         "startTime": "15:00",
-        "image": "/packages/weekly.jpeg",
+        "image": "/packages/weekly.webp",
         "imageAlt": "Weekly Amazigh music event",
         "highlights": [
           "Every Thursday at 15:00",

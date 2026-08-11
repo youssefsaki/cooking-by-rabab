@@ -47,6 +47,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   const pathname = usePathname();
   const { language, setLanguage, t } = useLanguage();
+  const overHero = pathname === '/' && !isScrolled;
 
   const languages = [
     { code: 'EN' as const, label: 'English', flag: '🇬🇧' },
@@ -58,8 +59,15 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
     setHasMounted(true);
     setIsScrolled(window.scrollY > 10);
 
+    let ticking = false;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const next = window.scrollY > 10;
+        setIsScrolled((prev) => (prev === next ? prev : next));
+        ticking = false;
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -82,9 +90,14 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        !hasMounted ? 'bg-white/95 shadow-lg' :
-        isScrolled ? 'bg-white shadow-xl border-b border-gray-200/30' : 'bg-white/95 shadow-lg'
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+        !hasMounted
+          ? 'bg-surface'
+          : isScrolled
+            ? 'border-b border-line bg-surface'
+            : pathname === '/'
+              ? 'bg-gradient-to-b from-black/40 to-transparent'
+              : 'bg-surface'
       }`}
     >
       <div className="header-container">
@@ -131,8 +144,12 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                     <button
                       className={`text-sm font-bold tracking-wide transition-all duration-300 px-4 py-2 rounded-lg flex items-center gap-1 ${
                         isActive || openDropdown === item.id
-                          ? 'text-primary bg-primary/10' 
-                          : 'text-dark-blue hover:text-primary'
+                          ? overHero
+                            ? 'text-sand'
+                            : 'text-primary bg-primary/10'
+                          : overHero
+                            ? 'text-white hover:text-sand'
+                            : 'text-dark-blue hover:text-primary'
                       }`}
                     >
                       {item.id === 'ourstory' ? (t?.nav?.ourStory || item.label) : item.label}
@@ -177,9 +194,13 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                   key={item.id}
                   href={item.href}
                   className={`text-sm font-bold tracking-wide transition-all duration-300 px-4 py-2 rounded-lg flex items-center gap-1 ${
-                    isActive 
-                      ? 'text-primary' 
-                      : 'text-dark-blue hover:text-primary'
+                    isActive
+                      ? overHero
+                        ? 'text-sand'
+                        : 'text-primary'
+                      : overHero
+                        ? 'text-white hover:text-sand'
+                        : 'text-dark-blue hover:text-primary'
                   }`}
                 >
                   {translatedLabel}
@@ -197,8 +218,8 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                 className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
               >
                 <span className="text-xl">{languages.find(l => l.code === language)?.flag}</span>
-                <span className="text-sm font-bold text-dark-blue">{language}</span>
-                <ChevronDown className={`w-4 h-4 text-dark-blue transition-transform duration-200 ${languageDropdownOpen ? 'rotate-180' : ''}`} />
+                <span className={`text-sm font-bold ${overHero ? 'text-white' : 'text-dark-blue'}`}>{language}</span>
+                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${overHero ? 'text-white' : 'text-dark-blue'} ${languageDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {/* Language Dropdown */}
@@ -217,8 +238,8 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                           setLanguage(lang.code);
                           setLanguageDropdownOpen(false);
                         }}
-                        className={`w-full flex items-center gap-3 px-4 py-2.5 hover:bg-amber-50 transition-colors duration-200 ${
-                          language === lang.code ? 'bg-amber-50' : ''
+                        className={`w-full flex items-center gap-3 px-4 py-2.5 hover:bg-paper transition-colors duration-200 ${
+                          language === lang.code ? 'bg-paper' : ''
                         }`}
                       >
                         <span className="text-2xl">{lang.flag}</span>
@@ -227,7 +248,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                           <div className="text-xs text-gray-500">{lang.code}</div>
                         </div>
                         {language === lang.code && (
-                          <span className="text-amber-500">✓</span>
+                          <span className="text-clay">✓</span>
                         )}
                       </button>
                     ))}
@@ -250,35 +271,37 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                 
                 {/* DESIGN 1: Clean Card Grid */}
                 {ctaDropdownOpen && BOOK_NOW_DROPDOWN_DESIGN === 1 && (
-                  <div className="absolute top-full right-0 pt-3 w-80 z-50">
-                    <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
-                      <div className="bg-gradient-to-r from-amber-500 to-orange-500 px-4 py-3">
-                        <p className="text-white font-bold text-sm">{t.header.chooseExperience}</p>
+                  <div className="absolute top-full right-0 z-50 w-[22rem] pt-3">
+                    <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-2xl">
+                      <div className="border-b border-line px-4 py-3">
+                        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+                          {t.header.chooseExperience}
+                        </p>
                       </div>
-                      <div className="p-2">
+                      <div className="p-1.5">
                         {navigationData.ctaButton.dropdownItems?.map((item: any) => (
                           <Link
                             key={item.id}
                             href={item.href}
-                            className={`block p-3 rounded-xl transition-all duration-200 hover:bg-amber-50 group ${item.popular ? 'bg-amber-50/50 ring-1 ring-amber-200' : ''}`}
+                            className="group block rounded-xl px-3.5 py-3 transition-colors hover:bg-paper"
                           >
-                            <div className="flex items-center justify-between">
-                              <div>
-                                <div className="flex items-center gap-2">
-                                  <span className="font-bold text-gray-900 group-hover:text-amber-600">{item.label}</span>
-                                  {item.popular && (
-                                    <span className="px-2 py-0.5 bg-amber-500 text-white text-xs font-bold rounded-full">Popular</span>
-                                  )}
-                                </div>
-                                <p className="text-xs text-gray-500 mt-0.5">{item.description}</p>
-                              </div>
-                              <span className="text-lg font-black text-amber-600">{item.price}</span>
+                            <div className="flex items-start justify-between gap-3">
+                              <p className="text-sm font-semibold leading-snug text-ink group-hover:text-primary">
+                                {item.label}
+                              </p>
+                              {item.popular ? (
+                                <span className="mt-0.5 shrink-0 text-[10px] font-medium uppercase tracking-[0.12em] text-primary">
+                                  Popular
+                                </span>
+                              ) : null}
                             </div>
+                            <p className="mt-1 text-xs leading-relaxed text-muted">{item.description}</p>
+                            <p className="mt-2 text-xs font-medium text-ink/80">{item.price}</p>
                           </Link>
                         ))}
                       </div>
-                      <div className="border-t border-gray-100 px-4 py-3 bg-gray-50">
-                        <Link href="/packages" className="text-xs text-amber-600 font-semibold hover:underline">
+                      <div className="border-t border-line bg-paper/60 px-4 py-3">
+                        <Link href="/packages" className="text-xs font-medium text-primary hover:underline">
                           {t.header.viewAllPackages} →
                         </Link>
                       </div>
@@ -291,7 +314,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                   <div className="absolute top-full right-0 pt-3 w-72 z-50">
                     <div className="bg-gray-900 rounded-2xl shadow-2xl overflow-hidden border border-gray-800">
                       <div className="p-4 border-b border-gray-800">
-                        <p className="text-amber-400 font-bold text-sm tracking-wide uppercase">{t.header.selectPackage}</p>
+                        <p className="text-sand font-bold text-sm tracking-wide uppercase">{t.header.selectPackage}</p>
                       </div>
                       <div className="py-2">
                         {navigationData.ctaButton.dropdownItems?.map((item: any, index: number) => {
@@ -303,23 +326,23 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                               href={item.href}
                               className="flex items-center gap-4 px-4 py-3 hover:bg-gray-800 transition-colors group"
                             >
-                              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${item.popular ? 'bg-amber-500' : 'bg-gray-800 group-hover:bg-gray-700'}`}>
-                                <IconComponent className={`w-5 h-5 ${item.popular ? 'text-white' : 'text-amber-400'}`} />
+                              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${item.popular ? 'bg-paper0' : 'bg-gray-800 group-hover:bg-gray-700'}`}>
+                                <IconComponent className={`w-5 h-5 ${item.popular ? 'text-white' : 'text-sand'}`} />
                               </div>
                               <div className="flex-1">
                                 <div className="flex items-center gap-2">
                                   <span className="font-bold text-white">{item.label}</span>
-                                  {item.popular && <span className="text-xs text-amber-400">★ Best Value</span>}
+                                  {item.popular && <span className="text-xs text-sand">Best value</span>}
                                 </div>
                                 <p className="text-xs text-gray-400">{item.description}</p>
                               </div>
-                              <span className="text-amber-400 font-black">{item.price}</span>
+                              <span className="text-sand font-black">{item.price}</span>
                             </Link>
                           );
                         })}
                       </div>
                       <div className="p-4 bg-gray-800/50">
-                        <Link href="/packages" className="block text-center text-sm text-white bg-amber-500 hover:bg-amber-600 py-2 rounded-lg font-bold transition-colors">
+                        <Link href="/packages" className="block text-center text-sm text-white bg-paper0 hover:bg-clay py-2 rounded-lg font-bold transition-colors">
                           {t.header.comparePackages}
                         </Link>
                       </div>
@@ -337,18 +360,18 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                           <Link
                             key={item.id}
                             href={item.href}
-                            className={`flex items-center justify-between p-3 rounded-lg border-2 transition-all duration-200 hover:border-amber-400 hover:bg-amber-50 ${item.popular ? 'border-amber-400 bg-amber-50' : 'border-gray-100'}`}
+                            className={`flex items-center justify-between p-3 rounded-lg border-2 transition-all duration-200 hover:border-clay hover:bg-paper ${item.popular ? 'border-clay bg-paper' : 'border-gray-100'}`}
                           >
                             <div className="flex items-center gap-2">
-                              {item.popular && <span className="text-amber-500">⭐</span>}
-                              <span className={`font-bold ${item.popular ? 'text-amber-700' : 'text-gray-700'}`}>{item.label}</span>
+                              {item.popular && <span className="text-clay">⭐</span>}
+                              <span className={`font-bold ${item.popular ? 'text-clay' : 'text-gray-700'}`}>{item.label}</span>
                             </div>
-                            <span className={`font-black ${item.popular ? 'text-amber-600' : 'text-gray-600'}`}>{item.price}</span>
+                            <span className={`font-black ${item.popular ? 'text-clay' : 'text-gray-600'}`}>{item.price}</span>
                           </Link>
                         ))}
                       </div>
                       <div className="mt-3 pt-3 border-t border-gray-100">
-                        <Link href="/packages" className="text-xs text-center block text-amber-600 font-semibold hover:underline">
+                        <Link href="/packages" className="text-xs text-center block text-clay font-semibold hover:underline">
                           {t.header.viewAllPackages}
                         </Link>
                       </div>
@@ -366,7 +389,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 text-dark-blue hover:text-primary transition-colors duration-300"
+            className={`lg:hidden p-2 transition-colors duration-300 ${overHero ? 'text-white hover:text-sand' : 'text-dark-blue hover:text-primary'}`}
             aria-label="Toggle mobile menu"
           >
             {isMobileMenuOpen ? (
@@ -449,7 +472,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                     }}
                     className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all ${
                       language === 'EN'
-                        ? 'bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-lg'
+                        ? 'bg-ink text-white shadow-lg'
                         : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
                     }`}
                   >
@@ -464,7 +487,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                     }}
                     className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all ${
                       language === 'FR'
-                        ? 'bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-lg'
+                        ? 'bg-ink text-white shadow-lg'
                         : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
                     }`}
                   >
@@ -479,7 +502,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                     }}
                     className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all ${
                       language === 'DE'
-                        ? 'bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-lg'
+                        ? 'bg-ink text-white shadow-lg'
                         : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
                     }`}
                   >
@@ -507,7 +530,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                               href={item.href}
                               className={`block p-4 rounded-xl transition-all active:scale-[0.98] ${
                                 item.popular 
-                                  ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg' 
+                                  ? 'bg-ink text-white shadow-lg' 
                                   : 'bg-gray-50 border border-gray-200'
                               }`}
                               onClick={() => setIsMobileMenuOpen(false)}
@@ -519,7 +542,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                                 </div>
                                 <div className="flex items-center justify-between">
                                   <p className={`text-xs ${item.popular ? 'text-white/80' : 'text-gray-500'}`}>{item.description}</p>
-                                  <span className={`text-lg font-black whitespace-nowrap ml-3 ${item.popular ? 'text-white' : 'text-amber-600'}`}>{item.price}</span>
+                                  <span className={`text-lg font-black whitespace-nowrap ml-3 ${item.popular ? 'text-white' : 'text-clay'}`}>{item.price}</span>
                                 </div>
                               </div>
                             </Link>
@@ -527,7 +550,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                         </div>
                         <Link
                           href="/packages"
-                          className="block text-center text-sm text-amber-600 font-semibold py-3 border-t border-gray-100"
+                          className="block text-center text-sm text-clay font-semibold py-3 border-t border-gray-100"
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
                           Compare all packages →
@@ -552,11 +575,11 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                               onClick={() => setIsMobileMenuOpen(false)}
                             >
                               <div className="text-center">
-                                {item.popular && <span className="text-amber-400 text-xs font-bold">⭐ BEST VALUE</span>}
-                                <p className={`text-2xl font-black mt-1 ${item.popular ? 'text-amber-400' : 'text-amber-600'}`}>{item.price}</p>
+                                {item.popular && <span className="text-sand text-xs font-bold">Best value</span>}
+                                <p className={`text-2xl font-black mt-1 ${item.popular ? 'text-sand' : 'text-clay'}`}>{item.price}</p>
                                 <p className={`font-bold text-sm mt-2 ${item.popular ? 'text-white' : 'text-gray-900'}`}>{item.label}</p>
                                 <p className={`text-xs mt-1 ${item.popular ? 'text-gray-400' : 'text-gray-500'}`}>{item.description}</p>
-                                <div className={`mt-3 py-2 rounded-lg text-xs font-bold ${item.popular ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-700'}`}>
+                                <div className={`mt-3 py-2 rounded-lg text-xs font-bold ${item.popular ? 'bg-paper0 text-white' : 'bg-gray-100 text-gray-700'}`}>
                                   Book Now
                                 </div>
                               </div>
@@ -576,8 +599,8 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                     {/* MOBILE DESIGN 3: Compact Grid */}
                     {MOBILE_BOOK_NOW_DESIGN === 3 && (
                       <div className="px-4 space-y-4">
-                        <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-4 border border-amber-200">
-                          <p className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-3">🍳 Choose Your Package</p>
+                        <div className="bg-paper rounded-2xl p-4 border border-line">
+                          <p className="text-xs font-bold text-clay uppercase tracking-wider mb-3">Choose your package</p>
                           <div className="grid grid-cols-2 gap-2">
                             {navigationData.ctaButton.dropdownItems?.map((item: any) => (
                               <Link
@@ -585,22 +608,22 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
                                 href={item.href}
                                 className={`relative p-3 rounded-xl text-center transition-all active:scale-[0.98] ${
                                   item.popular 
-                                    ? 'bg-amber-500 text-white shadow-md' 
-                                    : 'bg-white border border-amber-200'
+                                    ? 'bg-paper0 text-white shadow-md' 
+                                    : 'bg-white border border-line'
                                 }`}
                                 onClick={() => setIsMobileMenuOpen(false)}
                               >
                                 {item.popular && (
                                   <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">HOT</span>
                                 )}
-                                <p className={`text-lg font-black ${item.popular ? 'text-white' : 'text-amber-600'}`}>{item.price}</p>
+                                <p className={`text-lg font-black ${item.popular ? 'text-white' : 'text-clay'}`}>{item.price}</p>
                                 <p className={`text-xs font-bold mt-1 ${item.popular ? 'text-white' : 'text-gray-700'}`}>{item.label}</p>
                               </Link>
                             ))}
                           </div>
                           <Link
                             href="/packages"
-                            className="block text-center text-xs text-amber-700 font-semibold mt-4 py-2 bg-white rounded-lg border border-amber-200"
+                            className="block text-center text-xs text-clay font-semibold mt-4 py-2 bg-white rounded-lg border border-line"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
                             {t.header.seeWhatsIncluded} →

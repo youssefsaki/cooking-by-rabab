@@ -9,21 +9,31 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Custom Colors
+        // Premium hospitality palette
+        ink: '#171412',
+        muted: '#6B645C',
+        paper: '#F7F4F0',
+        surface: '#FFFFFF',
+        line: '#E8E2DA',
+        // Primary #ed843e
+        clay: {
+          DEFAULT: '#ed843e',
+          soft: '#f19f68',
+          deep: '#ab5f2d',
+        },
+        sand: '#e8c4a0',
+
         'dark-blue': '#084869',
         
-        // Warm Orange Palette
-        primary: '#f08741',      // Warm Orange Primary
-        secondary: '#f5a066',    // Light Orange
-        accent: '#d6722e',       // Darker Orange
+        primary: '#ed843e',
+        secondary: '#f19f68',
+        accent: '#ab5f2d',
         white: '#FFF',
         
-        // Orange Color Variations
-        'primary-dark': '#d6722e',  // Darker Orange
-        'primary-light': '#f5a066', // Light Orange
-        'primary-pale': '#fef3eb',  // Very Light Orange
+        'primary-dark': '#ab5f2d',
+        'primary-light': '#f19f68',
+        'primary-pale': '#fdf0e8',
         
-        // Warm Neutral Palette
         'warm-gray': {
           50: '#fafaf9',
           100: '#f5f5f4',
@@ -37,25 +47,21 @@ const config: Config = {
           900: '#1c1917',
         },
         
-        // Cozy Background Colors
-        'cream': '#fefdf8',
+        cream: '#F7F4F0',
         'warm-white': '#fefefe',
-        'soft-beige': '#f7f3f0',
+        'soft-beige': '#F7F4F0',
         'cozy-gray': '#f8f9fa',
         
-        // Text Colors
-        'text-primary': '#084869',
-        'text-secondary': '#084869',
-        'text-muted': '#718096',
+        'text-primary': '#171412',
+        'text-secondary': '#6B645C',
+        'text-muted': '#6B645C',
         
-        // Orange colors for hover effects
         orange: {
-          400: '#f5a066',
-          500: '#f08741',
-          600: '#d6722e',
+          400: '#f19f68',
+          500: '#ed843e',
+          600: '#d17437',
         },
         
-        // Legacy charcoal colors for compatibility
         charcoal: {
           50: '#f6f6f6',
           100: '#e7e7e7',
@@ -71,7 +77,8 @@ const config: Config = {
         }
       },
     fontFamily: {
-      sans: ['var(--font-roboto-condensed)', 'system-ui', 'sans-serif'],
+      sans: ['var(--font-outfit)', 'system-ui', 'sans-serif'],
+      display: ['var(--font-newsreader)', 'Georgia', 'serif'],
     },
       fontSize: {
         'hero': ['4.5rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],

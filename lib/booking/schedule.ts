@@ -41,6 +41,11 @@ const PICKUP: Record<SlotPeriod, PickupInfo> = {
   },
 };
 
+const WEEKLY_EVENT_PICKUP: PickupInfo = {
+  time: '14:30',
+  meetingPoint: 'In front of Taghazout Mosque',
+};
+
 /** Day of week: 0 = Sunday … 6 = Saturday */
 const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
   1: [
@@ -158,6 +163,18 @@ export const PRIVATE_AT_LOCATION_PRICE_EUR = 100;
 export const PRIVATE_AT_LOCATION_MIN_ADULTS = 6;
 export const WEEKLY_EVENT_PRICE_EUR = 80;
 export const WEEKLY_EVENT_MIN_ADULTS = 6;
+
+/**
+ * Public MAD display for an EUR price.
+ * Rule: MAD = (EUR + 5) × 10  → 65→700, 70→750, 80→850, 100→1050
+ */
+export function madFromEur(eur: number): number {
+  return (eur + 5) * 10;
+}
+
+export function formatMadFromEur(eur: number): string {
+  return `${madFromEur(eur)} MAD`;
+}
 
 export function minAdultsForPackage(packageType: PackageType): number {
   if (packageType === 'basic') return BASIC_MIN_ADULTS;
@@ -281,7 +298,9 @@ export function getSlotsForDate(date: Date): CalendarSlot[] {
     weekday,
     dayNumber,
     month,
-    pickup: PICKUP[template.period],
+    pickup: template.packageAllowed.includes('weekly-event')
+      ? WEEKLY_EVENT_PICKUP
+      : PICKUP[template.period],
   }));
 }
 

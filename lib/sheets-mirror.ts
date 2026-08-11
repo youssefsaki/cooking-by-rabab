@@ -50,20 +50,43 @@ async function postToSheets(body: Record<string, unknown>): Promise<boolean> {
   const timeoutId = setTimeout(() => controller.abort(), 12000);
 
   try {
+    // Apps Script web apps respond with 302 → googleusercontent echo URL.
+    // Following that redirect with POST returns 405; the write already ran on the first hop.
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
       signal: controller.signal,
-      redirect: 'follow',
+      redirect: 'manual',
     });
+
+    if (response.status >= 300 && response.status < 400) {
+      const location = response.headers.get('location');
+      if (location) {
+        try {
+          const confirm = await fetch(location, { method: 'GET', signal: controller.signal });
+          const text = await confirm.text();
+          try {
+            const parsed = JSON.parse(text) as { success?: boolean; error?: string };
+            if (parsed.success === false) {
+              console.error('[sheets-mirror] script error:', parsed.error);
+              return false;
+            }
+          } catch {
+            // Non-JSON echo body is fine — script already executed
+          }
+        } catch {
+          // Confirm GET failed, but POST likely still wrote the row
+        }
+      }
+      return true;
+    }
 
     if (!response.ok) {
       console.error('[sheets-mirror] HTTP error:', response.status);
       return false;
     }
 
-    // Apps Script often returns text/html on redirect; try parse JSON when present
     const text = await response.text();
     try {
       const parsed = JSON.parse(text) as { success?: boolean; error?: string };

@@ -125,10 +125,17 @@ function calendarModeForPackage(pkg: PackageType): 'basic' | 'weekly' | 'private
 }
 
 function packageLabel(packageType: PackageType): string {
-  if (packageType === 'basic') return 'The Authentic Mountain & Culinary Escape';
+  if (packageType === 'basic') return 'The authentic mountains culinary escape';
   if (packageType === 'weekly-event') return 'Weekly Event (80 EUR)';
   if (packageType === 'private-at-location') return 'Rabab Comes to You (100 EUR)';
   return 'Private Workshop Experience (80 EUR)';
+}
+
+function bookPageTitle(pkg: PackageType): string {
+  if (pkg === 'weekly-event') return 'Book Your Weekly Event';
+  if (pkg === 'private') return 'Book Your Private Workshop';
+  if (pkg === 'private-at-location') return 'Book Rabab Comes to You';
+  return 'Book your Authentic mountains culinary escape';
 }
 
 const baseValidationSchema = Yup.object({
@@ -187,7 +194,7 @@ function BookingForm() {
   const [slotOccupancy, setSlotOccupancy] = useState<SlotOccupancy | null>(null);
   const [slotOccupancyLoading, setSlotOccupancyLoading] = useState(false);
 
-  // Warm availability cache as soon as /book opens (before calendar paint settles)
+  // Warm availability into HTTP + sessionStorage before the calendar paints
   useEffect(() => {
     if (!calendarFlow) return;
     const weeks = getUpcomingCalendarWeeks(4);
@@ -195,7 +202,24 @@ function BookingForm() {
     const from = dates[0];
     const to = dates[dates.length - 1];
     if (!from || !to) return;
-    void fetch(`/api/availability?from=${from}&to=${to}`);
+    void (async () => {
+      try {
+        const res = await fetch(`/api/availability?from=${from}&to=${to}`);
+        if (!res.ok) return;
+        const data = (await res.json()) as { occupancy?: SlotOccupancy[] };
+        if (!data.occupancy?.length) return;
+        const map: Record<string, SlotOccupancy> = {};
+        data.occupancy.forEach((item) => {
+          map[item.slotId] = item;
+        });
+        sessionStorage.setItem(
+          `cbr-availability-v2:${from}:${to}`,
+          JSON.stringify({ at: Date.now(), map })
+        );
+      } catch {
+        // Calendar will fetch on its own
+      }
+    })();
   }, [calendarFlow]);
 
   const formik = useFormik({
@@ -419,17 +443,40 @@ function BookingForm() {
     }
 
     let cancelled = false;
+    setSlotOccupancy(null);
+    setSlotOccupancyLoading(true);
+
     (async () => {
-      setSlotOccupancyLoading(true);
       try {
         const date = selectedSlot.date;
-        const res = await fetch(`/api/availability?from=${date}&to=${date}`, { cache: 'no-store' });
+        const res = await fetch(`/api/availability?from=${date}&to=${date}`);
         if (!res.ok) throw new Error('availability failed');
         const data = (await res.json()) as { occupancy?: SlotOccupancy[] };
         const hold = data.occupancy?.find((o) => o.slotId === selectedSlot.id) ?? null;
         if (!cancelled) setSlotOccupancy(hold);
       } catch {
-        if (!cancelled) setSlotOccupancy(null);
+        if (cancelled) return;
+        // Fallback to calendar session cache if the request fails
+        try {
+          const weeks = getUpcomingCalendarWeeks(4);
+          const dates = weeks.flatMap((w) => w.days.map((d) => d.date));
+          const from = dates[0];
+          const to = dates[dates.length - 1];
+          if (from && to) {
+            const raw = sessionStorage.getItem(`cbr-availability-v2:${from}:${to}`);
+            if (raw) {
+              const parsed = JSON.parse(raw) as { at: number; map: Record<string, SlotOccupancy> };
+              const hold = parsed?.map?.[selectedSlot.id];
+              if (hold && Date.now() - parsed.at < 120_000) {
+                setSlotOccupancy(hold);
+                return;
+              }
+            }
+          }
+        } catch {
+          // ignore
+        }
+        setSlotOccupancy(null);
       } finally {
         if (!cancelled) setSlotOccupancyLoading(false);
       }
@@ -641,6 +688,14 @@ function BookingForm() {
     return (
       <main className="min-h-screen bg-gradient-to-b from-[#FBF7F0] via-white to-amber-50">
         <section className="pt-32 sm:pt-40 pb-16 px-4 sm:px-6">
+          <div className="mx-auto mb-10 max-w-4xl text-center">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-amber-700">
+              {initialPackage === 'basic' ? 'Step 1 of 3' : 'Step 1 of 2'}
+            </p>
+            <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">
+              {bookPageTitle(initialPackage)}
+            </h1>
+          </div>
           <div className="max-w-7xl mx-auto">
             <WorkshopCalendar
               mode={calendarModeForPackage(initialPackage)}
@@ -676,6 +731,14 @@ function BookingForm() {
     return (
       <main className="min-h-screen bg-gradient-to-b from-[#FBF7F0] via-white to-amber-50">
         <section className="pt-32 sm:pt-40 pb-16 px-4 sm:px-6">
+          <div className="mx-auto mb-10 max-w-4xl text-center">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-amber-700">
+              Step 2 of 3
+            </p>
+            <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">
+              {bookPageTitle(initialPackage)}
+            </h1>
+          </div>
           <DishSelectionStep
             dishes={availableDishes}
             value={formik.values.dishId}
@@ -719,7 +782,7 @@ function BookingForm() {
             </p>
           )}
           <h1 className="text-5xl sm:text-6xl font-black text-gray-900 mb-6 leading-tight">
-            {t.booking.title}
+            {bookPageTitle(initialPackage)}
           </h1>
           <p className="text-xl text-gray-600 leading-relaxed">{t.booking.description}</p>
         </div>
@@ -766,44 +829,62 @@ function BookingForm() {
                     {packageLabel(activePackage)}
                   </p>
                   {initialPackage === 'basic' && (
-                    <p
-                      className={`text-sm font-bold mt-3 ${
-                        remainingSpots === null
-                          ? 'text-gray-500'
-                          : basicLeftoverSpots > 0
-                            ? 'text-amber-700'
+                    <div className="mt-3">
+                      {remainingSpots === null ? (
+                        <div
+                          className="flex items-center gap-2 text-sm font-semibold text-gray-500"
+                          role="status"
+                          aria-live="polite"
+                          aria-busy="true"
+                        >
+                          <span className="h-4 w-4 animate-spin rounded-full border-2 border-gray-200 border-t-amber-600" />
+                          Loading availability…
+                        </div>
+                      ) : (
+                        <p
+                          className={`text-sm font-bold ${
+                            basicLeftoverSpots > 0
+                              ? 'text-amber-700'
+                              : remainingSpots === 0 || slotTooFullForPackage
+                                ? 'text-red-600'
+                                : remainingSpots <= 3
+                                  ? 'text-amber-700'
+                                  : 'text-emerald-700'
+                          }`}
+                        >
+                          {basicLeftoverSpots > 0
+                            ? `${basicLeftoverSpots} spot${basicLeftoverSpots === 1 ? '' : 's'} left — join via Private`
                             : remainingSpots === 0 || slotTooFullForPackage
-                              ? 'text-red-600'
-                              : remainingSpots <= 3
-                                ? 'text-amber-700'
-                                : 'text-emerald-700'
-                      }`}
-                    >
-                      {remainingSpots === null
-                        ? 'Checking availability…'
-                        : basicLeftoverSpots > 0
-                          ? `${basicLeftoverSpots} spot${basicLeftoverSpots === 1 ? '' : 's'} left — join via Private`
-                          : remainingSpots === 0 || slotTooFullForPackage
-                            ? 'Fully booked — please choose another day'
-                            : `${remainingSpots} of ${BASIC_MAX_GUESTS} spots available`}
-                    </p>
+                              ? 'Fully booked — please choose another day'
+                              : `${remainingSpots} of ${BASIC_MAX_GUESTS} spots available`}
+                        </p>
+                      )}
+                    </div>
                   )}
                   {isPrivatePackage(initialPackage) && (
-                    <p
-                      className={`text-sm font-bold mt-3 ${
-                        remainingSpots === null
-                          ? 'text-gray-500'
-                          : joiningSharedSlot
-                            ? 'text-emerald-700'
-                            : 'text-amber-700'
-                      }`}
-                    >
-                      {remainingSpots === null
-                        ? 'Checking availability…'
-                        : joiningSharedSlot
-                          ? `${bookedGuestCount} already booked · ${remainingSpots} spot${remainingSpots === 1 ? '' : 's'} left`
-                          : 'Exclusive private — this slot will be reserved for your group'}
-                    </p>
+                    <div className="mt-3">
+                      {remainingSpots === null ? (
+                        <div
+                          className="flex items-center gap-2 text-sm font-semibold text-gray-500"
+                          role="status"
+                          aria-live="polite"
+                          aria-busy="true"
+                        >
+                          <span className="h-4 w-4 animate-spin rounded-full border-2 border-gray-200 border-t-amber-600" />
+                          Loading availability…
+                        </div>
+                      ) : (
+                        <p
+                          className={`text-sm font-bold ${
+                            joiningSharedSlot ? 'text-emerald-700' : 'text-amber-700'
+                          }`}
+                        >
+                          {joiningSharedSlot
+                            ? `${bookedGuestCount} already booked · ${remainingSpots} spot${remainingSpots === 1 ? '' : 's'} left`
+                            : 'Exclusive private — this slot will be reserved for your group'}
+                        </p>
+                      )}
+                    </div>
                   )}
                 </div>
                 <button
@@ -851,7 +932,7 @@ function BookingForm() {
                     Event
                   </p>
                   <p className="font-bold text-gray-900 leading-snug">{selectedSlot.dish}</p>
-                  <p className="text-sm text-violet-700 font-semibold mt-1">80 € / person</p>
+                  <p className="text-sm text-violet-700 font-semibold mt-1">80 € / person · 850 MAD</p>
                 </div>
               )}
             </div>
@@ -1080,7 +1161,7 @@ function BookingForm() {
                     }`}
                   >
                     <p className="font-bold text-gray-900">At our workshop</p>
-                    <p className="text-sm text-gray-600 mt-1">80 € / person · min 2 guests</p>
+                    <p className="text-sm text-gray-600 mt-1">80 € / person · 850 MAD · min 2 guests</p>
                   </button>
                   <button
                     type="button"
@@ -1095,7 +1176,7 @@ function BookingForm() {
                     }`}
                   >
                     <p className="font-bold text-gray-900">At your location</p>
-                    <p className="text-sm text-gray-600 mt-1">100 € / person · min 6 guests</p>
+                    <p className="text-sm text-gray-600 mt-1">100 € / person · 1050 MAD · min 6 guests</p>
                   </button>
                 </div>
               </div>

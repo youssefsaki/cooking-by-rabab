@@ -227,12 +227,29 @@ export function previewPageForField(fieldId: string, group?: string): PreviewPag
   return 'home';
 }
 
+/** Legacy CMS paths that no longer exist on disk. */
+const LEGACY_IMAGE_ALIASES: Record<string, string> = {
+  '/packages/weekly.jpeg': '/packages/weekly.webp',
+  '/packages/weekly.jpg': '/packages/weekly.webp',
+  // Wrong CMS upload (woman+child) was saved as the village cats photo
+  'https://sgjsxrznjhmaluhsgvks.supabase.co/storage/v1/object/public/site-media/uploads/1786363410520-o1cbwf2yddk.jpg':
+    '/community/cat.webp',
+};
+
+/** Normalize CMS / stored image URLs (fix aliases, trim). */
+export function resolveSiteImage(src: string | null | undefined, fallback = '/packages/basic.webp'): string {
+  const raw = (src || '').trim();
+  if (!raw) return fallback;
+  if (LEGACY_IMAGE_ALIASES[raw]) return LEGACY_IMAGE_ALIASES[raw];
+  if (raw.endsWith('/weekly.jpeg') || raw.endsWith('/weekly.jpg')) return '/packages/weekly.webp';
+  return raw;
+}
+
 export function imageFromBag(
   bag: Record<string, string> | null | undefined,
   key: string,
   fallback?: string
 ): string {
   const value = bag?.[key]?.trim();
-  if (value) return value;
-  return fallback || SITE_IMAGE_DEFAULTS[key] || '/packages/basic.webp';
+  return resolveSiteImage(value || fallback || SITE_IMAGE_DEFAULTS[key], '/packages/basic.webp');
 }

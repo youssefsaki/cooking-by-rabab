@@ -2,7 +2,7 @@
 
 import React, { memo } from 'react';
 import Image from 'next/image';
-import { FiArrowRight, FiMapPin, FiHome, FiActivity, FiHeart } from 'react-icons/fi';
+import { FiMapPin, FiHome, FiActivity, FiHeart } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
 import InternalLinkRow from '@/components/InternalLinkRow';
 import { useSiteCopy } from '@/hooks/useSiteCopy';
@@ -58,24 +58,22 @@ const TheExperienceV2: React.FC = memo(() => {
     };
   });
   return (
-    <section className="relative bg-white">
-      {/* Header Section - Mobile Optimized */}
-      <div className="relative py-16 sm:py-20 lg:py-28 px-6 lg:px-12 bg-gradient-to-b from-amber-50 to-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-block mb-4 sm:mb-6">
-            <span className="text-xs sm:text-sm font-bold text-amber-600 tracking-[0.25em] sm:tracking-[0.3em] uppercase">
-              {copy('experience.title', t.experience.title)}
-            </span>
-          </div>
-          
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-6 sm:mb-8 leading-tight px-4">
+    <section className="relative bg-surface">
+      <div className="relative bg-paper px-6 py-20 sm:py-24 lg:px-12 lg:py-28">
+        <div className="mx-auto max-w-3xl text-center" data-fade>
+          <p className="section-eyebrow">{copy('experience.title', t.experience.title)}</p>
+
+          <h2 className="section-title mb-6 px-2">
             {copy('experience.subtitle', t.experience.subtitle)}
           </h2>
-          
-          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed px-4">
+
+          <p className="section-lead mx-auto max-w-2xl px-2">
             {copy('experience.description', t.experience.description)}
           </p>
-          <InternalLinkRow variant="experience" className="text-gray-500 max-w-2xl mx-auto mt-5 px-4 [&_a]:text-amber-700 [&_a:hover]:text-amber-800" />
+          <InternalLinkRow
+            variant="experience"
+            className="mx-auto mt-5 max-w-2xl px-2 text-muted [&_a]:text-clay [&_a:hover]:text-clay-deep"
+          />
         </div>
       </div>
 
@@ -103,84 +101,61 @@ const TheExperienceV2: React.FC = memo(() => {
               {/* Image Overlay - Enhanced for Mobile */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20 lg:bg-gradient-to-r lg:from-transparent lg:via-black/10 lg:to-black/40"></div>
               
-              {/* Large Step Number - Desktop Only */}
-              <div className="hidden lg:block absolute bottom-12 right-12 text-white/20">
-                <span className="text-[200px] font-black leading-none">
+              <div className="absolute bottom-12 right-12 hidden text-white/15 lg:block">
+                <span className="font-display text-[160px] font-normal leading-none">
                   {String(step.step).padStart(2, '0')}
                 </span>
               </div>
 
-              {/* Mobile: Step Number Badge (Bottom Left) */}
-              <div className="lg:hidden absolute bottom-6 left-6">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-2xl ring-4 ring-white/30">
-                  <span className="text-2xl font-black text-white">
-                    {step.step}
-                  </span>
-                </div>
-              </div>
-
-              {/* Mobile: Icon Badge (Top Right) */}
-              <div className="lg:hidden absolute top-6 right-6">
-                <div className="w-12 h-12 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg">
-                  <Icon className="w-6 h-6 text-amber-600" />
-                </div>
+              <div className="absolute bottom-6 left-6 lg:hidden">
+                <span className="font-display text-4xl text-white/90">
+                  {String(step.step).padStart(2, '0')}
+                </span>
               </div>
             </div>
 
-            {/* Content Side - Mobile Optimized */}
-            <div className="relative w-full lg:w-1/2 flex items-center bg-white">
-              <div className="w-full px-6 py-10 sm:px-8 sm:py-12 lg:px-16 lg:py-20">
-                {/* Step Badge - Desktop Only */}
-                <div className="hidden lg:flex items-center gap-4 mb-8">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg">
-                    <Icon className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <span className="text-sm font-bold text-amber-600 tracking-wider uppercase">
-                      Step {step.step}
-                    </span>
-                  </div>
+            <div className="relative flex w-full items-center bg-surface lg:w-1/2">
+              <div className="w-full px-6 py-12 sm:px-8 sm:py-14 lg:px-16 lg:py-20">
+                <div className="mb-6 hidden items-center gap-3 lg:flex">
+                  <Icon className="h-5 w-5 text-clay" strokeWidth={1.5} />
+                  <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted">
+                    Step {step.step}
+                  </span>
                 </div>
 
-                {/* Mobile: Step Label */}
-                <div className="lg:hidden mb-4">
-                  <span className="text-xs font-bold text-amber-600 tracking-wider uppercase">
+                <div className="mb-4 lg:hidden">
+                  <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted">
                     Step {step.step} of {experienceSteps.length}
                   </span>
                 </div>
 
-                {/* Title - Mobile Optimized */}
-                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 sm:mb-3 leading-tight">
+                <h3 className="mb-3 font-display text-3xl font-normal leading-tight text-ink sm:text-4xl lg:text-5xl">
                   {step.title}
                 </h3>
 
-                {/* Subtitle - Mobile Optimized */}
-                <p className="text-lg sm:text-xl text-amber-600 font-medium mb-5 sm:mb-6 italic">
+                <p className="mb-5 font-display text-lg italic text-clay sm:mb-6 sm:text-xl">
                   {step.subtitle}
                 </p>
 
-                {/* Description - Mobile Optimized */}
-                <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-6 sm:mb-8">
+                <p className="mb-8 text-base leading-relaxed text-muted sm:text-lg">
                   {step.description}
                 </p>
 
-                {/* Highlights - Mobile Optimized */}
-                <div className="space-y-3 sm:space-y-4 mb-8 sm:mb-10">
+                <div className="mb-8 space-y-3 sm:mb-10 sm:space-y-4">
                   {step.highlights.map((highlight, i) => (
                     <div key={i} className="flex items-start gap-3">
-                      <div className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0"></div>
-                      <span className="text-sm sm:text-base text-gray-700 leading-relaxed">{highlight}</span>
+                      <div className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-clay" />
+                      <span className="text-sm leading-relaxed text-ink/80 sm:text-base">{highlight}</span>
                     </div>
                   ))}
                 </div>
 
-                {/* Step Counter */}
                 <div className="flex items-center gap-3">
-                  <div className="h-px flex-1 bg-gray-200"></div>
-                  <span className="text-xs sm:text-sm font-medium text-gray-400">
+                  <div className="h-px flex-1 bg-line" />
+                  <span className="text-xs font-medium text-muted">
                     {step.step} / {experienceSteps.length}
                   </span>
-                  <div className="h-px flex-1 bg-gray-200"></div>
+                  <div className="h-px flex-1 bg-line" />
                 </div>
               </div>
             </div>
@@ -188,35 +163,22 @@ const TheExperienceV2: React.FC = memo(() => {
         );
       })}
 
-      {/* Bottom CTA Section - Mobile Optimized */}
-      <div className="relative py-16 sm:py-20 lg:py-28 px-6 lg:px-12 bg-gradient-to-b from-white to-amber-50">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="mb-6 sm:mb-8">
-            <span className="text-5xl sm:text-6xl">✨</span>
-          </div>
-          
-          <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 px-4">
+      <div className="relative bg-paper px-6 py-20 sm:py-24 lg:px-12 lg:py-28">
+        <div className="mx-auto max-w-2xl text-center">
+          <h3 className="section-title mb-5">
             {copy('experience.finalTitle', t.experience.finalTitle)}
           </h3>
-          
-          <p className="text-base sm:text-lg text-gray-600 mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed px-4">
+
+          <p className="section-lead mx-auto mb-9 max-w-xl">
             {copy('experience.finalDescription', t.experience.finalDescription)}
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
-            <a 
-              href="/book"
-              className="inline-flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-base sm:text-lg rounded-full shadow-xl hover:shadow-2xl active:scale-95 sm:hover:scale-105 transition-all duration-300"
-            >
-              <span>{copy('experience.bookExperience', t.experience.bookExperience)}</span>
-              <FiArrowRight className="w-5 h-5" />
+          <div className="flex flex-col justify-center gap-3 sm:flex-row">
+            <a href="/book" className="btn-primary">
+              {copy('experience.bookExperience', t.experience.bookExperience)}
             </a>
-            
-            <a 
-              href="/packages"
-              className="inline-flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-white text-gray-900 font-bold text-base sm:text-lg rounded-full border-2 border-gray-200 hover:border-amber-500 active:scale-95 sm:hover:shadow-lg transition-all duration-300"
-            >
-              <span>{copy('experience.learnMore', t.experience.learnMore)}</span>
+            <a href="/packages" className="btn-outline">
+              {copy('experience.learnMore', t.experience.learnMore)}
             </a>
           </div>
         </div>

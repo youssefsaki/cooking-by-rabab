@@ -103,6 +103,11 @@ function ensureSheet_(ss, name, headers) {
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(headers);
   }
+  // Keep Bookings as the first tab so opening the file shows live bookings
+  if (name === 'Bookings' && sheet.getIndex() !== 1) {
+    ss.setActiveSheet(sheet);
+    ss.moveActiveSheet(1);
+  }
   return sheet;
 }
 

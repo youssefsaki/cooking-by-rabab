@@ -1,74 +1,145 @@
 {
   "title": "WHAT OUR GUESTS SAY",
-  "subtitle": "Real experiences from guests who cooked with Rabab",
+  "subtitle": "Real Google reviews from guests who cooked with Rabab",
   "overallRating": 5.0,
-  "totalReviews": 156,
+  "totalReviews": 69,
+  "googleUrl": "https://www.google.com/maps/place/?q=place_id:ChIJUZyy1dJNsg0RrGCjoYtC69A",
   "reviews": [
     {
-      "id": "review-1",
+      "id": "rysa-saujani",
       "author": {
-        "name": "Sophie Laurent",
-        "avatar": null
+        "name": "Rysa Saujani"
       },
       "rating": 5,
-      "text": "An absolutely magical experience! Rabab welcomed us into her home like family. We learned to make the most incredible tagine and fresh bread in a traditional clay oven. The flavors were unlike anything I've ever tasted. This was the highlight of our Morocco trip!",
-      "date": "2025-01-10",
-      "verified": true
+      "text": "I booked this cooking class for my boyfriend’s birthday and it was easily one of the coolest things we’ve ever done! Rabab was such a bright presence and made the experience 10/10. The set up was beautifully decorated and so colourful. We learned so much about Moroccan culture, cuisine and history. We also got to wear some traditional Moroccan attire which was really fun. The whole experience couldn’t have been better and the food was delicious! Would 1000% recommend.",
+      "date": "4 months ago",
+      "verified": true,
+      "images": [
+        "/reviews/rysa-saujani-01.jpg",
+        "/reviews/rysa-saujani-02.jpg",
+        "/reviews/rysa-saujani-03.jpg",
+        "/reviews/rysa-saujani-04.jpg"
+      ]
     },
     {
-      "id": "review-2",
+      "id": "poppy-morris",
       "author": {
-        "name": "James Mitchell",
-        "avatar": null
+        "name": "Poppy Morris"
       },
       "rating": 5,
-      "text": "Rabab is an incredible teacher! Her passion for Amazigh cuisine is infectious. We made couscous from scratch, learned the secrets of her family's spice blends, and enjoyed the most delicious meal together. The pickup from Taghazout was seamless. Highly recommend!",
-      "date": "2025-01-05",
-      "verified": true
+      "text": "An amazing, authentic cooking class experience - a must do when in Taghazout to learn the local Amazigh culture and food! Rabab and the local women alongside her were so kind and fun, the food and cooking processes were amazing, and the space was beautiful and calm. 10/10 recommend to anyone visiting Morocco!",
+      "date": "2 months ago",
+      "verified": true,
+      "images": [
+        "/reviews/poppy-morris-01.jpg",
+        "/reviews/poppy-morris-02.jpg",
+        "/reviews/poppy-morris-03.jpg",
+        "/reviews/poppy-morris-04.jpg",
+        "/reviews/poppy-morris-05.jpg",
+        "/reviews/poppy-morris-06.jpg"
+      ]
     },
     {
-      "id": "review-3",
+      "id": "anais",
       "author": {
-        "name": "Maria Garcia",
-        "avatar": null
+        "name": "Anais"
       },
       "rating": 5,
-      "text": "This cooking class exceeded all expectations! Rabab's traditional kitchen is beautiful, and learning to cook authentic Moroccan dishes while hearing stories about Berber culture was unforgettable. The amlou we made was incredible - I've been craving it ever since!",
-      "date": "2024-12-28",
-      "verified": true
+      "text": "We had the best time with Rabab and the girls, they were very nice and fun! It was very authentic and precious. Such a great experience, we learned a lot about the amazigh culture and way of life. We cooked msemen vegetarian and with meat, but we also made amlou. It was all delicious!!! Rabab is amazing, very passionate and very sweet.",
+      "date": "4 months ago",
+      "verified": true,
+      "images": [
+        "/reviews/anais-01.jpg",
+        "/reviews/anais-02.jpg",
+        "/reviews/anais-03.jpg",
+        "/reviews/anais-04.jpg"
+      ]
     },
     {
-      "id": "review-4",
+      "id": "nina-suls",
       "author": {
-        "name": "Thomas Weber",
-        "avatar": null
+        "name": "Nina Suls"
       },
       "rating": 5,
-      "text": "A truly authentic experience! Rabab's hospitality is warm and genuine. We baked bread in her wood-fired oven, prepared a lamb tagine, and learned the traditional Moroccan tea ceremony. The views of the Atlas Mountains from her village were stunning. A must-do!",
-      "date": "2024-12-20",
-      "verified": true
+      "text": "What an incredible experience. This cooking workshop is about much more than simply preparing delicious food. It’s an authentic way to discover the local culture, traditions, and a stunning, lesser-known environment — and of course, to enjoy amazing food as well. We arrived as guests and left as friends.",
+      "date": "5 months ago",
+      "verified": true,
+      "images": [
+        "/reviews/nina-suls-01.jpg",
+        "/reviews/nina-suls-02.jpg",
+        "/reviews/nina-suls-03.jpg",
+        "/reviews/nina-suls-04.jpg",
+        "/reviews/nina-suls-05.jpg",
+        "/reviews/nina-suls-06.jpg"
+      ]
     },
     {
-      "id": "review-5",
+      "id": "jessica-rodriguez",
       "author": {
-        "name": "Emily Chen",
-        "avatar": null
-      },
-      "rating": 4,
-      "text": "Wonderful cooking experience with Rabab! She was patient and knowledgeable, teaching us family recipes passed down through generations. The food was delicious and we left with recipe cards to recreate the dishes at home. A perfect cultural immersion!",
-      "date": "2024-12-15",
-      "verified": true
-    },
-    {
-      "id": "review-6",
-      "author": {
-        "name": "Henrik Johansson",
-        "avatar": null
+        "name": "Jessica Rodriguez"
       },
       "rating": 5,
-      "text": "Best experience in Morocco! Rabab's cooking class is so much more than just cooking - it's a journey into Amazigh culture and traditions. The tajine we made was perfection, and her homemade mint tea was divine. Don't miss this if you're in the area!",
-      "date": "2024-12-08",
-      "verified": true
+      "text": "Had an incredible experience, we were nervous as we went with 3 small kids (2, 5 and 7) and it was super interactive and the kids loved it. The food was delicious and it was really an authentic experience. We also had her team come to our Airbnb and prepare us an authentic dinner and breakfast, was really delicious and great experience. Would 100% reccomend!!",
+      "date": "a month ago",
+      "verified": true,
+      "images": [
+        "/reviews/jessica-rodriguez-01.jpg",
+        "/reviews/jessica-rodriguez-02.jpg",
+        "/reviews/jessica-rodriguez-03.jpg",
+        "/reviews/jessica-rodriguez-04.jpg",
+        "/reviews/jessica-rodriguez-05.jpg",
+        "/reviews/jessica-rodriguez-06.jpg",
+        "/reviews/jessica-rodriguez-07.jpg",
+        "/reviews/jessica-rodriguez-08.jpg",
+        "/reviews/jessica-rodriguez-09.jpg"
+      ]
+    },
+    {
+      "id": "kayla-fournier",
+      "author": {
+        "name": "Kayla Fournier"
+      },
+      "rating": 5,
+      "text": "This was my favourite experience in Morocco. Rabab is an incredible Amazigh woman who is educating tourists about the rich culture and history of her people. During this experience you will begin by enjoying a traditional tea ceremony, make your own bread from scratch, prepare and build your tajine, then bake in the traditional stove. Anyone visiting Morocco needs to try this experience.",
+      "date": "6 months ago",
+      "verified": true,
+      "images": [
+        "/reviews/kayla-fournier-01.jpg",
+        "/reviews/kayla-fournier-02.jpg",
+        "/reviews/kayla-fournier-03.jpg",
+        "/reviews/kayla-fournier-04.jpg",
+        "/reviews/kayla-fournier-05.jpg",
+        "/reviews/kayla-fournier-06.jpg"
+      ]
+    },
+    {
+      "id": "graeme-wilson",
+      "author": {
+        "name": "Graeme Wilson"
+      },
+      "rating": 5,
+      "text": "Rabab’s cooking workshop was fantastic and will be something that my kids and I will never forget. It exceeded all expectations. We made tea, then bread, followed by our chicken tagine and then (our kids favourite) amlou. Perfect for families. The workshop ran like clockwork and her communication via WhatsApp was very clear.",
+      "date": "a month ago",
+      "verified": true,
+      "images": []
+    },
+    {
+      "id": "kitty-green",
+      "author": {
+        "name": "Kitty Green"
+      },
+      "rating": 5,
+      "text": "Beautiful day cooking in the mountains with Rabab and the lovely ladies. We got to make delicious tagine, eat Moroccan sweets, drink mint tea and make Amlou the traditional way.",
+      "date": "2 months ago",
+      "verified": true,
+      "images": [
+        "/reviews/kitty-green-01.jpg",
+        "/reviews/kitty-green-02.jpg",
+        "/reviews/kitty-green-03.jpg",
+        "/reviews/kitty-green-04.jpg",
+        "/reviews/kitty-green-05.jpg",
+        "/reviews/kitty-green-06.jpg"
+      ]
     }
   ]
 }

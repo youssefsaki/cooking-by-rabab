@@ -13,14 +13,9 @@
     "badge": "TRADITIONAL AMAZIGH CUISINE",
     "title": "Taghazout Cooking Class",
     "titleHighlight": "AUTHENTIC BERBER and MOROCCAN CUISINE",
-    "description": "Looking for the best things to do in Taghazout? Leave the coast for an authentic half-day Atlas Mountains day trip! Step inside a 300-year-old village home to discover Berber culture, then join our hands-on workshop to master traditional Moroccan food - choose your dish when you book.",
+    "description": "Book a traditional cooking experience in Taghazout. Leave the coast for a half-day in the Atlas Mountains — discover Amazigh culture, clay oven bread, and aromatic tagines in a 300-year-old Berber village home.",
     "descriptionSegments": [
-      { "type": "text", "value": "Looking for the best " },
-      { "type": "link", "value": "things to do in Taghazout?", "href": "/#things-to-do-taghazout" },
-      { "type": "text", "value": " Leave the coast for an authentic half-day " },
-      { "type": "link", "value": "Atlas Mountains day trip!", "href": "/ourstory/location" },
-      { "type": "text", "value": " Step inside a 300-year-old village home to discover Berber culture, then join our hands-on workshop to master " },
-      { "type": "link", "value": "traditional Moroccan food - choose your dish when you book.", "href": "/experiences" }
+      { "type": "text", "value": "Book a traditional cooking experience in Taghazout. Leave the coast for a half-day in the Atlas Mountains — discover Amazigh culture, clay oven bread, and aromatic tagines in a 300-year-old Berber village home." }
     ],
     "bookButton": "BOOK YOUR EXPERIENCE"
   },
@@ -60,10 +55,10 @@
     "description": "Choose your traditional cooking experience in Taghazout — half-day Berber village journey in the Atlas Mountains, just 15 minutes from the coast.",
     "mostPopular": "Most Popular",
     "basic": {
-      "title": "The Authentic Mountain & Culinary Escape",
+      "title": "The authentic mountains culinary escape",
       "subtitle": "Your Journey into the Mountains",
       "description": "Escape the coast for a half-day in the Atlas Mountains. Tour a historic village home, grind fresh Amlou, and cook the traditional dish of your choice.",
-      "price": "From 65 EUR/person",
+      "price": "From 65 € / person · 700 MAD",
       "duration": "4 hours",
       "startTime": "Flexible Start Time",
       "pickup": "Taghazout Mosque Pickup"
@@ -72,7 +67,7 @@
       "title": "Private Workshop Experience",
       "subtitle": "Private cooking at our village workshop",
       "description": "A private cooking experience just for your group at our traditional village workshop — perfect for couples and small celebrations.",
-      "price": "80 EUR/person",
+      "price": "80 € / person · 850 MAD",
       "startTime": "Flexible Start Time",
       "pickup": "Taghazout Mosque Pickup"
     },
@@ -80,7 +75,7 @@
       "title": "Rabab Comes to You",
       "subtitle": "Private cooking at your villa or riad",
       "description": "We bring the full cooking experience to your villa or riad — ideal for family gatherings and larger celebrations.",
-      "price": "100 EUR/person",
+      "price": "100 € / person · 1050 MAD",
       "startTime": "Flexible Start Time",
       "pickup": "At your location"
     },
@@ -144,9 +139,9 @@
     "email": "Email Address",
     "emailPlaceholder": "Enter your email address",
     "packageType": "Select Package",
-    "basicPackage": "The Authentic Mountain & Culinary Escape - From 65 EUR",
-    "privatePackage": "Private Workshop Experience - 80 EUR",
-    "privateAtLocationPackage": "Rabab Comes to You - 100 EUR",
+    "basicPackage": "The authentic mountains culinary escape - From 65 € · 700 MAD",
+    "privatePackage": "Private Workshop Experience - 80 € · 850 MAD",
+    "privateAtLocationPackage": "Rabab Comes to You - 100 € · 1050 MAD",
     "dietary": "Dietary Preferences",
     "dietaryNone": "No restrictions",
     "dietaryVegetarian": "Vegetarian",
@@ -221,7 +216,7 @@
       "tajine": "Moroccan Cooking Masterclass Taghazout",
       "amazigh": "Berber Village Cooking Experience",
       "tea": "Moroccan Mint Tea Ceremony",
-      "bread": "Clay Oven Bread Making Taghazout",
+      "bread": "The Authentic Moroccan Hospitality",
       "amlou": "Amlou Workshop Morocco"
     }
   },
@@ -415,7 +410,7 @@
     "badge": "Authentic Experiences",
     "title": "Taghazout Cooking Class",
     "titleHighlight": "Packages",
-    "description": "Choose your traditional cooking experience in Taghazout — half-day Berber village journey with pickup from Taghazout Mosque. Basic €60, Weekly Event €80, Private €100.",
+    "description": "Choose your traditional cooking experience in Taghazout — half-day Berber village journey with pickup from Taghazout Mosque. From 65 € (700 MAD), Weekly Event 80 € (850 MAD), Private Workshop 80 € (850 MAD), At Your Location 100 € (1050 MAD).",
     "mostPopular": "Most Popular",
     "perPerson": "per person",
     "viewFullDetails": "View Full Details",
@@ -440,7 +435,7 @@
     "readyDescription": "Book your {name} today and create unforgettable memories",
     "bookPackage": "Book {name}",
     "basic": {
-      "name": "The Authentic Mountain & Culinary Escape",
+      "name": "The authentic mountains culinary escape",
       "tagline": "Your Journey into the Mountains",
       "subtitle": "Half-Day Authentic Berber Cultural Experience Above Taghazout",
       "duration": "4 hours",

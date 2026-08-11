@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Roboto_Condensed } from 'next/font/google';
+import { Newsreader, Outfit } from 'next/font/google';
 import './globals.css';
 import { getStaticSiteConfig, getStaticNavigationData } from '@/lib/static-data';
 import Header from '@/components/Header';
@@ -8,15 +8,24 @@ import ErrorSuppressor from '@/components/ErrorSuppressor';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import SiteChrome from '@/components/SiteChrome';
+import SiteMotion from '@/components/SiteMotion';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 
-const robotoCondensed = Roboto_Condensed({
-  weight: ['300', '400', '700'],
+const outfit = Outfit({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-roboto-condensed',
+  variable: '--font-outfit',
   preload: true,
-  fallback: ['system-ui', 'arial'],
+});
+
+const newsreader = Newsreader({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-newsreader',
+  preload: true,
+  style: ['normal', 'italic'],
+  weight: ['300', '400', '500', '600'],
+  adjustFontFallback: false,
 });
 
 // Get site config for metadata
@@ -117,7 +126,7 @@ export default function RootLayout({
                 { '@type': 'Place', name: 'Atlas Mountains' },
               ],
               image: 'https://www.taghazout-cooking-class.com/hero/desktop/bg.jpg',
-              priceRange: '€60-€100',
+              priceRange: '€65-€100',
               aggregateRating: { '@type': 'AggregateRating', ratingValue: '5.0', reviewCount: '500' },
               openingHoursSpecification: { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'], opens: '09:00', closes: '20:00' },
               sameAs: ['https://www.instagram.com/taghazout_cooking_class/', 'https://www.tiktok.com/@rabab_cooking_class'],
@@ -125,7 +134,7 @@ export default function RootLayout({
                 '@type': 'OfferCatalog',
                 name: 'Cooking Class Packages',
                 itemListElement: [
-                  { '@type': 'Offer', name: 'Basic Package', price: '60', priceCurrency: 'EUR', description: 'Half-day authentic Berber cooking experience in Atlas Mountains above Taghazout' },
+                  { '@type': 'Offer', name: 'The authentic mountains culinary escape', price: '65', priceCurrency: 'EUR', description: 'Half-day authentic Berber cooking experience in Atlas Mountains above Taghazout' },
                   { '@type': 'Offer', name: 'Weekly Amazigh Music Event', price: '80', priceCurrency: 'EUR', description: 'Weekly Berber music and cultural event — things to do in Taghazout besides surfing' },
                   { '@type': 'Offer', name: 'Private Workshop Experience', price: '80', priceCurrency: 'EUR', description: 'Private cooking class for your group at our traditional village workshop above Taghazout' },
                   { '@type': 'Offer', name: 'Rabab Comes to You', price: '100', priceCurrency: 'EUR', description: 'Private Moroccan cooking experience at your villa or riad in the Taghazout area' },
@@ -135,23 +144,25 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${robotoCondensed.variable} font-sans antialiased`} suppressHydrationWarning>
+      <body className={`${outfit.variable} ${newsreader.variable} font-sans antialiased text-ink bg-paper`} suppressHydrationWarning>
         <LanguageProvider>
-          <ErrorSuppressor />
-          <SiteChrome>
-            <ErrorBoundary name="Header">
-              <Header navigationData={navigationData} />
-            </ErrorBoundary>
-          </SiteChrome>
-          <main>{children}</main>
-          <SiteChrome>
-            <ErrorBoundary name="Footer">
-              <Footer />
-            </ErrorBoundary>
-            <ErrorBoundary name="WhatsApp">
-              <WhatsAppButton />
-            </ErrorBoundary>
-          </SiteChrome>
+          <SiteMotion>
+            <ErrorSuppressor />
+            <SiteChrome>
+              <ErrorBoundary name="Header">
+                <Header navigationData={navigationData} />
+              </ErrorBoundary>
+            </SiteChrome>
+            <main>{children}</main>
+            <SiteChrome>
+              <ErrorBoundary name="Footer">
+                <Footer />
+              </ErrorBoundary>
+              <ErrorBoundary name="WhatsApp">
+                <WhatsAppButton />
+              </ErrorBoundary>
+            </SiteChrome>
+          </SiteMotion>
         </LanguageProvider>
       </body>
     </html>
