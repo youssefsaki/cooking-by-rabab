@@ -22,6 +22,7 @@ export type BookingRow = {
   children?: { age: number }[] | null;
   location?: string | null;
   total_price_eur?: number | null;
+  source?: string | null;
 };
 
 export type ContactMessageRow = {
@@ -32,6 +33,7 @@ export type ContactMessageRow = {
   subject: string;
   message: string;
   status: ContactStatus;
+  source?: string | null;
 };
 
 export type ContentEntryRow = {

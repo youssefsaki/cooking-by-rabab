@@ -35,6 +35,11 @@ import {
   SLOT_CONFLICT_MESSAGE,
   type SlotOccupancy,
 } from '@/lib/booking/conflicts';
+import {
+  LEAD_SOURCE_OPTIONS,
+  resolveLeadSource,
+  sourceFromQueryParams,
+} from '@/lib/lead-source';
 import Image from 'next/image';
 
 const countryOptions = [
@@ -170,6 +175,7 @@ const baseValidationSchema = Yup.object({
         .required('Please select one dish for your group'),
     otherwise: (schema) => schema.notRequired(),
   }),
+  source: Yup.string().notRequired(),
 });
 
 function BookingForm() {
@@ -177,6 +183,7 @@ function BookingForm() {
   const packageParam = searchParams.get('package');
   const { t } = useLanguage();
   const initialPackage = resolvePackageType(packageParam);
+  const querySource = sourceFromQueryParams(searchParams);
   const calendarFlow = usesCalendar(initialPackage);
 
   const [step, setStep] = useState<'calendar' | 'dish' | 'form'>(
@@ -236,6 +243,7 @@ function BookingForm() {
       dishId: '',
       preferredDate: '',
       preferredPeriod: 'morning',
+      source: querySource || '',
     },
     validationSchema: baseValidationSchema,
     onSubmit: async (values, { setSubmitting }) => {
@@ -389,6 +397,10 @@ function BookingForm() {
             location: locationLabel,
             dietaryNotes: values.dietaryNotes,
             allergies: values.dietaryNotes,
+            source: resolveLeadSource({
+              querySource,
+              selectedSource: values.source,
+            }),
           }),
         });
 
@@ -635,6 +647,7 @@ function BookingForm() {
         dishId: '',
         preferredDate: '',
         preferredPeriod: 'morning',
+        source: querySource || '',
       },
     });
   };
@@ -1375,6 +1388,29 @@ function BookingForm() {
               {formik.touched.email && formik.errors.email && (
                 <p className="text-red-500 text-sm mt-1">⚠ {formik.errors.email}</p>
               )}
+            </div>
+
+            <div className="mb-8">
+              <label htmlFor="source" className="flex items-center gap-2 text-sm font-bold text-gray-700 mb-2">
+                How did you hear about us?
+              </label>
+              <select
+                id="source"
+                {...formik.getFieldProps('source')}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500 transition-colors bg-white"
+              >
+                <option value="">Select an option (optional)</option>
+                {LEAD_SOURCE_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              {querySource ? (
+                <p className="mt-1 text-xs text-gray-500">
+                  Prefill from link: <span className="font-semibold">{querySource}</span>
+                </p>
+              ) : null}
             </div>
 
             {/* 9. Price summary */}
