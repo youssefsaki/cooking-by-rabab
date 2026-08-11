@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { imageFromBag, SITE_IMAGE_DEFAULTS } from '@/lib/site-images';
+import { publishedTestimonials } from '@/lib/testimonials';
 
 type Bag = Record<string, string>;
 
@@ -67,5 +68,7 @@ export function useSiteCopy() {
   const img = (key: string, fallback?: string) =>
     imageFromBag(bag, key, fallback || SITE_IMAGE_DEFAULTS[key]);
 
-  return { bag, copy, img, ready: bag !== null };
+  const testimonials = publishedTestimonials(bag);
+
+  return { bag, copy, img, testimonials, ready: bag !== null };
 }

@@ -10,6 +10,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import SiteChrome from '@/components/SiteChrome';
 import SiteMotion from '@/components/SiteMotion';
 import { LanguageProvider } from '@/contexts/LanguageContext';
+import { buildSeoMetadata } from '@/lib/seo-metadata';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -31,55 +32,84 @@ const newsreader = Newsreader({
 // Get site config for metadata
 const siteConfig = getStaticSiteConfig();
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.site.url),
-  title: {
-    default: 'Taghazout Cooking Class - Authentic Moroccan & Amazigh Cooking Experience',
-    template: '%s | Taghazout Cooking Class',
-  },
-  description: 'Book your Taghazout cooking class — half-day Berber village experience with pickup from Taghazout & Agadir. Learn traditional Moroccan dishes of your choice (Tagine, Msemen, Couscous, or Rfissa), clay oven bread & tea ceremony in a 300-year-old Berber village home.',
-  keywords: ['taghazout cooking class', 'moroccan cooking class taghazout', 'authentic berber cooking class morocco', 'traditional cooking experience taghazout', 'book cooking class near taghazout', 'cooking class agadir', 'cooking class tamraght', 'berber village cooking experience', 'moroccan cooking masterclass taghazout', 'tajine masterclass taghazout', 'clay oven bread making taghazout', 'amlou workshop morocco', 'amazigh cuisine', 'atlas mountains cooking class', 'moroccan culinary experience', 'morocco food tour'],
-  authors: [{ name: 'Rabab - Taghazout Cooking Class' }],
-  creator: 'Taghazout Cooking Class',
-  publisher: 'Taghazout Cooking Class',
-  formatDetection: { telephone: true, email: true },
-  alternates: {
-    canonical: siteConfig.site.url,
-  },
-  openGraph: {
-    title: 'Taghazout Cooking Class - Authentic Moroccan & Amazigh Cooking Experience',
-    description: 'Book your Taghazout cooking class — half-day Berber village experience with pickup included. Learn your choice of traditional dish (Tagine, Msemen, Couscous, or Rfissa), clay oven bread & amlou in a 300-year-old Berber village home.',
-    type: 'website',
-    locale: 'en_US',
-    url: siteConfig.site.url,
-    siteName: 'Taghazout Cooking Class',
-    images: [
-      {
-        url: '/hero/desktop/bg.jpg',
-        width: 1920,
-        height: 1080,
-        alt: 'Taghazout cooking class — authentic Berber cooking experience in Atlas Mountains Morocco',
-      },
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await buildSeoMetadata('home');
+  const title =
+    typeof seo.title === 'string'
+      ? seo.title
+      : 'Taghazout Cooking Class - Authentic Moroccan & Amazigh Cooking Experience';
+  const description =
+    typeof seo.description === 'string'
+      ? seo.description
+      : 'Book your Taghazout cooking class — half-day Berber village experience with pickup from Taghazout & Agadir.';
+
+  return {
+    metadataBase: new URL(siteConfig.site.url),
+    title: {
+      default: title,
+      template: '%s | Taghazout Cooking Class',
+    },
+    description,
+    keywords: [
+      'taghazout cooking class',
+      'moroccan cooking class taghazout',
+      'authentic berber cooking class morocco',
+      'traditional cooking experience taghazout',
+      'book cooking class near taghazout',
+      'cooking class agadir',
+      'cooking class tamraght',
+      'berber village cooking experience',
+      'moroccan cooking masterclass taghazout',
+      'tajine masterclass taghazout',
+      'clay oven bread making taghazout',
+      'amlou workshop morocco',
+      'amazigh cuisine',
+      'atlas mountains cooking class',
+      'moroccan culinary experience',
+      'morocco food tour',
     ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Taghazout Cooking Class — Authentic Moroccan Cooking Experience',
-    description: 'Book your Taghazout cooking class. Learn Amazigh tagine, clay oven bread & tea ceremony in the Atlas Mountains above Taghazout.',
-    images: ['/hero/desktop/bg.jpg'],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+    authors: [{ name: 'Rabab - Taghazout Cooking Class' }],
+    creator: 'Taghazout Cooking Class',
+    publisher: 'Taghazout Cooking Class',
+    formatDetection: { telephone: true, email: true },
+    alternates: {
+      canonical: siteConfig.site.url,
+    },
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      locale: 'en_US',
+      url: siteConfig.site.url,
+      siteName: 'Taghazout Cooking Class',
+      images: [
+        {
+          url: '/hero/desktop/bg.jpg',
+          width: 1920,
+          height: 1080,
+          alt: 'Taghazout cooking class — authentic Berber cooking experience in Atlas Mountains Morocco',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['/hero/desktop/bg.jpg'],
+    },
+    robots: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
-  },
-};
+  };
+}
 
 export const viewport: Viewport = {
   width: 'device-width',

@@ -21,6 +21,10 @@ const GoogleReviewsSection = dynamic(() => import('@/components/GoogleReviewsSec
   loading: () => <div className="min-h-[400px] bg-white animate-pulse" />,
 });
 
+const CmsTestimonials = dynamic(() => import('@/components/CmsTestimonials'), {
+  loading: () => null,
+});
+
 const SupportingChildren = dynamic(() => import('@/components/SupportingChildrenV4'), {
   loading: () => <div className="min-h-[500px] bg-gray-900 animate-pulse" />,
 });
@@ -54,6 +58,10 @@ export default async function HomePage() {
         <section id="reviews">
           <GoogleReviewsSection />
         </section>
+      </ErrorBoundary>
+
+      <ErrorBoundary name="CmsTestimonials">
+        <CmsTestimonials />
       </ErrorBoundary>
 
       <ErrorBoundary name="Packages">

@@ -11,17 +11,23 @@ import {
   Home,
   LogOut,
   MessageSquare,
+  Search,
   Settings,
   Sparkles,
+  Star,
   Store,
+  Users,
 } from 'lucide-react';
 import AdminMotion from '@/components/admin/AdminMotion';
 
 const NAV = [
   { href: '/admin', label: 'Home', icon: Home },
   { href: '/admin/bookings', label: 'Bookings', icon: BookOpen },
+  { href: '/admin/customers', label: 'Customers', icon: Users },
   { href: '/admin/messages', label: 'Inbox', icon: MessageSquare },
   { href: '/admin/content', label: 'Visual editor', icon: Store, accent: true },
+  { href: '/admin/testimonials', label: 'Testimonials', icon: Star },
+  { href: '/admin/seo', label: 'SEO', icon: Search },
   { href: '/admin/media', label: 'Media library', icon: Files },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];

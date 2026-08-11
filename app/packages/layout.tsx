@@ -1,43 +1,9 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
+import { buildSeoMetadata } from '@/lib/seo-metadata';
 
-export const metadata: Metadata = {
-  title: 'Taghazout Cooking Class Packages — Half-Day Berber Experience from €65',
-  description:
-    'Traditional cooking experience Taghazout — From 65 € (700 MAD), Weekly Event 80 € (850 MAD), Private Workshop 80 € (850 MAD), or At Your Location 100 € (1050 MAD). Includes pickup, Berber house tour, cooking workshop, clay oven bread, amlou, and family feast in the Atlas Mountains.',
-  keywords: [
-    'taghazout cooking class packages',
-    'traditional cooking experience taghazout',
-    'moroccan cooking class taghazout price',
-    'private cooking class morocco',
-    'half-day cooking experience morocco',
-    'berber cooking workshop cost',
-    'cooking class tamraght',
-    'cooking class agadir',
-    'authentic berber cooking class morocco',
-  ],
-  alternates: { canonical: 'https://www.taghazout-cooking-class.com/packages' },
-  openGraph: {
-    title: 'Taghazout Cooking Class Packages | Taghazout Cooking Class',
-    description:
-      'Moroccan cooking packages from 65 € (700 MAD). Half-day Berber village experience with pickup from Taghazout.',
-    url: 'https://www.taghazout-cooking-class.com/packages',
-    type: 'website',
-    images: [
-      {
-        url: '/packages/basic.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Traditional cooking experience Taghazout — half-day Berber cooking class package',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Taghazout Cooking Class Packages',
-    description: 'From 65 € (700 MAD), Weekly/Private 80 € (850 MAD), At Your Location 100 € (1050 MAD).',
-    images: ['/packages/basic.jpg'],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return buildSeoMetadata('packages');
+}
 
 export default function PackagesLayout({ children }: { children: React.ReactNode }) {
   return children;
