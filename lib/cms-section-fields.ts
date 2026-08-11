@@ -171,6 +171,26 @@ export function buildSectionTextFields(): CmsField[] {
     // Location page
     { id: 'locationPage.heroTitle', label: 'Hero title', group: 'Location page', type: 'text' },
     { id: 'locationPage.heroSubtitle', label: 'Hero subtitle', group: 'Location page', type: 'textarea' },
+
+    // SEO meta (also editable on /admin/seo)
+    { id: 'seo.home.metaTitle', label: 'Meta title', group: 'SEO: Homepage', type: 'text' },
+    { id: 'seo.home.metaDescription', label: 'Meta description', group: 'SEO: Homepage', type: 'textarea' },
+    { id: 'seo.packages.metaTitle', label: 'Meta title', group: 'SEO: Packages', type: 'text' },
+    { id: 'seo.packages.metaDescription', label: 'Meta description', group: 'SEO: Packages', type: 'textarea' },
+    { id: 'seo.experiences.metaTitle', label: 'Meta title', group: 'SEO: Experiences', type: 'text' },
+    { id: 'seo.experiences.metaDescription', label: 'Meta description', group: 'SEO: Experiences', type: 'textarea' },
+    { id: 'seo.events.metaTitle', label: 'Meta title', group: 'SEO: Events', type: 'text' },
+    { id: 'seo.events.metaDescription', label: 'Meta description', group: 'SEO: Events', type: 'textarea' },
+    { id: 'seo.book.metaTitle', label: 'Meta title', group: 'SEO: Book', type: 'text' },
+    { id: 'seo.book.metaDescription', label: 'Meta description', group: 'SEO: Book', type: 'textarea' },
+    { id: 'seo.faq.metaTitle', label: 'Meta title', group: 'SEO: FAQ & Contact', type: 'text' },
+    { id: 'seo.faq.metaDescription', label: 'Meta description', group: 'SEO: FAQ & Contact', type: 'textarea' },
+    { id: 'seo.meetChef.metaTitle', label: 'Meta title', group: 'SEO: Meet the Chef', type: 'text' },
+    { id: 'seo.meetChef.metaDescription', label: 'Meta description', group: 'SEO: Meet the Chef', type: 'textarea' },
+    { id: 'seo.kitchen.metaTitle', label: 'Meta title', group: 'SEO: Our Kitchen', type: 'text' },
+    { id: 'seo.kitchen.metaDescription', label: 'Meta description', group: 'SEO: Our Kitchen', type: 'textarea' },
+    { id: 'seo.location.metaTitle', label: 'Meta title', group: 'SEO: Location', type: 'text' },
+    { id: 'seo.location.metaDescription', label: 'Meta description', group: 'SEO: Location', type: 'textarea' },
   ];
 
   return fields;

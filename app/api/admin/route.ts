@@ -175,6 +175,7 @@ export async function PUT(request: Request) {
     revalidateTag('packages');
     revalidateTag('faqs');
     revalidateTag('hero');
+    revalidateTag('testimonials');
   }
   return NextResponse.json({ ok: true });
 }

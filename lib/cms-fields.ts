@@ -115,6 +115,8 @@ export function defaultSiteCopy(locale: Locale): SiteCopyBag {
 
   Object.assign(bag, seedSectionCopy(t));
 
+  bag['testimonials.items'] = '[]';
+
   for (const [key, value] of Object.entries(SITE_IMAGE_DEFAULTS)) {
     bag[key] = value;
   }
