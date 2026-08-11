@@ -3,6 +3,13 @@ import { listBookings } from '@/lib/booking/sheets';
 import { buildOccupancyMap, type SlotOccupancy } from '@/lib/booking/conflicts';
 import { getUpcomingCalendarDays, buildSlotId, BASIC_MAX_GUESTS } from '@/lib/booking/schedule';
 import {
+  blockedDateSet,
+} from '@/lib/availability';
+import {
+  getSharedMaxGuests,
+  listBlockedDates,
+} from '@/lib/availability-server';
+import {
   clearOccupancyInflight,
   getCachedOccupancyPayload,
   getOccupancyInflight,
@@ -15,12 +22,16 @@ export const runtime = 'nodejs';
 
 type OccupancyPayload = {
   occupancy: SlotOccupancy[];
+  blockedDates: string[];
+  maxGuests: number;
   from: string | undefined;
   to: string | undefined;
 };
 
 function buildOccupancyList(
   occupancyMap: ReturnType<typeof buildOccupancyMap>,
+  maxGuests: number,
+  blocked: Set<string>,
   from?: string,
   to?: string
 ): SlotOccupancy[] {
@@ -30,8 +41,9 @@ function buildOccupancyList(
     .flatMap((day) =>
       day.slots.map((slot) => {
         const existing = occupancyMap.get(slot.id);
-        return (
-          existing ?? {
+        const base =
+          existing ??
+          ({
             slotId: buildSlotId(slot.date, slot.period),
             date: slot.date,
             period: slot.period,
@@ -39,15 +51,27 @@ function buildOccupancyList(
             hasWeekly: false,
             basicGuestCount: 0,
             locked: false,
-            remainingBasicCapacity: BASIC_MAX_GUESTS,
-          }
-        );
+            remainingBasicCapacity: maxGuests,
+          } satisfies SlotOccupancy);
+
+        if (blocked.has(slot.date)) {
+          return {
+            ...base,
+            locked: true,
+            remainingBasicCapacity: 0,
+          };
+        }
+        return base;
       })
     );
 
   occupancyMap.forEach((value, slotId) => {
     if (!occupancy.some((o) => o.slotId === slotId)) {
-      occupancy.push(value);
+      occupancy.push(
+        blocked.has(value.date)
+          ? { ...value, locked: true, remainingBasicCapacity: 0 }
+          : value
+      );
     }
   });
 
@@ -63,10 +87,17 @@ async function getOccupancyPayload(from?: string, to?: string): Promise<Occupanc
   if (existing) return existing as Promise<OccupancyPayload>;
 
   const promise = (async () => {
-    const bookings = await listBookings(from, to);
-    const occupancyMap = buildOccupancyMap(bookings);
+    const [bookings, blockedRows, maxGuests] = await Promise.all([
+      listBookings(from, to),
+      listBlockedDates(from, to).catch(() => []),
+      getSharedMaxGuests().catch(() => BASIC_MAX_GUESTS),
+    ]);
+    const blocked = blockedDateSet(blockedRows);
+    const occupancyMap = buildOccupancyMap(bookings, maxGuests);
     const body: OccupancyPayload = {
-      occupancy: buildOccupancyList(occupancyMap, from, to),
+      occupancy: buildOccupancyList(occupancyMap, maxGuests, blocked, from, to),
+      blockedDates: Array.from(blocked).sort(),
+      maxGuests,
       from,
       to,
     };

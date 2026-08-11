@@ -54,7 +54,12 @@ function isWeeklyPackage(pkg: PackageType): boolean {
   return pkg === 'weekly-event';
 }
 
-function emptyOccupancy(slotId: string, date: string, period: SlotPeriod): SlotOccupancy {
+function emptyOccupancy(
+  slotId: string,
+  date: string,
+  period: SlotPeriod,
+  maxGuests: number = BASIC_MAX_GUESTS
+): SlotOccupancy {
   return {
     slotId,
     date,
@@ -63,7 +68,7 @@ function emptyOccupancy(slotId: string, date: string, period: SlotPeriod): SlotO
     hasWeekly: false,
     basicGuestCount: 0,
     locked: false,
-    remainingBasicCapacity: BASIC_MAX_GUESTS,
+    remainingBasicCapacity: maxGuests,
   };
 }
 
@@ -79,13 +84,18 @@ function emptyOccupancy(slotId: string, date: string, period: SlotPeriod): SlotO
  *   individuals (1+) can join any remaining spots.
  * - Weekly Event can have multiple groups, but is blocked if Private holds the slot
  */
-export function buildOccupancyMap(bookings: StoredBooking[]): Map<string, SlotOccupancy> {
+export function buildOccupancyMap(
+  bookings: StoredBooking[],
+  maxGuests: number = BASIC_MAX_GUESTS
+): Map<string, SlotOccupancy> {
+  const cap = Number.isFinite(maxGuests) && maxGuests > 0 ? maxGuests : BASIC_MAX_GUESTS;
   const map = new Map<string, SlotOccupancy>();
   const privateBySlot = new Map<string, StoredBooking[]>();
 
   for (const booking of bookings) {
     const slotId = `${booking.slotDate}|${booking.slotPeriod}`;
-    const existing = map.get(slotId) ?? emptyOccupancy(slotId, booking.slotDate, booking.slotPeriod);
+    const existing =
+      map.get(slotId) ?? emptyOccupancy(slotId, booking.slotDate, booking.slotPeriod, cap);
 
     if (isWeeklyPackage(booking.packageType)) {
       existing.hasWeekly = true;
@@ -108,7 +118,7 @@ export function buildOccupancyMap(bookings: StoredBooking[]): Map<string, SlotOc
   Array.from(privateBySlot.entries()).forEach(([slotId, privates]) => {
     if (!map.has(slotId)) {
       const first = privates[0];
-      map.set(slotId, emptyOccupancy(slotId, first.slotDate, first.slotPeriod));
+      map.set(slotId, emptyOccupancy(slotId, first.slotDate, first.slotPeriod, cap));
     }
   });
 
@@ -117,7 +127,7 @@ export function buildOccupancyMap(bookings: StoredBooking[]): Map<string, SlotOc
     const sharedBeforePrivate = occupancy.basicGuestCount;
 
     if (privates.length === 0) {
-      occupancy.remainingBasicCapacity = Math.max(0, BASIC_MAX_GUESTS - occupancy.basicGuestCount);
+      occupancy.remainingBasicCapacity = Math.max(0, cap - occupancy.basicGuestCount);
       occupancy.locked = occupancy.remainingBasicCapacity <= 0;
       return;
     }
@@ -137,7 +147,7 @@ export function buildOccupancyMap(bookings: StoredBooking[]): Map<string, SlotOc
     }
     occupancy.basicGuestCount = shared;
     occupancy.hasPrivate = false;
-    occupancy.remainingBasicCapacity = Math.max(0, BASIC_MAX_GUESTS - shared);
+    occupancy.remainingBasicCapacity = Math.max(0, cap - shared);
     occupancy.locked = occupancy.remainingBasicCapacity <= 0;
   });
 
@@ -151,10 +161,20 @@ export function evaluateSlotBooking(params: {
   adults: number;
   children: ChildGuest[];
   existingBookings: StoredBooking[];
+  maxGuests?: number;
 }): { ok: true } | { ok: false; message: string } {
-  const { packageType, slotDate, slotPeriod, adults, children, existingBookings } = params;
+  const {
+    packageType,
+    slotDate,
+    slotPeriod,
+    adults,
+    children,
+    existingBookings,
+    maxGuests = BASIC_MAX_GUESTS,
+  } = params;
+  const cap = Number.isFinite(maxGuests) && maxGuests > 0 ? maxGuests : BASIC_MAX_GUESTS;
   const slotId = `${slotDate}|${slotPeriod}`;
-  const occupancy = buildOccupancyMap(existingBookings).get(slotId);
+  const occupancy = buildOccupancyMap(existingBookings, cap).get(slotId);
   const guestCount = countGuestsTowardCapacity(adults, children);
 
   if (isBasicPackage(packageType)) {
@@ -162,8 +182,8 @@ export function evaluateSlotBooking(params: {
       return { ok: false, message: SLOT_CONFLICT_MESSAGE };
     }
     const used = occupancy?.basicGuestCount ?? 0;
-    const remaining = BASIC_MAX_GUESTS - used;
-    if (remaining <= 0 || used + guestCount > BASIC_MAX_GUESTS) {
+    const remaining = cap - used;
+    if (remaining <= 0 || used + guestCount > cap) {
       return { ok: false, message: SLOT_CONFLICT_MESSAGE };
     }
     const minAdults = effectiveMinAdultsForBasic(used, remaining);
@@ -180,13 +200,13 @@ export function evaluateSlotBooking(params: {
   }
 
   if (isPrivatePackage(packageType)) {
-    if (isPeriodLockedForPrivate(occupancy)) {
+    if (isPeriodLockedForPrivate(occupancy, cap)) {
       return { ok: false, message: SLOT_CONFLICT_MESSAGE };
     }
     const used = occupancy?.basicGuestCount ?? 0;
     // Joining an existing group — must fit in remaining capacity
     if (used > 0) {
-      const remaining = BASIC_MAX_GUESTS - used;
+      const remaining = cap - used;
       if (guestCount > remaining) {
         return { ok: false, message: SLOT_CONFLICT_MESSAGE };
       }
@@ -205,10 +225,14 @@ export function evaluateSlotBooking(params: {
 }
 
 /** True when Private cannot take this date + period */
-export function isPeriodLockedForPrivate(occupancy?: SlotOccupancy | null): boolean {
+export function isPeriodLockedForPrivate(
+  occupancy?: SlotOccupancy | null,
+  maxGuests: number = BASIC_MAX_GUESTS
+): boolean {
   if (!occupancy) return false;
   if (occupancy.hasPrivate || occupancy.hasWeekly) return true;
-  return occupancy.remainingBasicCapacity <= 0 || occupancy.basicGuestCount >= BASIC_MAX_GUESTS;
+  const cap = Number.isFinite(maxGuests) && maxGuests > 0 ? maxGuests : BASIC_MAX_GUESTS;
+  return occupancy.remainingBasicCapacity <= 0 || occupancy.basicGuestCount >= cap;
 }
 
 /** True when this Private booking would join an existing shared workshop */

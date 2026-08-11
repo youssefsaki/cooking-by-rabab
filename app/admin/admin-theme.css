@@ -1,7 +1,7 @@
 /*
  * Cooking by Rabab admin design tokens
- * Reference: Shopify 2026 — dark evergreen, clean white surfaces, acid-green accent.
- * Tone: premium, calm, operational. Audience context: international travelers.
+ * Brand-aligned: charcoal sidebar, warm paper canvas, primary orange (#ed843e).
+ * Inspired by studio dashboard patterns (21st.dev KPI / area-chart cards).
  *
  * Motion vocabulary:
  * - reveal-up: page/section entrances
@@ -12,26 +12,28 @@
  */
 
 .admin-theme {
-  --admin-ink: #061a1c;
-  --admin-ink-strong: #02090a;
-  --admin-ink-soft: #123235;
-  --admin-canvas: #f3f4f1;
+  --admin-ink: #171412;
+  --admin-ink-strong: #0c0a09;
+  --admin-ink-soft: #292524;
+  --admin-canvas: #f6f4f1;
   --admin-surface: #ffffff;
-  --admin-surface-soft: #f7f8f5;
-  --admin-line: #dfe3dd;
-  --admin-line-strong: #c9d0c8;
-  --admin-muted: #687473;
-  --admin-copy: #172221;
-  --admin-accent: #36f4a4;
-  --admin-accent-strong: #18c985;
-  --admin-accent-soft: #dffbed;
+  --admin-surface-soft: #faf8f5;
+  --admin-line: #e8e2da;
+  --admin-line-strong: #d6d0c8;
+  --admin-muted: #6b645c;
+  --admin-copy: #292524;
+  --admin-accent: #ed843e;
+  --admin-accent-strong: #d17437;
+  --admin-accent-soft: #fdf0e8;
+  --admin-on-accent: #ffffff;
   --admin-warning: #f4bd50;
   --admin-danger: #d83a2e;
+  --admin-success: #1f9d63;
   --admin-radius-sm: 10px;
   --admin-radius-md: 16px;
   --admin-radius-lg: 24px;
-  --admin-shadow-sm: 0 1px 2px rgb(2 9 10 / 5%), 0 8px 24px rgb(2 9 10 / 4%);
-  --admin-shadow-lg: 0 24px 70px rgb(2 9 10 / 14%);
+  --admin-shadow-sm: 0 1px 2px rgb(23 20 18 / 4%), 0 8px 24px rgb(23 20 18 / 4%);
+  --admin-shadow-lg: 0 24px 70px rgb(23 20 18 / 12%);
   --admin-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   color: var(--admin-copy);
@@ -39,9 +41,9 @@
 }
 
 .admin-display {
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 400;
-  letter-spacing: -0.045em;
+  font-family: var(--font-newsreader), Georgia, 'Times New Roman', serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
 }
 
 .admin-card {
@@ -52,8 +54,15 @@
 }
 
 .admin-focus:focus-visible {
-  outline: 3px solid rgb(54 244 164 / 40%);
+  outline: 3px solid rgb(237 132 62 / 40%);
   outline-offset: 2px;
+}
+
+.admin-wave {
+  display: block;
+  width: 36px;
+  height: 10px;
+  color: var(--admin-accent);
 }
 
 .admin-scrollbar {

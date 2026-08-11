@@ -243,8 +243,8 @@ export default function AdminReportsPage() {
                 <AreaChart data={chartData} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="revenueFill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#18c985" stopOpacity={0.45} />
-                      <stop offset="100%" stopColor="#18c985" stopOpacity={0.02} />
+                      <stop offset="0%" stopColor="#ed843e" stopOpacity={0.45} />
+                      <stop offset="100%" stopColor="#ed843e" stopOpacity={0.02} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid stroke="#e8ebe6" vertical={false} />
@@ -274,7 +274,7 @@ export default function AdminReportsPage() {
                   <Area
                     type="monotone"
                     dataKey="revenue"
-                    stroke="#061a1c"
+                    stroke="#ed843e"
                     strokeWidth={2}
                     fill="url(#revenueFill)"
                   />

@@ -6,6 +6,8 @@ type OccupancyPayload = {
   occupancy: unknown[];
   from: string | undefined;
   to: string | undefined;
+  blockedDates?: string[];
+  maxGuests?: number;
 };
 
 type Entry = { at: number; body: OccupancyPayload };

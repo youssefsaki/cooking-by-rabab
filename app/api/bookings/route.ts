@@ -7,11 +7,10 @@ import {
   SLOT_CONFLICT_MESSAGE,
   type StoredBooking,
 } from '@/lib/booking/conflicts';
-import { calculateBookingTotal, type ChildGuest } from '@/lib/booking/pricing';
+import { calculateBookingTotal, countGuestsTowardCapacity, type ChildGuest } from '@/lib/booking/pricing';
 import { getDishById } from '@/lib/booking/menu';
 import {
   getSlotById,
-  BASIC_MAX_GUESTS,
   effectiveMinAdultsForBasic,
   effectiveMinAdultsForPrivate,
   minAdultsForPackage,
@@ -23,6 +22,12 @@ import { appendBooking, listBookings } from '@/lib/booking/sheets';
 import { mirrorBookingToSheets } from '@/lib/sheets-mirror';
 import { resolveLeadSource } from '@/lib/lead-source';
 import { createServiceClient } from '@/lib/supabase/server';
+import { BLOCKED_DATE_MESSAGE } from '@/lib/availability';
+import {
+  getPackageMaxGuests,
+  getSharedMaxGuests,
+  isDateBlocked,
+} from '@/lib/availability-server';
 import {
   applyPromoDiscount,
   normalizePromoCode,
@@ -30,6 +35,7 @@ import {
   validatePromoRow,
   type PromoCodeRow,
 } from '@/lib/promo-codes';
+
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
@@ -93,12 +99,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid time period' }, { status: 400 });
     }
 
+    if (await isDateBlocked(body.slotDate)) {
+      return NextResponse.json({ error: BLOCKED_DATE_MESSAGE }, { status: 409 });
+    }
+
     const adults = Number(body.adults);
     const children = Array.isArray(body.children) ? body.children : [];
     let minAdults = minAdultsForPackage(packageType);
 
+    const [sharedMaxGuests, packageMaxGuests] = await Promise.all([
+      getSharedMaxGuests(),
+      getPackageMaxGuests(packageType),
+    ]);
+
     const existingForMin = await listBookings(body.slotDate, body.slotDate);
-    const occupancyForMin = buildOccupancyMap(existingForMin).get(
+    const occupancyForMin = buildOccupancyMap(existingForMin, sharedMaxGuests).get(
       `${body.slotDate}|${body.slotPeriod}`
     );
 
@@ -106,7 +121,7 @@ export async function POST(request: NextRequest) {
     if (packageType === 'basic') {
       minAdults = effectiveMinAdultsForBasic(
         occupancyForMin?.basicGuestCount ?? 0,
-        occupancyForMin?.remainingBasicCapacity ?? BASIC_MAX_GUESTS
+        occupancyForMin?.remainingBasicCapacity ?? sharedMaxGuests
       );
     }
 
@@ -134,6 +149,14 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    const partySize = countGuestsTowardCapacity(adults, children);
+    if (partySize > packageMaxGuests) {
+      return NextResponse.json(
+        { error: `This package allows up to ${packageMaxGuests} guests` },
+        { status: 400 }
+      );
+    }
+
     let dishName = '';
     let unitPrice = unitPriceForPackage(packageType);
 
@@ -159,6 +182,7 @@ export async function POST(request: NextRequest) {
           adults,
           children,
           existingBookings: existing,
+          maxGuests: sharedMaxGuests,
         });
 
         if (!conflict.ok) {
@@ -192,6 +216,7 @@ export async function POST(request: NextRequest) {
           adults,
           children,
           existingBookings: existing,
+          maxGuests: sharedMaxGuests,
         });
 
         if (!conflict.ok) {
@@ -211,6 +236,7 @@ export async function POST(request: NextRequest) {
         adults,
         children,
         existingBookings: existing,
+        maxGuests: sharedMaxGuests,
       });
 
       if (!conflict.ok) {

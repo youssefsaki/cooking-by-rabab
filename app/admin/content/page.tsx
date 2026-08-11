@@ -270,7 +270,7 @@ export default function AdminContentPage() {
             onClick={saveAllEdits}
             className={`admin-focus inline-flex min-w-[98px] items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition ${
               dirty
-                ? 'bg-[var(--admin-accent)] text-[var(--admin-ink)] hover:bg-white'
+                ? 'bg-[var(--admin-accent)] text-[var(--admin-on-accent)] hover:bg-[var(--admin-accent-strong)]'
                 : 'bg-white/[0.10] text-white/55'
             } disabled:cursor-default`}
           >

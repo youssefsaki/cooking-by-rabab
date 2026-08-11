@@ -5,16 +5,14 @@ import { usePathname } from 'next/navigation';
 import {
   BarChart3,
   BookOpen,
-  ChevronRight,
+  CalendarOff,
   ExternalLink,
   Files,
   Home,
   LogOut,
-  MessageSquare,
   Search,
   Settings,
   Sparkles,
-  Star,
   Store,
   Tag,
   Users,
@@ -22,16 +20,15 @@ import {
 import AdminMotion from '@/components/admin/AdminMotion';
 
 const NAV = [
-  { href: '/admin', label: 'Home', icon: Home },
-  { href: '/admin/bookings', label: 'Bookings', icon: BookOpen },
+  { href: '/admin', label: 'Dashboard', icon: Home },
   { href: '/admin/reports', label: 'Reports', icon: BarChart3 },
-  { href: '/admin/customers', label: 'Customers', icon: Users },
+  { href: '/admin/bookings', label: 'Bookings', icon: BookOpen },
+  { href: '/admin/availability', label: 'Availability', icon: CalendarOff },
   { href: '/admin/promotions', label: 'Promotions', icon: Tag },
-  { href: '/admin/messages', label: 'Inbox', icon: MessageSquare },
-  { href: '/admin/content', label: 'Visual editor', icon: Store, accent: true },
-  { href: '/admin/testimonials', label: 'Testimonials', icon: Star },
+  { href: '/admin/customers', label: 'Customers', icon: Users },
+  { href: '/admin/content', label: 'Content editor', icon: Store, accent: true },
   { href: '/admin/seo', label: 'SEO', icon: Search },
-  { href: '/admin/media', label: 'Media library', icon: Files },
+  { href: '/admin/media', label: 'Media', icon: Files },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
@@ -48,23 +45,13 @@ export default function AdminShell({
   return (
     <div className="admin-theme min-h-screen flex">
       <aside className="sticky top-0 hidden h-screen w-[248px] shrink-0 flex-col bg-[var(--admin-ink)] text-white md:flex">
-        <div className="px-5 py-5 border-b border-white/10">
-          <div className="flex items-center gap-3">
-            <div className="grid size-10 place-items-center rounded-xl bg-[var(--admin-accent)] text-[var(--admin-ink)]">
-              <Sparkles className="size-5" strokeWidth={2.4} />
-            </div>
-            <div className="min-w-0">
-              <p className="truncate text-[11px] font-semibold uppercase tracking-[0.16em] text-white/45">
-                Cooking by Rabab
-              </p>
-              <p className="mt-0.5 text-sm font-semibold text-white">Experience studio</p>
-            </div>
-          </div>
-        </div>
-        <nav className="flex-1 p-3 pt-5 space-y-1">
-          <p className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/35">
-            Manage
+        <div className="px-5 py-6">
+          <p className="admin-display text-[22px] leading-none text-white">Cooking by Rabab</p>
+          <p className="mt-1.5 text-[11px] font-medium tracking-[0.04em] text-white/45">
+            Experience studio
           </p>
+        </div>
+        <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 pb-4 admin-scrollbar">
           {NAV.map((item) => {
             const active =
               item.href === '/admin'
@@ -77,47 +64,36 @@ export default function AdminShell({
                 href={item.href}
                 className={`admin-focus group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition duration-200 ${
                   active
-                    ? 'bg-white text-[var(--admin-ink)] font-semibold shadow-lg'
+                    ? 'bg-[var(--admin-accent)] font-semibold text-[var(--admin-on-accent)] shadow-[0_10px_28px_rgb(237_132_62_/_35%)]'
                     : item.accent
-                      ? 'text-[var(--admin-accent)] hover:bg-white/10'
-                      : 'text-white/70 hover:bg-white/[0.08] hover:text-white'
+                      ? 'text-[var(--admin-accent)] hover:bg-white/8'
+                      : 'text-white/65 hover:bg-white/[0.06] hover:text-white'
                 }`}
               >
                 <Icon className="size-4 shrink-0" strokeWidth={active ? 2.4 : 1.8} />
                 <span className="flex-1">{item.label}</span>
                 {item.accent && !active ? (
-                  <span className="rounded-full bg-[var(--admin-accent)]/15 px-1.5 py-0.5 text-[9px] font-bold uppercase">
-                    Edit
-                  </span>
-                ) : (
-                  <ChevronRight
-                    className={`size-3.5 transition ${active ? 'opacity-60' : 'opacity-0 group-hover:opacity-50'}`}
-                  />
-                )}
+                  <span className="size-1.5 rounded-full bg-[var(--admin-accent)]" />
+                ) : null}
               </Link>
             );
           })}
         </nav>
-        <div className="m-3 rounded-2xl border border-white/10 bg-white/[0.055] p-3.5">
-          <div className="mb-3 flex items-center gap-2 text-xs text-white/55">
-            <BarChart3 className="size-3.5 text-[var(--admin-accent)]" />
-            <span>Store is live</span>
-            <span className="ml-auto size-1.5 rounded-full bg-[var(--admin-accent)] shadow-[0_0_12px_var(--admin-accent)]" />
-          </div>
+        <div className="border-t border-white/10 px-5 py-4">
+          <p className="truncate text-[11px] text-white/40">{email}</p>
           <a
             href="/"
             target="_blank"
             rel="noreferrer"
-            className="admin-focus mb-3 flex items-center justify-between rounded-lg bg-white/[0.08] px-2.5 py-2 text-xs text-white/75 hover:bg-white/[0.12] hover:text-white"
+            className="admin-focus mt-3 flex items-center gap-1.5 text-xs font-medium text-white/70 hover:text-white"
           >
-            View website
-            <ExternalLink className="size-3.5" />
+            View site
+            <ExternalLink className="size-3" />
           </a>
-          <p className="truncate text-[11px] text-white/38">{email}</p>
           <form action="/api/admin/logout" method="POST">
             <button
               type="submit"
-              className="admin-focus mt-2 flex items-center gap-2 text-xs text-white/55 hover:text-white"
+              className="admin-focus mt-2 flex items-center gap-2 text-xs text-white/45 hover:text-white"
             >
               <LogOut className="size-3.5" />
               Sign out
@@ -136,7 +112,7 @@ export default function AdminShell({
             fullBleed ? 'shrink-0' : 'sticky top-0'
           }`}
         >
-          <div className="mr-1 grid size-8 shrink-0 place-items-center rounded-lg bg-[var(--admin-accent)] text-[var(--admin-ink)]">
+          <div className="mr-1 grid size-8 shrink-0 place-items-center rounded-lg bg-[var(--admin-accent)] text-[var(--admin-on-accent)]">
             <Sparkles className="size-4" />
           </div>
           {NAV.map((item) => {
@@ -151,7 +127,9 @@ export default function AdminShell({
                 href={item.href}
                 aria-label={item.label}
                 className={`admin-focus grid size-8 shrink-0 place-items-center rounded-lg ${
-                  active ? 'bg-white text-[var(--admin-ink)]' : 'bg-white/[0.08] text-white/65'
+                  active
+                    ? 'bg-[var(--admin-accent)] text-[var(--admin-on-accent)]'
+                    : 'bg-white/[0.08] text-white/65'
                 }`}
               >
                 <Icon className="size-4" />
