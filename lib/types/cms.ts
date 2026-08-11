@@ -23,6 +23,8 @@ export type BookingRow = {
   location?: string | null;
   total_price_eur?: number | null;
   source?: string | null;
+  promo_code?: string | null;
+  discount_eur?: number | null;
 };
 
 export type ContactMessageRow = {

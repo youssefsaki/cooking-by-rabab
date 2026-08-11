@@ -200,6 +200,14 @@ function BookingForm() {
   const [children, setChildren] = useState<ChildGuest[]>([]);
   const [slotOccupancy, setSlotOccupancy] = useState<SlotOccupancy | null>(null);
   const [slotOccupancyLoading, setSlotOccupancyLoading] = useState(false);
+  const [promoCodeInput, setPromoCodeInput] = useState('');
+  const [promoApplying, setPromoApplying] = useState(false);
+  const [promoError, setPromoError] = useState('');
+  const [appliedPromo, setAppliedPromo] = useState<{
+    code: string;
+    discountEur: number;
+    totalEur: number;
+  } | null>(null);
 
   // Warm availability into HTTP + sessionStorage before the calendar paints
   useEffect(() => {
@@ -401,6 +409,7 @@ function BookingForm() {
               querySource,
               selectedSource: values.source,
             }),
+            promoCode: appliedPromo?.code,
           }),
         });
 
@@ -560,12 +569,104 @@ function BookingForm() {
 
   const priceSummary = useMemo(() => {
     const childPayload = bringingChildren ? children : [];
-    return calculateBookingTotal({
+    const base = calculateBookingTotal({
       adults: formik.values.adults,
       children: childPayload,
       dishPriceEur: unitPrice,
     });
-  }, [bringingChildren, children, formik.values.adults, unitPrice]);
+    if (!appliedPromo) return { ...base, discountEur: 0, payable: base.total };
+    return {
+      ...base,
+      discountEur: appliedPromo.discountEur,
+      payable: appliedPromo.totalEur,
+    };
+  }, [bringingChildren, children, formik.values.adults, unitPrice, appliedPromo]);
+
+  // Re-validate promo when party size / dish price changes
+  useEffect(() => {
+    if (!appliedPromo) return;
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch('/api/promo-codes/validate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            code: appliedPromo.code,
+            subtotalEur: calculateBookingTotal({
+              adults: formik.values.adults,
+              children: bringingChildren ? children : [],
+              dishPriceEur: unitPrice,
+            }).total,
+          }),
+        });
+        const data = (await res.json()) as {
+          ok?: boolean;
+          discountEur?: number;
+          totalEur?: number;
+          error?: string;
+        };
+        if (cancelled) return;
+        if (!res.ok || !data.ok) {
+          setAppliedPromo(null);
+          setPromoError(data.error || 'Promo code is no longer valid');
+          return;
+        }
+        setAppliedPromo({
+          code: appliedPromo.code,
+          discountEur: data.discountEur || 0,
+          totalEur: data.totalEur || 0,
+        });
+      } catch {
+        // keep existing applied promo; server will re-check on submit
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formik.values.adults, bringingChildren, children, unitPrice]);
+
+  async function applyPromoCode() {
+    setPromoError('');
+    setPromoApplying(true);
+    try {
+      const res = await fetch('/api/promo-codes/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code: promoCodeInput,
+          subtotalEur: calculateBookingTotal({
+            adults: formik.values.adults,
+            children: bringingChildren ? children : [],
+            dishPriceEur: unitPrice,
+          }).total,
+        }),
+      });
+      const data = (await res.json()) as {
+        ok?: boolean;
+        code?: string;
+        discountEur?: number;
+        totalEur?: number;
+        error?: string;
+      };
+      if (!res.ok || !data.ok || !data.code) {
+        setAppliedPromo(null);
+        setPromoError(data.error || 'Invalid promo code');
+        return;
+      }
+      setAppliedPromo({
+        code: data.code,
+        discountEur: data.discountEur || 0,
+        totalEur: data.totalEur || 0,
+      });
+      setPromoCodeInput(data.code);
+    } catch {
+      setPromoError('Could not validate promo code');
+    } finally {
+      setPromoApplying(false);
+    }
+  }
 
   function openWhatsApp(payload: Record<string, unknown>) {
     const whatsappPhone = '212726671746';
@@ -596,7 +697,10 @@ function BookingForm() {
         `👥 *Adults:* ${payload.adults}`,
         `👶 *Children:* ${childrenList}`,
         payload.totalPrice != null ? `💶 *Total:* ${payload.totalPrice} EUR` : ''
-      );
+    );
+    if (appliedPromo) {
+      lines.push(`🏷️ *Promo:* ${appliedPromo.code} (−${appliedPromo.discountEur} EUR)`);
+    }
     }
 
     const dietaryNotes =
@@ -1413,6 +1517,53 @@ function BookingForm() {
               ) : null}
             </div>
 
+            <div className="mb-8">
+              <label htmlFor="promoCode" className="text-sm font-bold text-gray-700 mb-2 block">
+                Promo code
+              </label>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <input
+                  type="text"
+                  id="promoCode"
+                  value={promoCodeInput}
+                  onChange={(e) => {
+                    setPromoCodeInput(e.target.value.toUpperCase());
+                    setPromoError('');
+                  }}
+                  placeholder="Optional"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500 uppercase tracking-wide"
+                />
+                <button
+                  type="button"
+                  onClick={() => void applyPromoCode()}
+                  disabled={promoApplying || !promoCodeInput.trim()}
+                  className="shrink-0 rounded-xl bg-gray-900 px-5 py-3 text-sm font-bold text-white hover:bg-gray-800 disabled:opacity-50"
+                >
+                  {promoApplying ? 'Checking…' : 'Apply'}
+                </button>
+                {appliedPromo ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAppliedPromo(null);
+                      setPromoCodeInput('');
+                      setPromoError('');
+                    }}
+                    className="shrink-0 rounded-xl border-2 border-gray-200 px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                  >
+                    Remove
+                  </button>
+                ) : null}
+              </div>
+              {promoError ? <p className="mt-1 text-sm text-red-600">⚠ {promoError}</p> : null}
+              {appliedPromo ? (
+                <p className="mt-1 text-sm text-emerald-700">
+                  Code <span className="font-bold">{appliedPromo.code}</span> applied (−
+                  {appliedPromo.discountEur} €)
+                </p>
+              ) : null}
+            </div>
+
             {/* 9. Price summary */}
             <div className="mb-8 rounded-2xl bg-[#F7F2EA] border border-amber-100 p-5">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-800 mb-3">
@@ -1434,9 +1585,15 @@ function BookingForm() {
                     <span className="font-semibold">{priceSummary.childrenSubtotal} €</span>
                   </div>
                 )}
+                {priceSummary.discountEur > 0 && (
+                  <div className="flex justify-between text-emerald-700">
+                    <span>Promo ({appliedPromo?.code})</span>
+                    <span className="font-semibold">−{priceSummary.discountEur} €</span>
+                  </div>
+                )}
                 <div className="flex justify-between pt-2 border-t border-amber-200 text-base font-black text-gray-900">
                   <span>{t.booking.total}</span>
-                  <span>{priceSummary.total} €</span>
+                  <span>{priceSummary.payable} €</span>
                 </div>
               </div>
             </div>

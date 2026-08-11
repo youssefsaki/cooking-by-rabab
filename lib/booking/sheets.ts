@@ -227,6 +227,8 @@ export async function appendBooking(
     location: booking.location,
     total_price_eur: booking.totalPrice,
     source: booking.source || 'direct',
+    promo_code: booking.promoCode || null,
+    discount_eur: booking.discountEur ?? null,
   });
 
   if (error) {

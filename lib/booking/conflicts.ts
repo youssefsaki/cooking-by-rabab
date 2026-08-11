@@ -23,6 +23,8 @@ export interface StoredBooking {
   totalPrice: number;
   status: 'confirmed';
   source?: string;
+  promoCode?: string;
+  discountEur?: number;
 }
 
 export interface SlotOccupancy {

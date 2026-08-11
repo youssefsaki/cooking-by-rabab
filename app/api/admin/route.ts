@@ -54,6 +54,46 @@ export async function PATCH(request: Request) {
   }
 
   const supabase = createServiceClient();
+
+  // Increment promo uses_count only when a booking first becomes confirmed
+  if (type === 'booking' && status === 'confirmed') {
+    const { data: existing, error: fetchError } = await supabase
+      .from('bookings')
+      .select('id, status, promo_code')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (fetchError) {
+      return NextResponse.json({ ok: false, error: fetchError.message }, { status: 500 });
+    }
+
+    const { error } = await supabase.from(table).update({ status }).eq('id', id);
+    if (error) {
+      return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
+    }
+
+    if (
+      existing &&
+      existing.status !== 'confirmed' &&
+      existing.promo_code
+    ) {
+      const code = String(existing.promo_code).toUpperCase();
+      const { data: promo } = await supabase
+        .from('promo_codes')
+        .select('id, uses_count')
+        .eq('code', code)
+        .maybeSingle();
+      if (promo) {
+        await supabase
+          .from('promo_codes')
+          .update({ uses_count: Number(promo.uses_count || 0) + 1 })
+          .eq('id', promo.id);
+      }
+    }
+
+    return NextResponse.json({ ok: true });
+  }
+
   const { error } = await supabase.from(table).update({ status }).eq('id', id);
   if (error) {
     return NextResponse.json({ ok: false, error: error.message }, { status: 500 });

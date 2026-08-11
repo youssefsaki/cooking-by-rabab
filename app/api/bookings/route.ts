@@ -22,7 +22,14 @@ import {
 import { appendBooking, listBookings } from '@/lib/booking/sheets';
 import { mirrorBookingToSheets } from '@/lib/sheets-mirror';
 import { resolveLeadSource } from '@/lib/lead-source';
-
+import { createServiceClient } from '@/lib/supabase/server';
+import {
+  applyPromoDiscount,
+  normalizePromoCode,
+  promoFailureMessage,
+  validatePromoRow,
+  type PromoCodeRow,
+} from '@/lib/promo-codes';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
@@ -42,6 +49,7 @@ interface BookingPayload {
   allergies?: string;
   dietaryNotes?: string;
   source?: string;
+  promoCode?: string;
 }
 
 function isValidEmail(email: string): boolean {
@@ -219,6 +227,35 @@ export async function POST(request: NextRequest) {
       dishPriceEur: unitPrice,
     });
 
+    let totalPrice = pricing.total;
+    let discountEur = 0;
+    let promoCode: string | undefined;
+
+    const requestedPromo = normalizePromoCode(body.promoCode || '');
+    if (requestedPromo) {
+      const supabase = createServiceClient();
+      const { data: promoRow, error: promoError } = await supabase
+        .from('promo_codes')
+        .select('*')
+        .eq('code', requestedPromo)
+        .maybeSingle();
+      if (promoError) {
+        return NextResponse.json({ error: promoError.message }, { status: 500 });
+      }
+      const checked = validatePromoRow(promoRow as PromoCodeRow | null);
+      if (!checked.ok) {
+        return NextResponse.json({ error: promoFailureMessage(checked.reason) }, { status: 400 });
+      }
+      const discounted = applyPromoDiscount(
+        pricing.total,
+        checked.promo.discount_type,
+        Number(checked.promo.discount_value)
+      );
+      totalPrice = discounted.total;
+      discountEur = discounted.discountEur;
+      promoCode = checked.promo.code;
+    }
+
     const dietaryNotes = (body.dietaryNotes || body.allergies || '').trim();
     const source = resolveLeadSource({ selectedSource: body.source });
 
@@ -246,9 +283,11 @@ export async function POST(request: NextRequest) {
       children,
       location: body.location?.trim() || defaultLocation,
       allergies: dietaryNotes,
-      totalPrice: pricing.total,
+      totalPrice,
       status: 'confirmed',
       source,
+      promoCode,
+      discountEur: discountEur || undefined,
     };
 
     try {
