@@ -83,6 +83,12 @@ export default function AdminBookingsPage() {
                     {b.total_price_eur != null ? (
                       <div className="text-[#6D7175] text-xs">€{b.total_price_eur}</div>
                     ) : null}
+                    {b.promo_code ? (
+                      <div className="text-[#6D7175] text-xs mt-1">
+                        Promo {b.promo_code}
+                        {b.discount_eur != null ? ` (−€${b.discount_eur})` : ''}
+                      </div>
+                    ) : null}
                   </td>
                   <td className="px-4 py-3">
                     <div>

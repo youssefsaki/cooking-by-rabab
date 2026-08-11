@@ -22,6 +22,8 @@ export interface StoredBooking {
   allergies: string;
   totalPrice: number;
   status: 'confirmed';
+  promoCode?: string;
+  discountEur?: number;
 }
 
 export interface SlotOccupancy {

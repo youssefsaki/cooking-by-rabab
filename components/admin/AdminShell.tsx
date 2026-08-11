@@ -14,12 +14,14 @@ import {
   Settings,
   Sparkles,
   Store,
+  Tag,
 } from 'lucide-react';
 import AdminMotion from '@/components/admin/AdminMotion';
 
 const NAV = [
   { href: '/admin', label: 'Home', icon: Home },
   { href: '/admin/bookings', label: 'Bookings', icon: BookOpen },
+  { href: '/admin/promotions', label: 'Promotions', icon: Tag },
   { href: '/admin/messages', label: 'Inbox', icon: MessageSquare },
   { href: '/admin/content', label: 'Visual editor', icon: Store, accent: true },
   { href: '/admin/media', label: 'Media library', icon: Files },

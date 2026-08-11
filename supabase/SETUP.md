@@ -17,6 +17,8 @@ Schema applied: tables, RLS, `site-media` bucket, packages seed (en/fr/de), site
 
 Also run **`supabase/migrations/003_booking_slots.sql`** in the SQL editor (adds slot date/period, dish, guests, private-at-location). Booking calendar from `version-2.1.0` writes to Supabase; Sheets is mirror-only.
 
+Also run **`supabase/migrations/006_promo_codes.sql`** (promo_codes table + bookings.promo_code / discount_eur).
+
 Local secrets are in **`.env.local`** (gitignored). Admin login email: `rababouhadda5@gmail.com` — temp password in **`.admin-credentials.local`** (gitignored). Change that password after first login.
 
 ## Vercel Preview env

@@ -22,6 +22,8 @@ export type BookingRow = {
   children?: { age: number }[] | null;
   location?: string | null;
   total_price_eur?: number | null;
+  promo_code?: string | null;
+  discount_eur?: number | null;
 };
 
 export type ContactMessageRow = {
