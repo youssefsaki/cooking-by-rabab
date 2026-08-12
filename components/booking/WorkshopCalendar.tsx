@@ -588,9 +588,11 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                               ? mode === 'private'
                                 ? 'Available · Exclusive private'
                                 : `${spots} spots left · From 65 €`
-                              : info?.hasPrivate
-                                ? 'Reserved — exclusive private'
-                                : 'Fully booked'}
+                              : info?.locked
+                                ? 'Unavailable — this date is blocked'
+                                : info?.hasPrivate
+                                  ? 'Reserved — exclusive private'
+                                  : 'Fully booked'}
                           </p>
                         )}
 
@@ -612,7 +614,9 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
                               ? joining
                                 ? 'Join this workshop'
                                 : 'Book'
-                              : 'Fully booked'}
+                              : info?.locked
+                                ? 'Unavailable'
+                                : 'Fully booked'}
                         </button>
                       </div>
                     </div>

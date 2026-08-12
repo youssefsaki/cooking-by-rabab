@@ -60,7 +60,6 @@ const FooterV1: React.FC = () => {
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <div className="mb-6">
-              <span className="text-3xl mb-2 block">👩‍🍳</span>
               <h3 className="text-2xl font-black text-white">{footerData.brand.name}</h3>
               <p className="text-amber-400 font-medium text-sm">{t.footer.tagline}</p>
             </div>
