@@ -60,7 +60,7 @@ export const DEFAULT_PACKAGES: PackagesContent = {
       duration: 'Flexible',
       groupSize: '2+ guests',
       startTime: 'Flexible',
-      image: '/packages/private.webp',
+      image: '/packages/privatee.webp',
       imageAlt:
         'Private Workshop Experience Taghazout — private Moroccan cooking class at Amazigh village workshop in Atlas Mountains',
       highlights: [

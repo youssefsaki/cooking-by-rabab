@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
+import AdminGateLink from '@/components/admin/AdminGateLink';
 import {
   ArrowUpRight,
   Banknote,
@@ -224,12 +224,12 @@ export default function AdminReportsPage() {
               </p>
               <h2 className="admin-display mt-2 text-2xl text-[var(--admin-ink)]">Last selected range</h2>
             </div>
-            <Link
+            <AdminGateLink
               href="/admin/bookings"
               className="admin-focus inline-flex items-center gap-1 text-xs font-bold text-[var(--admin-ink)]"
             >
               Bookings <ArrowUpRight className="size-3.5" />
-            </Link>
+            </AdminGateLink>
           </div>
           <div className="h-72 p-4 sm:p-6">
             {loading ? (

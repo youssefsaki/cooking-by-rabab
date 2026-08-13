@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import AdminGateLink from '@/components/admin/AdminGateLink';
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -249,12 +250,12 @@ export default function AdminHomePage() {
         </div>
         <div className="flex flex-wrap gap-2">
           {analytics.newBookings > 0 && (
-            <Link
+            <AdminGateLink
               href="/admin/bookings"
-              className="admin-focus rounded-full bg-[var(--admin-accent-soft)] px-3 py-1.5 text-xs font-semibold text-[var(--admin-accent-strong)]"
+              className="admin-focus inline-flex items-center gap-1 rounded-full bg-[var(--admin-accent-soft)] px-3 py-1.5 text-xs font-semibold text-[var(--admin-accent-strong)]"
             >
               {analytics.newBookings} new booking{analytics.newBookings === 1 ? '' : 's'}
-            </Link>
+            </AdminGateLink>
           )}
           {analytics.newMessages > 0 && (
             <Link
@@ -430,13 +431,16 @@ export default function AdminHomePage() {
               </h2>
               <AccentWave />
             </div>
-            <Link href="/admin/bookings" className="admin-focus text-xs font-bold text-[var(--admin-ink)]">
+            <AdminGateLink
+              href="/admin/bookings"
+              className="admin-focus inline-flex items-center gap-1 text-xs font-bold text-[var(--admin-ink)]"
+            >
               View all
-            </Link>
+            </AdminGateLink>
           </div>
           <div>
             {analytics.upcoming.map((booking) => (
-              <Link
+              <AdminGateLink
                 key={booking.id}
                 href="/admin/bookings"
                 className="admin-focus flex items-center gap-3 border-b border-[var(--admin-line)] px-5 py-4 last:border-0 hover:bg-[var(--admin-surface-soft)]"
@@ -456,7 +460,7 @@ export default function AdminHomePage() {
                 <span className="shrink-0 text-xs font-medium tabular-nums text-[var(--admin-muted)]">
                   {guestCount(booking)} guest{guestCount(booking) === 1 ? '' : 's'}
                 </span>
-              </Link>
+              </AdminGateLink>
             ))}
             {!analytics.upcoming.length && (
               <div className="grid min-h-44 place-items-center p-8 text-center">

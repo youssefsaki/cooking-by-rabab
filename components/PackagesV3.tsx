@@ -81,7 +81,7 @@ const packagesData = [
     groupSize: "2+ guests",
     locationLabel: "Village Workshop",
     startTime: "Flexible",
-    image: "/packages/private.webp",
+    image: "/packages/privatee.webp",
     imageAlt: "Private Workshop Experience Taghazout — private Moroccan cooking class at Amazigh village workshop in Atlas Mountains",
     popular: false,
     highlights: [
@@ -193,11 +193,13 @@ const PackagesV3: React.FC = memo(() => {
             const overlay = byId.get(pkg.id);
             if (!overlay) return pkg;
             const rawImage = overlay.image || pkg.image;
-            // Always use the local basic.webp for the main basic package card
+            // Keep local package photos even if CMS still has an old upload
             const image =
               pkg.id === 'basic'
                 ? '/packages/basic.webp'
-                : resolveSiteImage(rawImage, pkg.image);
+                : pkg.id === 'private'
+                  ? '/packages/privatee.webp'
+                  : resolveSiteImage(rawImage, pkg.image);
             // Keep package EUR/MAD from code — CMS sometimes still has stale €60
             return {
               ...pkg,

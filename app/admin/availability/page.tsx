@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { Ban, CalendarOff, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Ban, CalendarOff, ChevronLeft, ChevronRight, Unlock } from 'lucide-react';
 import {
   PACKAGE_CAPACITY_LABELS,
   type BlockedDateRow,
@@ -86,8 +86,15 @@ export default function AdminAvailabilityPage() {
     if (!data.ok) {
       setError(data.error || 'Failed to load');
     } else {
-      setBlockedDates(data.blockedDates || []);
-      setBookedDates(data.bookedDates || []);
+      setBlockedDates(
+        ((data.blockedDates || []) as BlockedDateRow[]).map((row) => ({
+          ...row,
+          date: String(row.date).slice(0, 10),
+        }))
+      );
+      setBookedDates(
+        ((data.bookedDates || []) as string[]).map((value) => String(value).slice(0, 10))
+      );
       const caps = (data.capacities || []) as PackageCapacityRow[];
       setCapacities(caps);
       const draft: Record<string, string> = {};
@@ -159,14 +166,14 @@ export default function AdminAvailabilityPage() {
     await load();
   }
 
-  async function unblockSelected() {
-    if (selectedToUnblock.length === 0) return;
+  async function unblockRows(rows: BlockedDateRow[]) {
+    if (rows.length === 0) return;
     setSaving(true);
     setStatus('');
     setError('');
 
     const results = await Promise.all(
-      selectedToUnblock.map((row) =>
+      rows.map((row) =>
         fetch(`/api/admin/availability/${row.id}`, { method: 'DELETE' }).then((r) => r.json())
       )
     );
@@ -179,11 +186,13 @@ export default function AdminAvailabilityPage() {
       return;
     }
 
-    setStatus(
-      `Unblocked ${selectedToUnblock.length} day${selectedToUnblock.length === 1 ? '' : 's'}.`
-    );
+    setStatus(`Unblocked ${rows.length} day${rows.length === 1 ? '' : 's'}.`);
     clearSelection();
     await load();
+  }
+
+  async function unblockSelected() {
+    await unblockRows(selectedToUnblock);
   }
 
   async function saveCapacity(packageType: PackageType) {
@@ -255,16 +264,17 @@ export default function AdminAvailabilityPage() {
                 Clear
               </button>
             )}
-            {selectedToUnblock.length > 0 && (
-              <button
-                type="button"
-                disabled={saving}
-                onClick={unblockSelected}
-                className="admin-focus inline-flex items-center gap-1.5 rounded-lg border border-[var(--admin-line)] bg-white px-3 py-1.5 text-xs font-semibold text-[var(--admin-copy)] hover:border-red-200 hover:bg-red-50 hover:text-red-700 disabled:opacity-60"
-              >
-                Unblock {selectedToUnblock.length}
-              </button>
-            )}
+            <button
+              type="button"
+              disabled={saving || selectedToUnblock.length === 0}
+              onClick={unblockSelected}
+              className="admin-focus inline-flex items-center gap-1.5 rounded-lg border border-[var(--admin-line)] bg-white px-3 py-1.5 text-xs font-semibold text-[var(--admin-copy)] enabled:border-red-200 enabled:bg-red-50 enabled:text-red-700 disabled:opacity-50"
+            >
+              <Unlock className="size-3.5" />
+              {selectedToUnblock.length > 0
+                ? `Unblock ${selectedToUnblock.length}`
+                : 'Unblock dates'}
+            </button>
             <button
               type="button"
               disabled={saving || selectedToBlock.length === 0}
@@ -280,7 +290,7 @@ export default function AdminAvailabilityPage() {
         </div>
 
         <p className="mt-2 text-xs text-[var(--admin-muted)]">
-          Click days to multi-select, then block or unblock them together.
+          Click open days then Block, or click blocked days then Unblock.
         </p>
 
         <div className="mx-auto mt-4 max-w-[420px]">
@@ -352,6 +362,27 @@ export default function AdminAvailabilityPage() {
           </div>
         </div>
 
+        {selectedToUnblock.length > 0 && (
+          <div className="mt-4 rounded-xl border border-[var(--admin-line)] bg-[var(--admin-surface-soft)] p-3">
+            <p className="text-xs font-semibold text-[var(--admin-ink)]">
+              Unblock {selectedToUnblock.length} selected day
+              {selectedToUnblock.length === 1 ? '' : 's'}
+            </p>
+            <p className="mt-1 text-[11px] text-[var(--admin-muted)]">
+              Guests will be able to book these days again.
+            </p>
+            <button
+              type="button"
+              disabled={saving}
+              onClick={unblockSelected}
+              className="admin-focus mt-2 inline-flex items-center gap-1.5 rounded-lg bg-[var(--admin-ink)] px-3 py-1.5 text-xs font-bold text-white disabled:opacity-60"
+            >
+              <Unlock className="size-3.5" />
+              Confirm unblock
+            </button>
+          </div>
+        )}
+
         {selectedToBlock.length > 0 && (
           <div className="mt-4 rounded-xl border border-[var(--admin-line)] bg-[var(--admin-surface-soft)] p-3">
             <p className="text-xs font-semibold text-[var(--admin-ink)]">
@@ -376,6 +407,44 @@ export default function AdminAvailabilityPage() {
                 Confirm block
               </button>
             </div>
+          </div>
+        )}
+
+        {blockedDates.length > 0 && (
+          <div className="mt-4 rounded-xl border border-[var(--admin-line)] bg-[var(--admin-surface-soft)] p-3">
+            <p className="text-xs font-semibold text-[var(--admin-ink)]">Blocked days</p>
+            <ul className="mt-2 divide-y divide-[var(--admin-line)]">
+              {blockedDates.map((row) => {
+                const label = new Date(`${row.date}T12:00:00`).toLocaleDateString('en-GB', {
+                  weekday: 'short',
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric',
+                });
+                return (
+                  <li
+                    key={row.id}
+                    className="flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0"
+                  >
+                    <div className="min-w-0">
+                      <p className="text-xs font-medium text-[var(--admin-copy)]">{label}</p>
+                      {row.reason ? (
+                        <p className="truncate text-[11px] text-[var(--admin-muted)]">{row.reason}</p>
+                      ) : null}
+                    </div>
+                    <button
+                      type="button"
+                      disabled={saving}
+                      onClick={() => unblockRows([row])}
+                      className="admin-focus inline-flex shrink-0 items-center gap-1 rounded-lg border border-[var(--admin-line)] bg-white px-2.5 py-1 text-[11px] font-semibold text-[var(--admin-copy)] hover:border-red-200 hover:bg-red-50 hover:text-red-700 disabled:opacity-60"
+                    >
+                      <Unlock className="size-3" />
+                      Unblock
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         )}
       </section>

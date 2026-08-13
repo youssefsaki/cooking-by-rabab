@@ -81,7 +81,7 @@ export default function PackagesPage() {
       endTime: "Flexible",
       pickup: "Taghazout Mosque",
       dropoff: "Taghazout or Tamraght",
-      image: img('pkg.private.image', '/packages/private.webp'),
+      image: '/packages/privatee.webp',
       alt: copy('pkg.private.imageAlt', "Private Workshop Experience Taghazout — private Moroccan cooking class at Amazigh village workshop"),
       itinerary: t.packagesPage.private.itinerary,
       includes: t.packagesPage.private.includes,

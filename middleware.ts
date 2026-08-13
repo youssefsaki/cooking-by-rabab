@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
+import { isAdminPathLocked } from '@/lib/admin-locks';
 import { updateSession } from '@/lib/supabase/middleware';
 
 function withPathname(request: NextRequest, response: NextResponse) {
@@ -27,6 +28,18 @@ export async function middleware(request: NextRequest) {
     if (authResponse.status >= 300 && authResponse.status < 400) {
       authResponse.headers.set('x-pathname', pathname);
       return authResponse;
+    }
+    if (isAdminPathLocked(pathname)) {
+      const lockedUrl = request.nextUrl.clone();
+      lockedUrl.pathname = '/admin/locked';
+      const rewrite = NextResponse.rewrite(lockedUrl, {
+        request: { headers: request.headers },
+      });
+      authResponse.cookies.getAll().forEach((cookie) => {
+        rewrite.cookies.set(cookie);
+      });
+      rewrite.headers.set('x-pathname', pathname);
+      return rewrite;
     }
     return withPathname(request, authResponse);
   }

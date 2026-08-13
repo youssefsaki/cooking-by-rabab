@@ -1,0 +1,14 @@
+---
+description: Keep listed admin pages locked until the owner explicitly asks to unlock them
+alwaysApply: true
+---
+
+# Admin page locks
+
+These `/admin` sections stay **locked** (lock icon in the sidebar, URL access blocked). Do **not** unlock them unless the user explicitly asks.
+
+Locked: Bookings, Promotions, Customers, Content editor, SEO, Media, Settings.
+
+Source of truth: `lib/admin-locks.ts` (`LOCKED_ADMIN_PATHS`). Keep nav, middleware, and dashboard links in sync with that list.
+
+Still open: Dashboard, Reports, Availability.
