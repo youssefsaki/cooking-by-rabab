@@ -13,7 +13,7 @@ export const DEFAULT_PACKAGES: PackagesContent = {
       currency: 'EUR',
       duration: '4 hours',
       groupSize: '3-13 guests',
-      startTime: '13:30',
+      startTime: '14:30',
       image: '/packages/basic.webp',
       imageAlt:
         'Taghazout cooking class — half-day Berber village experience with traditional Moroccan dishes and clay oven bread in Atlas Mountains',

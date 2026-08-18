@@ -654,8 +654,8 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
             in front of Taghazout Mosque
           </li>
           <li>
-            <span className="font-semibold">Afternoon workshops (14:00–18:00 / 19:30):</span> pick-up
-            at 13:30 in front of Taghazout Mosque
+            <span className="font-semibold">Afternoon workshops (15:00–19:00 / 19:30):</span> pick-up
+            at 14:30 in front of Taghazout Mosque
           </li>
           <li>
             <span className="font-semibold">Saturday Weekly Event:</span> pick-up at 14:30 in front

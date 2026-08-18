@@ -31,13 +31,14 @@ interface ExperienceStep {
   alt: string;
   duration: string;
   icon: any;
+  aspect: string;
 }
 
 const stepMeta = [
-  { alt: "Taghazout Morocco pickup location - Scenic coastal village starting point for authentic Moroccan cooking class journey to Atlas Mountains", duration: "20 min", icon: FiMapPin },
-  { alt: "Traditional Moroccan kitchen tour - Authentic Amazigh cooking space with wood-fired oven and traditional tagines in Atlas Mountains home", duration: "20 min", icon: FiHome },
-  { alt: "Hands-on Moroccan cooking class - Learning traditional dishes and bread baking techniques in authentic village kitchen", duration: "90 min", icon: FiActivity },
-  { alt: "Moroccan feast and hospitality - Traditional home-cooked meal experience with mint tea ceremony in Atlas Mountains Amazigh home", duration: "60 min", icon: FiHeart },
+  { alt: "Taghazout Morocco pickup location - Scenic coastal village starting point for authentic Moroccan cooking class journey to Atlas Mountains", duration: "20 min", icon: FiMapPin, aspect: "aspect-[4/5]" },
+  { alt: "Traditional Moroccan kitchen tour - Authentic Amazigh cooking space with wood-fired oven and traditional tagines in Atlas Mountains home", duration: "20 min", icon: FiHome, aspect: "aspect-[3/2]" },
+  { alt: "Hands-on Moroccan cooking class - Learning traditional dishes and bread baking techniques in authentic village kitchen", duration: "90 min", icon: FiActivity, aspect: "aspect-[2/3]" },
+  { alt: "Moroccan feast and hospitality - Traditional home-cooked meal experience with mint tea ceremony in Atlas Mountains Amazigh home", duration: "60 min", icon: FiHeart, aspect: "aspect-[2/3]" },
 ] as const;
 
 const TheExperienceV2: React.FC = memo(() => {
@@ -83,24 +84,22 @@ const TheExperienceV2: React.FC = memo(() => {
         const Icon = step.icon;
 
         return (
-          <div 
+          <div
             key={step.step}
-            className={`relative flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} min-h-auto lg:min-h-[700px]`}
+            className={`relative flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} lg:min-h-[700px]`}
           >
-            {/* Image Side - Mobile Optimized */}
-            <div className="relative w-full lg:w-1/2 h-[50vh] min-h-[400px] sm:h-[55vh] lg:h-auto">
+            <div className={`relative w-full lg:w-1/2 ${step.aspect} lg:aspect-auto lg:h-auto`}>
               <Image
                 src={step.image}
                 alt={step.alt}
                 fill
-                className="object-cover"
+                className="object-contain object-center lg:object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 loading="lazy"
               />
-              
-              {/* Image Overlay - Enhanced for Mobile */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20 lg:bg-gradient-to-r lg:from-transparent lg:via-black/10 lg:to-black/40"></div>
-              
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-black/10 lg:to-black/40" />
+
               <div className="absolute bottom-12 right-12 hidden text-white/15 lg:block">
                 <span className="font-display text-[160px] font-normal leading-none">
                   {String(step.step).padStart(2, '0')}
@@ -108,7 +107,7 @@ const TheExperienceV2: React.FC = memo(() => {
               </div>
 
               <div className="absolute bottom-6 left-6 lg:hidden">
-                <span className="font-display text-4xl text-white/90">
+                <span className="font-display text-4xl text-white/90 drop-shadow">
                   {String(step.step).padStart(2, '0')}
                 </span>
               </div>

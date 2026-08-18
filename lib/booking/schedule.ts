@@ -36,7 +36,7 @@ const PICKUP: Record<SlotPeriod, PickupInfo> = {
     meetingPoint: 'In front of Taghazout Mosque',
   },
   afternoon: {
-    time: '13:30',
+    time: '14:30',
     meetingPoint: 'In front of Taghazout Mosque',
   },
 };
@@ -75,8 +75,8 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
   3: [
     {
       period: 'afternoon',
-      startTime: '14:00',
-      endTime: '18:00',
+      startTime: '15:00',
+      endTime: '19:00',
       dish: 'Choose Your Tagine',
       feastNote: 'Includes Full Dinner Feast',
       menuCategory: 'tagine',
@@ -109,8 +109,8 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
     },
     {
       period: 'afternoon',
-      startTime: '14:00',
-      endTime: '18:00',
+      startTime: '15:00',
+      endTime: '19:00',
       dish: 'Holy Day Couscous Feast',
       feastNote: 'Includes Full Dinner Feast',
       menuCategory: 'couscous',
@@ -121,7 +121,7 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
   6: [
     {
       period: 'afternoon',
-      startTime: '14:00',
+      startTime: '15:00',
       endTime: '19:30',
       dish: 'Traditional BBQ Grilled in the Clay Oven & Freshly Baked Traditional Bread',
       feastNote: 'Includes Live Performance & Feast',
@@ -143,8 +143,8 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
     },
     {
       period: 'afternoon',
-      startTime: '14:00',
-      endTime: '18:00',
+      startTime: '15:00',
+      endTime: '19:00',
       dish: 'Choose Your Tagine',
       feastNote: 'Includes Full Dinner Feast',
       menuCategory: 'tagine',
