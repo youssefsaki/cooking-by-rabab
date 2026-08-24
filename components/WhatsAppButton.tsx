@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { trackEvent } from '@/lib/gtag';
 
 const WhatsAppButton: React.FC = () => {
   const phoneNumber = '212726671746';
@@ -12,6 +13,7 @@ const WhatsAppButton: React.FC = () => {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={() => trackEvent('whatsapp_click', { placement: 'floating' })}
       className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 group"
       aria-label="Contact us on WhatsApp"
     >

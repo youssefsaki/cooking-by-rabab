@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { FiMapPin, FiPhone, FiMail, FiInstagram, FiSend, FiHeart } from 'react-icons/fi';
 import { SiTiktok } from 'react-icons/si';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { trackEvent } from '@/lib/gtag';
 
 /**
  * FOOTER - Design 1 of 6
@@ -193,6 +194,7 @@ const FooterV1: React.FC = () => {
               href={`https://wa.me/${footerData.contact.whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackEvent('whatsapp_click', { placement: 'footer' })}
               className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition-colors text-sm"
             >
               <FiSend className="w-4 h-4" />

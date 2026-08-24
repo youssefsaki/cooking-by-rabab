@@ -10,6 +10,7 @@ import 'react-phone-input-2/lib/style.css';
 import Select from 'react-select';
 import { FiCheck, FiMail, FiPhone, FiUser, FiMapPin } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { trackEvent } from '@/lib/gtag';
 import WorkshopCalendar from '@/components/booking/WorkshopCalendar';
 import DishSelectionStep from '@/components/booking/DishSelectionStep';
 import type { CalendarSlot, PackageType } from '@/lib/booking/schedule';
@@ -443,6 +444,7 @@ function BookingForm() {
         }
 
         setSubmitted(true);
+        trackEvent('booking_complete');
         clearAvailabilityClientCache();
         openWhatsApp({
           ...values,
@@ -803,6 +805,7 @@ function BookingForm() {
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackEvent('whatsapp_click', { placement: 'booking_success' })}
                   className="inline-block bg-[#25D366] text-white font-bold px-8 py-4 rounded-full hover:bg-[#1ebe57] transition-all duration-300 shadow-lg hover:scale-105"
                 >
                   Open WhatsApp
