@@ -30,9 +30,9 @@ export const SEO_PAGES: SeoPageDef[] = [
     path: '/',
     titleKey: 'seo.home.metaTitle',
     descriptionKey: 'seo.home.metaDescription',
-    fallbackTitle: 'Taghazout Cooking Class - Authentic Moroccan & Amazigh Cooking Experience',
+    fallbackTitle: 'Cooking Class Taghazout, Tamraght & Agadir',
     fallbackDescription:
-      'Book your Taghazout cooking class — half-day Berber village experience with pickup from Taghazout & Agadir. Learn traditional Moroccan dishes of your choice, clay oven bread & tea ceremony in a 300-year-old Berber village home.',
+      'Book a Moroccan cooking class near Taghazout, Tamraght, and Agadir. Pickup included. Cook tajine, couscous, or rfissa in a Berber village. Cours de cuisine à Taghazout.',
     ogImage: '/hero/desktop/bg.webp',
   },
   {
@@ -41,9 +41,9 @@ export const SEO_PAGES: SeoPageDef[] = [
     path: '/packages',
     titleKey: 'seo.packages.metaTitle',
     descriptionKey: 'seo.packages.metaDescription',
-    fallbackTitle: 'Taghazout Cooking Class Packages — Half-Day Berber Experience from €65',
+    fallbackTitle: 'Cooking Class Packages — Taghazout from €65',
     fallbackDescription:
-      'Traditional cooking experience Taghazout — From 65 € (700 MAD), Weekly Event 80 € (850 MAD), Private Workshop 80 € (850 MAD), or At Your Location 100 € (1050 MAD).',
+      'Half-day cooking class from Taghazout, Tamraght, and Agadir. From 65 €. Weekly event, private workshop, or Rabab at your villa.',
     ogImage: '/packages/basic.webp',
   },
   {
@@ -52,9 +52,9 @@ export const SEO_PAGES: SeoPageDef[] = [
     path: '/experiences',
     titleKey: 'seo.experiences.metaTitle',
     descriptionKey: 'seo.experiences.metaDescription',
-    fallbackTitle: 'Moroccan Cooking Masterclass, Clay Oven Bread & Amlou Workshop — Taghazout',
+    fallbackTitle: 'Tajine, Rfissa & Bread Class in Taghazout',
     fallbackDescription:
-      'Moroccan cooking experiences in Taghazout: Cooking Masterclass, Clay Oven Bread Making, Amlou Workshop, Amazigh Heritage, and Moroccan Mint Tea Ceremony.',
+      'Hands-on Moroccan cooking in Taghazout: tajine, rfissa, couscous, clay-oven bread, amlou, and mint tea. Pickup from the coast including Tamraght.',
     ogImage: '/experiences/tajine.jpg',
   },
   {
@@ -74,9 +74,9 @@ export const SEO_PAGES: SeoPageDef[] = [
     path: '/book',
     titleKey: 'seo.book.metaTitle',
     descriptionKey: 'seo.book.metaDescription',
-    fallbackTitle: 'Book Taghazout Cooking Class — Basic, Private & Weekly Event',
+    fallbackTitle: 'Book a Cooking Class near Taghazout',
     fallbackDescription:
-      'Book cooking class near Taghazout online. Pickup from Taghazout Mosque included. From 65 € (700 MAD).',
+      'Book online. Pickup from Taghazout Mosque — also serving Tamraght and Agadir. From 65 € (700 MAD).',
     ogImage: '/packages/basic.webp',
   },
   {
@@ -118,9 +118,9 @@ export const SEO_PAGES: SeoPageDef[] = [
     path: '/ourstory/location',
     titleKey: 'seo.location.metaTitle',
     descriptionKey: 'seo.location.metaDescription',
-    fallbackTitle: 'Location — Taghazout Cooking Class in the Atlas Mountains',
+    fallbackTitle: 'Location — Cooking Class near Taghazout, Tamraght & Agadir',
     fallbackDescription:
-      'Find our Taghazout cooking class in a traditional Amazigh village in the Atlas Mountains, about 15 minutes from the coast with pickup from Taghazout Mosque.',
+      'Village kitchen in the Atlas Mountains, ~15 minutes from Taghazout. Pickup from Taghazout Mosque for guests staying in Taghazout, Tamraght, or Agadir.',
     ogImage: '/journey/journey-1.jpeg',
   },
 ];

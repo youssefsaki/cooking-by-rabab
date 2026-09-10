@@ -39,44 +39,34 @@ export async function generateMetadata(): Promise<Metadata> {
   const title =
     typeof seo.title === 'string'
       ? seo.title
-      : 'Taghazout Cooking Class - Authentic Moroccan & Amazigh Cooking Experience';
+      : 'Cooking Class Taghazout, Tamraght & Agadir';
   const description =
     typeof seo.description === 'string'
       ? seo.description
-      : 'Book your Taghazout cooking class — half-day Berber village experience with pickup from Taghazout & Agadir.';
+      : 'Book a Moroccan cooking class near Taghazout, Tamraght, and Agadir. Pickup included. Cook tajine, couscous, or rfissa in a Berber village. Cours de cuisine à Taghazout.';
 
   return {
     metadataBase: new URL(siteConfig.site.url),
     title: {
       default: title,
-      template: '%s | Taghazout Cooking Class',
+      template: '%s',
     },
     description,
     keywords: [
+      'cooking class taghazout',
       'taghazout cooking class',
-      'moroccan cooking class taghazout',
-      'authentic berber cooking class morocco',
-      'traditional cooking experience taghazout',
-      'book cooking class near taghazout',
-      'cooking class agadir',
       'cooking class tamraght',
-      'berber village cooking experience',
-      'moroccan cooking masterclass taghazout',
-      'tajine masterclass taghazout',
-      'clay oven bread making taghazout',
-      'amlou workshop morocco',
-      'amazigh cuisine',
-      'atlas mountains cooking class',
-      'moroccan culinary experience',
-      'morocco food tour',
+      'tamraght cooking class',
+      'cooking class agadir',
+      'cours de cuisine taghazout',
+      'tajine taghazout',
+      'rfissa',
     ],
     authors: [{ name: 'Rabab - Taghazout Cooking Class' }],
     creator: 'Taghazout Cooking Class',
     publisher: 'Taghazout Cooking Class',
     formatDetection: { telephone: true, email: true },
-    alternates: {
-      canonical: siteConfig.site.url,
-    },
+    alternates: seo.alternates,
     openGraph: {
       title,
       description,
@@ -144,7 +134,8 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'LocalBusiness',
               name: 'Taghazout Cooking Class',
-              description: 'Authentic Moroccan & Amazigh cooking experience in the Atlas Mountains above Taghazout. Half-day immersive cultural experience in a 300-year-old Berber village home.',
+              description:
+                'Moroccan cooking class near Taghazout, Tamraght, and Agadir. Half-day Berber village experience in the Atlas Mountains — tajine, couscous, rfissa, clay-oven bread, and mint tea. Pickup included.',
               url: 'https://www.taghazout-cooking-class.com',
               telephone: '+212726671746',
               email: 'rababouhadda5@gmail.com',
@@ -162,7 +153,7 @@ export default function RootLayout({
                 { '@type': 'AdministrativeArea', name: 'Souss-Massa' },
                 { '@type': 'Place', name: 'Atlas Mountains' },
               ],
-              image: 'https://www.taghazout-cooking-class.com/hero/desktop/bg.jpg',
+              image: 'https://www.taghazout-cooking-class.com/hero/desktop/bg.webp',
               priceRange: '€65-€100',
               openingHoursSpecification: { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'], opens: '09:00', closes: '20:00' },
               sameAs: ['https://www.instagram.com/taghazout_cooking_class/', 'https://www.tiktok.com/@rabab_cooking_class'],

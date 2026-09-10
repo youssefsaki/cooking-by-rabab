@@ -21,7 +21,15 @@ export async function buildSeoMetadata(
   return {
     title,
     description,
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      languages: {
+        en: url,
+        fr: url,
+        de: url,
+        'x-default': url,
+      },
+    },
     openGraph: {
       title,
       description,

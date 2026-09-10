@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { BreadcrumbJsonLd } from '@/lib/breadcrumb-schema';
 import { buildSeoMetadata } from '@/lib/seo-metadata';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -6,5 +7,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function KitchenLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <BreadcrumbJsonLd crumbs={[{ name: 'Our Kitchen', path: '/ourstory/kitchen' }]} />
+      {children}
+    </>
+  );
 }
