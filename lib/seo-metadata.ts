@@ -3,6 +3,8 @@ import { getSiteCopy } from '@/lib/content';
 import { seoPageById, type SeoPageId } from '@/lib/seo-pages';
 import type { Locale } from '@/lib/types/cms';
 
+const SITE_ORIGIN = 'https://www.taghazout-cooking-class.com';
+
 /** Build Next.js metadata for a page, preferring CMS SEO fields with hardcoded fallbacks. */
 export async function buildSeoMetadata(
   pageId: SeoPageId,
@@ -13,7 +15,8 @@ export async function buildSeoMetadata(
   const copy = await getSiteCopy(locale);
   const title = (copy[page.titleKey] || '').trim() || page.fallbackTitle;
   const description = (copy[page.descriptionKey] || '').trim() || page.fallbackDescription;
-  const url = options?.openGraphUrl || `https://www.taghazout-cooking-class.com${page.path === '/' ? '' : page.path}`;
+  const url = options?.openGraphUrl || `${SITE_ORIGIN}${page.path === '/' ? '' : page.path}`;
+  const imageUrl = page.ogImage.startsWith('http') ? page.ogImage : `${SITE_ORIGIN}${page.ogImage}`;
 
   return {
     title,
@@ -24,11 +27,20 @@ export async function buildSeoMetadata(
       description,
       url,
       type: 'website',
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
+      images: [imageUrl],
     },
   };
 }

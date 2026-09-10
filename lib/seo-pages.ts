@@ -19,6 +19,8 @@ export type SeoPageDef = {
   descriptionKey: string;
   fallbackTitle: string;
   fallbackDescription: string;
+  /** Public path for Open Graph / Twitter share cards. */
+  ogImage: string;
 };
 
 export const SEO_PAGES: SeoPageDef[] = [
@@ -31,6 +33,7 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'Taghazout Cooking Class - Authentic Moroccan & Amazigh Cooking Experience',
     fallbackDescription:
       'Book your Taghazout cooking class — half-day Berber village experience with pickup from Taghazout & Agadir. Learn traditional Moroccan dishes of your choice, clay oven bread & tea ceremony in a 300-year-old Berber village home.',
+    ogImage: '/hero/desktop/bg.webp',
   },
   {
     id: 'packages',
@@ -41,6 +44,7 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'Taghazout Cooking Class Packages — Half-Day Berber Experience from €65',
     fallbackDescription:
       'Traditional cooking experience Taghazout — From 65 € (700 MAD), Weekly Event 80 € (850 MAD), Private Workshop 80 € (850 MAD), or At Your Location 100 € (1050 MAD).',
+    ogImage: '/packages/basic.webp',
   },
   {
     id: 'experiences',
@@ -51,6 +55,7 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'Moroccan Cooking Masterclass, Clay Oven Bread & Amlou Workshop — Taghazout',
     fallbackDescription:
       'Moroccan cooking experiences in Taghazout: Cooking Masterclass, Clay Oven Bread Making, Amlou Workshop, Amazigh Heritage, and Moroccan Mint Tea Ceremony.',
+    ogImage: '/experiences/tajine.jpg',
   },
   {
     id: 'events',
@@ -61,6 +66,7 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'Weekly Amazigh Music Event Taghazout — Every Saturday in the Atlas Mountains',
     fallbackDescription:
       'Weekly Berber Music Event every Saturday at sunset. Traditional Amazigh music, clay-oven barbecue, mint tea, and village celebration. 80 € / person.',
+    ogImage: '/packages/weekly.webp',
   },
   {
     id: 'book',
@@ -71,6 +77,7 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'Book Taghazout Cooking Class — Basic, Private & Weekly Event',
     fallbackDescription:
       'Book cooking class near Taghazout online. Pickup from Taghazout Mosque included. From 65 € (700 MAD).',
+    ogImage: '/packages/basic.webp',
   },
   {
     id: 'faq',
@@ -81,6 +88,7 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'FAQ & Contact — Taghazout Cooking Class',
     fallbackDescription:
       'FAQ about our Taghazout cooking class — booking, prices, pickup, vegetarian options. Contact Rabab via WhatsApp, email, or phone.',
+    ogImage: '/hero/desktop/bg.webp',
   },
   {
     id: 'meetChef',
@@ -91,6 +99,7 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'Meet Rabab — Taghazout Cooking Class Host & Amazigh Cultural Guide',
     fallbackDescription:
       'Meet Rabab, your Taghazout cooking class host. Born in the Atlas Mountains, Rabab shares Amazigh culinary traditions in a 300-year-old Berber house.',
+    ogImage: '/our-story/meet-the-chef/rabab.webp',
   },
   {
     id: 'kitchen',
@@ -101,6 +110,7 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'Our Kitchen — Traditional Amazigh Cooking Space in Taghazout',
     fallbackDescription:
       'Discover Rabab’s traditional kitchen and clay oven in a Berber village above Taghazout — where guests cook authentic Moroccan dishes together.',
+    ogImage: '/our-story/our-kitchen/main.jpg',
   },
   {
     id: 'location',
@@ -111,6 +121,7 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'Location — Taghazout Cooking Class in the Atlas Mountains',
     fallbackDescription:
       'Find our Taghazout cooking class in a traditional Amazigh village in the Atlas Mountains, about 15 minutes from the coast with pickup from Taghazout Mosque.',
+    ogImage: '/journey/journey-1.jpeg',
   },
 ];
 

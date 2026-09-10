@@ -84,20 +84,13 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: 'en_US',
       url: siteConfig.site.url,
       siteName: 'Taghazout Cooking Class',
-      images: [
-        {
-          url: '/hero/desktop/bg.jpg',
-          width: 1920,
-          height: 1080,
-          alt: 'Taghazout cooking class — authentic Berber cooking experience in Atlas Mountains Morocco',
-        },
-      ],
+      images: seo.openGraph?.images,
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: ['/hero/desktop/bg.jpg'],
+      images: seo.twitter?.images,
     },
     robots: {
       index: true,
@@ -171,7 +164,6 @@ export default function RootLayout({
               ],
               image: 'https://www.taghazout-cooking-class.com/hero/desktop/bg.jpg',
               priceRange: '€65-€100',
-              aggregateRating: { '@type': 'AggregateRating', ratingValue: '5.0', reviewCount: '500' },
               openingHoursSpecification: { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'], opens: '09:00', closes: '20:00' },
               sameAs: ['https://www.instagram.com/taghazout_cooking_class/', 'https://www.tiktok.com/@rabab_cooking_class'],
               hasOfferCatalog: {
