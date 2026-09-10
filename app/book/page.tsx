@@ -10,7 +10,7 @@ import 'react-phone-input-2/lib/style.css';
 import Select from 'react-select';
 import { FiCheck, FiMail, FiPhone, FiUser, FiMapPin } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { trackEvent } from '@/lib/gtag';
+import { getGaClientId, trackEvent, trackEventAndWait } from '@/lib/gtag';
 import WorkshopCalendar from '@/components/booking/WorkshopCalendar';
 import DishSelectionStep from '@/components/booking/DishSelectionStep';
 import type { CalendarSlot, PackageType } from '@/lib/booking/schedule';
@@ -432,10 +432,15 @@ function BookingForm() {
               selectedSource: values.source,
             }),
             promoCode: appliedPromo?.code,
+            gaClientId: getGaClientId(),
           }),
         });
 
-        const data = (await res.json()) as { error?: string; booking?: { totalPrice: number } };
+        const data = (await res.json()) as {
+          error?: string;
+          booking?: { totalPrice: number };
+          gaTracked?: boolean;
+        };
         if (!res.ok) {
           setSubmitError(data.error || SLOT_CONFLICT_MESSAGE);
           if (res.status === 409 && isBasic) setStep('calendar');
@@ -444,7 +449,12 @@ function BookingForm() {
         }
 
         setSubmitted(true);
-        trackEvent('booking_complete');
+        if (!data.gaTracked) {
+          await trackEventAndWait('booking_complete', {
+            currency: 'EUR',
+            value: data.booking?.totalPrice || 0,
+          });
+        }
         clearAvailabilityClientCache();
         openWhatsApp({
           ...values,

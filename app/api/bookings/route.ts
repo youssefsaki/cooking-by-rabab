@@ -35,6 +35,7 @@ import {
   validatePromoRow,
   type PromoCodeRow,
 } from '@/lib/promo-codes';
+import { trackBookingCompleteServer } from '@/lib/ga4-measure';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -56,6 +57,7 @@ interface BookingPayload {
   dietaryNotes?: string;
   source?: string;
   promoCode?: string;
+  gaClientId?: string;
 }
 
 function isValidEmail(email: string): boolean {
@@ -346,7 +348,16 @@ export async function POST(request: NextRequest) {
       console.warn('[api/bookings] Supabase OK but Google Sheets mirror failed or is not configured');
     }
 
-    return NextResponse.json({ success: true, booking, sheetsMirrored });
+    const gaTracked = await trackBookingCompleteServer({
+      clientId: body.gaClientId,
+      transactionId: booking.id,
+      value: booking.totalPrice,
+      packageType: booking.packageType,
+      country: booking.country,
+      source: booking.source,
+    });
+
+    return NextResponse.json({ success: true, booking, sheetsMirrored, gaTracked });
   } catch (error) {
     console.error('booking error', error);
     return NextResponse.json({ error: 'Failed to create booking' }, { status: 500 });
