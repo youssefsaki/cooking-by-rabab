@@ -22,6 +22,31 @@ function withPathname(request: NextRequest, response: NextResponse) {
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
+  if (
+    pathname === '/sitemap.xml' ||
+    pathname === '/robots.txt' ||
+    pathname.startsWith('/api/')
+  ) {
+    return NextResponse.next();
+  }
+
+  if (pathname === '/fr' || pathname.startsWith('/fr/')) {
+    if (pathname.startsWith('/fr/admin') || pathname.startsWith('/fr/api')) {
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = pathname.replace(/^\/fr/, '') || '/';
+      return NextResponse.redirect(redirectUrl);
+    }
+    const stripped = pathname === '/fr' || pathname === '/fr/' ? '/' : pathname.slice(3);
+    const rewriteUrl = request.nextUrl.clone();
+    rewriteUrl.pathname = stripped || '/';
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set('x-locale', 'fr');
+    requestHeaders.set('x-pathname', pathname);
+    return NextResponse.rewrite(rewriteUrl, {
+      request: { headers: requestHeaders },
+    });
+  }
+
   if (pathname.startsWith('/admin')) {
     const authResponse = await updateSession(request);
     // Redirect responses should pass through unchanged (still tag pathname for login page)

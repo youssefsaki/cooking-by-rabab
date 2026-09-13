@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import Link from '@/components/LocalizedLink';
 import { FiClock, FiMapPin, FiUsers, FiStar } from 'react-icons/fi';
 
 const highlights = [

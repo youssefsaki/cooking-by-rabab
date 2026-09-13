@@ -19,6 +19,8 @@ export type SeoPageDef = {
   descriptionKey: string;
   fallbackTitle: string;
   fallbackDescription: string;
+  fallbackTitleFr?: string;
+  fallbackDescriptionFr?: string;
   /** Public path for Open Graph / Twitter share cards. */
   ogImage: string;
 };
@@ -33,6 +35,9 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'Cooking Class Taghazout, Tamraght & Agadir',
     fallbackDescription:
       'Book a Moroccan cooking class near Taghazout, Tamraght, and Agadir. Pickup included. Cook tajine, couscous, or rfissa in a Berber village. Cours de cuisine à Taghazout.',
+    fallbackTitleFr: 'Cours de cuisine Taghazout, Tamraght et Agadir',
+    fallbackDescriptionFr:
+      'Réservez un cours de cuisine marocaine près de Taghazout, Tamraght et Agadir. Tajine, couscous ou rfissa dans un village amazigh. Transfert inclus.',
     ogImage: '/hero/desktop/bg.webp',
   },
   {
@@ -44,6 +49,9 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'Cooking Class Packages — Taghazout from €65',
     fallbackDescription:
       'Half-day cooking class from Taghazout, Tamraght, and Agadir. From 65 €. Weekly event, private workshop, or Rabab at your villa.',
+    fallbackTitleFr: 'Formules cours de cuisine à Taghazout dès 65 €',
+    fallbackDescriptionFr:
+      'Cours de cuisine d’une demi-journée depuis Taghazout, Tamraght et Agadir. Dès 65 €. Événement hebdomadaire, atelier privé ou Rabab chez vous.',
     ogImage: '/packages/basic.webp',
   },
   {
@@ -55,6 +63,9 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'Tajine, Rfissa & Bread Class in Taghazout',
     fallbackDescription:
       'Hands-on Moroccan cooking in Taghazout: tajine, rfissa, couscous, clay-oven bread, amlou, and mint tea. Pickup from the coast including Tamraght.',
+    fallbackTitleFr: 'Cours tajine, rfissa et pain à Taghazout',
+    fallbackDescriptionFr:
+      'Cuisine marocaine à Taghazout : tajine, rfissa, couscous, pain au four et amlou. Transfert depuis la côte, Tamraght inclus.',
     ogImage: '/experiences/tajine.jpg',
   },
   {
@@ -66,6 +77,9 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'Weekly Amazigh Music Event Taghazout — Every Saturday in the Atlas Mountains',
     fallbackDescription:
       'Weekly Berber Music Event every Saturday at sunset. Traditional Amazigh music, clay-oven barbecue, mint tea, and village celebration. 80 € / person.',
+    fallbackTitleFr: 'Soirée musique amazighe à Taghazout — chaque samedi',
+    fallbackDescriptionFr:
+      'Événement berbère chaque samedi au coucher du soleil. Musique amazighe, barbecue au four, thé à la menthe. 80 € / personne.',
     ogImage: '/packages/weekly.webp',
   },
   {
@@ -77,6 +91,9 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'Book a Cooking Class near Taghazout',
     fallbackDescription:
       'Book online. Pickup from Taghazout Mosque — also serving Tamraght and Agadir. From 65 € (700 MAD).',
+    fallbackTitleFr: 'Réserver un cours de cuisine près de Taghazout',
+    fallbackDescriptionFr:
+      'Réservez en ligne. Départ à la mosquée de Taghazout — Tamraght et Agadir aussi. Dès 65 € (700 MAD).',
     ogImage: '/packages/basic.webp',
   },
   {
@@ -88,6 +105,9 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'FAQ & Contact — Taghazout Cooking Class',
     fallbackDescription:
       'FAQ about our Taghazout cooking class — booking, prices, pickup, vegetarian options. Contact Rabab via WhatsApp, email, or phone.',
+    fallbackTitleFr: 'FAQ et contact — Cours de cuisine Taghazout',
+    fallbackDescriptionFr:
+      'FAQ : réservation, prix, transfert, options végétariennes. Contactez Rabab par WhatsApp, e-mail ou téléphone.',
     ogImage: '/hero/desktop/bg.webp',
   },
   {
@@ -99,6 +119,9 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'Meet Rabab — Taghazout Cooking Class Host & Amazigh Cultural Guide',
     fallbackDescription:
       'Meet Rabab, your Taghazout cooking class host. Born in the Atlas Mountains, Rabab shares Amazigh culinary traditions in a 300-year-old Berber house.',
+    fallbackTitleFr: 'Rabab — hôte du cours de cuisine à Taghazout',
+    fallbackDescriptionFr:
+      'Rencontrez Rabab, née dans l’Atlas. Elle transmet la cuisine amazighe dans une maison berbère de 300 ans.',
     ogImage: '/our-story/meet-the-chef/rabab.webp',
   },
   {
@@ -110,6 +133,9 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'Our Kitchen — Traditional Amazigh Cooking Space in Taghazout',
     fallbackDescription:
       'Discover Rabab’s traditional kitchen and clay oven in a Berber village above Taghazout — where guests cook authentic Moroccan dishes together.',
+    fallbackTitleFr: 'Notre cuisine amazighe traditionnelle à Taghazout',
+    fallbackDescriptionFr:
+      'La cuisine et le four de Rabab dans un village berbère au-dessus de Taghazout — on y cuisine ensemble des plats marocains.',
     ogImage: '/our-story/our-kitchen/main.jpg',
   },
   {
@@ -121,6 +147,9 @@ export const SEO_PAGES: SeoPageDef[] = [
     fallbackTitle: 'Location — Cooking Class near Taghazout, Tamraght & Agadir',
     fallbackDescription:
       'Village kitchen in the Atlas Mountains, ~15 minutes from Taghazout. Pickup from Taghazout Mosque for guests staying in Taghazout, Tamraght, or Agadir.',
+    fallbackTitleFr: 'Cours de cuisine près de Taghazout, Tamraght et Agadir',
+    fallbackDescriptionFr:
+      'Cuisine de village dans l’Atlas, à 15 minutes de Taghazout. Transfert depuis la mosquée pour Taghazout, Tamraght et Agadir.',
     ogImage: '/journey/journey-1.jpeg',
   },
 ];

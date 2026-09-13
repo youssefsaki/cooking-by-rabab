@@ -2,7 +2,7 @@
 
 import React, { memo, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import Link from '@/components/LocalizedLink';
 import { FiArrowRight, FiClock, FiUsers, FiStar } from 'react-icons/fi';
 
 /**

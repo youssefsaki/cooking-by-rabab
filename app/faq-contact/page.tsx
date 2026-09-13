@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect, Suspense } from 'react';
-import Link from 'next/link';
+import Link from '@/components/LocalizedLink';
 import { ArrowLeft, Star, Clock, Zap, Heart, HelpCircle } from 'lucide-react';
 import TabNavigation from '@/components/faq-contact/TabNavigation';
 import FAQAccordion from '@/components/faq-contact/FAQAccordion';

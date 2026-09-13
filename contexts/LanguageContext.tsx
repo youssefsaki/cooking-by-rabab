@@ -1,9 +1,11 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import en from '@/lib/translations/en.json';
 import fr from '@/lib/translations/fr.json';
 import de from '@/lib/translations/de.json';
+import { localizeHref, stripLocalePrefix } from '@/lib/i18n-path';
 
 type Language = 'EN' | 'FR' | 'DE';
 type Translations = typeof en;
@@ -17,33 +19,71 @@ interface LanguageContextType {
 const translations = {
   EN: en,
   FR: fr,
-  DE: de
+  DE: de,
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState<Language>('EN');
+function languageFromPath(pathname: string): Language | null {
+  if (pathname === '/fr' || pathname.startsWith('/fr/')) return 'FR';
+  return null;
+}
+
+export function LanguageProvider({
+  children,
+  initialLanguage = 'EN',
+}: {
+  children: React.ReactNode;
+  initialLanguage?: Language;
+}) {
+  const pathname = usePathname() || '/';
+  const router = useRouter();
+  const [language, setLanguageState] = useState<Language>(initialLanguage);
 
   useEffect(() => {
+    const fromUrl = languageFromPath(pathname);
+    if (fromUrl) {
+      setLanguageState(fromUrl);
+      try {
+        localStorage.setItem('language', fromUrl);
+      } catch {
+        /* ignore */
+      }
+      return;
+    }
+    if (initialLanguage === 'FR') {
+      setLanguageState('FR');
+      return;
+    }
     try {
       const saved = localStorage.getItem('language') as Language;
-      if (saved && translations[saved]) {
+      if (saved === 'DE' && translations[saved]) {
         setLanguageState(saved);
       }
-    } catch (error) {
-      console.error('Could not access localStorage:', error);
+    } catch {
+      /* ignore */
     }
-  }, []);
+  }, [pathname, initialLanguage]);
 
-  const setLanguage = useCallback((lang: Language) => {
-    setLanguageState(lang);
-    try {
-      localStorage.setItem('language', lang);
-    } catch (error) {
-      console.error('Could not save to localStorage:', error);
-    }
-  }, []);
+  const setLanguage = useCallback(
+    (lang: Language) => {
+      setLanguageState(lang);
+      try {
+        localStorage.setItem('language', lang);
+      } catch {
+        /* ignore */
+      }
+      const bare = stripLocalePrefix(pathname);
+      if (lang === 'FR') {
+        router.push(localizeHref(bare, 'FR'));
+        return;
+      }
+      if (pathname === '/fr' || pathname.startsWith('/fr/')) {
+        router.push(bare);
+      }
+    },
+    [pathname, router]
+  );
 
   const t = translations[language];
 

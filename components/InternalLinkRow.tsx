@@ -1,7 +1,7 @@
 'use client';
 
 import React, { memo } from 'react';
-import Link from 'next/link';
+import Link from '@/components/LocalizedLink';
 import { useLanguage } from '@/contexts/LanguageContext';
 import en from '@/lib/translations/en.json';
 

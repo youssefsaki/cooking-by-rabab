@@ -1,7 +1,7 @@
 'use client';
 
 import React, { memo, useCallback, useEffect, useState } from 'react';
-import Link from 'next/link';
+import Link from '@/components/LocalizedLink';
 import Image from 'next/image';
 import { FiClock, FiUsers, FiMapPin, FiCheck, FiX } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';

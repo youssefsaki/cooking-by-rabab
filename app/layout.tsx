@@ -13,6 +13,7 @@ import SiteChrome from '@/components/SiteChrome';
 import SiteMotion from '@/components/SiteMotion';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { buildSeoMetadata } from '@/lib/seo-metadata';
+import { getRequestLocale } from '@/lib/request-locale';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -36,6 +37,7 @@ const siteConfig = getStaticSiteConfig();
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await buildSeoMetadata('home');
+  const locale = getRequestLocale();
   const title =
     typeof seo.title === 'string'
       ? seo.title
@@ -71,8 +73,10 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       type: 'website',
-      locale: 'en_US',
-      url: siteConfig.site.url,
+      locale: locale === 'fr' ? 'fr_FR' : 'en_US',
+      url: typeof seo.openGraph === 'object' && seo.openGraph && 'url' in seo.openGraph
+        ? seo.openGraph.url
+        : siteConfig.site.url,
       siteName: 'Taghazout Cooking Class',
       images: seo.openGraph?.images,
     },
@@ -107,9 +111,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const navigationData = getStaticNavigationData();
+  const locale = getRequestLocale();
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -172,7 +177,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${outfit.variable} ${newsreader.variable} font-sans antialiased text-ink bg-paper`} suppressHydrationWarning>
-        <LanguageProvider>
+        <LanguageProvider initialLanguage={locale === 'fr' ? 'FR' : 'EN'}>
           <SiteMotion>
             <ErrorSuppressor />
             <SiteChrome>

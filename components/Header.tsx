@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import Link from '@/components/LocalizedLink';
 import Image from 'next/image';
 import React from 'react';
 import { Instagram, Home, Menu, X, ChevronDown, Sparkles, Star, Crown } from 'lucide-react';
@@ -9,6 +9,7 @@ import { HeaderProps } from '@/types';
 import { getSocialIconName } from '@/lib/static-data';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { stripLocalePrefix } from '@/lib/i18n-path';
 import { useSiteImages } from '@/hooks/useSiteImages';
 
 // =====================================================
@@ -46,8 +47,9 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
   const [ctaDropdownOpen, setCtaDropdownOpen] = useState(false);
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   const pathname = usePathname();
+  const path = stripLocalePrefix(pathname || '/');
   const { language, setLanguage, t } = useLanguage();
-  const overHero = pathname === '/' && !isScrolled;
+  const overHero = path === '/' && !isScrolled;
 
   const languages = [
     { code: 'EN' as const, label: 'English', flag: '🇬🇧' },
@@ -95,7 +97,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
           ? 'bg-surface'
           : isScrolled
             ? 'border-b border-line bg-surface'
-            : pathname === '/'
+            : path === '/'
               ? 'bg-gradient-to-b from-black/40 to-transparent'
               : 'bg-surface'
       }`}
@@ -130,7 +132,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
           {/* Block 2: Navigation Links (Center) */}
           <div className="hidden lg:flex items-center justify-center gap-3 flex-1">
             {navigationData.menuItems.map((item: any) => {
-              const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
+              const isActive = path === item.href || path.startsWith(item.href + '/');
               const hasDropdown = item.hasDropdown && item.dropdownItems?.length > 0;
               
               if (hasDropdown) {
@@ -407,7 +409,7 @@ const Header: React.FC<HeaderProps> = ({ navigationData }) => {
               {/* Mobile Navigation Links */}
               <div className="space-y-2">
                 {navigationData.menuItems.map((item: any) => {
-                  const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
+                  const isActive = path === item.href || path.startsWith(item.href + '/');
                   const hasDropdown = item.hasDropdown && item.dropdownItems?.length > 0;
 
                   if (hasDropdown) {

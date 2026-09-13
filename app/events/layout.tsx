@@ -6,9 +6,7 @@ import { WEEKLY_EVENT_PRICE_EUR } from '@/lib/booking/schedule';
 const SITE_ORIGIN = 'https://www.taghazout-cooking-class.com';
 
 export async function generateMetadata(): Promise<Metadata> {
-  return buildSeoMetadata('events', {
-    openGraphUrl: `${SITE_ORIGIN}/events`,
-  });
+  return buildSeoMetadata('events');
 }
 
 /** Next Saturday (UTC date). Used so Google has a concrete upcoming Event instance. */

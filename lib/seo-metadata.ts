@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { getSiteCopy } from '@/lib/content';
+import { getRequestLocale } from '@/lib/request-locale';
+import { absolutePageUrl } from '@/lib/i18n-path';
 import { seoPageById, type SeoPageId } from '@/lib/seo-pages';
 import type { Locale } from '@/lib/types/cms';
-
-const SITE_ORIGIN = 'https://www.taghazout-cooking-class.com';
 
 /** Build Next.js metadata for a page, preferring CMS SEO fields with hardcoded fallbacks. */
 export async function buildSeoMetadata(
@@ -11,12 +11,20 @@ export async function buildSeoMetadata(
   options?: { locale?: Locale; openGraphUrl?: string }
 ): Promise<Metadata> {
   const page = seoPageById(pageId);
-  const locale = options?.locale || 'en';
+  const locale = options?.locale || getRequestLocale();
   const copy = await getSiteCopy(locale);
-  const title = (copy[page.titleKey] || '').trim() || page.fallbackTitle;
-  const description = (copy[page.descriptionKey] || '').trim() || page.fallbackDescription;
-  const url = options?.openGraphUrl || `${SITE_ORIGIN}${page.path === '/' ? '' : page.path}`;
-  const imageUrl = page.ogImage.startsWith('http') ? page.ogImage : `${SITE_ORIGIN}${page.ogImage}`;
+  const useFr = locale === 'fr';
+  const title =
+    (copy[page.titleKey] || '').trim() ||
+    (useFr && page.fallbackTitleFr ? page.fallbackTitleFr : page.fallbackTitle);
+  const description =
+    (copy[page.descriptionKey] || '').trim() ||
+    (useFr && page.fallbackDescriptionFr ? page.fallbackDescriptionFr : page.fallbackDescription);
+  const enUrl = absolutePageUrl(page.path, 'en');
+  const frUrl = absolutePageUrl(page.path, 'fr');
+  const url = options?.openGraphUrl || (useFr ? frUrl : enUrl);
+  const origin = 'https://www.taghazout-cooking-class.com';
+  const resolvedImage = page.ogImage.startsWith('http') ? page.ogImage : `${origin}${page.ogImage}`;
 
   return {
     title,
@@ -24,10 +32,9 @@ export async function buildSeoMetadata(
     alternates: {
       canonical: url,
       languages: {
-        en: url,
-        fr: url,
-        de: url,
-        'x-default': url,
+        en: enUrl,
+        fr: frUrl,
+        'x-default': enUrl,
       },
     },
     openGraph: {
@@ -35,9 +42,10 @@ export async function buildSeoMetadata(
       description,
       url,
       type: 'website',
+      locale: useFr ? 'fr_FR' : 'en_US',
       images: [
         {
-          url: imageUrl,
+          url: resolvedImage,
           width: 1200,
           height: 630,
           alt: title,
@@ -48,7 +56,7 @@ export async function buildSeoMetadata(
       card: 'summary_large_image',
       title,
       description,
-      images: [imageUrl],
+      images: [resolvedImage],
     },
   };
 }
