@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getSiteCopy } from '@/lib/content';
 import { getRequestLocale } from '@/lib/request-locale';
 import { absolutePageUrl } from '@/lib/i18n-path';
+import { seoKeywordsFor } from '@/lib/seo-keywords';
 import { seoPageById, type SeoPageId } from '@/lib/seo-pages';
 import type { Locale } from '@/lib/types/cms';
 
@@ -29,6 +30,7 @@ export async function buildSeoMetadata(
   return {
     title,
     description,
+    keywords: seoKeywordsFor(pageId, locale),
     alternates: {
       canonical: url,
       languages: {

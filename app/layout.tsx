@@ -45,7 +45,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const description =
     typeof seo.description === 'string'
       ? seo.description
-      : 'Book a Moroccan cooking class near Taghazout, Tamraght, and Agadir. Pickup included. Cook tajine, couscous, or rfissa in a Berber village. Cours de cuisine à Taghazout.';
+      : 'Book a Moroccan cooking class near Taghazout, Tamraght, and Agadir. Berber experience with cooking class — tajine, couscous, or rfissa. Pickup included.';
 
   return {
     metadataBase: new URL(siteConfig.site.url),
@@ -54,16 +54,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: '%s',
     },
     description,
-    keywords: [
-      'cooking class taghazout',
-      'taghazout cooking class',
-      'cooking class tamraght',
-      'tamraght cooking class',
-      'cooking class agadir',
-      'cours de cuisine taghazout',
-      'tajine taghazout',
-      'rfissa',
-    ],
+    keywords: seo.keywords,
     authors: [{ name: 'Rabab - Taghazout Cooking Class' }],
     creator: 'Taghazout Cooking Class',
     publisher: 'Taghazout Cooking Class',

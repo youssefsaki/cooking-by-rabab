@@ -34,10 +34,10 @@ export const SEO_PAGES: SeoPageDef[] = [
     descriptionKey: 'seo.home.metaDescription',
     fallbackTitle: 'Cooking Class Taghazout, Tamraght & Agadir',
     fallbackDescription:
-      'Book a Moroccan cooking class near Taghazout, Tamraght, and Agadir. Pickup included. Cook tajine, couscous, or rfissa in a Berber village. Cours de cuisine à Taghazout.',
+      'Book a Moroccan cooking class near Taghazout, Tamraght, and Agadir. Berber experience with cooking class — tajine, couscous, or rfissa. Pickup included.',
     fallbackTitleFr: 'Cours de cuisine Taghazout, Tamraght et Agadir',
     fallbackDescriptionFr:
-      'Réservez un cours de cuisine marocaine près de Taghazout, Tamraght et Agadir. Tajine, couscous ou rfissa dans un village amazigh. Transfert inclus.',
+      'Cours de cuisine à Taghazout, Tamraght et Agadir. Expérience berbère avec cours de cuisine : tajine, couscous ou rfissa. Transfert inclus.',
     ogImage: '/hero/desktop/bg.webp',
   },
   {
@@ -48,10 +48,10 @@ export const SEO_PAGES: SeoPageDef[] = [
     descriptionKey: 'seo.packages.metaDescription',
     fallbackTitle: 'Cooking Class Packages — Taghazout from €65',
     fallbackDescription:
-      'Half-day cooking class from Taghazout, Tamraght, and Agadir. From 65 €. Weekly event, private workshop, or Rabab at your villa.',
+      'Half-day cooking class from Taghazout, Tamraght, and Agadir. From 65 €. Private cooking class, weekly event, or Rabab at your villa.',
     fallbackTitleFr: 'Formules cours de cuisine à Taghazout dès 65 €',
     fallbackDescriptionFr:
-      'Cours de cuisine d’une demi-journée depuis Taghazout, Tamraght et Agadir. Dès 65 €. Événement hebdomadaire, atelier privé ou Rabab chez vous.',
+      'Atelier cuisine Taghazout, Tamraght et Agadir. Dès 65 €. Atelier privé, événement hebdomadaire ou Rabab chez l’habitant.',
     ogImage: '/packages/basic.webp',
   },
   {

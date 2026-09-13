@@ -1,0 +1,163 @@
+import type { Locale } from '@/lib/types/cms';
+import type { SeoPageId } from '@/lib/seo-pages';
+
+/** English keywords from Search Console + client brief. Do not add “pick it cook it”. */
+export const SEO_KEYWORDS_EN = [
+  'cooking class taghazout',
+  'taghazout cooking class',
+  'cooking class tamraght',
+  'tamraght cooking class',
+  'cooking class agadir',
+  'cooking class near agadir',
+  'moroccan cooking class taghazout',
+  'berber cooking class taghazout',
+  'amazigh cooking class taghazout',
+  'berber experience with cooking class',
+  'private cooking class taghazout',
+  'tajine taghazout',
+  'rfissa',
+  'rfissa taghazout',
+  'couscous cooking class taghazout',
+  'food in taghazout',
+  'things to do in taghazout besides surfing',
+] as const;
+
+/** French keywords from Search Console + competitor title research. */
+export const SEO_KEYWORDS_FR = [
+  'cours de cuisine taghazout',
+  'cours de cuisine à taghazout',
+  'cours de cuisine tamraght',
+  'cours de cuisine à tamraght',
+  'cours de cuisine agadir',
+  'cours de cuisine à agadir',
+  'cours de cuisine près d’agadir',
+  'cours de cuisine taghazout tamraght',
+  'cours de cuisine taghazout bay',
+  'atelier cuisine taghazout',
+  'atelier culinaire taghazout',
+  'atelier cuisine tamraght',
+  'cours de cuisine marocaine authentique à tamraght',
+  'cours de cuisine tajine taghazout',
+  'cours de cuisine tajine agadir',
+  'apprendre à faire un tajine taghazout',
+  'cours de cuisine couscous taghazout',
+  'cours de cuisine marocaine taghazout',
+  'cours de cuisine marocaine agadir',
+  'cours de cuisine berbère taghazout',
+  'cours de cuisine berbère agadir',
+  'cours de cuisine amazigh taghazout',
+  'tajine taghazout',
+  'rfissa taghazout',
+  'msemen taghazout',
+  'couscous taghazout',
+  'thé à la menthe taghazout',
+  'pain berbère taghazout',
+  'pain four à bois taghazout',
+  'amlou taghazout',
+  'expérience berbère avec cours de cuisine',
+  'expérience culinaire taghazout',
+  'expérience culinaire avec cours de cuisine',
+  'expérience berbère taghazout',
+  'activité taghazout',
+  'activité à taghazout',
+  'activité taghazout hors surf',
+  'que faire à taghazout',
+  'que faire à tamraght',
+  'visite village berbère taghazout',
+  'village amazigh taghazout',
+  'excursion atlas taghazout',
+  'cours de cuisine village berbère',
+  'atelier cuisine chez l’habitant taghazout',
+] as const;
+
+const PAGE_KEYWORDS_EN: Record<SeoPageId, readonly string[]> = {
+  home: SEO_KEYWORDS_EN,
+  packages: [
+    'cooking class packages taghazout',
+    'private cooking class taghazout',
+    'cooking class taghazout',
+    'cooking class tamraght',
+    'cooking class agadir',
+    'cooking class near agadir',
+  ],
+  experiences: [
+    'tajine taghazout',
+    'rfissa taghazout',
+    'couscous cooking class taghazout',
+    'moroccan cooking class taghazout',
+    'berber cooking class taghazout',
+    'berber experience with cooking class',
+  ],
+  events: [
+    'amazigh music event taghazout',
+    'berber music taghazout',
+    'things to do in taghazout besides surfing',
+  ],
+  book: [
+    'book cooking class taghazout',
+    'cooking class taghazout',
+    'cooking class tamraght',
+    'cooking class near agadir',
+  ],
+  faq: ['taghazout cooking class', 'cooking class taghazout'],
+  meetChef: ['taghazout cooking class', 'amazigh cooking class taghazout'],
+  kitchen: ['berber cooking class taghazout', 'amazigh cooking class taghazout'],
+  location: [
+    'cooking class taghazout',
+    'cooking class tamraght',
+    'tamraght cooking class',
+    'cooking class agadir',
+    'cooking class near agadir',
+  ],
+};
+
+const PAGE_KEYWORDS_FR: Record<SeoPageId, readonly string[]> = {
+  home: SEO_KEYWORDS_FR,
+  packages: [
+    'cours de cuisine taghazout',
+    'atelier cuisine taghazout',
+    'atelier culinaire taghazout',
+    'cours de cuisine tamraght',
+    'cours de cuisine agadir',
+    'atelier cuisine chez l’habitant taghazout',
+  ],
+  experiences: [
+    'cours de cuisine tajine taghazout',
+    'apprendre à faire un tajine taghazout',
+    'cours de cuisine couscous taghazout',
+    'rfissa taghazout',
+    'msemen taghazout',
+    'amlou taghazout',
+    'pain berbère taghazout',
+    'expérience berbère avec cours de cuisine',
+  ],
+  events: [
+    'activité taghazout hors surf',
+    'que faire à taghazout',
+    'expérience berbère taghazout',
+  ],
+  book: [
+    'cours de cuisine taghazout',
+    'cours de cuisine à taghazout',
+    'cours de cuisine tamraght',
+    'cours de cuisine près d’agadir',
+  ],
+  faq: ['cours de cuisine taghazout', 'atelier cuisine taghazout'],
+  meetChef: ['cours de cuisine amazigh taghazout', 'expérience berbère taghazout'],
+  kitchen: ['atelier cuisine taghazout', 'pain four à bois taghazout'],
+  location: [
+    'cours de cuisine taghazout',
+    'cours de cuisine tamraght',
+    'cours de cuisine agadir',
+    'visite village berbère taghazout',
+    'village amazigh taghazout',
+    'excursion atlas taghazout',
+    'que faire à taghazout',
+    'que faire à tamraght',
+  ],
+};
+
+export function seoKeywordsFor(pageId: SeoPageId, locale: Locale): string[] {
+  const list = locale === 'fr' ? PAGE_KEYWORDS_FR[pageId] : PAGE_KEYWORDS_EN[pageId];
+  return [...list];
+}
