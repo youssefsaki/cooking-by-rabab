@@ -235,10 +235,10 @@ const WorkshopCalendar: React.FC<WorkshopCalendarProps> = ({
         </h1>
         <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
           {mode === 'weekly'
-            ? 'Only Saturdays are bookable for the Weekly Event. Browse up to about three months ahead.'
+            ? 'Only Saturdays are bookable for the Weekly Event. Browse up to about a year ahead.'
             : mode === 'private'
-              ? 'Empty days are exclusive to your group. Days with guests already booked show spots left — you join them. Book up to about three months ahead.'
-              : 'Browse upcoming weeks and book a morning or afternoon workshop up to about three months ahead. Pick-up from Taghazout Mosque is included.'}
+              ? 'Empty days are exclusive to your group. Days with guests already booked show spots left — you join them. Book up to about a year ahead.'
+              : 'Browse upcoming weeks and book a morning or afternoon workshop up to about a year ahead. Pick-up from Taghazout Mosque is included.'}
         </p>
       </div>
 

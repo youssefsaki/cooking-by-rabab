@@ -319,8 +319,8 @@ export interface CalendarDay {
   slots: CalendarSlot[];
 }
 
-/** How far ahead guests can browse & book on the public calendar (~3 months). */
-export const BOOKING_HORIZON_WEEKS = 13;
+/** How far ahead guests can browse & book on the public calendar (~1 year). */
+export const BOOKING_HORIZON_WEEKS = 52;
 /** Day span covering the week horizon (with a little buffer for month edges). */
 export const BOOKING_HORIZON_DAYS = BOOKING_HORIZON_WEEKS * 7 + 6;
 
