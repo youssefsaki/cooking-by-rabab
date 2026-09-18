@@ -44,12 +44,6 @@
       "id": "packages",
       "label": "PACKAGES",
       "href": "/packages"
-    },
-    {
-      "id": "events",
-      "label": "EVENTS",
-      "href": "/events",
-      "hasDropdown": false
     }
   ],
   "socialLinks": [
@@ -85,20 +79,6 @@
         "description": "Half-day village cooking experience",
         "href": "/book?package=basic",
         "popular": true
-      },
-      {
-        "id": "weekly-event",
-        "label": "Weekly Event",
-        "price": "80 € · 850 MAD",
-        "description": "Music + BBQ feast at sunset",
-        "href": "/book?package=weekly-event"
-      },
-      {
-        "id": "private",
-        "label": "Private Workshop Experience",
-        "price": "80 € · 850 MAD",
-        "description": "Exclusive group workshop",
-        "href": "/book?package=private"
       },
       {
         "id": "private-at-location",

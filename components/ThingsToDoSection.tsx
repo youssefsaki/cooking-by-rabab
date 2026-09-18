@@ -14,7 +14,7 @@ const activityLinks = [
   '/book',
   '/experiences#cooking-masterclass',
   '/experiences#clay-oven-bread',
-  '/events',
+  '/packages',
   '/ourstory/location',
   '/ourstory/meet-the-chef',
 ] as const;

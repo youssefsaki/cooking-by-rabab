@@ -161,7 +161,7 @@
     "selectedSlot": "Selected workshop",
     "pickupLabel": "Pick-up",
     "adults": "Number of adults",
-    "adultsHint": "Minimum 3 adults for the Basic package",
+    "adultsHint": "Minimum 2 adults for the Basic package",
     "childrenQuestion": "Are children joining?",
     "childrenYes": "Yes",
     "childrenNo": "No",
@@ -229,7 +229,7 @@
     "packages": [
       { "href": "/book", "label": "Book Cooking Class Near Taghazout" },
       { "href": "/experiences#cooking-masterclass", "label": "Moroccan Cooking Masterclass Taghazout" },
-      { "href": "/events", "label": "Things to Do Besides Surfing" }
+      { "href": "/packages", "label": "Cooking Class Packages Taghazout" }
     ],
     "experience": [
       { "href": "/book", "label": "Book Taghazout Cooking Class" },
@@ -410,7 +410,7 @@
     "badge": "Authentic Experiences",
     "title": "Taghazout Cooking Class",
     "titleHighlight": "Packages",
-    "description": "Choose your traditional cooking experience in Taghazout — half-day Berber village journey with pickup from Taghazout Mosque. From 65 € (700 MAD), Weekly Event 80 € (850 MAD), Private Workshop 80 € (850 MAD), At Your Location 100 € (1050 MAD).",
+    "description": "Choose your traditional cooking experience in Taghazout — half-day Berber village journey with pickup from Taghazout Mosque. From 65 € (700 MAD), or Rabab at your location 100 € (1050 MAD).",
     "mostPopular": "Most Popular",
     "perPerson": "per person",
     "viewFullDetails": "View Full Details",
@@ -683,8 +683,8 @@
       {
         "id": "music",
         "emoji": "🎵",
-        "title": "Weekly Amazigh Music Event",
-        "description": "Every Saturday — experience traditional Amazigh music, clay-oven barbecue, and village celebration in the Atlas Mountains.",
+        "title": "Berber Village Cooking Day",
+        "description": "A half-day in an Amazigh village above Taghazout — cooking, bread, amlou, and a family feast in the Atlas Mountains.",
         "imageAlt": "Amazigh music event Taghazout — things to do besides surfing Morocco"
       },
       {

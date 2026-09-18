@@ -35,14 +35,9 @@
           "href": "/packages#basic"
         },
         {
-          "id": "private",
-          "label": "Private Package",
-          "href": "/packages#private"
-        },
-        {
-          "id": "weekly-event",
-          "label": "Weekly Event",
-          "href": "/packages#weekly-event"
+          "id": "private-at-location",
+          "label": "Rabab Comes to You",
+          "href": "/packages#private-at-location"
         }
       ]
     },

@@ -111,8 +111,6 @@ function validatePhoneForCountry(phone: string, dialCode: string): boolean {
 
 function resolvePackageType(packageParam: string | null): PackageType {
   if (packageParam === 'private-at-location') return 'private-at-location';
-  if (packageParam === 'private') return 'private';
-  if (packageParam === 'weekly-event') return 'weekly-event';
   return 'basic';
 }
 
@@ -121,30 +119,20 @@ function isPrivatePackage(pkg: PackageType): boolean {
 }
 
 function usesCalendar(pkg: PackageType): boolean {
-  return (
-    pkg === 'basic' ||
-    pkg === 'weekly-event' ||
-    pkg === 'private' ||
-    pkg === 'private-at-location'
-  );
+  return pkg === 'basic' || pkg === 'private-at-location';
 }
 
 function calendarModeForPackage(pkg: PackageType): 'basic' | 'weekly' | 'private' {
-  if (pkg === 'weekly-event') return 'weekly';
-  if (pkg === 'private' || pkg === 'private-at-location') return 'private';
+  if (pkg === 'private-at-location') return 'private';
   return 'basic';
 }
 
 function packageLabel(packageType: PackageType): string {
-  if (packageType === 'basic') return 'The authentic mountains culinary escape';
-  if (packageType === 'weekly-event') return 'Weekly Event (80 EUR)';
   if (packageType === 'private-at-location') return 'Rabab Comes to You (100 EUR)';
-  return 'Private Workshop Experience (80 EUR)';
+  return 'The authentic mountains culinary escape';
 }
 
 function bookPageTitle(pkg: PackageType): string {
-  if (pkg === 'weekly-event') return 'Book Your Weekly Event';
-  if (pkg === 'private') return 'Book Your Private Workshop';
   if (pkg === 'private-at-location') return 'Book Rabab Comes to You';
   return 'Book your Authentic mountains culinary escape';
 }
@@ -161,7 +149,7 @@ const baseValidationSchema = Yup.object({
     .required('Country is required'),
   email: Yup.string().email('Invalid email address').required('Email is required'),
   packageType: Yup.string()
-    .oneOf(['basic', 'weekly-event', 'private', 'private-at-location'], 'Please select a valid package')
+    .oneOf(['basic', 'private-at-location'], 'Please select a valid package')
     .required('Package selection is required'),
   dietaryPreference: Yup.string()
     .oneOf(['none', 'vegetarian', 'vegan'], 'Please select a valid dietary preference')
@@ -271,10 +259,9 @@ function BookingForm() {
       try {
         const pkg = values.packageType as PackageType;
         const isBasic = pkg === 'basic';
-        const isWeekly = pkg === 'weekly-event';
         const isPrivate = isPrivatePackage(pkg);
 
-        if ((isBasic || isWeekly || isPrivate) && !selectedSlot) {
+        if ((isBasic || isPrivate) && !selectedSlot) {
           setSubmitError('Please select a workshop slot first.');
           setStep('calendar');
           setSubmitting(false);
@@ -323,7 +310,7 @@ function BookingForm() {
           const leftover = leftoverSpotsForPrivateJoin(liveOccupancy);
           if (leftover > 0) {
             setSubmitError(
-              `Only ${leftover} spot${leftover === 1 ? '' : 's'} left — not enough to start a Basic group of ${BASIC_MIN_ADULTS}. You can join via the Private package.`
+              `Only ${leftover} spot${leftover === 1 ? '' : 's'} left — not enough to start a Basic group of ${BASIC_MIN_ADULTS}. Please choose another day.`
             );
             setSubmitting(false);
             return;
@@ -395,19 +382,11 @@ function BookingForm() {
         const locationLabel =
           pkg === 'private-at-location'
             ? 'At your villa / riad (Rabab comes to you)'
-            : pkg === 'weekly-event'
-              ? `Weekly Event · ${selectedSlot!.startTime}–${selectedSlot!.endTime}`
-              : pkg === 'private'
-                ? liveJoiningShared
-                  ? `Joining shared workshop — ${selectedSlot!.startTime}–${selectedSlot!.endTime}`
-                  : `Private workshop — ${selectedSlot!.startTime}–${selectedSlot!.endTime}`
-                : `Pick-up ${selectedSlot!.pickup.time} at ${selectedSlot!.pickup.meetingPoint}`;
+            : `Pick-up ${selectedSlot!.pickup.time} at ${selectedSlot!.pickup.meetingPoint}`;
 
         const dishName = isBasic
           ? selectedDish!.name
-          : isWeekly
-            ? selectedSlot!.dish
-            : 'Private cooking experience (to confirm)';
+          : 'Private cooking experience (to confirm)';
 
         const res = await fetch('/api/bookings', {
           method: 'POST',
@@ -1082,15 +1061,6 @@ function BookingForm() {
                 </div>
               )}
 
-              {initialPackage === 'weekly-event' && (
-                <div className="border-t border-amber-100 pt-5">
-                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-gray-400 mb-1">
-                    Event
-                  </p>
-                  <p className="font-bold text-gray-900 leading-snug">{selectedSlot.dish}</p>
-                  <p className="text-sm text-violet-700 font-semibold mt-1">80 € / person · 850 MAD</p>
-                </div>
-              )}
             </div>
           )}
 
@@ -1137,14 +1107,8 @@ function BookingForm() {
                       </p>
                       <p className="mt-1 font-medium leading-relaxed">
                         Not enough room to start a new Basic group (needs {BASIC_MIN_ADULTS}{' '}
-                        guests). You can still join via the Private package.
+                        guests). Please choose another day.
                       </p>
-                      <Link
-                        href="/book?package=private"
-                        className="mt-2 inline-block text-sm font-bold underline underline-offset-2"
-                      >
-                        Book / join via Private →
-                      </Link>
                     </>
                   ) : remainingSpots === 0 || slotTooFullForPackage ? (
                     <p>This workshop is fully booked. Please choose another day.</p>
@@ -1299,42 +1263,12 @@ function BookingForm() {
 
             {/* Preferred date — removed: Private now picks a slot on the calendar first */}
 
-            {/* Location — Private only */}
-            {isPrivatePackage(activePackage) && (
-              <div className="mb-6">
-                <p className="text-sm font-bold text-gray-700 mb-3">Location *</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      formik.setFieldValue('packageType', 'private');
-                      if (formik.values.adults < 2) formik.setFieldValue('adults', 2);
-                    }}
-                    className={`text-left rounded-2xl border-2 p-4 transition-all ${
-                      activePackage === 'private'
-                        ? 'border-amber-500 bg-amber-50 ring-2 ring-amber-200'
-                        : 'border-gray-200 hover:border-amber-300'
-                    }`}
-                  >
-                    <p className="font-bold text-gray-900">At our workshop</p>
-                    <p className="text-sm text-gray-600 mt-1">80 € / person · 850 MAD · min 2 guests</p>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      formik.setFieldValue('packageType', 'private-at-location');
-                      if (formik.values.adults < 6) formik.setFieldValue('adults', 6);
-                    }}
-                    className={`text-left rounded-2xl border-2 p-4 transition-all ${
-                      activePackage === 'private-at-location'
-                        ? 'border-amber-500 bg-amber-50 ring-2 ring-amber-200'
-                        : 'border-gray-200 hover:border-amber-300'
-                    }`}
-                  >
-                    <p className="font-bold text-gray-900">At your location</p>
-                    <p className="text-sm text-gray-600 mt-1">100 € / person · 1050 MAD · min 6 guests</p>
-                  </button>
-                </div>
+            {activePackage === 'private-at-location' && (
+              <div className="mb-6 rounded-2xl border-2 border-amber-200 bg-amber-50 p-4">
+                <p className="font-bold text-gray-900">At your location</p>
+                <p className="text-sm text-gray-600 mt-1">
+                  100 € / person · 1050 MAD · min 6 guests — Rabab comes to your villa or riad
+                </p>
               </div>
             )}
 

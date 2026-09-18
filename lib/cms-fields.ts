@@ -1,4 +1,5 @@
 import type { Locale, PackageCmsItem, PackagesContent, FaqsContent } from '@/lib/types/cms';
+import { isPublicPackageType } from '@/lib/booking/schedule';
 import { DEFAULT_PACKAGES } from '@/lib/content-defaults';
 import { SITE_IMAGE_DEFAULTS, SITE_IMAGE_FIELDS } from '@/lib/site-images';
 import { buildSectionTextFields, seedSectionCopy } from '@/lib/cms-section-fields';
@@ -18,7 +19,12 @@ export type CmsField = {
 };
 
 /** Flat bag of editable values keyed by field id. */
-export type SiteCopyBag = Record<string, string>;
+export function isRetiredPackageMarketingCopy(text: string | undefined | null): boolean {
+  if (!text) return false;
+  return /weekly event|weekly amazigh|événement hebdomadaire|événement hebdo|wochenevent|private workshop|atelier privé|privater workshop/i.test(
+    text
+  );
+}
 
 const translations = { en, fr, de } as const;
 
@@ -125,8 +131,16 @@ export function defaultSiteCopy(locale: Locale): SiteCopyBag {
 }
 
 export function packagesFromCopy(bag: SiteCopyBag, fallback: PackagesContent = DEFAULT_PACKAGES): PackagesContent {
-  const items: PackageCmsItem[] = fallback.items.map((item) => {
-    const highlights = item.highlights.map((h, i) => bag[`pkg.${item.id}.highlight.${i}`] ?? h);
+  const items: PackageCmsItem[] = fallback.items
+    .filter((item) => isPublicPackageType(item.id))
+    .map((item) => {
+    const highlights = item.highlights.map((h, i) => {
+      const value = bag[`pkg.${item.id}.highlight.${i}`] ?? h;
+      return item.id === 'basic'
+        ? value.replace(/Minimum 3 guests required/gi, 'Minimum 2 guests required')
+        : value;
+    });
+    const groupSize = bag[`pkg.${item.id}.groupSize`] ?? item.groupSize;
     return {
       ...item,
       name: bag[`pkg.${item.id}.name`] ?? item.name,
@@ -134,7 +148,8 @@ export function packagesFromCopy(bag: SiteCopyBag, fallback: PackagesContent = D
       price: bag[`pkg.${item.id}.price`] ?? item.price,
       currency: bag[`pkg.${item.id}.currency`] ?? item.currency,
       duration: bag[`pkg.${item.id}.duration`] ?? item.duration,
-      groupSize: bag[`pkg.${item.id}.groupSize`] ?? item.groupSize,
+      groupSize:
+        item.id === 'basic' ? groupSize.replace(/3-13/g, '2-13') : groupSize,
       image: bag[`pkg.${item.id}.image`] ?? item.image,
       imageAlt: bag[`pkg.${item.id}.imageAlt`] ?? item.imageAlt,
       highlights,
@@ -143,7 +158,9 @@ export function packagesFromCopy(bag: SiteCopyBag, fallback: PackagesContent = D
   return {
     badge: bag['packages.badge'],
     title: bag['packages.title'],
-    description: bag['packages.description'],
+    description: isRetiredPackageMarketingCopy(bag['packages.description'])
+      ? undefined
+      : bag['packages.description'],
     items,
   };
 }

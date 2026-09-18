@@ -4,8 +4,6 @@ import { buildSeoMetadata } from '@/lib/seo-metadata';
 import {
   BASIC_ADULT_PRICE_EUR,
   PRIVATE_AT_LOCATION_PRICE_EUR,
-  PRIVATE_WORKSHOP_PRICE_EUR,
-  WEEKLY_EVENT_PRICE_EUR,
 } from '@/lib/booking/schedule';
 
 const SITE_ORIGIN = 'https://www.taghazout-cooking-class.com';
@@ -24,22 +22,6 @@ const PACKAGES = [
     image: '/packages/basic.webp',
   },
   {
-    id: 'weekly-event',
-    name: 'Weekly Amazigh Music Event',
-    description:
-      'Weekly Berber music and cultural event every Saturday at sunset — clay-oven barbecue, mint tea, and village celebration.',
-    price: WEEKLY_EVENT_PRICE_EUR,
-    image: '/packages/weekly.webp',
-  },
-  {
-    id: 'private',
-    name: 'Private Workshop Experience',
-    description:
-      'Private cooking class for your group at our traditional village workshop above Taghazout.',
-    price: PRIVATE_WORKSHOP_PRICE_EUR,
-    image: '/packages/privatee.webp',
-  },
-  {
     id: 'private-at-location',
     name: 'Rabab Comes to You',
     description:
@@ -54,7 +36,7 @@ const packagesSchema = {
   '@type': 'ItemList',
   name: 'Taghazout Cooking Class Packages',
   description:
-    'Traditional cooking experiences in Taghazout — half-day Berber village journey, weekly music event, private workshop, or at your location.',
+    'Traditional cooking experiences in Taghazout — half-day Berber village journey or Rabab at your location.',
   url: `${SITE_ORIGIN}/packages`,
   numberOfItems: PACKAGES.length,
   itemListElement: PACKAGES.map((pkg, index) => ({

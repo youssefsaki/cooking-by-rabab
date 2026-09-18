@@ -122,12 +122,12 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
     {
       period: 'afternoon',
       startTime: '15:00',
-      endTime: '19:30',
-      dish: 'Traditional BBQ Grilled in the Clay Oven & Freshly Baked Traditional Bread',
-      feastNote: 'Includes Live Performance & Feast',
-      menuCategory: null,
-      packageAllowed: ['weekly-event'],
-      accent: 'purple',
+      endTime: '19:00',
+      dish: 'Choose Your Tagine',
+      feastNote: 'Includes Full Dinner Feast',
+      menuCategory: 'tagine',
+      packageAllowed: ['basic', 'private', 'private-at-location'],
+      accent: 'green',
     },
   ],
   0: [
@@ -156,7 +156,13 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
 
 export const BASIC_ADULT_PRICE_EUR = 65;
 export const BASIC_MAX_GUESTS = 13;
-export const BASIC_MIN_ADULTS = 3;
+export const BASIC_MIN_ADULTS = 2;
+/** Packages guests can still book. Historical types stay on PackageType for existing rows. */
+export const PUBLIC_PACKAGE_TYPES: PackageType[] = ['basic', 'private-at-location'];
+
+export function isPublicPackageType(value: string): value is PackageType {
+  return value === 'basic' || value === 'private-at-location';
+}
 export const PRIVATE_WORKSHOP_PRICE_EUR = 80;
 export const PRIVATE_WORKSHOP_MIN_ADULTS = 2;
 export const PRIVATE_AT_LOCATION_PRICE_EUR = 100;
@@ -200,8 +206,8 @@ export function effectiveMinAdultsForPrivate(
 
 /**
  * Basic package minimum:
- * - Empty / not yet open (< 3 guests booked): need enough adults to reach 3
- * - Once 3+ guests are already booked: individuals (1 adult) can join
+ * - Empty / not yet open (< 2 guests booked): need enough adults to reach 2
+ * - Once 2+ guests are already booked: individuals (1 adult) can join
  */
 export function effectiveMinAdultsForBasic(
   bookedGuestCount: number,
@@ -356,7 +362,7 @@ export interface CalendarWeek {
   days: CalendarDay[];
 }
 
-/** Monday–Sunday weeks starting from the week that contains `fromDate`. Always includes Saturday Weekly Event. */
+/** Monday–Sunday weeks starting from the week that contains `fromDate`. */
 export function getUpcomingCalendarWeeks(
   weekCount = BOOKING_HORIZON_WEEKS,
   fromDate = new Date()

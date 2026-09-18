@@ -38,7 +38,7 @@ export interface SlotOccupancy {
   basicGuestCount: number;
   /** Exclusive private hold, or no spots left */
   locked: boolean;
-  /** True spots remaining (kept even when Basic min of 3 cannot be met) */
+  /** True spots remaining (kept even when Basic min of 2 cannot be met) */
   remainingBasicCapacity: number;
 }
 
@@ -80,7 +80,7 @@ function emptyOccupancy(
  * - Private on a slot that already has Basic (or joining Private) guests → joins the group,
  *   shares the 13-person capacity, does NOT exclusive-lock
  * - Basic shares capacity up to 13 (ages 0–3 excluded); blocked by exclusive Private
- *   or when full. Starter minimum is 3 adults; once 3+ guests are already booked,
+ *   or when full. Starter minimum is 2 adults; once 2+ guests are already booked,
  *   individuals (1+) can join any remaining spots.
  * - Weekly Event can have multiple groups, but is blocked if Private holds the slot
  *   or the date is admin-blocked (`locked`)
@@ -245,11 +245,11 @@ export function isSharedSlotForPrivate(occupancy?: SlotOccupancy | null): boolea
 
 /**
  * Spots left that Basic still cannot take (workshop not open yet and not enough
- * room to reach the starter minimum of 3). Private may still join those leftovers.
+ * room to reach the starter minimum). Those leftover spots cannot start a new Basic group.
  */
 export function leftoverSpotsForPrivateJoin(occupancy?: SlotOccupancy | null): number {
   if (!occupancy || occupancy.hasPrivate) return 0;
-  // Once 3+ guests are booked, Basic individuals can fill remaining 1–2 spots
+  // Once the starter minimum is booked, Basic individuals can fill remaining spots
   if (occupancy.basicGuestCount >= BASIC_MIN_ADULTS) return 0;
   const remaining = occupancy.remainingBasicCapacity;
   const needed = BASIC_MIN_ADULTS - occupancy.basicGuestCount;

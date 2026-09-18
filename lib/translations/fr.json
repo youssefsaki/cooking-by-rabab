@@ -231,7 +231,7 @@
     "selectedSlot": "Atelier sélectionné",
     "pickupLabel": "Prise en charge",
     "adults": "Nombre d'adultes",
-    "adultsHint": "Minimum 3 adultes pour le forfait Basic",
+    "adultsHint": "Minimum 2 adultes pour le forfait Basic",
     "childrenQuestion": "Des enfants participent-ils ?",
     "childrenYes": "Oui",
     "childrenNo": "Non",
@@ -315,8 +315,8 @@
         "label": "Masterclass de Cuisine Marocaine Taghazout"
       },
       {
-        "href": "/events",
-        "label": "Activités Hors Surf Taghazout"
+        "href": "/packages",
+        "label": "Formules de Cours de Cuisine Taghazout"
       }
     ],
     "experience": [
@@ -544,7 +544,7 @@
     "badge": "Expériences Authentiques",
     "title": "Cours de Cuisine Taghazout",
     "titleHighlight": "Forfaits",
-    "description": "Choisissez votre expérience culinaire traditionnelle à Taghazout — demi-journée dans un village berbère avec prise en charge à la Mosquée de Taghazout. Base 60€, Événement Hebdo 80€, Privé 100€.",
+    "description": "Choisissez votre expérience culinaire traditionnelle à Taghazout — demi-journée dans un village berbère avec prise en charge à la Mosquée de Taghazout. Dès 65 € (700 MAD), ou Rabab chez vous 100 € (1050 MAD).",
     "mostPopular": "Le Plus Populaire",
     "perPerson": "par personne",
     "viewFullDetails": "Voir Tous les Détails",
@@ -944,8 +944,8 @@
       {
         "id": "music",
         "emoji": "🎵",
-        "title": "Événement Musical Amazigh Hebdomadaire",
-        "description": "Chaque samedi — musique amazigh traditionnelle, barbecue au four d'argile et célébration villageoise dans l'Atlas.",
+        "title": "Journée cuisine au village berbère",
+        "description": "Une demi-journée dans un village amazigh au-dessus de Taghazout — cuisine, pain, amlou et repas en famille dans l’Atlas.",
         "imageAlt": "Événement musical amazigh Taghazout — activités hors surf Maroc"
       },
       {

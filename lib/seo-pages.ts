@@ -48,10 +48,10 @@ export const SEO_PAGES: SeoPageDef[] = [
     descriptionKey: 'seo.packages.metaDescription',
     fallbackTitle: 'Cooking Class Packages — Taghazout from €65',
     fallbackDescription:
-      'Half-day cooking class from Taghazout, Tamraght, and Agadir. From 65 €. Private cooking class, weekly event, or Rabab at your villa.',
+      'Half-day cooking class from Taghazout, Tamraght, and Agadir. From 65 €. Village class or Rabab at your villa.',
     fallbackTitleFr: 'Formules cours de cuisine à Taghazout dès 65 €',
     fallbackDescriptionFr:
-      'Atelier cuisine Taghazout, Tamraght et Agadir. Dès 65 €. Atelier privé, événement hebdomadaire ou Rabab chez l’habitant.',
+      'Atelier cuisine Taghazout, Tamraght et Agadir. Dès 65 €. Cours au village ou Rabab chez l’habitant.',
     ogImage: '/packages/basic.webp',
   },
   {

@@ -30,6 +30,12 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
+  async redirects() {
+    return [
+      { source: '/events', destination: '/packages', permanent: true },
+      { source: '/fr/events', destination: '/fr/packages', permanent: true },
+    ];
+  },
   eslint: {
     ignoreDuringBuilds: false,
   },

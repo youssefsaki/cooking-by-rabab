@@ -15,6 +15,7 @@ import {
   effectiveMinAdultsForPrivate,
   minAdultsForPackage,
   unitPriceForPackage,
+  isPublicPackageType,
   type PackageType,
   type SlotPeriod,
 } from '@/lib/booking/schedule';
@@ -69,7 +70,7 @@ function isIsoDate(value: string): boolean {
 }
 
 function isCalendarPackage(pkg: PackageType): boolean {
-  return pkg === 'basic' || pkg === 'weekly-event';
+  return pkg === 'basic';
 }
 
 export async function POST(request: NextRequest) {
@@ -85,8 +86,11 @@ export async function POST(request: NextRequest) {
     }
 
     const packageType = body.packageType;
-    if (!['basic', 'weekly-event', 'private', 'private-at-location'].includes(packageType)) {
-      return NextResponse.json({ error: 'Invalid package type' }, { status: 400 });
+    if (!isPublicPackageType(packageType)) {
+      return NextResponse.json(
+        { error: 'This package is no longer available for booking' },
+        { status: 400 }
+      );
     }
 
     if (!body.slotDate || !body.slotPeriod) {
@@ -119,7 +123,7 @@ export async function POST(request: NextRequest) {
       `${body.slotDate}|${body.slotPeriod}`
     );
 
-    // Basic: once 3+ guests are booked, individuals (1) can join
+    // Basic: once the starter group is booked, individuals (1) can join
     if (packageType === 'basic') {
       minAdults = effectiveMinAdultsForBasic(
         occupancyForMin?.basicGuestCount ?? 0,

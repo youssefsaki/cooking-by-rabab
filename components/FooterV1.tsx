@@ -113,11 +113,6 @@ const FooterV1: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/events" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
-                  {t.footer.links.events}
-                </Link>
-              </li>
-              <li>
                 <Link href="/#things-to-do-taghazout" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
                   {t.footer.links.thingsToDo}
                 </Link>

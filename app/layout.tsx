@@ -158,8 +158,6 @@ export default function RootLayout({
                 name: 'Cooking Class Packages',
                 itemListElement: [
                   { '@type': 'Offer', name: 'The authentic mountains culinary escape', price: '65', priceCurrency: 'EUR', description: 'Half-day authentic Berber cooking experience in Atlas Mountains above Taghazout' },
-                  { '@type': 'Offer', name: 'Weekly Amazigh Music Event', price: '80', priceCurrency: 'EUR', description: 'Weekly Berber music and cultural event — things to do in Taghazout besides surfing' },
-                  { '@type': 'Offer', name: 'Private Workshop Experience', price: '80', priceCurrency: 'EUR', description: 'Private cooking class for your group at our traditional village workshop above Taghazout' },
                   { '@type': 'Offer', name: 'Rabab Comes to You', price: '100', priceCurrency: 'EUR', description: 'Private Moroccan cooking experience at your villa or riad in the Taghazout area' },
                 ],
               },

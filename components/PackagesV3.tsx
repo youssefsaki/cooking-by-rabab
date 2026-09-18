@@ -8,6 +8,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import InternalLinkRow from '@/components/InternalLinkRow';
 import { useSiteCopy } from '@/hooks/useSiteCopy';
 import { resolveSiteImage } from '@/lib/site-images';
+import { isRetiredPackageMarketingCopy } from '@/lib/cms-fields';
 
 type PackagePageKey = 'basic' | 'weeklyEvent' | 'private' | 'privateAtLocation';
 
@@ -29,7 +30,7 @@ const packagesData = [
     currency: "EUR",
     priceLocal: "700 MAD",
     duration: "4 hours",
-    groupSize: "3-13 guests",
+    groupSize: "2-13 guests",
     locationLabel: "Amazigh Village",
     startTime: "14:30",
     image: "/packages/basic.webp",
@@ -37,61 +38,11 @@ const packagesData = [
     popular: true,
     highlights: [
       "Pick up from Taghazout Mosque",
-      "Minimum 3 guests required",
+      "Minimum 2 guests required",
       "300-year-old Amazigh house tour",
       "Your Choice of Dish (see full menu when booking)",
       "Vegetarian & Vegan options available",
       "Make Moroccan spread (Amlou)"
-    ]
-  },
-  {
-    id: "weekly-event",
-    name: "Weekly Event",
-    tagline: "The Amazigh Village Music Gala",
-    subtitle: "Join us for our Weekly Berber Music Event At Sunset in a traditional village",
-    price: "80",
-    pricePrefix: "",
-    currency: "EUR",
-    priceLocal: "850 MAD",
-    duration: "5 hours",
-    groupSize: "6-13 guests",
-    locationLabel: "Amazigh Village",
-    startTime: "15:00",
-    image: "/packages/weekly.webp",
-    imageAlt: "Weekly Amazigh music event Taghazout — Berber village sunset celebration and cooking experience Morocco",
-    highlights: [
-      "Every Saturday at 15:00",
-      "Minimum 6 guests required",
-      "Pickup from Taghazout Mosque",
-      "Mint tea ceremony",
-      "Make your barbecue",
-      "Traditional Amazigh music & celebration"
-    ]
-  },
-  {
-    id: "private",
-    name: "Private Workshop Experience",
-    tagline: "Private at Our Village Workshop",
-    subtitle: "A private cooking experience just for your group at our traditional village workshop — perfect for couples and small celebrations.",
-    price: "80",
-    pricePrefix: "",
-    currency: "EUR",
-    priceLocal: "850 MAD",
-    duration: "Flexible",
-    groupSize: "2+ guests",
-    locationLabel: "Village Workshop",
-    startTime: "Flexible",
-    image: "/packages/privatee.webp",
-    imageAlt: "Private Workshop Experience Taghazout — private Moroccan cooking class at Amazigh village workshop in Atlas Mountains",
-    popular: false,
-    highlights: [
-      "Round-trip transport from Taghazout Mosque",
-      "Minimum 2 guests required",
-      "Moroccan Tea Masterclass",
-      "Amlou Making workshop",
-      "Shared meal with a local family",
-      "Customizable menu (Tagine, Msemen, Couscous, or Rfissa)",
-      "Recipe of your dish to take home"
     ]
   },
   {
@@ -145,15 +96,27 @@ function PriceRow({
   );
 }
 
-const PackagesV3: React.FC = memo(() => {
+type PackagesV3Props = {
+  /** `page` uses the dedicated /packages layout (h1 + extra top padding). */
+  variant?: 'home' | 'page';
+};
+
+const PackagesV3: React.FC<PackagesV3Props> = memo(({ variant = 'home' }) => {
   const { t, language } = useLanguage();
   const { copy } = useSiteCopy();
   const [activeId, setActiveId] = useState<string | null>(null);
   const [detailsId, setDetailsId] = useState<string | null>(null);
   const [cmsItems, setCmsItems] = useState<typeof packagesData | null>(null);
+  const isPage = variant === 'page';
 
   const closeActive = useCallback(() => setActiveId(null), []);
-  const closeDetails = useCallback(() => setDetailsId(null), []);
+  const closeDetails = useCallback(() => {
+    setDetailsId(null);
+    if (variant === 'page' && typeof window !== 'undefined' && window.location.hash) {
+      const next = `${window.location.pathname}${window.location.search}`;
+      window.history.replaceState(null, '', next);
+    }
+  }, [variant]);
 
   useEffect(() => {
     if (!activeId && !detailsId) return;
@@ -178,6 +141,19 @@ const PackagesV3: React.FC = memo(() => {
   }, [detailsId]);
 
   useEffect(() => {
+    if (!isPage) return;
+    const openFromHash = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (packagesData.some((pkg) => pkg.id === hash)) {
+        setDetailsId(hash);
+      }
+    };
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
+    return () => window.removeEventListener('hashchange', openFromHash);
+  }, [isPage]);
+
+  useEffect(() => {
     let cancelled = false;
     fetch(`/api/content?section=packages&locale=${language.toLowerCase()}`)
       .then((r) => r.json())
@@ -197,9 +173,7 @@ const PackagesV3: React.FC = memo(() => {
             const image =
               pkg.id === 'basic'
                 ? '/packages/basic.webp'
-                : pkg.id === 'private'
-                  ? '/packages/privatee.webp'
-                  : resolveSiteImage(rawImage, pkg.image);
+                : resolveSiteImage(rawImage, pkg.image);
             // Keep package EUR/MAD from code — CMS sometimes still has stale €60
             return {
               ...pkg,
@@ -221,21 +195,51 @@ const PackagesV3: React.FC = memo(() => {
   const detailsPageKey = detailsId ? packagePageKeyById[detailsId] : null;
   const detailsContent = detailsPageKey ? t.packagesPage[detailsPageKey] : null;
 
+  const sectionDescription = isPage
+    ? copy('packagesPage.description', t.packagesPage.description)
+    : copy('packages.description', t.packages.description);
+  const safeDescription = isRetiredPackageMarketingCopy(sectionDescription)
+    ? isPage
+      ? t.packagesPage.description
+      : t.packages.description
+    : sectionDescription;
+
+  const TitleTag = isPage ? 'h1' : 'h2';
+
   return (
-    <section className="relative bg-paper py-20 sm:py-24 lg:py-28">
+    <section
+      className={`relative bg-paper ${
+        isPage ? 'pt-28 pb-20 sm:pt-32 sm:pb-24 lg:pt-36 lg:pb-28' : 'py-20 sm:py-24 lg:py-28'
+      }`}
+    >
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
         <div className="mb-12 text-center lg:mb-14" data-fade>
-          <p className="section-eyebrow">{copy('packages.badge', t.packages.badge)}</p>
-
-          <h2 className="section-title mb-5">{copy('packages.title', t.packages.title)}</h2>
-
-          <p className="section-lead mx-auto max-w-2xl">
-            {copy('packages.description', t.packages.description)}
+          <p className="section-eyebrow">
+            {isPage
+              ? copy('packagesPage.badge', t.packagesPage.badge)
+              : copy('packages.badge', t.packages.badge)}
           </p>
-          <InternalLinkRow
-            variant="packages"
-            className="mx-auto mt-4 max-w-2xl text-muted [&_a]:text-clay [&_a:hover]:text-clay-deep"
-          />
+
+          <TitleTag className="section-title mb-5">
+            {isPage ? (
+              <>
+                {copy('packagesPage.title', t.packagesPage.title)}{' '}
+                <span className="text-clay">
+                  {copy('packagesPage.titleHighlight', t.packagesPage.titleHighlight)}
+                </span>
+              </>
+            ) : (
+              copy('packages.title', t.packages.title)
+            )}
+          </TitleTag>
+
+          <p className="section-lead mx-auto max-w-2xl">{safeDescription}</p>
+          {isPage ? null : (
+            <InternalLinkRow
+              variant="packages"
+              className="mx-auto mt-4 max-w-2xl text-muted [&_a]:text-clay [&_a:hover]:text-clay-deep"
+            />
+          )}
         </div>
 
         <div className="mx-auto flex max-w-6xl flex-wrap justify-center gap-5 lg:gap-6">

@@ -231,7 +231,7 @@
     "selectedSlot": "Ausgewählter Workshop",
     "pickupLabel": "Abholung",
     "adults": "Anzahl Erwachsene",
-    "adultsHint": "Mindestens 3 Erwachsene für das Basic-Paket",
+    "adultsHint": "Mindestens 2 Erwachsene für das Basic-Paket",
     "childrenQuestion": "Kommen Kinder mit?",
     "childrenYes": "Ja",
     "childrenNo": "Nein",
@@ -315,8 +315,8 @@
         "label": "Marokkanische Koch-Meisterklasse Taghazout"
       },
       {
-        "href": "/events",
-        "label": "Aktivitäten außer Surfen Taghazout"
+        "href": "/packages",
+        "label": "Kochkurs-Pakete Taghazout"
       }
     ],
     "experience": [
@@ -544,7 +544,7 @@
     "badge": "Authentische Erlebnisse",
     "title": "Taghazout Kochkurs",
     "titleHighlight": "Pakete",
-    "description": "Wählen Sie Ihr traditionelles Kocherlebnis in Taghazout — halbtägige Berberdorf-Reise mit Abholung an der Taghazout-Moschee. Basis 60€, Wochenevent 80€, Privat 100€.",
+    "description": "Wählen Sie Ihr traditionelles Kocherlebnis in Taghazout — halbtägige Berberdorf-Reise mit Abholung an der Taghazout-Moschee. Ab 65 € (700 MAD), oder Rabab kommt zu Ihnen 100 € (1050 MAD).",
     "mostPopular": "Am Beliebtesten",
     "perPerson": "pro Person",
     "viewFullDetails": "Alle Details Anzeigen",
@@ -944,8 +944,8 @@
       {
         "id": "music",
         "emoji": "🎵",
-        "title": "Wöchentliches Amazigh-Musik-Event",
-        "description": "Jeden Samstag — traditionelle Amazigh-Musik, Grill im Lehmofen und Dorffeier im Atlas.",
+        "title": "Kochtag im Berberdorf",
+        "description": "Ein halber Tag in einem Amazigh-Dorf oberhalb von Taghazout — Kochen, Brot, Amlou und ein Familienessen im Atlas.",
         "imageAlt": "Amazigh-Musik-Event Taghazout — Aktivitäten außer Surfen Marokko"
       },
       {
