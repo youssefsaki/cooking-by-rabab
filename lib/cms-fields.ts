@@ -19,6 +19,8 @@ export type CmsField = {
 };
 
 /** Flat bag of editable values keyed by field id. */
+export type SiteCopyBag = Record<string, string>;
+
 export function isRetiredPackageMarketingCopy(text: string | undefined | null): boolean {
   if (!text) return false;
   return /weekly event|weekly amazigh|événement hebdomadaire|événement hebdo|wochenevent|private workshop|atelier privé|privater workshop/i.test(
