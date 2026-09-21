@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/_next/'],
+        disallow: ['/api/', '/_next/', '/book/thank-you', '/fr/book/thank-you'],
       },
     ],
     sitemap: 'https://www.taghazout-cooking-class.com/sitemap.xml',

@@ -1,16 +1,18 @@
 'use client';
 
 import React, { useEffect, useMemo, useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from '@/components/LocalizedLink';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import Select from 'react-select';
-import { FiCheck, FiMail, FiPhone, FiUser, FiMapPin } from 'react-icons/fi';
+import { FiMail, FiPhone, FiUser, FiMapPin } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getGaClientId, trackEvent, trackEventAndWait } from '@/lib/gtag';
+import { localizeHref } from '@/lib/i18n-path';
+import { storeBookingThankYou } from '@/lib/booking-thank-you';
 import WorkshopCalendar from '@/components/booking/WorkshopCalendar';
 import DishSelectionStep from '@/components/booking/DishSelectionStep';
 import type { CalendarSlot, PackageType } from '@/lib/booking/schedule';
@@ -175,7 +177,8 @@ const baseValidationSchema = Yup.object({
 function BookingForm() {
   const searchParams = useSearchParams();
   const packageParam = searchParams.get('package');
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const router = useRouter();
   const initialPackage = resolvePackageType(packageParam);
   const querySource = sourceFromQueryParams(searchParams);
   const calendarFlow = usesCalendar(initialPackage);
@@ -185,8 +188,6 @@ function BookingForm() {
   );
   const [selectedSlot, setSelectedSlot] = useState<CalendarSlot | null>(null);
   const [dishStepError, setDishStepError] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-  const [whatsappUrl, setWhatsappUrl] = useState('');
   const [phoneDialCode, setPhoneDialCode] = useState('212');
   const [phoneError, setPhoneError] = useState('');
   const [submitError, setSubmitError] = useState('');
@@ -427,7 +428,6 @@ function BookingForm() {
           return;
         }
 
-        setSubmitted(true);
         if (!data.gaTracked) {
           await trackEventAndWait('booking_complete', {
             currency: 'EUR',
@@ -435,7 +435,7 @@ function BookingForm() {
           });
         }
         clearAvailabilityClientCache();
-        openWhatsApp({
+        const waUrl = buildWhatsAppUrl({
           ...values,
           dish: dishName,
           dishPrice: unitPriceForPackage(pkg, selectedDish?.priceEur),
@@ -447,6 +447,8 @@ function BookingForm() {
           totalPrice: data.booking?.totalPrice,
           dietaryNotes: values.dietaryNotes,
         });
+        storeBookingThankYou(waUrl);
+        router.push(localizeHref('/book/thank-you', language));
       } catch (error) {
         console.error('Error submitting form:', error);
         setSubmitError('Something went wrong. Please try again.');
@@ -683,7 +685,7 @@ function BookingForm() {
     }
   }
 
-  function openWhatsApp(payload: Record<string, unknown>) {
+  function buildWhatsAppUrl(payload: Record<string, unknown>) {
     const whatsappPhone = '212726671746';
     const childrenList = Array.isArray(payload.children)
       ? (payload.children as ChildGuest[]).map((c) => `${c.age}y`).join(', ') || 'None'
@@ -733,90 +735,7 @@ function BookingForm() {
     );
 
     const whatsappMessage = lines.filter(Boolean).join('\n');
-    const url = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`;
-    setWhatsappUrl(url);
-    setTimeout(() => {
-      const newWindow = window.open(url, '_blank');
-      if (!newWindow || newWindow.closed) {
-        window.location.href = url;
-      }
-    }, 600);
-  }
-
-  const resetAll = () => {
-    clearAvailabilityClientCache();
-    setSubmitted(false);
-    setWhatsappUrl('');
-    setSubmitError('');
-    setDishStepError('');
-    setSelectedSlot(null);
-    setSlotOccupancy(null);
-    setBringingChildren(false);
-    setChildren([]);
-    setStep(calendarFlow ? 'calendar' : 'form');
-    formik.resetForm({
-      values: {
-        fullName: '',
-        phone: '',
-        country: '',
-        email: '',
-        packageType: initialPackage,
-        dietaryPreference: 'none',
-        allergies: '',
-        dietaryNotes: '',
-        adults: minAdultsForPackage(initialPackage),
-        dishId: '',
-        preferredDate: '',
-        preferredPeriod: 'morning',
-        source: querySource || '',
-      },
-    });
-  };
-
-  if (submitted) {
-    return (
-      <main className="min-h-screen bg-gradient-to-b from-amber-50 to-white flex items-center justify-center px-4 py-20">
-        <div className="max-w-2xl w-full text-center">
-          <div className="bg-white rounded-3xl shadow-2xl p-12 border-2 border-green-200">
-            <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
-              <FiCheck className="w-12 h-12 text-white" />
-            </div>
-            <h1 className="text-4xl font-black text-gray-900 mb-4">{t.booking.success}</h1>
-            <p className="text-lg text-gray-600 mb-6 leading-relaxed">{t.booking.successMessage}</p>
-            <div className="bg-green-50 border-2 border-green-200 rounded-xl p-6 mb-8 text-left space-y-2">
-              <p className="text-sm text-green-800 font-semibold">✓ Booking saved in our system</p>
-              <p className="text-sm text-green-700">✓ A WhatsApp message opens so you can confirm with Rabab</p>
-              <p className="text-sm text-green-700">✓ We&apos;ll follow up within 24 hours</p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {whatsappUrl ? (
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackEvent('whatsapp_click', { placement: 'booking_success' })}
-                  className="inline-block bg-[#25D366] text-white font-bold px-8 py-4 rounded-full hover:bg-[#1ebe57] transition-all duration-300 shadow-lg hover:scale-105"
-                >
-                  Open WhatsApp
-                </a>
-              ) : null}
-              <button
-                onClick={resetAll}
-                className="inline-block bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-8 py-4 rounded-full hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-lg hover:scale-105"
-              >
-                {t.booking.bookAnother}
-              </button>
-              <Link
-                href="/"
-                className="inline-block bg-white text-gray-900 font-bold px-8 py-4 rounded-full border-2 border-gray-200 hover:border-amber-500 transition-all duration-300 shadow-lg hover:scale-105"
-              >
-                {t.booking.backHome}
-              </Link>
-            </div>
-          </div>
-        </div>
-      </main>
-    );
+    return `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`;
   }
 
   if (calendarFlow && step === 'calendar') {
