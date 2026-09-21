@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { Newsreader, Outfit } from 'next/font/google';
 import './globals.css';
-import { GA_MEASUREMENT_ID } from '@/lib/gtag';
+import { AW_CONVERSION_ID, GA_MEASUREMENT_ID } from '@/lib/gtag';
 import { getStaticSiteConfig, getStaticNavigationData } from '@/lib/static-data';
 import Header from '@/components/Header';
 import Footer from '@/components/FooterV1';
@@ -121,6 +121,7 @@ export default function RootLayout({
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', '${GA_MEASUREMENT_ID}');
+            gtag('config', '${AW_CONVERSION_ID}');
           `}
         </Script>
         <script
