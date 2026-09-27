@@ -1,8 +1,8 @@
 export const GA_MEASUREMENT_ID = 'G-02LHBV08VE';
-/** Google Ads tag — config only until a conversion label is added (AW-xxx/label). */
+/** Google Ads tag already loaded in the site layout. */
 export const AW_CONVERSION_ID = 'AW-18465680551';
-/** Set when Google Ads shows the Purchase event snippet, e.g. AbCdeFghIjk. */
-export const AW_PURCHASE_LABEL = '';
+/** Purchase conversion label from the Ads event snippet (send_to after the slash). */
+export const AW_PURCHASE_LABEL = '-bwMCL6h_f8cEKfZj-VE';
 
 type GtagFn = (...args: unknown[]) => void;
 
@@ -26,13 +26,37 @@ export function trackEvent(
   const send = gtag();
   if (!send) return;
   send('event', name, params);
-  if (name === 'booking_complete' && AW_PURCHASE_LABEL) {
+}
+
+/** Google Ads Purchase. Fires on a saved booking, including when Analytics already got the event from the server. */
+export function trackAdsPurchase(
+  params?: { value?: number; currency?: string; transactionId?: string },
+  timeoutMs = 1500
+): Promise<void> {
+  return new Promise((resolve) => {
+    const send = gtag();
+    if (!send || !AW_PURCHASE_LABEL) {
+      resolve();
+      return;
+    }
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      resolve();
+    };
+    const timer = window.setTimeout(finish, timeoutMs);
     send('event', 'conversion', {
       send_to: `${AW_CONVERSION_ID}/${AW_PURCHASE_LABEL}`,
       currency: params?.currency || 'EUR',
       value: typeof params?.value === 'number' ? params.value : 0,
+      transaction_id: params?.transactionId || '',
+      event_callback: () => {
+        window.clearTimeout(timer);
+        finish();
+      },
     });
-  }
+  });
 }
 
 /** Wait until gtag records the event (or timeout) so WhatsApp does not cancel the hit. */
@@ -57,13 +81,6 @@ export function trackEventAndWait(
     send('event', name, {
       ...params,
       event_callback: () => {
-        if (name === 'booking_complete' && AW_PURCHASE_LABEL) {
-          send('event', 'conversion', {
-            send_to: `${AW_CONVERSION_ID}/${AW_PURCHASE_LABEL}`,
-            currency: params?.currency || 'EUR',
-            value: typeof params?.value === 'number' ? params.value : 0,
-          });
-        }
         window.clearTimeout(timer);
         finish();
       },

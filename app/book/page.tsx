@@ -10,7 +10,7 @@ import 'react-phone-input-2/lib/style.css';
 import Select from 'react-select';
 import { FiMail, FiPhone, FiUser, FiMapPin } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { getGaClientId, trackEvent, trackEventAndWait } from '@/lib/gtag';
+import { getGaClientId, trackAdsPurchase, trackEvent, trackEventAndWait } from '@/lib/gtag';
 import { localizeHref } from '@/lib/i18n-path';
 import { storeBookingThankYou } from '@/lib/booking-thank-you';
 import WorkshopCalendar from '@/components/booking/WorkshopCalendar';
@@ -418,7 +418,7 @@ function BookingForm() {
 
         const data = (await res.json()) as {
           error?: string;
-          booking?: { totalPrice: number };
+          booking?: { id?: string; totalPrice: number };
           gaTracked?: boolean;
         };
         if (!res.ok) {
@@ -432,8 +432,13 @@ function BookingForm() {
           await trackEventAndWait('booking_complete', {
             currency: 'EUR',
             value: data.booking?.totalPrice || 0,
+            transaction_id: data.booking?.id || '',
           });
         }
+        await trackAdsPurchase({
+          value: data.booking?.totalPrice || 0,
+          transactionId: data.booking?.id,
+        });
         clearAvailabilityClientCache();
         const waUrl = buildWhatsAppUrl({
           ...values,
