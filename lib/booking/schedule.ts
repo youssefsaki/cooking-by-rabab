@@ -84,18 +84,6 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
       accent: 'green',
     },
   ],
-  4: [
-    {
-      period: 'morning',
-      startTime: '10:00',
-      endTime: '14:00',
-      dish: 'Msemen Wrap Experience',
-      feastNote: 'Includes Full Lunch Feast',
-      menuCategory: 'msemen',
-      packageAllowed: ['basic', 'private', 'private-at-location'],
-      accent: 'blue',
-    },
-  ],
   5: [
     {
       period: 'morning',
@@ -131,16 +119,6 @@ const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
     },
   ],
   0: [
-    {
-      period: 'morning',
-      startTime: '10:00',
-      endTime: '14:00',
-      dish: 'Rfissa Celebration',
-      feastNote: 'Includes Special Morning Feast',
-      menuCategory: 'rfissa',
-      packageAllowed: ['basic', 'private', 'private-at-location'],
-      accent: 'amber',
-    },
     {
       period: 'afternoon',
       startTime: '15:00',
@@ -353,6 +331,24 @@ export function getUpcomingCalendarDays(
   }
 
   return days;
+}
+
+/** Upcoming slots filtered by dish category, time of day, and package. */
+export function listUpcomingSlots(options: {
+  menuCategory?: MenuCategory | null;
+  period?: SlotPeriod | null;
+  packageType?: PackageType | null;
+} = {}): CalendarSlot[] {
+  const slots: CalendarSlot[] = [];
+  for (const day of getUpcomingCalendarDays()) {
+    for (const slot of day.slots) {
+      if (options.menuCategory && slot.menuCategory !== options.menuCategory) continue;
+      if (options.period && slot.period !== options.period) continue;
+      if (options.packageType && !slot.packageAllowed.includes(options.packageType)) continue;
+      slots.push(slot);
+    }
+  }
+  return slots;
 }
 
 export interface CalendarWeek {

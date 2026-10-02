@@ -269,6 +269,11 @@ export const BOOKING_MENU: MenuDish[] = [
 
 export const BOOKING_MENU_IDS = BOOKING_MENU.map((d) => d.id);
 
+/** Dishes guests can pick on the public booking page. */
+export const PUBLIC_DISH_IDS = BOOKING_MENU.filter(
+  (d) => d.category === 'tagine' || d.category === 'couscous'
+).map((d) => d.id);
+
 export function getDishById(id: string | undefined | null): MenuDish | undefined {
   if (!id) return undefined;
   return BOOKING_MENU.find((d) => d.id === id);

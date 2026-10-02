@@ -13,9 +13,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { getGaClientId, trackAdsPurchase, trackEvent, trackEventAndWait } from '@/lib/gtag';
 import { localizeHref } from '@/lib/i18n-path';
 import { storeBookingThankYou } from '@/lib/booking-thank-you';
-import WorkshopCalendar from '@/components/booking/WorkshopCalendar';
-import DishSelectionStep from '@/components/booking/DishSelectionStep';
-import type { CalendarSlot, PackageType } from '@/lib/booking/schedule';
+import type { CalendarSlot, PackageType, SlotPeriod } from '@/lib/booking/schedule';
 import {
   BASIC_MAX_GUESTS,
   BASIC_MIN_ADULTS,
@@ -23,18 +21,20 @@ import {
   effectiveMinAdultsForPrivate,
   getUpcomingCalendarWeeks,
   BOOKING_HORIZON_WEEKS,
+  listUpcomingSlots,
   minAdultsForPackage,
   unitPriceForPackage,
 } from '@/lib/booking/schedule';
 import { calculateBookingTotal, countGuestsTowardCapacity, type ChildGuest } from '@/lib/booking/pricing';
 import {
-  BOOKING_MENU_IDS,
+  PUBLIC_DISH_IDS,
   getDishById,
-  getDishesForSlotCategory,
+  getDishesByCategory,
 } from '@/lib/booking/menu';
 import {
   isPeriodLockedForPrivate,
   isSharedSlotForPrivate,
+  isSlotLockedForBasic,
   leftoverSpotsForPrivateJoin,
   SLOT_CONFLICT_MESSAGE,
   type SlotOccupancy,
@@ -124,11 +124,6 @@ function usesCalendar(pkg: PackageType): boolean {
   return pkg === 'basic' || pkg === 'private-at-location';
 }
 
-function calendarModeForPackage(pkg: PackageType): 'basic' | 'weekly' | 'private' {
-  if (pkg === 'private-at-location') return 'private';
-  return 'basic';
-}
-
 function packageLabel(packageType: PackageType): string {
   if (packageType === 'private-at-location') return 'Rabab Comes to You (100 EUR)';
   return 'The authentic mountains culinary escape';
@@ -161,13 +156,13 @@ const baseValidationSchema = Yup.object({
   adults: Yup.number().min(1).required(),
   preferredDate: Yup.string().notRequired(),
   preferredPeriod: Yup.string()
-    .oneOf(['morning', 'afternoon'])
+    .oneOf(['morning', 'afternoon', ''])
     .notRequired(),
   dishId: Yup.string().when('packageType', {
     is: (pkg: string) => pkg === 'basic',
     then: (schema) =>
       schema
-        .oneOf(BOOKING_MENU_IDS, 'Please select one dish for your group')
+        .oneOf(PUBLIC_DISH_IDS, 'Please select one dish for your group')
         .required('Please select one dish for your group'),
     otherwise: (schema) => schema.notRequired(),
   }),
@@ -183,11 +178,12 @@ function BookingForm() {
   const querySource = sourceFromQueryParams(searchParams);
   const calendarFlow = usesCalendar(initialPackage);
 
-  const [step, setStep] = useState<'calendar' | 'dish' | 'form'>(
-    calendarFlow ? 'calendar' : 'form'
-  );
   const [selectedSlot, setSelectedSlot] = useState<CalendarSlot | null>(null);
-  const [dishStepError, setDishStepError] = useState('');
+  const [dishCategory, setDishCategory] = useState<'' | 'tagine' | 'couscous'>('');
+  const [periodChoice, setPeriodChoice] = useState<'' | SlotPeriod>('');
+  const [slotOptionsOccupancy, setSlotOptionsOccupancy] = useState<Record<string, SlotOccupancy>>(
+    {}
+  );
   const [phoneDialCode, setPhoneDialCode] = useState('212');
   const [phoneError, setPhoneError] = useState('');
   const [submitError, setSubmitError] = useState('');
@@ -204,34 +200,6 @@ function BookingForm() {
     totalEur: number;
   } | null>(null);
 
-  // Warm availability into HTTP + sessionStorage before the calendar paints
-  useEffect(() => {
-    if (!calendarFlow) return;
-    const weeks = getUpcomingCalendarWeeks(BOOKING_HORIZON_WEEKS);
-    const dates = weeks.flatMap((w) => w.days.map((d) => d.date));
-    const from = dates[0];
-    const to = dates[dates.length - 1];
-    if (!from || !to) return;
-    void (async () => {
-      try {
-        const res = await fetchAvailability(from, to);
-        if (!res.ok) return;
-        const data = (await res.json()) as { occupancy?: SlotOccupancy[] };
-        if (!data.occupancy?.length) return;
-        const map: Record<string, SlotOccupancy> = {};
-        data.occupancy.forEach((item) => {
-          map[item.slotId] = item;
-        });
-        sessionStorage.setItem(
-          `cbr-availability-v2:${from}:${to}`,
-          JSON.stringify({ at: Date.now(), map })
-        );
-      } catch {
-        // Calendar will fetch on its own
-      }
-    })();
-  }, [calendarFlow]);
-
   const formik = useFormik({
     initialValues: {
       fullName: '',
@@ -245,7 +213,7 @@ function BookingForm() {
       adults: minAdultsForPackage(initialPackage),
       dishId: '',
       preferredDate: '',
-      preferredPeriod: 'morning',
+      preferredPeriod: '',
       source: querySource || '',
     },
     validationSchema: baseValidationSchema,
@@ -263,8 +231,8 @@ function BookingForm() {
         const isPrivate = isPrivatePackage(pkg);
 
         if ((isBasic || isPrivate) && !selectedSlot) {
-          setSubmitError('Please select a workshop slot first.');
-          setStep('calendar');
+          setSubmitError('Please choose a time and a day.');
+          document.getElementById('booking-choices')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
           setSubmitting(false);
           return;
         }
@@ -346,7 +314,6 @@ function BookingForm() {
               const hold = data.occupancy?.find((o) => o.slotId === selectedSlot.id);
               if (isPeriodLockedForPrivate(hold)) {
                 setSubmitError(SLOT_CONFLICT_MESSAGE);
-                setStep('calendar');
                 setSubmitting(false);
                 return;
               }
@@ -370,8 +337,8 @@ function BookingForm() {
 
         const selectedDish = getDishById(values.dishId);
         if (isBasic && !selectedDish) {
-          setSubmitError('Please select one shared dish for your group.');
-          setStep('dish');
+          setSubmitError('Please choose couscous or a tagine.');
+          document.getElementById('booking-choices')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
           setSubmitting(false);
           return;
         }
@@ -423,7 +390,6 @@ function BookingForm() {
         };
         if (!res.ok) {
           setSubmitError(data.error || SLOT_CONFLICT_MESSAGE);
-          if (res.status === 409 && isBasic) setStep('calendar');
           setSubmitting(false);
           return;
         }
@@ -463,10 +429,80 @@ function BookingForm() {
     },
   });
 
-  const availableDishes = useMemo(
-    () => getDishesForSlotCategory(selectedSlot?.menuCategory),
-    [selectedSlot?.menuCategory]
-  );
+  const tagineDishes = useMemo(() => getDishesByCategory('tagine'), []);
+
+  const matchingSlots = useMemo(() => {
+    if (!calendarFlow || !periodChoice) return [];
+    if (initialPackage === 'basic' && !dishCategory) return [];
+    const menuCategory = dishCategory === 'tagine' || dishCategory === 'couscous' ? dishCategory : null;
+    return listUpcomingSlots({
+      period: periodChoice,
+      menuCategory: initialPackage === 'basic' ? menuCategory : null,
+      packageType: initialPackage,
+    });
+  }, [calendarFlow, periodChoice, dishCategory, initialPackage]);
+
+  useEffect(() => {
+    if (!selectedSlot) return;
+    if (!matchingSlots.some((slot) => slot.id === selectedSlot.id)) {
+      setSelectedSlot(null);
+    }
+  }, [matchingSlots, selectedSlot]);
+
+  useEffect(() => {
+    if (!matchingSlots.length) {
+      setSlotOptionsOccupancy({});
+      return;
+    }
+    const from = matchingSlots[0].date;
+    const to = matchingSlots[matchingSlots.length - 1].date;
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetchAvailability(from, to);
+        if (!res.ok || cancelled) return;
+        const data = (await res.json()) as { occupancy?: SlotOccupancy[] };
+        if (cancelled) return;
+        const map: Record<string, SlotOccupancy> = {};
+        data.occupancy?.forEach((item) => {
+          map[item.slotId] = item;
+        });
+        setSlotOptionsOccupancy(map);
+      } catch {
+        // Dates stay selectable; submit re-checks capacity
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [matchingSlots]);
+
+  function slotIsClosed(slot: CalendarSlot): boolean {
+    const occupancy = slotOptionsOccupancy[slot.id];
+    if (!occupancy) return false;
+    if (initialPackage === 'basic') return isSlotLockedForBasic(occupancy);
+    if (isPrivatePackage(initialPackage)) return isPeriodLockedForPrivate(occupancy);
+    return false;
+  }
+
+  function chooseDishCategory(next: 'tagine' | 'couscous') {
+    setDishCategory(next);
+    setSubmitError('');
+    if (next === 'couscous') {
+      formik.setFieldValue('dishId', 'couscous');
+      return;
+    }
+    const current = getDishById(formik.values.dishId);
+    if (!current || current.category !== 'tagine') {
+      formik.setFieldValue('dishId', '');
+    }
+  }
+
+  function choosePeriod(next: SlotPeriod) {
+    setPeriodChoice(next);
+    setSubmitError('');
+    formik.setFieldValue('preferredPeriod', next);
+  }
 
   const selectedDish = getDishById(formik.values.dishId);
   const activePackage = formik.values.packageType as PackageType;
@@ -743,103 +779,19 @@ function BookingForm() {
     return `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`;
   }
 
-  if (calendarFlow && step === 'calendar') {
-    return (
-      <main className="min-h-screen bg-gradient-to-b from-[#FBF7F0] via-white to-amber-50">
-        <section className="pt-32 sm:pt-40 pb-16 px-4 sm:px-6">
-          <div className="mx-auto mb-10 max-w-4xl text-center">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-amber-700">
-              {initialPackage === 'basic' ? 'Step 1 of 3' : 'Step 1 of 2'}
-            </p>
-            <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">
-              {bookPageTitle(initialPackage)}
-            </h1>
-          </div>
-          <div className="max-w-7xl mx-auto">
-            <WorkshopCalendar
-              mode={calendarModeForPackage(initialPackage)}
-              selectedSlotId={selectedSlot?.id}
-              onSelectSlot={(slot) => {
-                setSelectedSlot(slot);
-                setSubmitError('');
-                setDishStepError('');
-                formik.setFieldValue('preferredDate', slot.date);
-                formik.setFieldValue('preferredPeriod', slot.period);
-                if (initialPackage === 'basic') {
-                  const options = getDishesForSlotCategory(slot.menuCategory);
-                  if (options.length === 1) {
-                    formik.setFieldValue('dishId', options[0].id);
-                  } else {
-                    formik.setFieldValue('dishId', '');
-                  }
-                  setStep('dish');
-                } else {
-                  formik.setFieldValue('dishId', '');
-                  setStep('form');
-                }
-              }}
-            />
-          </div>
-        </section>
-      </main>
-    );
-  }
-
-  if (initialPackage === 'basic' && step === 'dish' && selectedSlot) {
-    const slotLabel = `${selectedSlot.weekday} ${selectedSlot.dayNumber} ${selectedSlot.month} · ${selectedSlot.period}`;
-    return (
-      <main className="min-h-screen bg-gradient-to-b from-[#FBF7F0] via-white to-amber-50">
-        <section className="pt-32 sm:pt-40 pb-16 px-4 sm:px-6">
-          <div className="mx-auto mb-10 max-w-4xl text-center">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-amber-700">
-              Step 2 of 3
-            </p>
-            <h1 className="text-4xl font-black leading-tight text-gray-900 sm:text-5xl">
-              {bookPageTitle(initialPackage)}
-            </h1>
-          </div>
-          <DishSelectionStep
-            dishes={availableDishes}
-            value={formik.values.dishId}
-            onChange={(dishId) => {
-              formik.setFieldValue('dishId', dishId);
-              setDishStepError('');
-            }}
-            onBack={() => {
-              setDishStepError('');
-              setStep('calendar');
-            }}
-            onContinue={() => {
-              if (!formik.values.dishId) {
-                setDishStepError('Please select one dish for your group.');
-                return;
-              }
-              setDishStepError('');
-              setStep('form');
-            }}
-            slotLabel={slotLabel}
-            error={dishStepError}
-            remainingSpots={remainingSpots}
-            maxGuests={BASIC_MAX_GUESTS}
-            minAdults={effectiveMinAdultsForBasic(
-              bookedGuestCount,
-              remainingSpots ?? BASIC_MAX_GUESTS
-            )}
-          />
-        </section>
-      </main>
-    );
-  }
+  const dayHint =
+    dishCategory === 'couscous'
+      ? 'Couscous is every Friday.'
+      : dishCategory === 'tagine' && periodChoice === 'morning'
+        ? 'Tagine mornings are Monday and Tuesday.'
+        : dishCategory === 'tagine' && periodChoice === 'afternoon'
+          ? 'Tagine afternoons are Wednesday, Saturday, and Sunday.'
+          : '';
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
       <section className="pt-40 pb-12 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          {calendarFlow && (
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-700 mb-3">
-              {initialPackage === 'basic' ? 'Step 3 of 3' : 'Step 2 of 2'}
-            </p>
-          )}
           <h1 className="text-5xl sm:text-6xl font-black text-gray-900 mb-6 leading-tight">
             {bookPageTitle(initialPackage)}
           </h1>
@@ -849,145 +801,6 @@ function BookingForm() {
 
       <section className="pb-20 px-6">
         <div className="max-w-2xl mx-auto">
-          {calendarFlow && selectedSlot && (
-            <div className="mb-6 rounded-3xl border border-amber-200 bg-white p-5 sm:p-6 shadow-sm space-y-5">
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700 mb-2">
-                    {t.booking.selectedSlot}
-                  </p>
-                  <p className="text-lg font-black text-gray-900">
-                    {selectedSlot.weekday} {selectedSlot.dayNumber} {selectedSlot.month}
-                  </p>
-                  <p className="text-sm text-gray-600 mt-1 capitalize">
-                    {selectedSlot.period} · {selectedSlot.startTime} – {selectedSlot.endTime}
-                  </p>
-                  <p className="text-sm text-gray-600 mt-2">
-                    {isPrivatePackage(activePackage) ? (
-                      joiningSharedSlot ? (
-                        <>
-                          <span className="font-semibold">Joining shared workshop</span>
-                          {' · '}
-                          {selectedSlot.startTime} – {selectedSlot.endTime}
-                        </>
-                      ) : (
-                        <>
-                          <span className="font-semibold">Exclusive private slot</span>
-                          {' · '}
-                          {selectedSlot.startTime} – {selectedSlot.endTime}
-                        </>
-                      )
-                    ) : (
-                      <>
-                        <span className="font-semibold">{t.booking.pickupLabel}:</span>{' '}
-                        {selectedSlot.pickup.time} · {selectedSlot.pickup.meetingPoint}
-                      </>
-                    )}
-                  </p>
-                  <p className="text-sm font-semibold text-gray-800 mt-2">
-                    {packageLabel(activePackage)}
-                  </p>
-                  {initialPackage === 'basic' && (
-                    <div className="mt-3">
-                      {remainingSpots === null ? (
-                        <div
-                          className="flex items-center gap-2 text-sm font-semibold text-gray-500"
-                          role="status"
-                          aria-live="polite"
-                          aria-busy="true"
-                        >
-                          <span className="h-4 w-4 animate-spin rounded-full border-2 border-gray-200 border-t-amber-600" />
-                          Loading availability…
-                        </div>
-                      ) : (
-                        <p
-                          className={`text-sm font-bold ${
-                            basicLeftoverSpots > 0
-                              ? 'text-amber-700'
-                              : remainingSpots === 0 || slotTooFullForPackage
-                                ? 'text-red-600'
-                                : remainingSpots <= 3
-                                  ? 'text-amber-700'
-                                  : 'text-emerald-700'
-                          }`}
-                        >
-                          {basicLeftoverSpots > 0
-                            ? `${basicLeftoverSpots} spot${basicLeftoverSpots === 1 ? '' : 's'} left — join via Private`
-                            : remainingSpots === 0 || slotTooFullForPackage
-                              ? 'Fully booked — please choose another day'
-                              : `${remainingSpots} of ${BASIC_MAX_GUESTS} spots available`}
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {isPrivatePackage(initialPackage) && (
-                    <div className="mt-3">
-                      {remainingSpots === null ? (
-                        <div
-                          className="flex items-center gap-2 text-sm font-semibold text-gray-500"
-                          role="status"
-                          aria-live="polite"
-                          aria-busy="true"
-                        >
-                          <span className="h-4 w-4 animate-spin rounded-full border-2 border-gray-200 border-t-amber-600" />
-                          Loading availability…
-                        </div>
-                      ) : (
-                        <p
-                          className={`text-sm font-bold ${
-                            joiningSharedSlot ? 'text-emerald-700' : 'text-amber-700'
-                          }`}
-                        >
-                          {joiningSharedSlot
-                            ? `${bookedGuestCount} already booked · ${remainingSpots} spot${remainingSpots === 1 ? '' : 's'} left`
-                            : 'Exclusive private — this slot will be reserved for your group'}
-                        </p>
-                      )}
-                    </div>
-                  )}
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setStep('calendar')}
-                  className="text-sm font-bold text-amber-700 underline underline-offset-2 shrink-0"
-                >
-                  {cannotBookThisSlot ? 'Choose another day' : t.booking.changeSlot}
-                </button>
-              </div>
-
-              {selectedDish && initialPackage === 'basic' && (
-                <div className="flex gap-3 sm:gap-4 items-center border-t border-amber-100 pt-5">
-                  <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 bg-gray-100">
-                    <Image
-                      src={selectedDish.image}
-                      alt={selectedDish.name}
-                      fill
-                      className="object-cover"
-                      sizes="80px"
-                    />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-gray-400 mb-1">
-                      Shared dish
-                    </p>
-                    <p className="font-bold text-gray-900 leading-snug">{selectedDish.name}</p>
-                    <p className="text-sm text-amber-700 font-semibold mt-1">
-                      {selectedDish.priceEur} € / person · {selectedDish.priceMad} MAD
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setStep('dish')}
-                    className="text-sm font-bold text-amber-700 underline underline-offset-2 shrink-0"
-                  >
-                    Change dish
-                  </button>
-                </div>
-              )}
-
-            </div>
-          )}
-
           {!calendarFlow && (
             <div className="mb-6 rounded-3xl border border-amber-200 bg-white p-5 sm:p-6 shadow-sm">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700 mb-2">
@@ -1006,6 +819,176 @@ function BookingForm() {
                 {submitError}
               </div>
             )}
+
+            <div id="booking-choices" className="mb-8 space-y-8">
+              {initialPackage === 'basic' && (
+                <div>
+                  <p className="text-sm font-bold text-gray-700 mb-3">What do you want to cook? *</p>
+                  <div className="grid grid-cols-2 gap-3" role="radiogroup" aria-label="Dish">
+                    {(
+                      [
+                        {
+                          id: 'tagine' as const,
+                          title: 'Tagine',
+                          blurb: 'Clay-pot tagine. Pick the recipe below.',
+                          image: '/packages/tajines/royal.webp',
+                        },
+                        {
+                          id: 'couscous' as const,
+                          title: 'Couscous',
+                          blurb: 'Friday feast, steamed by hand.',
+                          image: '/packages/couscous/couscous.webp',
+                        },
+                      ]
+                    ).map((choice) => {
+                      const selected = dishCategory === choice.id;
+                      return (
+                        <button
+                          key={choice.id}
+                          type="button"
+                          role="radio"
+                          aria-checked={selected}
+                          onClick={() => chooseDishCategory(choice.id)}
+                          className={`text-left rounded-2xl border-2 overflow-hidden transition-colors ${
+                            selected
+                              ? 'border-amber-500 bg-amber-50'
+                              : 'border-gray-200 bg-white hover:border-amber-300'
+                          }`}
+                        >
+                          <div className="relative aspect-[2/3] w-full bg-[#F7F2EA]">
+                            <Image
+                              src={choice.image}
+                              alt=""
+                              fill
+                              className="object-contain"
+                              sizes="(max-width: 640px) 45vw, 280px"
+                            />
+                          </div>
+                          <div className="p-3 sm:p-4">
+                            <p className="font-black text-gray-900 text-sm sm:text-base">{choice.title}</p>
+                            <p className="text-xs sm:text-sm text-gray-600 mt-1">{choice.blurb}</p>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {dishCategory === 'tagine' && (
+                    <div className="mt-4">
+                      <label htmlFor="dishId" className="text-sm font-bold text-gray-700 mb-2 block">
+                        Which tagine? *
+                      </label>
+                      <select
+                        id="dishId"
+                        value={formik.values.dishId}
+                        onChange={(e) => {
+                          formik.setFieldValue('dishId', e.target.value);
+                          setSubmitError('');
+                        }}
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500 bg-white"
+                      >
+                        <option value="">Choose a tagine</option>
+                        {tagineDishes.map((dish) => (
+                          <option key={dish.id} value={dish.id}>
+                            {dish.shortName} · {dish.priceEur} €
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div>
+                <p className="text-sm font-bold text-gray-700 mb-3">Morning or afternoon? *</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-label="Time of day">
+                  {(
+                    [
+                      {
+                        id: 'morning' as const,
+                        label: 'Morning',
+                        time: '10:00 – 14:00',
+                        pickup: initialPackage === 'basic' ? 'Pickup 09:30 · Taghazout Mosque' : 'At your villa or riad',
+                      },
+                      {
+                        id: 'afternoon' as const,
+                        label: 'Afternoon',
+                        time: '15:00 – 19:00',
+                        pickup: initialPackage === 'basic' ? 'Pickup 14:30 · Taghazout Mosque' : 'At your villa or riad',
+                      },
+                    ]
+                  ).map((option) => {
+                    const selected = periodChoice === option.id;
+                    return (
+                      <button
+                        key={option.id}
+                        type="button"
+                        role="radio"
+                        aria-checked={selected}
+                        onClick={() => choosePeriod(option.id)}
+                        className={`rounded-2xl border-2 px-4 py-4 text-left ${
+                          selected
+                            ? 'border-amber-500 bg-amber-50'
+                            : 'border-gray-200 bg-white hover:border-amber-300'
+                        }`}
+                      >
+                        <p className="font-black text-gray-900">{option.label}</p>
+                        <p className="text-sm text-gray-600 mt-1">{option.time}</p>
+                        <p className="text-xs text-gray-500 mt-1">{option.pickup}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="booking-day" className="text-sm font-bold text-gray-700 mb-2 block">
+                  Which day? *
+                </label>
+                <select
+                  id="booking-day"
+                  value={selectedSlot?.id ?? ''}
+                  disabled={!periodChoice || (initialPackage === 'basic' && !dishCategory)}
+                  onChange={(e) => {
+                    const slot = matchingSlots.find((item) => item.id === e.target.value) ?? null;
+                    if (slot && slotIsClosed(slot)) return;
+                    setSelectedSlot(slot);
+                    setSubmitError('');
+                    if (slot) {
+                      formik.setFieldValue('preferredDate', slot.date);
+                      formik.setFieldValue('preferredPeriod', slot.period);
+                    }
+                  }}
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500 bg-white disabled:bg-gray-50 disabled:text-gray-400"
+                >
+                  <option value="">
+                    {initialPackage === 'basic' && !dishCategory
+                      ? 'Choose a dish and a time first'
+                      : !periodChoice
+                        ? 'Choose morning or afternoon first'
+                        : 'Select a day'}
+                  </option>
+                  {matchingSlots.map((slot) => {
+                    const closed = slotIsClosed(slot);
+                    const year = slot.date.slice(0, 4);
+                    return (
+                      <option key={slot.id} value={slot.id} disabled={closed}>
+                        {slot.weekday} {slot.dayNumber} {slot.month} {year}
+                        {closed ? ' — full' : ''}
+                      </option>
+                    );
+                  })}
+                </select>
+                {dayHint ? <p className="text-xs text-gray-500 mt-2">{dayHint}</p> : null}
+                {selectedSlot ? (
+                  <p className="text-sm text-gray-600 mt-2">
+                    {selectedSlot.startTime} – {selectedSlot.endTime}
+                    {' · '}
+                    Pickup {selectedSlot.pickup.time} at {selectedSlot.pickup.meetingPoint}
+                  </p>
+                ) : null}
+              </div>
+            </div>
 
             {/* 1. Guests */}
             <div className="mb-6">
@@ -1056,7 +1039,10 @@ function BookingForm() {
                   {cannotBookThisSlot && basicLeftoverSpots === 0 && (
                     <button
                       type="button"
-                      onClick={() => setStep('calendar')}
+                      onClick={() => {
+                        document.getElementById('booking-day')?.focus();
+                        document.getElementById('booking-day')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      }}
                       className="mt-2 text-sm font-bold underline underline-offset-2"
                     >
                       Choose another day →
