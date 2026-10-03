@@ -13,6 +13,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { getGaClientId, trackAdsPurchase, trackEvent, trackEventAndWait } from '@/lib/gtag';
 import { localizeHref } from '@/lib/i18n-path';
 import { storeBookingThankYou } from '@/lib/booking-thank-you';
+import BookingDayCalendar from '@/components/booking/BookingDayCalendar';
 import type { CalendarSlot, PackageType, SlotPeriod } from '@/lib/booking/schedule';
 import {
   BASIC_MAX_GUESTS,
@@ -489,7 +490,10 @@ function BookingForm() {
     setDishCategory(next);
     setSubmitError('');
     if (next === 'couscous') {
-      formik.setFieldValue('dishId', 'couscous');
+      const current = getDishById(formik.values.dishId);
+      if (!current || current.category !== 'couscous') {
+        formik.setFieldValue('dishId', 'couscous');
+      }
       return;
     }
     const current = getDishById(formik.values.dishId);
@@ -782,11 +786,9 @@ function BookingForm() {
   const dayHint =
     dishCategory === 'couscous'
       ? 'Couscous is every Friday.'
-      : dishCategory === 'tagine' && periodChoice === 'morning'
-        ? 'Tagine mornings are Monday and Tuesday.'
-        : dishCategory === 'tagine' && periodChoice === 'afternoon'
-          ? 'Tagine afternoons are Wednesday, Saturday, and Sunday.'
-          : '';
+      : dishCategory === 'tagine'
+        ? 'Tagine is available every day.'
+        : '';
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
@@ -836,7 +838,7 @@ function BookingForm() {
                         {
                           id: 'couscous' as const,
                           title: 'Couscous',
-                          blurb: 'Friday feast, steamed by hand.',
+                          blurb: 'Friday feast. Chicken or vegetarian.',
                           image: '/packages/couscous/couscous.webp',
                         },
                       ]
@@ -872,6 +874,50 @@ function BookingForm() {
                       );
                     })}
                   </div>
+
+                  {dishCategory === 'couscous' && (
+                    <div className="mt-4">
+                      <p className="text-sm font-bold text-gray-700 mb-2">Which couscous? *</p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-label="Couscous style">
+                        {(
+                          [
+                            {
+                              id: 'couscous',
+                              title: 'With chicken',
+                              blurb: 'Classic Friday couscous',
+                            },
+                            {
+                              id: 'vegetarian-couscous',
+                              title: 'Vegetarian',
+                              blurb: 'Seven vegetables, no chicken',
+                            },
+                          ] as const
+                        ).map((option) => {
+                          const selected = formik.values.dishId === option.id;
+                          return (
+                            <button
+                              key={option.id}
+                              type="button"
+                              role="radio"
+                              aria-checked={selected}
+                              onClick={() => {
+                                formik.setFieldValue('dishId', option.id);
+                                setSubmitError('');
+                              }}
+                              className={`rounded-2xl border-2 px-4 py-3 text-left ${
+                                selected
+                                  ? 'border-amber-500 bg-amber-50'
+                                  : 'border-gray-200 bg-white hover:border-amber-300'
+                              }`}
+                            >
+                              <p className="font-black text-gray-900">{option.title}</p>
+                              <p className="text-sm text-gray-600 mt-1">{option.blurb} · 65 €</p>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
 
                   {dishCategory === 'tagine' && (
                     <div className="mt-4">
@@ -942,44 +988,27 @@ function BookingForm() {
               </div>
 
               <div>
-                <label htmlFor="booking-day" className="text-sm font-bold text-gray-700 mb-2 block">
-                  Which day? *
-                </label>
-                <select
-                  id="booking-day"
-                  value={selectedSlot?.id ?? ''}
-                  disabled={!periodChoice || (initialPackage === 'basic' && !dishCategory)}
-                  onChange={(e) => {
-                    const slot = matchingSlots.find((item) => item.id === e.target.value) ?? null;
-                    if (slot && slotIsClosed(slot)) return;
-                    setSelectedSlot(slot);
-                    setSubmitError('');
-                    if (slot) {
-                      formik.setFieldValue('preferredDate', slot.date);
-                      formik.setFieldValue('preferredPeriod', slot.period);
-                    }
-                  }}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-amber-500 bg-white disabled:bg-gray-50 disabled:text-gray-400"
-                >
-                  <option value="">
-                    {initialPackage === 'basic' && !dishCategory
+                <p className="text-sm font-bold text-gray-700 mb-3">Which day? *</p>
+                <BookingDayCalendar
+                  slots={matchingSlots}
+                  selectedSlotId={selectedSlot?.id}
+                  isClosed={slotIsClosed}
+                  lockedMessage={
+                    initialPackage === 'basic' && !dishCategory
                       ? 'Choose a dish and a time first'
                       : !periodChoice
                         ? 'Choose morning or afternoon first'
-                        : 'Select a day'}
-                  </option>
-                  {matchingSlots.map((slot) => {
-                    const closed = slotIsClosed(slot);
-                    const year = slot.date.slice(0, 4);
-                    return (
-                      <option key={slot.id} value={slot.id} disabled={closed}>
-                        {slot.weekday} {slot.dayNumber} {slot.month} {year}
-                        {closed ? ' — full' : ''}
-                      </option>
-                    );
-                  })}
-                </select>
-                {dayHint ? <p className="text-xs text-gray-500 mt-2">{dayHint}</p> : null}
+                        : null
+                  }
+                  onSelect={(slot) => {
+                    if (slotIsClosed(slot)) return;
+                    setSelectedSlot(slot);
+                    setSubmitError('');
+                    formik.setFieldValue('preferredDate', slot.date);
+                    formik.setFieldValue('preferredPeriod', slot.period);
+                  }}
+                />
+                {dayHint ? <p className="text-xs text-gray-500 mt-2 text-center">{dayHint}</p> : null}
                 {selectedSlot ? (
                   <p className="text-sm text-gray-600 mt-2">
                     {selectedSlot.startTime} – {selectedSlot.endTime}

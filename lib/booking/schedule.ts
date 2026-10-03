@@ -46,90 +46,51 @@ const WEEKLY_EVENT_PICKUP: PickupInfo = {
   meetingPoint: 'In front of Taghazout Mosque',
 };
 
-/** Day of week: 0 = Sunday … 6 = Saturday */
+const TAGINE_MORNING: WorkshopSlotTemplate = {
+  period: 'morning',
+  startTime: '10:00',
+  endTime: '14:00',
+  dish: 'Choose Your Tagine',
+  feastNote: 'Includes Full Lunch Feast',
+  menuCategory: 'tagine',
+  packageAllowed: ['basic', 'private', 'private-at-location'],
+  accent: 'amber',
+};
+
+const TAGINE_AFTERNOON: WorkshopSlotTemplate = {
+  period: 'afternoon',
+  startTime: '15:00',
+  endTime: '19:00',
+  dish: 'Choose Your Tagine',
+  feastNote: 'Includes Full Dinner Feast',
+  menuCategory: 'tagine',
+  packageAllowed: ['basic', 'private', 'private-at-location'],
+  accent: 'green',
+};
+
+/** Friday also keeps couscous. A null category accepts tagine or couscous. */
+const FRIDAY_MORNING: WorkshopSlotTemplate = {
+  ...TAGINE_MORNING,
+  dish: 'Tagine or Couscous',
+  feastNote: 'Includes Traditional Friday Lunch',
+  menuCategory: null,
+};
+
+const FRIDAY_AFTERNOON: WorkshopSlotTemplate = {
+  ...TAGINE_AFTERNOON,
+  dish: 'Tagine or Couscous',
+  menuCategory: null,
+};
+
+/** Day of week: 0 = Sunday … 6 = Saturday. Tagine runs every day, both times. */
 const WEEKLY_SCHEDULE: Record<number, WorkshopSlotTemplate[]> = {
-  1: [
-    {
-      period: 'morning',
-      startTime: '10:00',
-      endTime: '14:00',
-      dish: 'Choose Your Tagine',
-      feastNote: 'Includes Full Lunch Feast',
-      menuCategory: 'tagine',
-      packageAllowed: ['basic', 'private', 'private-at-location'],
-      accent: 'amber',
-    },
-  ],
-  2: [
-    {
-      period: 'morning',
-      startTime: '10:00',
-      endTime: '14:00',
-      dish: 'Choose Your Tagine',
-      feastNote: 'Includes Full Lunch Feast',
-      menuCategory: 'tagine',
-      packageAllowed: ['basic', 'private', 'private-at-location'],
-      accent: 'amber',
-    },
-  ],
-  3: [
-    {
-      period: 'afternoon',
-      startTime: '15:00',
-      endTime: '19:00',
-      dish: 'Choose Your Tagine',
-      feastNote: 'Includes Full Dinner Feast',
-      menuCategory: 'tagine',
-      packageAllowed: ['basic', 'private', 'private-at-location'],
-      accent: 'green',
-    },
-  ],
-  5: [
-    {
-      period: 'morning',
-      startTime: '10:00',
-      endTime: '14:00',
-      dish: 'Holy Day Couscous Feast',
-      feastNote: 'Includes Traditional Friday Lunch',
-      menuCategory: 'couscous',
-      packageAllowed: ['basic', 'private', 'private-at-location'],
-      accent: 'amber',
-    },
-    {
-      period: 'afternoon',
-      startTime: '15:00',
-      endTime: '19:00',
-      dish: 'Holy Day Couscous Feast',
-      feastNote: 'Includes Full Dinner Feast',
-      menuCategory: 'couscous',
-      packageAllowed: ['basic', 'private', 'private-at-location'],
-      accent: 'green',
-    },
-  ],
-  6: [
-    {
-      period: 'afternoon',
-      startTime: '15:00',
-      endTime: '19:00',
-      dish: 'Choose Your Tagine',
-      feastNote: 'Includes Full Dinner Feast',
-      menuCategory: 'tagine',
-      packageAllowed: ['basic', 'private', 'private-at-location'],
-      accent: 'green',
-    },
-  ],
-  0: [
-    {
-      period: 'afternoon',
-      startTime: '15:00',
-      endTime: '19:00',
-      dish: 'Choose Your Tagine',
-      feastNote: 'Includes Full Dinner Feast',
-      menuCategory: 'tagine',
-      packageAllowed: ['basic', 'private', 'private-at-location'],
-      accent: 'green',
-    },
-  ],
+  0: [TAGINE_MORNING, TAGINE_AFTERNOON],
+  1: [TAGINE_MORNING, TAGINE_AFTERNOON],
+  2: [TAGINE_MORNING, TAGINE_AFTERNOON],
+  3: [TAGINE_MORNING, TAGINE_AFTERNOON],
+  4: [TAGINE_MORNING, TAGINE_AFTERNOON],
+  5: [FRIDAY_MORNING, FRIDAY_AFTERNOON],
+  6: [TAGINE_MORNING, TAGINE_AFTERNOON],
 };
 
 export const BASIC_ADULT_PRICE_EUR = 65;
@@ -342,7 +303,13 @@ export function listUpcomingSlots(options: {
   const slots: CalendarSlot[] = [];
   for (const day of getUpcomingCalendarDays()) {
     for (const slot of day.slots) {
-      if (options.menuCategory && slot.menuCategory !== options.menuCategory) continue;
+      if (
+        options.menuCategory &&
+        slot.menuCategory &&
+        slot.menuCategory !== options.menuCategory
+      ) {
+        continue;
+      }
       if (options.period && slot.period !== options.period) continue;
       if (options.packageType && !slot.packageAllowed.includes(options.packageType)) continue;
       slots.push(slot);
