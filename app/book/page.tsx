@@ -11,6 +11,7 @@ import Select from 'react-select';
 import { FiMail, FiPhone, FiUser, FiMapPin } from 'react-icons/fi';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getGaClientId, trackAdsPurchase, trackEvent, trackEventAndWait } from '@/lib/gtag';
+import { trackPixelEventAndWait } from '@/lib/meta-pixel';
 import { localizeHref } from '@/lib/i18n-path';
 import { storeBookingThankYou } from '@/lib/booking-thank-you';
 import BookingDayCalendar from '@/components/booking/BookingDayCalendar';
@@ -402,6 +403,13 @@ function BookingForm() {
             transaction_id: data.booking?.id || '',
           });
         }
+        // Meta: Schedule (class booked) — not Purchase; payment is not completed on-site.
+        await trackPixelEventAndWait('Schedule', {
+          currency: 'EUR',
+          value: data.booking?.totalPrice || 0,
+          content_name: 'cooking_class_booking',
+          ...(data.booking?.id ? { content_ids: [data.booking.id] } : {}),
+        });
         await trackAdsPurchase({
           value: data.booking?.totalPrice || 0,
           transactionId: data.booking?.id,

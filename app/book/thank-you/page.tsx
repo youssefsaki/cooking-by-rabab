@@ -5,6 +5,7 @@ import { FiCheck } from 'react-icons/fi';
 import Link from '@/components/LocalizedLink';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { trackEvent } from '@/lib/gtag';
+import { trackPixelEvent } from '@/lib/meta-pixel';
 import { readBookingThankYou } from '@/lib/booking-thank-you';
 
 export default function BookingThankYouPage() {
@@ -42,7 +43,13 @@ export default function BookingThankYouPage() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => trackEvent('whatsapp_click', { placement: 'booking_success' })}
+                onClick={() => {
+                  trackEvent('whatsapp_click', { placement: 'booking_success' });
+                  trackPixelEvent('Lead', {
+                    content_name: 'whatsapp',
+                    content_category: 'booking_success',
+                  });
+                }}
                 className="inline-block bg-[#25D366] text-white font-bold px-8 py-4 rounded-full hover:bg-[#1ebe57] transition-all duration-300 shadow-lg hover:scale-105"
               >
                 Open WhatsApp
